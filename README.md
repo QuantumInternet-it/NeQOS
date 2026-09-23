@@ -43,10 +43,13 @@ Pre-built executable distributions are available from the
 [NeQOS Releases page](https://github.com/QuantumInternet-it/NeQOS/releases).
 
 The current release, [v0.4.0](https://github.com/QuantumInternet-it/NeQOS/releases),
-provides standalone NodeEngine and DeviceOS distributions, configurations, and
-example protocol material for software evaluation. Download the software from
-the linked Releases page; see the [v0.4.0 README](Releases/v0.4.0/README.md)
-for installation and use on the supported platforms.
+provides standalone NodeEngine for Windows 11 (`x86_64`) and macOS Apple Silicon (`arm64`),
+and DeviceOS for Windows 11 (`x86_64`). It also includes configurations and
+example protocol material for software evaluation.
+
+Download the software from
+the [v0.4.0 release page](https://github.com/QuantumInternet-it/NeQOS/releases) and see the [v0.4.0 README](Releases/v0.4.0/README.md)
+for installation and usage details.
 
 The [release history](Releases/README.md) records version-specific additions, fixes and
 compatibility notes.

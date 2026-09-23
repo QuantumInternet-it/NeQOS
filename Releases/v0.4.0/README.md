@@ -100,6 +100,3 @@ cd NodeEngine.dist
 chmod +x NodeEngine.bin
 ./NodeEngine.bin --configFile ./config/networkFakeNodeEngine.json --nodeId FAKE-NODE --protocolId FAKE-SIMPLE-001 --waitProtocol --licenseFile /path/to/license-NodeEngine.json
 ```
-
-Hardware-dependent operation requires an equivalent device installation and
-its associated vendor software.
