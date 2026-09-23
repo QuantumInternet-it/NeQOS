@@ -60,17 +60,25 @@ Running NodeEngine or DeviceOS requires a valid NeQOS license. Evaluation
 licenses and access information can be requested at
 [info@quantuminternet.it](mailto:info@quantuminternet.it).
 
+## Developer documentation
+
+The [NeQOS Developer API](https://quantuminternet-it.github.io/NeQOS/) documents
+DeviceOS driver parameters, readable signals, and exported tasks, together with
+NodeEngine exported microprotocols, open meta-protocol packs, and meta-protocol
+handler contracts. It is intended for developers extending NeQOS with drivers,
+microprotocols, or meta-protocols.
+
 ## References
 
 ### Theoretical foundations
 
 - **1.** A. S. Cacciapuoti and M. Caleffi, [*A Quantum Internet Protocol Suite
    Beyond Layering*](https://doi.org/10.1109/TNSE.2026.3679795), *IEEE Transactions on
-   Network Science and Engineering* **13** vol. 13, pp. 9170-9187, 2026. Invited Paper.
+   Network Science and Engineering* **13** vol. 13, pp. 9170-9187, 2026. <u>Invited Paper</u>.
 - **2.** M. Caleffi and A. S. Cacciapuoti, [*Quantum Internet Architecture:
    Unlocking Quantum-Native Routing via Quantum
    Addressing*](https://doi.org/10.1109/TCOMM.2025.3650397), *IEEE Transactions on
-   Communications* **74**, vol. 74, pp. 3577-3599, 2026. Invited paper.
+   Communications* **74**, vol. 74, pp. 3577-3599, 2026. <u>Invited Paper</u>.
 - **3.** A. S. Cacciapuoti *et al.*, [*Quantum-Native Architectural Tenets and
    Philosophy for the Quantum
    Internet*](https://datatracker.ietf.org/doc/draft-cacciapuoti-qirg-quantum-native-architecture/),
@@ -83,7 +91,7 @@ licenses and access information can be requested at
    over Metropolitan-scale Fiber
    Network*](https://ieeexplore.ieee.org/document/11627564/), *2026 IEEE
    International Conference on Smart Computing Workshops and Other Affiliated
-   Events (SmartComp Companion)*, 109-113 (2026). *Invited paper.*
+   Events (SmartComp Companion)*, IEEE SmartComp, pp. 109-113, 2026. <u>Invited Paper</u>
 - **5.** L. d'Avossa, E. Montella, M. Grillo, A. S. Cacciapuoti and M. Caleffi,
    [*Optimization of C-Band Quantum Traffic Coexisting With O-Band Classical
    Traffic: Preliminary

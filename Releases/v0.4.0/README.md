@@ -29,6 +29,14 @@ paths used here are placeholders: replace them with the locations of your own
 license files. To request an evaluation license, contact
 [info@quantuminternet.it](mailto:info@quantuminternet.it).
 
+## Developer documentation
+
+For DeviceOS driver interfaces and NodeEngine extension contracts, see the
+[NeQOS Developer API](https://quantuminternet-it.github.io/NeQOS/). The
+reference documents exported tasks, readable signals, public microprotocol
+templates, open meta-protocol packs, and their handler contracts. It is updated
+independently of the executable archives.
+
 ## Windows 11
 
 Download and extract the Windows archives. Open **Command Prompt** (`cmd.exe`,
