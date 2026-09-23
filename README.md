@@ -42,10 +42,11 @@ Additional hardware can be integrated through the public Device Driver API.
 Pre-built executable distributions are available from the
 [NeQOS Releases page](https://github.com/QuantumInternet-it/NeQOS/releases).
 
-Current release is [v0.4.0](Releases/v0.4.0/). It provides standalone
-NodeEngine and DeviceOS distributions, configurations, and example protocol
-material for software evaluation. Its [README](Releases/v0.4.0/README.md) describes the disttibutions
-and their use on the supported platforms.
+The current release, [v0.4.0](https://github.com/QuantumInternet-it/NeQOS/releases),
+provides standalone NodeEngine and DeviceOS distributions, configurations, and
+example protocol material for software evaluation. Download the software from
+the linked Releases page; see the [v0.4.0 README](Releases/v0.4.0/README.md)
+for installation and use on the supported platforms.
 
 The [release history](Releases/README.md) records version-specific additions, fixes and
 compatibility notes.
