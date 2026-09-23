@@ -1,0 +1,57 @@
+Fake Background Tasks
+=====================
+
+BackgroundLoopAlphaTask
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Periodic background non-blocking tick A
+
+Blocking: ``False``
+Frequency: ``1.0`` Hz
+Maximum repetitions: ``None``
+Expires after: ``None`` s
+Lifecycle: abort-only (no pause/resume).
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+BackgroundLoopBetaTask
+^^^^^^^^^^^^^^^^^^^^^^
+
+Periodic background non-blocking tick B
+
+Blocking: ``False``
+Frequency: ``1.0 / 1.3`` Hz
+Maximum repetitions: ``None``
+Expires after: ``None`` s
+Lifecycle: abort-only (no pause/resume).
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+BackgroundLoopBlockingTask
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Periodic background BLOCKING task (holds driverIOLock each run)
+
+Blocking: ``True``
+Frequency: ``1.0`` Hz
+Maximum repetitions: ``8``
+Expires after: ``None`` s
+Lifecycle: abort-only (no pause/resume).
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - workSec
+     - float
+     - No
+     - 0.9
+
+Returns: ``Dict[str, Any]``

@@ -1,0 +1,30 @@
+SwabianTT Parameters
+====================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - defaultCoincidenceWindowPs
+     - int
+     - -
+     - 1 to 1000000000
+     - 1000
+     - Default AND-coincidence window used when CreateLogicalChannel omits coincidenceWindowPs.
+   * - defaultCorrelationBinCount
+     - int
+     - -
+     - 1 to 1000000
+     - 4096
+     - Default correlation-bin count used when CreateMeasurement CORRELATION omits binCount.
+   * - defaultCorrelationBinWidthPs
+     - int
+     - -
+     - 1 to 1000000000
+     - 1000
+     - Default correlation-bin width used when CreateMeasurement CORRELATION omits binWidthPs.

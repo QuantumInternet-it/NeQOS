@@ -1,131 +1,24 @@
 Eps1000W Driver
 ===============
 
-NuCrypt EPS-1000-W HardwareDriver aligned with the current DeviceEngine contract.
+Control a NuCrypt EPS-1000-W entangled-photon source.
+
+The public parameter surface is built from the configured EPS settings and
+limits at runtime. It includes scalar source settings, outputMode, and the
+composite clockOutput setting. The driver has no supported ReadSignal
+values; report tasks expose the device reports directly.
 
 Source: ``DeviceOSPack/Eps1000WDriver.py``
 
 Official product page: `NuCrypt <https://www.nucrypt.net/EPS-1000-W.html>`_
 
-Parameters
-----------
+API Reference
+-------------
 
-No configurable parameters.
+.. toctree::
+   :maxdepth: 1
 
-Signals
--------
-
-No readable signals.
-
-Exported Tasks
---------------
-
-setOutputHH
-^^^^^^^^^^^
-
-Set EPS output to HH
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-setOutputDD
-^^^^^^^^^^^
-
-Set EPS output to DD
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-setOutputEntangled
-^^^^^^^^^^^^^^^^^^
-
-Set EPS output to entangled mode
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-reAlign
-^^^^^^^
-
-Run EPS realignment procedure
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-readStatus
-^^^^^^^^^^
-
-Read EPS status report
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-readDiagnostics
-^^^^^^^^^^^^^^^
-
-Read EPS diagnostics report
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-readIdentity
-^^^^^^^^^^^^
-
-Read EPS identity report
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-readVersionInfo
-^^^^^^^^^^^^^^^
-
-Read EPS firmware/version report
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-saveSettings
-^^^^^^^^^^^^
-
-Save EPS settings to persistent storage
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-resetSettings
-^^^^^^^^^^^^^
-
-Reset EPS settings
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
+   Parameters <Eps1000W/parameters>
+   Signals <Eps1000W/signals>
+   Foreground Tasks <Eps1000W/foreground-tasks>
+   Background Tasks <Eps1000W/background-tasks>

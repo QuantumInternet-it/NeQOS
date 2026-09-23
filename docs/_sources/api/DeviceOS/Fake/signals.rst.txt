@@ -1,0 +1,14 @@
+Fake Signals
+============
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Description
+   * - power
+     - -
+     - -
+     - -

@@ -1,0 +1,34 @@
+SwabianTT Signals
+=================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Description
+   * - activeMeasurements
+     - list
+     - -
+     - Measurement references selected for the next StartMeasurement window.
+   * - deviceInfo
+     - object
+     - -
+     - Resolved Time Tagger identity and model information.
+   * - lastMeasurementResults
+     - object
+     - -
+     - Results returned by the most recently completed StartMeasurement task.
+   * - logicalChannels
+     - list
+     - -
+     - Logical channels created during the current measurement-engine session.
+   * - measurements
+     - list
+     - -
+     - Measurement definitions created during the current measurement-engine session.
+   * - physicalChannels
+     - list
+     - -
+     - Discovered physical channels with live trigger-level and input-delay state.

@@ -1,0 +1,142 @@
+PaX000 Foreground Tasks
+=======================
+
+setTomographyState
+^^^^^^^^^^^^^^^^^^
+
+Set the tomography state on a selected PaX000 channel.
+
+Apply one H, V, D, A, R, or L tomography state to a channel.
+
+With useCompensated enabled, the driver applies installed compensated
+waveplate angles when that state is available for the channel; otherwise
+it falls back to the controller's native tomography state. The result
+reports which mode was applied and the resulting waveplate angles.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channel
+     - int
+     - Yes
+     - -
+   * - state
+     - str
+     - Yes
+     - -
+   * - useCompensated
+     - bool
+     - No
+     - True
+
+Returns: ``Dict[str, Any]``
+
+installCompensatedTomographyStates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install compensated tomography states for a selected PaX000 channel and persist them locally.
+
+Validate and install all compensated H/V/D/A/R/L states for one channel.
+
+Each state must define every available waveplate among the first three,
+using one-based waveplate numbers and angles in the inclusive 0 to 360
+degree range. When persist is true, the states and sourceReport are
+merged into the device-specific compensated-tomography JSON file.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channel
+     - int
+     - Yes
+     - -
+   * - states
+     - Dict[str, Any]
+     - Yes
+     - -
+   * - persist
+     - bool
+     - No
+     - True
+   * - sourceReport
+     - Optional[Dict[str, Any]]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+loadPersistedCompensatedTomographyStates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Force-load persisted compensated tomography states from disk for selected PaX000 channels.
+
+Load persisted compensated states for selected channels or all channels.
+
+This explicit task ignores the optional boot-load filter. The persisted
+file must match the supported schema, device ID, and, when present, the
+connected controller serial number. applyState optionally applies one
+loaded compensated state to every loaded channel.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channels
+     - Optional[List[int]]
+     - No
+     - None
+   * - applyState
+     - Optional[str]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+readOpticalConfiguration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Return cached PaX000 optical configuration, including waveplate axes.
+
+Return the cached optical and compensation configuration.
+
+With channel omitted, the response covers every configured controller
+channel; otherwise it covers one validated channel. This task serializes
+cached identity, calibration, waveplate, wavelength, and compensated
+tomography information without a new serial hardware read.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channel
+     - Optional[int]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

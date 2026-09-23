@@ -1,0 +1,148 @@
+Mpc320 Foreground Tasks
+=======================
+
+SetParameters
+^^^^^^^^^^^^^
+
+Apply MPC320 polarizer parameters (velocity/home/jog sizes) with optional overrides. Any parameter set to None keeps the current configured value.
+
+Apply optional polarizer configuration overrides.
+
+The task holds the driver I/O lock while it calls the vendor API. An
+argument set to ``None`` keeps the corresponding configured value.
+On success, the result contains the resolved serial number and all
+five applied polarizer settings. A cancelled context returns
+``CANCELLED``; a rejected or unavailable device raises ``RuntimeError``.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - velocity
+     - float \| int \| None
+     - No
+     - None
+   * - home_position
+     - float \| int \| None
+     - No
+     - None
+   * - jog_size1
+     - float \| int \| None
+     - No
+     - None
+   * - jog_size2
+     - float \| int \| None
+     - No
+     - None
+   * - jog_size3
+     - float \| int \| None
+     - No
+     - None
+   * - serialNumber
+     - str \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+MoveTo
+^^^^^^
+
+Move one MPC320 paddle to an absolute angle.
+
+Move one paddle to an absolute target angle.
+
+The task holds the driver I/O lock for both the movement and its
+position readback. When ``timeout`` is omitted it uses
+``operation_timeout``. The target angle is constrained to the
+configured 0--160 degree range. A requested displacement smaller than
+``minimum_step`` is accepted without issuing a vendor movement.
+
+The result contains ``status``, the resolved serial number, normalized
+paddle index, requested target angle, reported position, and effective
+timeout. Movement failures are reported with ``status: ERROR``;
+a cancelled context returns ``CANCELLED``.
+
+Admission policy: ``async``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - angle
+     - float
+     - Yes
+     - -
+   * - paddle
+     - int
+     - Yes
+     - -
+   * - timeout
+     - float \| None
+     - No
+     - None
+   * - serialNumber
+     - str \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+MoveRelative
+^^^^^^^^^^^^
+
+Move one MPC320 paddle by a relative angle.
+
+Move one paddle by a relative angle.
+
+The task holds the driver I/O lock for both the movement and its
+position readback. When ``timeout`` is omitted it uses
+``operation_timeout``. Relative requests above 160 degrees in
+magnitude are rejected. If a target is within 2 degrees of either
+hardware boundary, it is clamped to the 0--160 degree range; targets
+further outside that range are rejected. A displacement smaller than
+``minimum_step`` is accepted without issuing a vendor movement.
+
+The result contains ``status``, the resolved serial number, normalized
+paddle index, requested relative angle, reported position, and
+effective timeout. Movement failures are reported with ``status: ERROR``;
+a cancelled context returns ``CANCELLED``.
+
+Admission policy: ``async``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - relative_angle
+     - float
+     - Yes
+     - -
+   * - paddle
+     - int
+     - Yes
+     - -
+   * - timeout
+     - float \| None
+     - No
+     - None
+   * - serialNumber
+     - str \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

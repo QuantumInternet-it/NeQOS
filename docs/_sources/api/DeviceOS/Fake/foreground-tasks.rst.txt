@@ -1,0 +1,126 @@
+Fake Foreground Tasks
+=====================
+
+SetGainTask
+^^^^^^^^^^^
+
+Set gain parameter
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - value
+     - float
+     - Yes
+     - -
+
+Returns: ``Dict[str, Any]``
+
+ForegroundShortTask
+^^^^^^^^^^^^^^^^^^^
+
+Foreground short task (~10s), non-pausable/non-resumable
+
+Example foreground task that should run atomically from DeviceEngine perspective.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - durationSec
+     - float
+     - No
+     - 10.0
+   * - tickSec
+     - float
+     - No
+     - 1.0
+
+Returns: ``Dict[str, Any]``
+
+FirstForegroundLongPausableTask
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Foreground long task (~120s), pausable and resumable
+
+Example long foreground task with pause/resume support.
+
+Behavior:
+- At first start, seeds a random value.
+- On PAUSE cancellation, stores current state in _taskPauseStatesByProtocol.
+- On RESUME fallback, DeviceEngine injects `_pauseState` and the task continues from there.
+
+Admission policy: ``async``
+Pausable: ``True``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - durationSec
+     - float
+     - No
+     - 120.0
+   * - tickSec
+     - float
+     - No
+     - 1.0
+   * - _pauseState
+     - Dict[str, Any] \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+SecondForegroundLongPausableTask
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Second foreground pausable task (~90s) with wave state
+
+Second pausable example task.
+
+This task tracks a synthetic wave value and pause states:
+- amplitude (random at first start)
+- phase
+- elapsed/ticks
+
+Admission policy: ``async``
+Pausable: ``True``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - durationSec
+     - float
+     - No
+     - 90.0
+   * - tickSec
+     - float
+     - No
+     - 1.0
+   * - _pauseState
+     - Dict[str, Any] \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

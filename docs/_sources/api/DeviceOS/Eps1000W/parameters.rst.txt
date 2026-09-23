@@ -1,0 +1,72 @@
+Eps1000W Parameters
+===================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - classicOutputAttenuation
+     - float
+     - dB
+     - -
+     - -
+     - Classic-output attenuation.
+   * - clockAttenuation
+     - float
+     - dB
+     - -
+     - -
+     - Clock-output attenuation.
+   * - clockFrequency
+     - float
+     - MHz
+     - -
+     - -
+     - Clock-output frequency.
+   * - clockOutput
+     - object
+     - -
+     - -
+     - -
+     - Set EPS clock output with one k-menu transaction: frequency first, attenuation second.
+   * - entangledOutputAttenuation
+     - float
+     - dB
+     - -
+     - -
+     - Entangled-output attenuation.
+   * - outputMode
+     - str
+     - -
+     - -
+     - -
+     - EPS output mode.
+   * - pumpFrequency
+     - float
+     - MHz
+     - -
+     - -
+     - Pump frequency.
+   * - pumpPhase
+     - float
+     - ps
+     - -
+     - -
+     - Pump phase.
+   * - referenceFrequency
+     - float
+     - MHz
+     - -
+     - -
+     - Reference frequency.
+   * - splittingRatioPercent
+     - int
+     - %
+     - 0 to 100
+     - -
+     - Output splitting ratio.

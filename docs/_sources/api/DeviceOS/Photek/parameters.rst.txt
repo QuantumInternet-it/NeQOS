@@ -1,0 +1,48 @@
+Photek Parameters
+=================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - autoRecoverOnLatch
+     - bool
+     - -
+     - -
+     - True
+     - Automatically perform stop/start recovery after an invalid guarded count reading.
+   * - healthLogEnabled
+     - bool
+     - -
+     - -
+     - True
+     - Enable periodic health reads while the driver is ready.
+   * - healthLogFrequencyHz
+     - float
+     - Hz
+     - 0.001 to 10.0
+     - 1.0
+     - Frequency of periodic health reads while healthLogEnabled is true.
+   * - integrationTimeMs
+     - int
+     - ms
+     - 1 to 65535
+     - 100
+     - Integration time written to the Photek controller during initialization.
+   * - maxRecoveryAttempts
+     - int
+     - -
+     - 0 to 10
+     - 3
+     - Maximum automatic stop/start recovery attempts for one invalid health reading.
+   * - zeroConsecutiveLimit
+     - int
+     - -
+     - 1 to 10
+     - 1
+     - Consecutive guarded readings at or below zeroCountThreshold required to declare a latch.

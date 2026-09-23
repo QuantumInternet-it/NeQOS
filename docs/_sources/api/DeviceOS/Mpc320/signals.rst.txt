@@ -1,0 +1,30 @@
+Mpc320 Signals
+==============
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Description
+   * - connection_ok
+     - bool
+     - -
+     - Result of the driver connection probe.
+   * - paddle1_position
+     - float
+     - deg
+     - Current reported position of paddle 1; unavailable when the position read fails.
+   * - paddle2_position
+     - float
+     - deg
+     - Current reported position of paddle 2; unavailable when the position read fails.
+   * - paddle3_position
+     - float
+     - deg
+     - Current reported position of paddle 3; unavailable when the position read fails.
+   * - serialNumber
+     - str
+     - -
+     - Serial number currently resolved by the driver.

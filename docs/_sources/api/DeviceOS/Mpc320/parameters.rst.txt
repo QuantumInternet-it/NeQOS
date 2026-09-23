@@ -1,0 +1,66 @@
+Mpc320 Parameters
+=================
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - angle
+     - float
+     - deg
+     - 0.0 to 160.0
+     - 0.0
+     - Default target angle in degrees.
+   * - home_position
+     - float
+     - deg
+     - 0.0 to 160.0
+     - 0.0
+     - Home position in degrees.
+   * - jog_size1
+     - float
+     - deg
+     - 0.2 to 90.0
+     - 1.0
+     - Jog size 1 in degrees.
+   * - jog_size2
+     - float
+     - deg
+     - 0.2 to 90.0
+     - 1.0
+     - Jog size 2 in degrees.
+   * - jog_size3
+     - float
+     - deg
+     - 0.2 to 90.0
+     - 1.0
+     - Jog size 3 in degrees.
+   * - minimum_step
+     - float
+     - deg
+     - >= 0.12
+     - 0.12
+     - Minimum accepted movement delta in degrees.
+   * - operation_timeout
+     - float
+     - s
+     - 1.0 to 600.0
+     - 30.0
+     - Default timeout for blocking hardware operations.
+   * - polling_interval_ms
+     - int
+     - ms
+     - 50 to 5000
+     - 250
+     - Polling interval used after connection.
+   * - velocity
+     - int
+     - deg/s
+     - 0.0 to 100.0
+     - 50
+     - Polarizer velocity in degrees/second.

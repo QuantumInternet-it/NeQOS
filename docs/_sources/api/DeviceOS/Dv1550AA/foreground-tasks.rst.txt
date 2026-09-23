@@ -1,0 +1,82 @@
+Dv1550AA Foreground Tasks
+=========================
+
+setAttenuation
+^^^^^^^^^^^^^^
+
+Set the attenuator attenuation in dB.
+
+Set and read back the attenuation in dB.
+
+value must be in the inclusive range 0.00 through 34.00 and aligned to
+0.01 dB. This task is a convenience wrapper around the public
+``attenuation`` parameter.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - value
+     - float
+     - Yes
+     - -
+
+Returns: ``Dict[str, Any]``
+
+readAttenuation
+^^^^^^^^^^^^^^^
+
+Read the current attenuator attenuation in dB.
+
+Read the current attenuation from the hardware.
+
+The returned value comes from GetParameter("attenuation"), which reads
+a complete device snapshot before selecting its attenuation value.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+clearAttenuation
+^^^^^^^^^^^^^^^^
+
+Set the attenuator attenuation to 0 dB.
+
+Set and read back an attenuation of 0.00 dB.
+
+This changes the live attenuation only; it does not change the stored
+home attenuation captured during initialization.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+homeAttenuation
+^^^^^^^^^^^^^^^
+
+Restore the configured home attenuation, i.e. hardwareConfig.defaultAttenuationDb from network.json.
+
+Restore the attenuation captured during driver initialization.
+
+The home value is initialized from hardwareConfig.defaultAttenuationDb,
+or the default attenuation when that configuration is absent. Later
+changes to the live ``attenuation`` parameter do not replace it.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``

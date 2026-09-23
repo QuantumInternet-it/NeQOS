@@ -1,129 +1,25 @@
 PaX000 Driver
 =============
 
-Nucrypt PaX000 HardwareDriver with live serial-backed waveplate control.
+Control a NuCrypt PA1000/PA2000 polarization controller.
+
+Hardware capabilities are discovered after connection. Each discovered
+channel exposes runtime parameters named ``channel<N>WavelengthNm`` and
+``channel<N>Waveplate<M>AngleDeg``. The driver has no ReadSignal surface;
+use parameters for live waveplate telemetry and readOpticalConfiguration
+for cached optical and compensation data.
 
 Source: ``DeviceOSPack/PaX000Driver.py``
 
 Official product page: `NuCrypt <https://nucrypt.net/PA-1000.html>`_
 
-Parameters
-----------
+API Reference
+-------------
 
-No configurable parameters.
+.. toctree::
+   :maxdepth: 1
 
-Signals
--------
-
-No readable signals.
-
-Exported Tasks
---------------
-
-setTomographyState
-^^^^^^^^^^^^^^^^^^
-
-Set the tomography state on a selected PaX000 channel.
-
-Admission policy: ``sync``
-
-.. list-table::
-   :header-rows: 1
-
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channel
-     - int
-     - Yes
-     - -
-   * - state
-     - str
-     - Yes
-     - -
-   * - useCompensated
-     - bool
-     - No
-     - True
-
-Returns: ``Dict[str, Any]``
-
-installCompensatedTomographyStates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Install compensated tomography states for a selected PaX000 channel and persist them locally.
-
-Admission policy: ``sync``
-
-.. list-table::
-   :header-rows: 1
-
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channel
-     - int
-     - Yes
-     - -
-   * - states
-     - Dict[str, Any]
-     - Yes
-     - -
-   * - persist
-     - bool
-     - No
-     - True
-   * - sourceReport
-     - Optional[Dict[str, Any]]
-     - No
-     - None
-
-Returns: ``Dict[str, Any]``
-
-loadPersistedCompensatedTomographyStates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Force-load persisted compensated tomography states from disk for selected PaX000 channels.
-
-Admission policy: ``sync``
-
-.. list-table::
-   :header-rows: 1
-
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channels
-     - Optional[List[int]]
-     - No
-     - None
-   * - applyState
-     - Optional[str]
-     - No
-     - None
-
-Returns: ``Dict[str, Any]``
-
-readOpticalConfiguration
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-Return cached PaX000 optical configuration, including waveplate axes.
-
-Admission policy: ``sync``
-
-.. list-table::
-   :header-rows: 1
-
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channel
-     - Optional[int]
-     - No
-     - None
-
-Returns: ``Dict[str, Any]``
+   Parameters <PaX000/parameters>
+   Signals <PaX000/signals>
+   Foreground Tasks <PaX000/foreground-tasks>
+   Background Tasks <PaX000/background-tasks>

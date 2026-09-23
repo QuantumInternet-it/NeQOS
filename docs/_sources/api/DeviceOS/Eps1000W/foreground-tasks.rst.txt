@@ -1,0 +1,61 @@
+Eps1000W Foreground Tasks
+=========================
+
+setOutputHH
+^^^^^^^^^^^
+
+Set EPS output to HH
+
+Select the ``HH`` output mode and return the device readback.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+setOutputDD
+^^^^^^^^^^^
+
+Set EPS output to DD
+
+Select the ``DD`` output mode and return the device readback.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+setOutputEntangled
+^^^^^^^^^^^^^^^^^^
+
+Set EPS output to entangled mode
+
+Select the ``ENTANGLED`` output mode and return the device readback.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+reAlign
+^^^^^^^
+
+Run EPS realignment procedure
+
+Run the device realignment command and then read its output mode.
+
+The result includes the direct reply from ``Realign`` and the subsequent
+``ReadOutputMode`` value. It does not modify other EPS parameters.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``

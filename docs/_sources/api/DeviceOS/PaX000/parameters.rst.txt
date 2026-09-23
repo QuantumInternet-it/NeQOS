@@ -1,0 +1,26 @@
+PaX000 Parameters
+=================
+
+Concrete names are created after the driver discovers its hardware.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - channel<N>WavelengthNm
+     - float
+     - nm
+     - -
+     - -
+     - Wavelength for a discovered channel; the allowed range follows that channel's calibration anchors when available.
+   * - channel<N>Waveplate<M>AngleDeg
+     - float
+     - deg
+     - 0.0 to 360.0
+     - 0.0
+     - Angle of the numbered waveplate on a discovered channel.

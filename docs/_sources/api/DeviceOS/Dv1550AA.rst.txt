@@ -11,123 +11,13 @@ Source: ``DeviceOSPack/Dv1550AADriver.py``
 
 Official product page: `Thorlabs <https://www.thorlabs.com/digital-variable-optical-attenuators-dvoas-sm-fiber-coupled>`_
 
-Parameters
-----------
+API Reference
+-------------
 
-.. list-table::
-   :header-rows: 1
+.. toctree::
+   :maxdepth: 1
 
-   * - Name
-     - Type
-     - Unit
-     - Range
-     - Default
-     - Description
-   * - attenuation
-     - float
-     - dB
-     - 0.0 to 34.0
-     - 0.0
-     - Optical attenuation. Values must be from 0.00 to 34.00 dB in 0.01 dB increments.
-   * - mode
-     - int
-     - -
-     - -
-     - 0
-     - Attenuator operating mode: 0 for calibrated operation or 2 for manual operation.
-   * - voaEnabled
-     - bool
-     - -
-     - -
-     - False
-     - Whether the VOA optical output is enabled.
-   * - wavelength
-     - int
-     - nm
-     - -
-     - 1550
-     - Operating wavelength. Supported values are 1310, 1550, and 1590 nm.
-
-Signals
--------
-
-No readable signals.
-
-Exported Tasks
---------------
-
-setAttenuation
-^^^^^^^^^^^^^^
-
-Set the attenuator attenuation in dB.
-
-Set and read back the attenuation in dB.
-
-value must be in the inclusive range 0.00 through 34.00 and aligned to
-0.01 dB. This task is a convenience wrapper around the public
-``attenuation`` parameter.
-
-Admission policy: ``sync``
-
-.. list-table::
-   :header-rows: 1
-
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - value
-     - float
-     - Yes
-     - -
-
-Returns: ``Dict[str, Any]``
-
-readAttenuation
-^^^^^^^^^^^^^^^
-
-Read the current attenuator attenuation in dB.
-
-Read the current attenuation from the hardware.
-
-The returned value comes from GetParameter("attenuation"), which reads
-a complete device snapshot before selecting its attenuation value.
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-clearAttenuation
-^^^^^^^^^^^^^^^^
-
-Set the attenuator attenuation to 0 dB.
-
-Set and read back an attenuation of 0.00 dB.
-
-This changes the live attenuation only; it does not change the stored
-home attenuation captured during initialization.
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
-
-homeAttenuation
-^^^^^^^^^^^^^^^
-
-Restore the configured home attenuation, i.e. hardwareConfig.defaultAttenuationDb from network.json.
-
-Restore the attenuation captured during driver initialization.
-
-The home value is initialized from hardwareConfig.defaultAttenuationDb,
-or the default attenuation when that configuration is absent. Later
-changes to the live ``attenuation`` parameter do not replace it.
-
-Admission policy: ``sync``
-
-No public parameters.
-
-Returns: ``Dict[str, Any]``
+   Parameters <Dv1550AA/parameters>
+   Signals <Dv1550AA/signals>
+   Foreground Tasks <Dv1550AA/foreground-tasks>
+   Background Tasks <Dv1550AA/background-tasks>

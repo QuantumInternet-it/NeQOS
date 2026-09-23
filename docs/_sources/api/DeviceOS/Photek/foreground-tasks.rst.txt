@@ -1,0 +1,161 @@
+Photek Foreground Tasks
+=======================
+
+InitializeBiasCurrents
+^^^^^^^^^^^^^^^^^^^^^^
+
+Apply configured integration time, trigger levels, and calibrated bias currents.
+
+Apply the full configured detector setup.
+
+Writes integrationTimeMs, all 16 triggerLevels, and the active bias
+vector, then resets latch tracking. The normal INITIALIZE lifecycle
+operation already performs this same setup.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+StopDetectors
+^^^^^^^^^^^^^
+
+Set all Photek SNSPD bias currents to zero.
+
+Set all 16 hardware bias-current outputs to zero.
+
+This does not alter the stored bias configuration. CLEAR_READY and
+DISCONNECT also perform this hardware-safe operation.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+StartDetectors
+^^^^^^^^^^^^^^
+
+Restore calibrated bias currents on configured Photek SNSPD bias channels.
+
+Write the configured active bias vector to the controller.
+
+Only configured biasChannels receive their configured current; every
+other controller channel is written as zero. SET_READY already applies
+the same vector as part of the normal lifecycle.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+SetBiasCurrents
+^^^^^^^^^^^^^^^
+
+Set calibrated bias currents from a 16-value list, 1-based channel map, or scalar.
+
+Replace the configured bias-current vector and apply it immediately.
+
+biasCurrentsUa accepts a 16-element list, a map from 1-based channel to
+current in microamperes, or one scalar applied to all 16 channels. The
+existing biasChannels selection is retained, so values outside that
+selection are stored but written as zero until the selection changes.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - biasCurrentsUa
+     - List[float] \| Dict[int, float] \| float \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+SetTriggerLevels
+^^^^^^^^^^^^^^^^
+
+Set Photek SNSPD trigger levels from a 16-value list, 1-based channel map, or scalar.
+
+Replace all 16 configured trigger levels and apply them immediately.
+
+triggerLevels accepts a 16-element list, a map from 1-based channel to
+level, or one scalar applied to every channel. Values are rounded to
+integers and the controller accepts values from 0 through 65535.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - triggerLevels
+     - List[int] \| Dict[int, int] \| int \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+ReadDetectorHealth
+^^^^^^^^^^^^^^^^^^
+
+Read Photek detector health counts and optionally recover latched guard channels.
+
+Read guarded and all-channel counts, then evaluate latch health.
+
+A latch is a guarded count at or below zeroCountThreshold for
+zeroConsecutiveLimit consecutive reads. If autoRecoverOnLatch is true,
+invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
+The returned payload includes readingValid, invalidatesMeasurements,
+latchEventCount, recoveryStatus, counts, and any alert details.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+RecoverLatchedDetectors
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Run stop/start recovery on configured or supplied Photek SNSPD channels.
+
+Run one manual stop/start recovery cycle.
+
+channels defaults to latchGuardChannels and is returned in the recovery
+report. Recovery itself disables all 16 outputs, waits recoveryOffSec,
+restores the configured active bias vector, then waits recoverySettleSec;
+it does not selectively power-cycle only the supplied channels.
+
+Admission policy: ``sync``
+Pausable: ``False``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channels
+     - List[int] \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
