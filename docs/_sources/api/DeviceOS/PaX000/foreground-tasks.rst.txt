@@ -1,142 +1,324 @@
 PaX000 Foreground Tasks
 =======================
 
-setTomographyState
-^^^^^^^^^^^^^^^^^^
+.. _deviceos-pax000-settomographystate:
 
-Set the tomography state on a selected PaX000 channel.
+.. admonition:: ``setTomographyState``
+   :class: driver-overview task-reference
 
-Apply one H, V, D, A, R, or L tomography state to a channel.
+   Apply one H, V, D, A, R, or L tomography state to a channel.
 
-With useCompensated enabled, the driver applies installed compensated
-waveplate angles when that state is available for the channel; otherwise
-it falls back to the controller's native tomography state. The result
-reports which mode was applied and the resulting waveplate angles.
+   ``state`` is case-insensitive; the canonical values are ``H``, ``V``,
+   ``D``, ``A``, ``R``, and ``L``. With useCompensated enabled, the driver
+   applies installed compensated waveplate angles when that state is
+   available for the channel; otherwise it falls back to the controller's
+   native tomography state. The result reports which mode was applied and
+   the resulting waveplate angles.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-.. list-table::
-   :header-rows: 1
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channel
-     - int
-     - Yes
-     - -
-   * - state
-     - str
-     - Yes
-     - -
-   * - useCompensated
-     - bool
-     - No
-     - True
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - —
+      * - ``state``
+        - ``Literal['H', 'V', 'D', 'A', 'R', 'L']``
+        - Yes
+        - —
+        - —
+      * - ``useCompensated``
+        - ``bool``
+        - No
+        - ``True``
+        - —
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Examples
+      :class: examples-heading
 
-installCompensatedTomographyStates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Install compensated tomography states for a selected PaX000 channel and persist them locally.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-Validate and install all compensated H/V/D/A/R/L states for one channel.
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Each state must define every available waveplate among the first three,
-using one-based waveplate numbers and angles in the inclusive 0 to 360
-degree range. When persist is true, the states and sourceReport are
-merged into the device-specific compensated-tomography JSON file.
+   .. code-block:: json
 
-Admission policy: ``sync``
-Pausable: ``False``
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "setTomographyState",
+          "taskParams": {
+            "channel": "<int>",
+            "state": "<Literal['H', 'V', 'D', 'A', 'R', 'L']>"
+          }
+        }
+      }
 
-.. list-table::
-   :header-rows: 1
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channel
-     - int
-     - Yes
-     - -
-   * - states
-     - Dict[str, Any]
-     - Yes
-     - -
-   * - persist
-     - bool
-     - No
-     - True
-   * - sourceReport
-     - Optional[Dict[str, Any]]
-     - No
-     - None
+   .. code-block:: python
 
-Returns: ``Dict[str, Any]``
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="setTomographyState",
+          params={
+              "channel": "<int>",
+              "state": "<Literal['H', 'V', 'D', 'A', 'R', 'L']>",
+          },
+      )
 
-loadPersistedCompensatedTomographyStates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Force-load persisted compensated tomography states from disk for selected PaX000 channels.
+.. _deviceos-pax000-installcompensatedtomographystates:
 
-Load persisted compensated states for selected channels or all channels.
+.. admonition:: ``installCompensatedTomographyStates``
+   :class: driver-overview task-reference
 
-This explicit task ignores the optional boot-load filter. The persisted
-file must match the supported schema, device ID, and, when present, the
-connected controller serial number. applyState optionally applies one
-loaded compensated state to every loaded channel.
+   Validate and install all compensated H/V/D/A/R/L states for one channel.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   ``states`` must contain the canonical keys ``H``, ``V``, ``D``, ``A``,
+   ``R``, and ``L``. Each key maps one-based waveplate numbers to angles in
+   degrees. For each state, every available waveplate among the first three
+   must be present and each angle must be in the inclusive 0 to 360 degree
+   range.
 
-.. list-table::
-   :header-rows: 1
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channels
-     - Optional[List[int]]
-     - No
-     - None
-   * - applyState
-     - Optional[str]
-     - No
-     - None
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-Returns: ``Dict[str, Any]``
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - Controller channel that receives the compensated states.
+      * - ``states``
+        - ``Dict[str, Dict[int, float]]``
+        - Yes
+        - —
+        - Mapping from each canonical tomography state to one-based waveplate numbers and their angles in degrees.
+      * - ``persist``
+        - ``bool``
+        - No
+        - ``True``
+        - Write the validated states to the local persistence file.
+      * - ``sourceReport``
+        - ``Optional[Dict[str, Any]]``
+        - No
+        - ``None``
+        - Optional free-form provenance metadata persisted with the states when ``persist`` is enabled.
 
-readOpticalConfiguration
-^^^^^^^^^^^^^^^^^^^^^^^^
+   :Result keys: ``channel``, ``persisted``, ``persistenceFile``, ``states``, ``status``
 
-Return cached PaX000 optical configuration, including waveplate axes.
+   .. rubric:: Examples
+      :class: examples-heading
 
-Return the cached optical and compensation configuration.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-With channel omitted, the response covers every configured controller
-channel; otherwise it covers one validated channel. This task serializes
-cached identity, calibration, waveplate, wavelength, and compensated
-tomography information without a new serial hardware read.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-.. list-table::
-   :header-rows: 1
+   .. code-block:: json
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channel
-     - Optional[int]
-     - No
-     - None
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "installCompensatedTomographyStates",
+          "taskParams": {
+            "channel": "<int>",
+            "states": "<Dict[str, Dict[int, float]]>"
+          }
+        }
+      }
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="installCompensatedTomographyStates",
+          params={
+              "channel": "<int>",
+              "states": "<Dict[str, Dict[int, float]]>",
+          },
+      )
+
+
+.. _deviceos-pax000-loadpersistedcompensatedtomographystates:
+
+.. admonition:: ``loadPersistedCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Load persisted compensated states for selected channels or all channels.
+
+   This explicit task ignores the optional boot-load filter. The persisted
+   file must match the supported schema, device ID, and, when present, the
+   connected controller serial number. ``applyState`` is case-insensitive;
+   it may be ``H``, ``V``, ``D``, ``A``, ``R``, or ``L`` and applies that
+   loaded compensated state to every loaded channel.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channels``
+        - ``Optional[List[int]]``
+        - No
+        - ``None``
+        - —
+      * - ``applyState``
+        - ``Optional[Literal['H', 'V', 'D', 'A', 'R', 'L']]``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``appliedByChannel``, ``applyState``, ``channelCount``, ``channels``, ``persistenceFile``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "loadPersistedCompensatedTomographyStates",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="loadPersistedCompensatedTomographyStates",
+          params={
+          },
+      )
+
+
+.. _deviceos-pax000-readopticalconfiguration:
+
+.. admonition:: ``readOpticalConfiguration``
+   :class: driver-overview task-reference
+
+   Return the cached optical and compensation configuration.
+
+   With channel omitted, the response covers every configured controller
+   channel; otherwise it covers one validated channel. This task serializes
+   cached identity, calibration, waveplate, wavelength, and compensated
+   tomography information without a new serial hardware read.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``configuration``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "readOpticalConfiguration",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="readOpticalConfiguration",
+          params={
+          },
+      )
+

@@ -1,126 +1,300 @@
 Fake Foreground Tasks
 =====================
 
-SetGainTask
-^^^^^^^^^^^
+.. _deviceos-fake-setgaintask:
 
-Set gain parameter
+.. admonition:: ``SetGainTask``
+   :class: driver-overview task-reference
 
-Admission policy: ``sync``
-Pausable: ``False``
+   Set gain parameter
 
-.. list-table::
-   :header-rows: 1
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - value
-     - float
-     - Yes
-     - -
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-Returns: ``Dict[str, Any]``
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``value``
+        - ``float``
+        - Yes
+        - —
+        - —
 
-ForegroundShortTask
-^^^^^^^^^^^^^^^^^^^
+   :Result keys: ``gain``, ``status``
 
-Foreground short task (~10s), non-pausable/non-resumable
+   .. rubric:: Examples
+      :class: examples-heading
 
-Example foreground task that should run atomically from DeviceEngine perspective.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-.. list-table::
-   :header-rows: 1
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - durationSec
-     - float
-     - No
-     - 10.0
-   * - tickSec
-     - float
-     - No
-     - 1.0
+   .. code-block:: json
 
-Returns: ``Dict[str, Any]``
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "SetGainTask",
+          "taskParams": {
+            "value": "<float>"
+          }
+        }
+      }
 
-FirstForegroundLongPausableTask
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-Foreground long task (~120s), pausable and resumable
+   .. code-block:: python
 
-Example long foreground task with pause/resume support.
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="SetGainTask",
+          params={
+              "value": "<float>",
+          },
+      )
 
-Behavior:
-- At first start, seeds a random value.
-- On PAUSE cancellation, stores current state in _taskPauseStatesByProtocol.
-- On RESUME fallback, DeviceEngine injects `_pauseState` and the task continues from there.
 
-Admission policy: ``async``
-Pausable: ``True``
+.. _deviceos-fake-foregroundshorttask:
 
-.. list-table::
-   :header-rows: 1
+.. admonition:: ``ForegroundShortTask``
+   :class: driver-overview task-reference
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - durationSec
-     - float
-     - No
-     - 120.0
-   * - tickSec
-     - float
-     - No
-     - 1.0
-   * - _pauseState
-     - Dict[str, Any] \| None
-     - No
-     - None
+   Example foreground task that should run atomically from DeviceEngine perspective.
 
-Returns: ``Dict[str, Any]``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-SecondForegroundLongPausableTask
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-Second foreground pausable task (~90s) with wave state
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``10.0``
+        - —
+      * - ``tickSec``
+        - ``float``
+        - No
+        - ``1.0``
+        - —
 
-Second pausable example task.
+   :Result keys: ``durationSec``, ``reason``, ``status``, ``task``
 
-This task tracks a synthetic wave value and pause states:
-- amplitude (random at first start)
-- phase
-- elapsed/ticks
+   .. rubric:: Examples
+      :class: examples-heading
 
-Admission policy: ``async``
-Pausable: ``True``
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-.. list-table::
-   :header-rows: 1
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - durationSec
-     - float
-     - No
-     - 90.0
-   * - tickSec
-     - float
-     - No
-     - 1.0
-   * - _pauseState
-     - Dict[str, Any] \| None
-     - No
-     - None
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Returns: ``Dict[str, Any]``
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "ForegroundShortTask",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="ForegroundShortTask",
+          params={
+          },
+      )
+
+
+.. _deviceos-fake-firstforegroundlongpausabletask:
+
+.. admonition:: ``FirstForegroundLongPausableTask``
+   :class: driver-overview task-reference
+
+   Example long foreground task with pause/resume support.
+
+   Behavior:
+   - At first start, seeds a random value.
+   - On PAUSE cancellation, stores current state in _taskPauseStatesByProtocol.
+   - On RESUME fallback, DeviceEngine injects `_pauseState` and the task continues from there.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: Yes
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``120.0``
+        - —
+      * - ``tickSec``
+        - ``float``
+        - No
+        - ``1.0``
+        - —
+      * - ``_pauseState``
+        - ``Dict[str, Any] \| None``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``durationSec``, ``reason``, ``seedValue``, ``status``, ``task``, ``ticks``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "FirstForegroundLongPausableTask",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="FirstForegroundLongPausableTask",
+          params={
+          },
+      )
+
+
+.. _deviceos-fake-secondforegroundlongpausabletask:
+
+.. admonition:: ``SecondForegroundLongPausableTask``
+   :class: driver-overview task-reference
+
+   Second pausable example task.
+
+   This task tracks a synthetic wave value and pause states:
+   - amplitude (random at first start)
+   - phase
+   - elapsed/ticks
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: Yes
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``90.0``
+        - —
+      * - ``tickSec``
+        - ``float``
+        - No
+        - ``1.0``
+        - —
+      * - ``_pauseState``
+        - ``Dict[str, Any] \| None``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``amplitude``, ``durationSec``, ``reason``, ``status``, ``task``, ``ticks``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "SecondForegroundLongPausableTask",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="SecondForegroundLongPausableTask",
+          params={
+          },
+      )
+

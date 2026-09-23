@@ -1,82 +1,234 @@
 Dv1550AA Foreground Tasks
 =========================
 
-setAttenuation
-^^^^^^^^^^^^^^
+.. _deviceos-dv1550aa-setattenuation:
 
-Set the attenuator attenuation in dB.
+.. admonition:: ``setAttenuation``
+   :class: driver-overview task-reference
 
-Set and read back the attenuation in dB.
+   Set and read back the attenuation in dB.
 
-value must be in the inclusive range 0.00 through 34.00 and aligned to
-0.01 dB. This task is a convenience wrapper around the public
-``attenuation`` parameter.
+   value must be in the inclusive range 0.00 through 34.00 and aligned to
+   0.01 dB. This task is a convenience wrapper around the public
+   ``attenuation`` parameter.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-.. list-table::
-   :header-rows: 1
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - value
-     - float
-     - Yes
-     - -
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``value``
+        - ``float``
+        - Yes
+        - —
+        - —
 
-Returns: ``Dict[str, Any]``
+   :Result keys: ``attenuation``, ``status``
 
-readAttenuation
-^^^^^^^^^^^^^^^
+   .. rubric:: Examples
+      :class: examples-heading
 
-Read the current attenuator attenuation in dB.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Read the current attenuation from the hardware.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-The returned value comes from GetParameter("attenuation"), which reads
-a complete device snapshot before selecting its attenuation value.
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. code-block:: json
 
-No public parameters.
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "setAttenuation",
+          "taskParams": {
+            "value": "<float>"
+          }
+        }
+      }
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-clearAttenuation
-^^^^^^^^^^^^^^^^
+   .. code-block:: python
 
-Set the attenuator attenuation to 0 dB.
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="setAttenuation",
+          params={
+              "value": "<float>",
+          },
+      )
 
-Set and read back an attenuation of 0.00 dB.
 
-This changes the live attenuation only; it does not change the stored
-home attenuation captured during initialization.
+.. _deviceos-dv1550aa-readattenuation:
 
-Admission policy: ``sync``
-Pausable: ``False``
+.. admonition:: ``readAttenuation``
+   :class: driver-overview task-reference
 
-No public parameters.
+   Read the current attenuation from the hardware.
 
-Returns: ``Dict[str, Any]``
+   The returned value comes from GetParameter("attenuation"), which reads
+   a complete device snapshot before selecting its attenuation value.
 
-homeAttenuation
-^^^^^^^^^^^^^^^
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-Restore the configured home attenuation, i.e. hardwareConfig.defaultAttenuationDb from network.json.
+   No public parameters.
 
-Restore the attenuation captured during driver initialization.
+   :Result keys: ``attenuation``, ``status``
 
-The home value is initialized from hardwareConfig.defaultAttenuationDb,
-or the default attenuation when that configuration is absent. Later
-changes to the live ``attenuation`` parameter do not replace it.
+   .. rubric:: Examples
+      :class: examples-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-No public parameters.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "readAttenuation",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="readAttenuation",
+          params={
+          },
+      )
+
+
+.. _deviceos-dv1550aa-clearattenuation:
+
+.. admonition:: ``clearAttenuation``
+   :class: driver-overview task-reference
+
+   Set and read back an attenuation of 0.00 dB.
+
+   This changes the live attenuation only; it does not change the stored
+   home attenuation captured during initialization.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   No public parameters.
+
+   :Result keys: ``attenuation``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "clearAttenuation",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="clearAttenuation",
+          params={
+          },
+      )
+
+
+.. _deviceos-dv1550aa-homeattenuation:
+
+.. admonition:: ``homeAttenuation``
+   :class: driver-overview task-reference
+
+   Restore the attenuation captured during driver initialization.
+
+   The home value is initialized from hardwareConfig.defaultAttenuationDb,
+   or the default attenuation when that configuration is absent. Later
+   changes to the live ``attenuation`` parameter do not replace it.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   No public parameters.
+
+   :Result keys: ``attenuation``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "homeAttenuation",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="homeAttenuation",
+          params={
+          },
+      )
+

@@ -1,61 +1,199 @@
 Eps1000W Foreground Tasks
 =========================
 
-setOutputHH
-^^^^^^^^^^^
+.. _deviceos-eps1000w-setoutputhh:
 
-Set EPS output to HH
+.. admonition:: ``setOutputHH``
+   :class: driver-overview task-reference
 
-Select the ``HH`` output mode and return the device readback.
+   Select the ``HH`` output mode and return the device readback.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-No public parameters.
+   No public parameters.
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Examples
+      :class: examples-heading
 
-setOutputDD
-^^^^^^^^^^^
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Set EPS output to DD
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-Select the ``DD`` output mode and return the device readback.
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. code-block:: json
 
-No public parameters.
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "setOutputHH",
+          "taskParams": {}
+        }
+      }
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-setOutputEntangled
-^^^^^^^^^^^^^^^^^^
+   .. code-block:: python
 
-Set EPS output to entangled mode
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="setOutputHH",
+          params={
+          },
+      )
 
-Select the ``ENTANGLED`` output mode and return the device readback.
 
-Admission policy: ``sync``
-Pausable: ``False``
+.. _deviceos-eps1000w-setoutputdd:
 
-No public parameters.
+.. admonition:: ``setOutputDD``
+   :class: driver-overview task-reference
 
-Returns: ``Dict[str, Any]``
+   Select the ``DD`` output mode and return the device readback.
 
-reAlign
-^^^^^^^
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-Run EPS realignment procedure
+   No public parameters.
 
-Run the device realignment command and then read its output mode.
+   .. rubric:: Examples
+      :class: examples-heading
 
-The result includes the direct reply from ``Realign`` and the subsequent
-``ReadOutputMode`` value. It does not modify other EPS parameters.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-No public parameters.
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Returns: ``Dict[str, Any]``
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "setOutputDD",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="setOutputDD",
+          params={
+          },
+      )
+
+
+.. _deviceos-eps1000w-setoutputentangled:
+
+.. admonition:: ``setOutputEntangled``
+   :class: driver-overview task-reference
+
+   Select the ``ENTANGLED`` output mode and return the device readback.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   No public parameters.
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "setOutputEntangled",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="setOutputEntangled",
+          params={
+          },
+      )
+
+
+.. _deviceos-eps1000w-realign:
+
+.. admonition:: ``reAlign``
+   :class: driver-overview task-reference
+
+   Run the device realignment command and then read its output mode.
+
+   The result includes the direct reply from ``Realign`` and the subsequent
+   ``ReadOutputMode`` value. It does not modify other EPS parameters.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   No public parameters.
+
+   :Result keys: ``outputMode``, ``reply``, ``status``, ``task``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "reAlign",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="reAlign",
+          params={
+          },
+      )
+

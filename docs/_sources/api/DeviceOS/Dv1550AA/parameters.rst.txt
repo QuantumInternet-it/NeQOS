@@ -1,36 +1,73 @@
 Dv1550AA Parameters
 ===================
 
-.. list-table::
-   :header-rows: 1
+.. admonition:: Parameter reference
+   :class: api-reference
 
-   * - Name
-     - Type
-     - Unit
-     - Range
-     - Default
-     - Description
-   * - attenuation
-     - float
-     - dB
-     - 0.0 to 34.0
-     - 0.0
-     - Optical attenuation. Values must be from 0.00 to 34.00 dB in 0.01 dB increments.
-   * - mode
-     - int
-     - -
-     - -
-     - 0
-     - Attenuator operating mode: 0 for calibrated operation or 2 for manual operation.
-   * - voaEnabled
-     - bool
-     - -
-     - -
-     - False
-     - Whether the VOA optical output is enabled.
-   * - wavelength
-     - int
-     - nm
-     - -
-     - 1550
-     - Operating wavelength. Supported values are 1310, 1550, and 1590 nm.
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-parameter-table
+      :widths: 20 15 10 15 12 28
+
+      * - Name
+        - Type
+        - Unit
+        - Range
+        - Default
+        - Description
+      * - ``attenuation``
+        - ``float``
+        - ``dB``
+        - ``0.0 to 34.0``
+        - ``0.0``
+        - Optical attenuation. Values must be from 0.00 to 34.00 dB in 0.01 dB increments.
+      * - ``mode``
+        - ``int``
+        - —
+        - ``0, 2``
+        - ``0``
+        - Attenuator operating mode: 0 for calibrated operation or 2 for manual operation.
+      * - ``voaEnabled``
+        - ``bool``
+        - —
+        - —
+        - ``False``
+        - Whether the VOA optical output is enabled.
+      * - ``wavelength``
+        - ``int``
+        - ``nm``
+        - ``1310, 1550, 1590``
+        - ``1550``
+        - Operating wavelength. Supported values are 1310, 1550, and 1590 nm.
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   A running micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested parameter is advertised.
+
+   Use the parameter table to choose an advertised parameter and a valid value.
+
+   Replace each ``<...>`` placeholder with the appropriate device ID, advertised parameter name, or valid parameter value.
+
+   .. rubric:: Read a parameter from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      result = await ctx.get_parameter(
+          deviceId="<device-id>",
+          name="<parameter-name>",
+      )
+
+   .. rubric:: Write a parameter from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      result = await ctx.set_parameter(
+          deviceId="<device-id>",
+          name="<parameter-name>",
+          value="<parameter-value>",
+      )
+

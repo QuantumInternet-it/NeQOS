@@ -1,8 +1,20 @@
 DeviceOS API
 ============
 
+Device drivers
+--------------
+
+* :doc:`NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>`
+* :doc:`NuCrypt PA1000/PA2000 Polarization Controller <PaX000>`
+* :doc:`Photec SNSPD Controller <Photek>`
+* :doc:`Swabian Instruments Time Tagger <SwabianTT>`
+* :doc:`Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>`
+* :doc:`Thorlabs MPC320 Polarization Controller <Mpc320>`
+* :doc:`Fake Driver (Software-only Evaluation) <Fake>`
+
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
    NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>
    NuCrypt PA1000/PA2000 Polarization Controller <PaX000>

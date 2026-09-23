@@ -1,161 +1,426 @@
 Photek Foreground Tasks
 =======================
 
-InitializeBiasCurrents
-^^^^^^^^^^^^^^^^^^^^^^
+.. _deviceos-photek-initializebiascurrents:
 
-Apply configured integration time, trigger levels, and calibrated bias currents.
+.. admonition:: ``InitializeBiasCurrents``
+   :class: driver-overview task-reference
 
-Apply the full configured detector setup.
+   Apply the full configured detector setup.
 
-Writes integrationTimeMs, all 16 triggerLevels, and the active bias
-vector, then resets latch tracking. The normal INITIALIZE lifecycle
-operation already performs this same setup.
+   Writes integrationTimeMs, all 16 triggerLevels, and the active bias
+   vector, then resets latch tracking. The normal INITIALIZE lifecycle
+   operation already performs this same setup.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-No public parameters.
+   No public parameters.
 
-Returns: ``Dict[str, Any]``
+   :Result keys: ``status``
 
-StopDetectors
-^^^^^^^^^^^^^
+   .. rubric:: Examples
+      :class: examples-heading
 
-Set all Photek SNSPD bias currents to zero.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Set all 16 hardware bias-current outputs to zero.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-This does not alter the stored bias configuration. CLEAR_READY and
-DISCONNECT also perform this hardware-safe operation.
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. code-block:: json
 
-No public parameters.
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "InitializeBiasCurrents",
+          "taskParams": {}
+        }
+      }
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-StartDetectors
-^^^^^^^^^^^^^^
+   .. code-block:: python
 
-Restore calibrated bias currents on configured Photek SNSPD bias channels.
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="InitializeBiasCurrents",
+          params={
+          },
+      )
 
-Write the configured active bias vector to the controller.
 
-Only configured biasChannels receive their configured current; every
-other controller channel is written as zero. SET_READY already applies
-the same vector as part of the normal lifecycle.
+.. _deviceos-photek-stopdetectors:
 
-Admission policy: ``sync``
-Pausable: ``False``
+.. admonition:: ``StopDetectors``
+   :class: driver-overview task-reference
 
-No public parameters.
+   Set all 16 hardware bias-current outputs to zero.
 
-Returns: ``Dict[str, Any]``
+   This does not alter the stored bias configuration. CLEAR_READY and
+   DISCONNECT also perform this hardware-safe operation.
 
-SetBiasCurrents
-^^^^^^^^^^^^^^^
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-Set calibrated bias currents from a 16-value list, 1-based channel map, or scalar.
+   No public parameters.
 
-Replace the configured bias-current vector and apply it immediately.
+   :Result keys: ``biasCurrentsUa``, ``status``
 
-biasCurrentsUa accepts a 16-element list, a map from 1-based channel to
-current in microamperes, or one scalar applied to all 16 channels. The
-existing biasChannels selection is retained, so values outside that
-selection are stored but written as zero until the selection changes.
+   .. rubric:: Examples
+      :class: examples-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-.. list-table::
-   :header-rows: 1
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - biasCurrentsUa
-     - List[float] \| Dict[int, float] \| float \| None
-     - No
-     - None
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Returns: ``Dict[str, Any]``
+   .. code-block:: json
 
-SetTriggerLevels
-^^^^^^^^^^^^^^^^
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "StopDetectors",
+          "taskParams": {}
+        }
+      }
 
-Set Photek SNSPD trigger levels from a 16-value list, 1-based channel map, or scalar.
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-Replace all 16 configured trigger levels and apply them immediately.
+   .. code-block:: python
 
-triggerLevels accepts a 16-element list, a map from 1-based channel to
-level, or one scalar applied to every channel. Values are rounded to
-integers and the controller accepts values from 0 through 65535.
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="StopDetectors",
+          params={
+          },
+      )
 
-Admission policy: ``sync``
-Pausable: ``False``
 
-.. list-table::
-   :header-rows: 1
+.. _deviceos-photek-startdetectors:
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - triggerLevels
-     - List[int] \| Dict[int, int] \| int \| None
-     - No
-     - None
+.. admonition:: ``StartDetectors``
+   :class: driver-overview task-reference
 
-Returns: ``Dict[str, Any]``
+   Write the configured active bias vector to the controller.
 
-ReadDetectorHealth
-^^^^^^^^^^^^^^^^^^
+   Only configured biasChannels receive their configured current; every
+   other controller channel is written as zero. SET_READY already applies
+   the same vector as part of the normal lifecycle.
 
-Read Photek detector health counts and optionally recover latched guard channels.
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-Read guarded and all-channel counts, then evaluate latch health.
+   No public parameters.
 
-A latch is a guarded count at or below zeroCountThreshold for
-zeroConsecutiveLimit consecutive reads. If autoRecoverOnLatch is true,
-invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
-The returned payload includes readingValid, invalidatesMeasurements,
-latchEventCount, recoveryStatus, counts, and any alert details.
+   :Result keys: ``biasCurrentsUa``, ``status``
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. rubric:: Examples
+      :class: examples-heading
 
-No public parameters.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Returns: ``Dict[str, Any]``
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-RecoverLatchedDetectors
-^^^^^^^^^^^^^^^^^^^^^^^
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Run stop/start recovery on configured or supplied Photek SNSPD channels.
+   .. code-block:: json
 
-Run one manual stop/start recovery cycle.
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "StartDetectors",
+          "taskParams": {}
+        }
+      }
 
-channels defaults to latchGuardChannels and is returned in the recovery
-report. Recovery itself disables all 16 outputs, waits recoveryOffSec,
-restores the configured active bias vector, then waits recoverySettleSec;
-it does not selectively power-cycle only the supplied channels.
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. code-block:: python
 
-.. list-table::
-   :header-rows: 1
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="StartDetectors",
+          params={
+          },
+      )
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channels
-     - List[int] \| None
-     - No
-     - None
 
-Returns: ``Dict[str, Any]``
+.. _deviceos-photek-setbiascurrents:
+
+.. admonition:: ``SetBiasCurrents``
+   :class: driver-overview task-reference
+
+   Replace the configured bias-current vector and apply it immediately.
+
+   biasCurrentsUa accepts a 16-element list, a map from 1-based channel to
+   current in microamperes, or one scalar applied to all 16 channels. The
+   existing biasChannels selection is retained, so values outside that
+   selection are stored but written as zero until the selection changes.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``biasCurrentsUa``
+        - ``List[float] \| Dict[int, float] \| float \| None``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``biasCurrentsUa``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "SetBiasCurrents",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="SetBiasCurrents",
+          params={
+          },
+      )
+
+
+.. _deviceos-photek-settriggerlevels:
+
+.. admonition:: ``SetTriggerLevels``
+   :class: driver-overview task-reference
+
+   Replace all 16 configured trigger levels and apply them immediately.
+
+   triggerLevels accepts a 16-element list, a map from 1-based channel to
+   level, or one scalar applied to every channel. Values are rounded to
+   integers and the controller accepts values from 0 through 65535.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``triggerLevels``
+        - ``List[int] \| Dict[int, int] \| int \| None``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``status``, ``triggerLevels``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "SetTriggerLevels",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="SetTriggerLevels",
+          params={
+          },
+      )
+
+
+.. _deviceos-photek-readdetectorhealth:
+
+.. admonition:: ``ReadDetectorHealth``
+   :class: driver-overview task-reference
+
+   Read guarded and all-channel counts, then evaluate latch health.
+
+   A latch is a guarded count at or below zeroCountThreshold for
+   zeroConsecutiveLimit consecutive reads. If autoRecoverOnLatch is true,
+   invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
+   The returned payload includes readingValid, invalidatesMeasurements,
+   latchEventCount, recoveryStatus, counts, and any alert details.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   No public parameters.
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "ReadDetectorHealth",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="ReadDetectorHealth",
+          params={
+          },
+      )
+
+
+.. _deviceos-photek-recoverlatcheddetectors:
+
+.. admonition:: ``RecoverLatchedDetectors``
+   :class: driver-overview task-reference
+
+   Run one manual stop/start recovery cycle.
+
+   channels defaults to latchGuardChannels and is returned in the recovery
+   report. Recovery itself disables all 16 outputs, waits recoveryOffSec,
+   restores the configured active bias vector, then waits recoverySettleSec;
+   it does not selectively power-cycle only the supplied channels.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channels``
+        - ``List[int] \| None``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``recovery``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "RecoverLatchedDetectors",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="RecoverLatchedDetectors",
+          params={
+          },
+      )
+

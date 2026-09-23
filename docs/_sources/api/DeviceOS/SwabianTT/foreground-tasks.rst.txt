@@ -1,226 +1,500 @@
 SwabianTT Foreground Tasks
 ==========================
 
-CreateLogicalChannel
-^^^^^^^^^^^^^^^^^^^^
+.. _deviceos-swabiantt-createlogicalchannel:
 
-Create a logical channel from existing physical/logical channels using AND, OR, or NOT.
+.. admonition:: ``CreateLogicalChannel``
+   :class: driver-overview task-reference
 
-Create or reuse a named logical channel.
+   Create or reuse a named logical channel.
 
-AND accepts one or more input references and uses coincidenceWindowPs or
-defaultCoincidenceWindowPs. OR ignores coincidenceWindowPs; NOT requires
-exactly one input reference. Supplying an existing name with identical
-configuration returns its channel reference with ``reused=True``.
+   AND accepts one or more input references and uses coincidenceWindowPs or
+   defaultCoincidenceWindowPs. OR ignores coincidenceWindowPs; NOT requires
+   exactly one input reference. Supplying an existing name with identical
+   configuration returns its channel reference with ``reused=True``.
 
-Admission policy: ``sync``
-Pausable: ``False``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-.. list-table::
-   :header-rows: 1
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - operator
-     - str
-     - Yes
-     - -
-   * - inputRefs
-     - List[Any]
-     - Yes
-     - -
-   * - coincidenceWindowPs
-     - Optional[int]
-     - No
-     - None
-   * - name
-     - Optional[str]
-     - No
-     - None
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``operator``
+        - ``str``
+        - Yes
+        - —
+        - —
+      * - ``inputRefs``
+        - ``List[Any]``
+        - Yes
+        - —
+        - —
+      * - ``coincidenceWindowPs``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - —
+      * - ``name``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
 
-Returns: ``Dict[str, Any]``
+   :Result keys: ``channelId``, ``channelRef``, ``implementation``, ``inputRefs``, ``operator``, ``resolvedInputChannels``, ``reused``, ``status``
 
-CreateMeasurement
-^^^^^^^^^^^^^^^^^
+   .. rubric:: Examples
+      :class: examples-heading
 
-Create a synchronized Swabian measurement on an existing physical or logical channel.
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-Create or reuse one synchronized COUNTRATE or CORRELATION measurement.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-COUNTRATE requires channelRef. CORRELATION requires channelRefA and
-channelRefB; omitted binWidthPs and binCount use the documented default
-parameters. An existing name may be reused only with identical settings.
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   .. code-block:: json
 
-.. list-table::
-   :header-rows: 1
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "CreateLogicalChannel",
+          "taskParams": {
+            "operator": "<str>",
+            "inputRefs": "<List[Any]>"
+          }
+        }
+      }
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - measurementType
-     - str
-     - Yes
-     - -
-   * - channelRef
-     - Any
-     - No
-     - None
-   * - channelRefA
-     - Any
-     - No
-     - None
-   * - channelRefB
-     - Any
-     - No
-     - None
-   * - binWidthPs
-     - Optional[int]
-     - No
-     - None
-   * - binCount
-     - Optional[int]
-     - No
-     - None
-   * - name
-     - Optional[str]
-     - No
-     - None
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-Returns: ``Dict[str, Any]``
+   .. code-block:: python
 
-ResetMeasurementEngine
-^^^^^^^^^^^^^^^^^^^^^^
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="CreateLogicalChannel",
+          params={
+              "operator": "<str>",
+              "inputRefs": "<List[Any]>",
+          },
+      )
 
-Reopen the Time Tagger measurement engine and restore physical-channel trigger levels and input delays.
 
-Reopen the measurement engine and discard its derived state.
+.. _deviceos-swabiantt-createmeasurement:
 
-Logical channels, measurement definitions, and active-measurement
-selections are released. Physical trigger levels and input delays are
-read before the reset, restored afterward, and returned as readback.
+.. admonition:: ``CreateMeasurement``
+   :class: driver-overview task-reference
 
-Admission policy: ``sync``
-Pausable: ``False``
+   Create or reuse one synchronized COUNTRATE or CORRELATION measurement.
 
-No public parameters.
+   COUNTRATE requires channelRef. CORRELATION requires channelRefA and
+   channelRefB; omitted binWidthPs and binCount use the documented default
+   parameters. An existing name may be reused only with identical settings.
 
-Returns: ``Dict[str, Any]``
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-ActivateMeasurements
-^^^^^^^^^^^^^^^^^^^^
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
 
-Activate the subset of created measurements that will run during the next StartMeasurement window.
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``measurementType``
+        - ``str``
+        - Yes
+        - —
+        - —
+      * - ``channelRef``
+        - ``Any``
+        - No
+        - ``None``
+        - —
+      * - ``channelRefA``
+        - ``Any``
+        - No
+        - ``None``
+        - —
+      * - ``channelRefB``
+        - ``Any``
+        - No
+        - ``None``
+        - —
+      * - ``binWidthPs``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - —
+      * - ``binCount``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - —
+      * - ``name``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
 
-Select the created measurements used by StartMeasurement.
+   :Result keys: ``binCount``, ``binWidthPs``, ``channelIds``, ``channelRefs``, ``measurementRef``, ``measurementType``, ``reused``, ``status``
 
-The supplied references replace the active selection. Unknown references
-fail the task; duplicates are removed while preserving their first order.
+   .. rubric:: Examples
+      :class: examples-heading
 
-Admission policy: ``sync``
-Pausable: ``False``
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-.. list-table::
-   :header-rows: 1
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - measurementRefs
-     - List[str]
-     - Yes
-     - -
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Returns: ``Dict[str, Any]``
+   .. code-block:: json
 
-StartMeasurement
-^^^^^^^^^^^^^^^^
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "CreateMeasurement",
+          "taskParams": {
+            "measurementType": "<str>"
+          }
+        }
+      }
 
-Run the active synchronized measurements for a fixed duration and return counts/coincidences.
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-Acquire all active synchronized measurements for durationSec.
+   .. code-block:: python
 
-clear resets compatible measurement handles before acquisition. With
-rawDataMode ``node``, correlation arrays are returned in the result;
-with ``device``, raw correlation data and a preview are scheduled as
-device artifacts and artifactWriteState is initially ``pending``.
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="CreateMeasurement",
+          params={
+              "measurementType": "<str>",
+          },
+      )
 
-Admission policy: ``async``
-Pausable: ``False``
 
-.. list-table::
-   :header-rows: 1
+.. _deviceos-swabiantt-resetmeasurementengine:
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - durationSec
-     - float
-     - Yes
-     - -
-   * - clear
-     - bool
-     - No
-     - True
-   * - rawDataMode
-     - str
-     - No
-     - 'node'
+.. admonition:: ``ResetMeasurementEngine``
+   :class: driver-overview task-reference
 
-Returns: ``Dict[str, Any]``
+   Reopen the measurement engine and discard its derived state.
 
-RecordTimeTagStream
-^^^^^^^^^^^^^^^^^^^
+   Logical channels, measurement definitions, and active-measurement
+   selections are released. Physical trigger levels and input delays are
+   read before the reset, restored afterward, and returned as readback.
 
-Record selected Time Tagger channels to a local .ttbin file and return a transfer manifest.
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
 
-Record selected channels to one local .ttbin artifact.
+   No public parameters.
 
-channelRefs must resolve to at least one channel and durationSec must be
-positive. recordingSubdirectory is sanitized below the recording root.
-The result includes a transfer-ready manifest with path, SHA-256, size,
-channel mapping, duration, and FileWriter statistics.
+   .. rubric:: Examples
+      :class: examples-heading
 
-Admission policy: ``async``
-Pausable: ``False``
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-.. list-table::
-   :header-rows: 1
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - channelRefs
-     - List[Any]
-     - Yes
-     - -
-   * - durationSec
-     - float
-     - Yes
-     - -
-   * - recordingRef
-     - Optional[str]
-     - No
-     - None
-   * - recordingSubdirectory
-     - Optional[str]
-     - No
-     - None
-   * - marker
-     - Optional[str]
-     - No
-     - None
-   * - maxFileSizeBytes
-     - Optional[int]
-     - No
-     - None
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-Returns: ``Dict[str, Any]``
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "ResetMeasurementEngine",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="ResetMeasurementEngine",
+          params={
+          },
+      )
+
+
+.. _deviceos-swabiantt-activatemeasurements:
+
+.. admonition:: ``ActivateMeasurements``
+   :class: driver-overview task-reference
+
+   Select the created measurements used by StartMeasurement.
+
+   The supplied references replace the active selection. Unknown references
+   fail the task; duplicates are removed while preserving their first order.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``measurementRefs``
+        - ``List[str]``
+        - Yes
+        - —
+        - —
+
+   :Result keys: ``activeMeasurements``, ``status``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "ActivateMeasurements",
+          "taskParams": {
+            "measurementRefs": "<List[str]>"
+          }
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="ActivateMeasurements",
+          params={
+              "measurementRefs": "<List[str]>",
+          },
+      )
+
+
+.. _deviceos-swabiantt-startmeasurement:
+
+.. admonition:: ``StartMeasurement``
+   :class: driver-overview task-reference
+
+   Acquire all active synchronized measurements for durationSec.
+
+   clear resets compatible measurement handles before acquisition. With
+   rawDataMode ``node``, correlation arrays are returned in the result;
+   with ``device``, raw correlation data and a preview are scheduled as
+   device artifacts and artifactWriteState is initially ``pending``.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - Yes
+        - —
+        - —
+      * - ``clear``
+        - ``bool``
+        - No
+        - ``True``
+        - —
+      * - ``rawDataMode``
+        - ``str``
+        - No
+        - ``'node'``
+        - —
+
+   :Result keys: ``activeMeasurements``, ``artifactDirectory``, ``artifactWriteState``, ``durationSec``, ``rawDataMode``, ``results``, ``status``, ``timingSec``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "StartMeasurement",
+          "taskParams": {
+            "durationSec": "<float>"
+          }
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="StartMeasurement",
+          params={
+              "durationSec": "<float>",
+          },
+      )
+
+
+.. _deviceos-swabiantt-recordtimetagstream:
+
+.. admonition:: ``RecordTimeTagStream``
+   :class: driver-overview task-reference
+
+   Record selected channels to one local .ttbin artifact.
+
+   channelRefs must resolve to at least one channel and durationSec must be
+   positive. recordingSubdirectory is sanitized below the recording root.
+   The result includes a transfer-ready manifest with path, SHA-256, size,
+   channel mapping, duration, and FileWriter statistics.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: No
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channelRefs``
+        - ``List[Any]``
+        - Yes
+        - —
+        - —
+      * - ``durationSec``
+        - ``float``
+        - Yes
+        - —
+        - —
+      * - ``recordingRef``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
+      * - ``recordingSubdirectory``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
+      * - ``marker``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
+      * - ``maxFileSizeBytes``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - —
+
+   :Result keys: ``artifact``, ``status``, ``totalEvents``, ``totalSizeBytes``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "RecordTimeTagStream",
+          "taskParams": {
+            "channelRefs": "<List[Any]>",
+            "durationSec": "<float>"
+          }
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="RecordTimeTagStream",
+          params={
+              "channelRefs": "<List[Any]>",
+              "durationSec": "<float>",
+          },
+      )
+

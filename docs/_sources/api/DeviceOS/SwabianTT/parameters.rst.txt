@@ -1,30 +1,67 @@
 SwabianTT Parameters
 ====================
 
-.. list-table::
-   :header-rows: 1
+.. admonition:: Parameter reference
+   :class: api-reference
 
-   * - Name
-     - Type
-     - Unit
-     - Range
-     - Default
-     - Description
-   * - defaultCoincidenceWindowPs
-     - int
-     - -
-     - 1 to 1000000000
-     - 1000
-     - Default AND-coincidence window used when CreateLogicalChannel omits coincidenceWindowPs.
-   * - defaultCorrelationBinCount
-     - int
-     - -
-     - 1 to 1000000
-     - 4096
-     - Default correlation-bin count used when CreateMeasurement CORRELATION omits binCount.
-   * - defaultCorrelationBinWidthPs
-     - int
-     - -
-     - 1 to 1000000000
-     - 1000
-     - Default correlation-bin width used when CreateMeasurement CORRELATION omits binWidthPs.
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-parameter-table
+      :widths: 20 15 10 15 12 28
+
+      * - Name
+        - Type
+        - Unit
+        - Range
+        - Default
+        - Description
+      * - ``defaultCoincidenceWindowPs``
+        - ``int``
+        - —
+        - ``1 to 1000000000``
+        - ``1000``
+        - Default AND-coincidence window used when CreateLogicalChannel omits coincidenceWindowPs.
+      * - ``defaultCorrelationBinCount``
+        - ``int``
+        - —
+        - ``1 to 1000000``
+        - ``4096``
+        - Default correlation-bin count used when CreateMeasurement CORRELATION omits binCount.
+      * - ``defaultCorrelationBinWidthPs``
+        - ``int``
+        - —
+        - ``1 to 1000000000``
+        - ``1000``
+        - Default correlation-bin width used when CreateMeasurement CORRELATION omits binWidthPs.
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   A running micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested parameter is advertised.
+
+   Use the parameter table to choose an advertised parameter and a valid value.
+
+   Replace each ``<...>`` placeholder with the appropriate device ID, advertised parameter name, or valid parameter value.
+
+   .. rubric:: Read a parameter from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      result = await ctx.get_parameter(
+          deviceId="<device-id>",
+          name="<parameter-name>",
+      )
+
+   .. rubric:: Write a parameter from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      result = await ctx.set_parameter(
+          deviceId="<device-id>",
+          name="<parameter-name>",
+          value="<parameter-value>",
+      )
+

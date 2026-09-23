@@ -1,6 +1,12 @@
 Fake Driver
 ===========
 
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``FakeDriver``
+   :Source: ``DeviceOSPack/OpenDrivers/FakeDriver.py``
+
 Hardware Driver Fake.
 
 Purpose:
@@ -10,11 +16,6 @@ Purpose:
 Notes:
 - This driver is intentionally simple and does not attempt to model real device I/O.
 - Connection probing is provided via `ProbeConnection()` for monitor-loop testing.
-
-Source: ``DeviceOSPack/OpenDrivers/FakeDriver.py``
-
-API Reference
--------------
 
 .. toctree::
    :maxdepth: 1

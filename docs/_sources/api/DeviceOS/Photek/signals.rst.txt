@@ -1,58 +1,81 @@
 Photek Signals
 ==============
 
-.. list-table::
-   :header-rows: 1
+.. admonition:: Signal reference
+   :class: api-reference
 
-   * - Name
-     - Type
-     - Unit
-     - Description
-   * - alert
-     - object
-     - -
-     - Alert created for the current invalid health reading, when present.
-   * - allCounts
-     - object
-     - -
-     - Latest counts for all 16 controller channels, keyed by 1-based channel number.
-   * - counts
-     - object
-     - -
-     - Latest counts for latchGuardChannels, keyed by 1-based channel number.
-   * - discardedReadings
-     - list
-     - -
-     - Invalid readings retained while automatic recovery is attempted.
-   * - invalidatesMeasurements
-     - bool
-     - -
-     - Whether the most recent latch result requires concurrent TimeTagger measurements to be discarded.
-   * - lastAlert
-     - object
-     - -
-     - Most recently recorded latch alert, including after a later valid reading.
-   * - latchEventCount
-     - int
-     - -
-     - Number of invalid latch detections since the latest driver initialization.
-   * - latchGuardChannels
-     - list
-     - -
-     - Configured 1-based channels monitored for latch detection.
-   * - latchedChannels
-     - list
-     - -
-     - Latch guard channels detected as latched in the most recent health reading.
-   * - readingCorrupted
-     - bool
-     - -
-     - Inverse of readingValid for the most recent health reading.
-   * - readingValid
-     - bool
-     - -
-     - Whether the most recent health reading contains no latched guard channel.
-   * - recoveryStatus
-     - str
-     - -
-     - Health recovery outcome: NOT_NEEDED, PENDING, RECOVERED, or FAILED.
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-signal-table
+      :widths: 25 18 15 42
+
+      * - Name
+        - Type
+        - Unit
+        - Description
+      * - ``alert``
+        - ``object``
+        - —
+        - Alert created for the current invalid health reading, when present.
+      * - ``allCounts``
+        - ``object``
+        - —
+        - Latest counts for all 16 controller channels, keyed by 1-based channel number.
+      * - ``counts``
+        - ``object``
+        - —
+        - Latest counts for latchGuardChannels, keyed by 1-based channel number.
+      * - ``discardedReadings``
+        - ``list``
+        - —
+        - Invalid readings retained while automatic recovery is attempted.
+      * - ``invalidatesMeasurements``
+        - ``bool``
+        - —
+        - Whether the most recent latch result requires concurrent TimeTagger measurements to be discarded.
+      * - ``lastAlert``
+        - ``object``
+        - —
+        - Most recently recorded latch alert, including after a later valid reading.
+      * - ``latchEventCount``
+        - ``int``
+        - —
+        - Number of invalid latch detections since the latest driver initialization.
+      * - ``latchGuardChannels``
+        - ``list``
+        - —
+        - Configured 1-based channels monitored for latch detection.
+      * - ``latchedChannels``
+        - ``list``
+        - —
+        - Latch guard channels detected as latched in the most recent health reading.
+      * - ``readingCorrupted``
+        - ``bool``
+        - —
+        - Inverse of readingValid for the most recent health reading.
+      * - ``readingValid``
+        - ``bool``
+        - —
+        - Whether the most recent health reading contains no latched guard channel.
+      * - ``recoveryStatus``
+        - ``str``
+        - —
+        - Health recovery outcome: NOT_NEEDED, PENDING, RECOVERED, or FAILED.
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   A running micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested signal is advertised.
+
+   Read one advertised signal from a Python handler.
+
+   Replace each ``<...>`` placeholder with the appropriate device ID or advertised signal name.
+
+   .. code-block:: python
+
+      result = await ctx.read_signal(
+          deviceId="<device-id>",
+          name="<signal-name>",
+      )
+

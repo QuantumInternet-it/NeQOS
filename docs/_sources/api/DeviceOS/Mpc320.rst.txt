@@ -1,6 +1,13 @@
 Mpc320 Driver
 =============
 
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``Mpc320Driver``
+   :Source: ``DeviceOSPack/Mpc320Driver.py``
+   :Official product page: `Thorlabs MPC320 <https://www.thorlabs.com/thorproduct.cfm?partnumber=MPC320>`_
+
 Control a Thorlabs MPC320 three-paddle polarization controller.
 
 This driver exposes absolute and relative paddle moves, polarizer
@@ -11,17 +18,9 @@ documentation: ``_PARAMETER_SPECS`` defines configurable parameters,
 ``_SIGNAL_SPECS`` defines readable signals, and ``@foreground_task``
 declares the exported tasks together with their admission policy.
 
-Source: ``DeviceOSPack/Mpc320Driver.py``
-
-Official product page: `Thorlabs <https://www.thorlabs.com/thorproduct.cfm?partnumber=MPC320>`_
-
-API Reference
--------------
-
 .. toctree::
    :maxdepth: 1
 
    Parameters <Mpc320/parameters>
    Signals <Mpc320/signals>
    Foreground Tasks <Mpc320/foreground-tasks>
-   Background Tasks <Mpc320/background-tasks>

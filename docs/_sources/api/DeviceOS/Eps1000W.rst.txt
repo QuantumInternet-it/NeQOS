@@ -1,6 +1,13 @@
 Eps1000W Driver
 ===============
 
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``Eps1000WDriver``
+   :Source: ``DeviceOSPack/Eps1000WDriver.py``
+   :Official product page: `NuCrypt EPS-1000-W <https://www.nucrypt.net/EPS-1000-W.html>`_
+
 Control a NuCrypt EPS-1000-W entangled-photon source.
 
 The public parameter surface is built from the configured EPS settings and
@@ -8,17 +15,8 @@ limits at runtime. It includes scalar source settings, outputMode, and the
 composite clockOutput setting. The driver has no supported ReadSignal
 values; report tasks expose the device reports directly.
 
-Source: ``DeviceOSPack/Eps1000WDriver.py``
-
-Official product page: `NuCrypt <https://www.nucrypt.net/EPS-1000-W.html>`_
-
-API Reference
--------------
-
 .. toctree::
    :maxdepth: 1
 
    Parameters <Eps1000W/parameters>
-   Signals <Eps1000W/signals>
    Foreground Tasks <Eps1000W/foreground-tasks>
-   Background Tasks <Eps1000W/background-tasks>

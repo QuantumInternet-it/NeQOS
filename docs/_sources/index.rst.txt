@@ -1,15 +1,12 @@
-.. NeQOS Developer API documentation master file, created by
-   sphinx-quickstart on Wed Sep 23 13:20:54 2026.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 NeQOS Developer API
 ===================
 
-Automatically generated reference for NeQOS DeviceOS and NodeEngine.
+Reference documentation generated from the NeQOS source tree.
 
 Source code, release archives, and project updates are available in the
 `NeQOS GitHub repository <https://github.com/QuantumInternet-it/NeQOS>`_.
+
+.. include:: _generated/driver-list.rst
 
 .. toctree::
    :maxdepth: 2

@@ -15,13 +15,15 @@ as a successful advance; otherwise an unsuccessful abort fails the stage.
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Signature
      - Returns
      - Source
-   * - ctx: StageContext, params: Dict[str, Any]
-     - StageResult
-     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
 
 ExportScratchStage
 ^^^^^^^^^^^^^^^^^^
@@ -35,13 +37,15 @@ result before the stage advances.
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Signature
      - Returns
      - Source
-   * - ctx: StageContext, params: Dict[str, Any]
-     - StageResult
-     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
 
 SubmitMicroProtocolStage
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -56,13 +60,15 @@ child is submitted, then the stage advances.
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Signature
      - Returns
      - Source
-   * - ctx: StageContext, params: Dict[str, Any]
-     - StageResult
-     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
 
 WaitMicroProtocolStage
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -77,10 +83,12 @@ controls the requeue delay and defaults to 2 seconds.
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Signature
      - Returns
      - Source
-   * - ctx: StageContext, params: Dict[str, Any]
-     - StageResult
-     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``

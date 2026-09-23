@@ -1,57 +1,176 @@
 Fake Background Tasks
 =====================
 
-BackgroundLoopAlphaTask
-^^^^^^^^^^^^^^^^^^^^^^^
+.. _deviceos-fake-backgroundloopalphatask:
 
-Periodic background non-blocking tick A
+.. admonition:: ``BackgroundLoopAlphaTask``
+   :class: driver-overview task-reference
 
-Blocking: ``False``
-Frequency: ``1.0`` Hz
-Maximum repetitions: ``None``
-Expires after: ``None`` s
-Lifecycle: abort-only (no pause/resume).
+   Periodic background non-blocking tick A
 
-No public parameters.
+   :Task class: Background
+   :Blocking: No
+   :Frequency: ``1.0`` Hz
+   :Maximum repetitions: —
+   :Expires after: — s
+   :Lifecycle: abort-only (no pause/resume).
 
-Returns: ``Dict[str, Any]``
+   No public parameters.
 
-BackgroundLoopBetaTask
-^^^^^^^^^^^^^^^^^^^^^^
+   :Result keys: ``iteration``, ``status``, ``task``
 
-Periodic background non-blocking tick B
+   .. rubric:: Examples
+      :class: examples-heading
 
-Blocking: ``False``
-Frequency: ``1.0 / 1.3`` Hz
-Maximum repetitions: ``None``
-Expires after: ``None`` s
-Lifecycle: abort-only (no pause/resume).
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
 
-No public parameters.
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
 
-Returns: ``Dict[str, Any]``
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
 
-BackgroundLoopBlockingTask
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. code-block:: json
 
-Periodic background BLOCKING task (holds driverIOLock each run)
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "BackgroundLoopAlphaTask",
+          "taskParams": {}
+        }
+      }
 
-Blocking: ``True``
-Frequency: ``1.0`` Hz
-Maximum repetitions: ``8``
-Expires after: ``None`` s
-Lifecycle: abort-only (no pause/resume).
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
 
-.. list-table::
-   :header-rows: 1
+   .. code-block:: python
 
-   * - Parameter
-     - Type
-     - Required
-     - Default
-   * - workSec
-     - float
-     - No
-     - 0.9
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="BackgroundLoopAlphaTask",
+          params={
+          },
+      )
 
-Returns: ``Dict[str, Any]``
+
+.. _deviceos-fake-backgroundloopbetatask:
+
+.. admonition:: ``BackgroundLoopBetaTask``
+   :class: driver-overview task-reference
+
+   Periodic background non-blocking tick B
+
+   :Task class: Background
+   :Blocking: No
+   :Frequency: ``1.0 / 1.3`` Hz
+   :Maximum repetitions: —
+   :Expires after: — s
+   :Lifecycle: abort-only (no pause/resume).
+
+   No public parameters.
+
+   :Result keys: ``iteration``, ``status``, ``task``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "BackgroundLoopBetaTask",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="BackgroundLoopBetaTask",
+          params={
+          },
+      )
+
+
+.. _deviceos-fake-backgroundloopblockingtask:
+
+.. admonition:: ``BackgroundLoopBlockingTask``
+   :class: driver-overview task-reference
+
+   Periodic background BLOCKING task (holds driverIOLock each run)
+
+   :Task class: Background
+   :Blocking: Yes
+   :Frequency: ``1.0`` Hz
+   :Maximum repetitions: ``8``
+   :Expires after: — s
+   :Lifecycle: abort-only (no pause/resume).
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``workSec``
+        - ``float``
+        - No
+        - ``0.9``
+        - —
+
+   :Result keys: ``iteration``, ``status``, ``task``, ``workSec``
+
+   .. rubric:: Examples
+      :class: examples-heading
+
+   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
+
+   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
+
+   .. rubric:: Static task invocation from a micro-protocol declaration
+      :class: invocation-heading
+
+   .. code-block:: json
+
+      {
+        "stageId": "<stage-id>",
+        "handler": "RunSingleTaskStage",
+        "params": {
+          "deviceId": "<device-id>",
+          "taskName": "BackgroundLoopBlockingTask",
+          "taskParams": {}
+        }
+      }
+
+   .. rubric:: Dynamic task invocation from a Python handler
+      :class: invocation-heading
+
+   .. code-block:: python
+
+      reply = await ctx.run_task(
+          deviceId="<device-id>",
+          taskName="BackgroundLoopBlockingTask",
+          params={
+          },
+      )
+

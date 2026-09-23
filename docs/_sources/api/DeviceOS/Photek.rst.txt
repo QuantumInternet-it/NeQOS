@@ -1,18 +1,18 @@
 Photek Driver
 =============
 
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``PhotekDriver``
+   :Source: ``DeviceOSPack/PhotekDriver.py``
+   :Official product page: `Photec (Photon Technology) Driver <https://www.cnphotec.com/en/product/snspd/snspd-system#product>`_
+
 Control a 16-channel Photek SNSPD bias controller.
 
 The driver configures detector bias currents, integration time, and trigger
 levels. It also exposes count-based latch health. Photon measurements are
 intentionally owned by the TimeTagger driver, rather than by this driver.
-
-Source: ``DeviceOSPack/PhotekDriver.py``
-
-Official product page: `Photec (Photon Technology) <https://www.cnphotec.com/en/product/snspd/snspd-system#product>`_
-
-API Reference
--------------
 
 .. toctree::
    :maxdepth: 1
@@ -20,4 +20,3 @@ API Reference
    Parameters <Photek/parameters>
    Signals <Photek/signals>
    Foreground Tasks <Photek/foreground-tasks>
-   Background Tasks <Photek/background-tasks>

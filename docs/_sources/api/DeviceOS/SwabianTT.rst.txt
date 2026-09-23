@@ -1,6 +1,13 @@
 SwabianTT Driver
 ================
 
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``SwabianTTDriver``
+   :Source: ``DeviceOSPack/SwabianTTDriver.py``
+   :Official product page: `Swabian Time Tagger <https://www.swabianinstruments.com/time-tagger/>`_
+
 HardwareDriver for a single Swabian Time Tagger.
 
 The driver manages physical channels discovered from the device, logical
@@ -13,17 +20,9 @@ Measurement definitions remain registered until ResetMeasurementEngine.
 ActivateMeasurements selects the subset used by the next StartMeasurement
 window. RecordTimeTagStream writes raw selected-channel events as .ttbin.
 
-Source: ``DeviceOSPack/SwabianTTDriver.py``
-
-Official product page: `Swabian Instruments <https://www.swabianinstruments.com/time-tagger/>`_
-
-API Reference
--------------
-
 .. toctree::
    :maxdepth: 1
 
    Parameters <SwabianTT/parameters>
    Signals <SwabianTT/signals>
    Foreground Tasks <SwabianTT/foreground-tasks>
-   Background Tasks <SwabianTT/background-tasks>

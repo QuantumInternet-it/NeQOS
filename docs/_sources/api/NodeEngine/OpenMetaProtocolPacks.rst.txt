@@ -8,6 +8,8 @@ Open meta-protocol example that invokes NeQOS's exported protected MPC optimizat
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Manifest field
      - Value
@@ -23,6 +25,8 @@ Open meta-protocol for Laura's MPC-1/TT-1 count optimization. The protected chil
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Property
      - Value
@@ -46,45 +50,47 @@ Shared Parameters
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Name
      - Type
      - Default
-   * - channelRef
-     - int
+   * - ``channelRef``
+     - ``int``
      - 1
-   * - finalAnglesDeg
-     - list
+   * - ``finalAnglesDeg``
+     - ``list``
      - [160.0, 160.0, 160.0]
-   * - initialAnglesDeg
-     - list
+   * - ``initialAnglesDeg``
+     - ``list``
      - [0.0, 0.0, 0.0]
-   * - measurementDurationSec
-     - float
+   * - ``measurementDurationSec``
+     - ``float``
      - 2.0
-   * - measurementRef
-     - str
+   * - ``measurementRef``
+     - ``str``
      - LAURA-MPC-MAX-CH1
-   * - moveTimeoutSec
-     - float
+   * - ``moveTimeoutSec``
+     - ``float``
      - 30.0
-   * - mpcDeviceId
-     - str
+   * - ``mpcDeviceId``
+     - ``str``
      - MPC-1
-   * - optimizationMode
-     - str
+   * - ``optimizationMode``
+     - ``str``
      - max
-   * - paddles
-     - list
+   * - ``paddles``
+     - ``list``
      - [0, 1, 2]
-   * - settleAfterMoveSec
-     - float
+   * - ``settleAfterMoveSec``
+     - ``float``
      - 0.2
-   * - stepDeg
-     - float
+   * - ``stepDeg``
+     - ``float``
      - 20.0
-   * - ttDeviceId
-     - str
+   * - ``ttDeviceId``
+     - ``str``
      - TT-1
 
 Stages
@@ -92,16 +98,134 @@ Stages
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Stage
      - Handler
      - Declared parameters
-   * - 00-RunProtectedOptimization
-     - SubmitMicroProtocolStage
+   * - ``00-RunProtectedOptimization``
+     - ``SubmitMicroProtocolStage``
      - {"protocolKey": "optimization", "sharedParamOverrides": {"channelRef": "$shared.channelRef", "clear": true, "finalAnglesDeg": "$shared.finalAnglesDeg", "initialAnglesDeg": "$shared.initialAnglesDeg", "measurementDurationSec": "$shared.measurementDurationSec", "measurementRef": "$shared.measurementRef", "moveTimeoutSec": "$shared.moveTimeoutSec", "mpcDeviceId": "$shared.mpcDeviceId", "optimizationMode": "$shared.optimizationMode", "paddles": "$shared.paddles", "refinementHalfRangeDeg": 0.0, "refinementStepDeg": 1.0, "settleAfterMoveSec": "$shared.settleAfterMoveSec", "stepDeg": "$shared.stepDeg", "ttDeviceId": "$shared.ttDeviceId"}, "templateId": "MPC-OptimizeCounts-OneDetector"}
-   * - 01-WaitAndImportOptimization
-     - WaitMicroProtocolStage
+   * - ``01-WaitAndImportOptimization``
+     - ``WaitMicroProtocolStage``
      - {"imports": [{"as": "optimization.result", "from": "mpcCountOptimization"}, {"as": "optimization.resultPath", "from": "mpcCountOptimizationPath"}], "protocolKey": "optimization", "templateId": "MPC-OptimizeCounts-OneDetector"}
-   * - 02-ExportResult
-     - ExportScratchStage
+   * - ``02-ExportResult``
+     - ``ExportScratchStage``
      - {"exports": [{"as": "optimization.result", "from": "optimization.result"}, {"as": "optimization.resultPath", "from": "optimization.resultPath"}]}
+
+mpc-paddle-positions-external-handler-example
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Open meta-protocol example that runs editable Python handlers around the exported protected MPC-SetPaddlePositions template.
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Manifest field
+     - Value
+   * - Schema version
+     - 0.3
+   * - Catalog
+     - MicroProtocols.json
+
+OPEN-MPC-PADDLE-POSITIONS-EXTERNAL-HANDLER
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Editable open meta-protocol: execute an external Python handler around two protected MPC-SetPaddlePositions child runs on MPC-1.
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Property
+     - Value
+   * - Application
+     - Open-Protocol-Pack-Examples
+   * - Execution mode
+     - foreground
+   * - Privilege
+     - NORMAL
+   * - Preemptive
+     - False
+   * - Timeout
+     - 180.0
+   * - Resources
+     - ["MPC-1"]
+   * - Dependencies
+     - []
+
+Shared Parameters
+"""""""""""""""""
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Name
+     - Type
+     - Default
+   * - ``firstPaddle1AngleDeg``
+     - ``float``
+     - 90.0
+   * - ``firstPaddle2AngleDeg``
+     - ``float``
+     - 0.0
+   * - ``firstPaddle3AngleDeg``
+     - ``float``
+     - 90.0
+   * - ``mapping``
+     - ``bool``
+     - True
+   * - ``moveTimeoutSec``
+     - ``float``
+     - 60.0
+   * - ``mpcDeviceId``
+     - ``str``
+     - MPC-1
+   * - ``secondPaddle1AngleDeg``
+     - ``float``
+     - 0.0
+   * - ``secondPaddle2AngleDeg``
+     - ``float``
+     - 90.0
+   * - ``secondPaddle3AngleDeg``
+     - ``float``
+     - 0.0
+
+Stages
+""""""
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Stage
+     - Handler
+     - Declared parameters
+   * - ``00-ExternalBefore``
+     - ``OpenPackTraceStage``
+     - {"message": "External Python handler ran before the first protected paddle move."}
+   * - ``01-SubmitFirstProtectedMove``
+     - ``SubmitMicroProtocolStage``
+     - {"protocolKey": "firstMove", "resourceRequests": ["MPC-1"], "sharedParamOverrides": {"mapping": "$shared.mapping", "mpcDeviceId": "$shared.mpcDeviceId", "paddle1AngleDeg": "$shared.firstPaddle1AngleDeg", "paddle2AngleDeg": "$shared.firstPaddle2AngleDeg", "paddle3AngleDeg": "$shared.firstPaddle3AngleDeg", "timeoutSec": "$shared.moveTimeoutSec"}, "templateId": "MPC-SetPaddlePositions"}
+   * - ``02-WaitFirstProtectedMove``
+     - ``WaitMicroProtocolStage``
+     - {"imports": [{"as": "firstMove", "from": "paddleMove"}], "pollDelaySec": 0.2, "protocolKey": "firstMove", "templateId": "MPC-SetPaddlePositions"}
+   * - ``03-ExternalAfterFirstMove``
+     - ``OpenPackTraceStage``
+     - {"message": "External Python handler observed the first protected paddle move.", "scratchKey": "firstMove"}
+   * - ``04-SubmitSecondProtectedMove``
+     - ``SubmitMicroProtocolStage``
+     - {"protocolKey": "secondMove", "resourceRequests": ["MPC-1"], "sharedParamOverrides": {"mapping": "$shared.mapping", "mpcDeviceId": "$shared.mpcDeviceId", "paddle1AngleDeg": "$shared.secondPaddle1AngleDeg", "paddle2AngleDeg": "$shared.secondPaddle2AngleDeg", "paddle3AngleDeg": "$shared.secondPaddle3AngleDeg", "timeoutSec": "$shared.moveTimeoutSec"}, "templateId": "MPC-SetPaddlePositions"}
+   * - ``05-WaitSecondProtectedMove``
+     - ``WaitMicroProtocolStage``
+     - {"imports": [{"as": "secondMove", "from": "paddleMove"}], "pollDelaySec": 0.2, "protocolKey": "secondMove", "templateId": "MPC-SetPaddlePositions"}
+   * - ``06-ExternalAfterSecondMove``
+     - ``OpenPackTraceStage``
+     - {"message": "External Python handler observed the second protected paddle move.", "scratchKey": "secondMove"}

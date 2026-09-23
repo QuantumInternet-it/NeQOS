@@ -1,23 +1,21 @@
 Dv1550AA Driver
 ===============
 
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``Dv1550AADriver``
+   :Source: ``DeviceOSPack/Dv1550AADriver.py``
+   :Official product page: `Thorlabs DV1550AA <https://www.thorlabs.com/digital-variable-optical-attenuators-dvoas-sm-fiber-coupled>`_
+
 Control a Thorlabs DV1550AA variable optical attenuator.
 
 The driver configures attenuation, operating mode, wavelength, and VOA
 output power through the DeviceOS parameter API. It exposes convenience
 tasks for common attenuation operations, but no ReadSignal surface.
 
-Source: ``DeviceOSPack/Dv1550AADriver.py``
-
-Official product page: `Thorlabs <https://www.thorlabs.com/digital-variable-optical-attenuators-dvoas-sm-fiber-coupled>`_
-
-API Reference
--------------
-
 .. toctree::
    :maxdepth: 1
 
    Parameters <Dv1550AA/parameters>
-   Signals <Dv1550AA/signals>
    Foreground Tasks <Dv1550AA/foreground-tasks>
-   Background Tasks <Dv1550AA/background-tasks>

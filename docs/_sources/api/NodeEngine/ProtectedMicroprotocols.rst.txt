@@ -15,6 +15,8 @@ Invocation: ``SubmitMicroProtocolStage`` with this ``templateId`` is allowed fro
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Property
      - Value
@@ -38,54 +40,56 @@ Shared Parameters
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Name
      - Type
      - Default
-   * - channelRef
-     - int
+   * - ``channelRef``
+     - ``int``
      - 6
-   * - clear
-     - bool
+   * - ``clear``
+     - ``bool``
      - True
-   * - finalAnglesDeg
-     - list
+   * - ``finalAnglesDeg``
+     - ``list``
      - [160.0, 160.0, 160.0]
-   * - initialAnglesDeg
-     - list
+   * - ``initialAnglesDeg``
+     - ``list``
      - [0.0, 0.0, 0.0]
-   * - measurementDurationSec
-     - float
+   * - ``measurementDurationSec``
+     - ``float``
      - 0.2
-   * - measurementRef
-     - str
+   * - ``measurementRef``
+     - ``str``
      - MPC-OPT-CH6
-   * - moveTimeoutSec
-     - float
+   * - ``moveTimeoutSec``
+     - ``float``
      - 30.0
-   * - mpcDeviceId
-     - str
+   * - ``mpcDeviceId``
+     - ``str``
      - MPC-1
-   * - optimizationMode
-     - str
+   * - ``optimizationMode``
+     - ``str``
      - max
-   * - paddles
-     - list
+   * - ``paddles``
+     - ``list``
      - [0, 1, 2]
-   * - refinementHalfRangeDeg
-     - float
+   * - ``refinementHalfRangeDeg``
+     - ``float``
      - 10.0
-   * - refinementStepDeg
-     - float
+   * - ``refinementStepDeg``
+     - ``float``
      - 1.0
-   * - settleAfterMoveSec
-     - float
+   * - ``settleAfterMoveSec``
+     - ``float``
      - 0.2
-   * - stepDeg
-     - float
+   * - ``stepDeg``
+     - ``float``
      - 10.0
-   * - ttDeviceId
-     - str
+   * - ``ttDeviceId``
+     - ``str``
      - TT-1
 
 Stages
@@ -93,13 +97,15 @@ Stages
 
 .. list-table::
    :header-rows: 1
+   :width: 100%
+   :class: api-table
 
    * - Stage
      - Handler
      - Declared parameters
-   * - 00-MPC-OptimizeCounts-OneDetector
-     - MpcMaximizeCountsStage
+   * - ``00-MPC-OptimizeCounts-OneDetector``
+     - ``MpcMaximizeCountsStage``
      - {"channelRef": "$shared.channelRef", "clear": "$shared.clear", "finalAnglesDeg": "$shared.finalAnglesDeg", "initialAnglesDeg": "$shared.initialAnglesDeg", "measurementDurationSec": "$shared.measurementDurationSec", "measurementRef": "$shared.measurementRef", "moveTimeoutSec": "$shared.moveTimeoutSec", "mpcDeviceId": "$shared.mpcDeviceId", "optimizationMode": "$shared.optimizationMode", "paddles": "$shared.paddles", "refinementHalfRangeDeg": "$shared.refinementHalfRangeDeg", "refinementStepDeg": "$shared.refinementStepDeg", "settleAfterMoveSec": "$shared.settleAfterMoveSec", "stepDeg": "$shared.stepDeg", "ttDeviceId": "$shared.ttDeviceId"}
-   * - 01-ExportScratchStage
-     - ExportScratchStage
+   * - ``01-ExportScratchStage``
+     - ``ExportScratchStage``
      - {"exports": [{"as": "mpcCountOptimization", "from": "mpcCountOptimization"}, {"as": "mpcCountOptimizationPath", "from": "mpcCountOptimizationPath"}]}
