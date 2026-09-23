@@ -1,9 +1,15 @@
 Photek Driver
 =============
 
-NeQOS driver for the Photek 16-channel SNSPD controller.
+Control a 16-channel Photek SNSPD bias controller.
+
+The driver configures detector bias currents, integration time, and trigger
+levels. It also exposes count-based latch health. Photon measurements are
+intentionally owned by the TimeTagger driver, rather than by this driver.
 
 Source: ``DeviceOSPack/PhotekDriver.py``
+
+Official product page: `Photec (Photon Technology) <https://www.cnphotec.com/en/product/snspd/snspd-system#product>`_
 
 Parameters
 ----------
@@ -22,42 +28,96 @@ Parameters
      - -
      - -
      - True
-     - -
+     - Automatically perform stop/start recovery after an invalid guarded count reading.
    * - healthLogEnabled
      - bool
      - -
      - -
      - True
-     - -
+     - Enable periodic health reads while the driver is ready.
    * - healthLogFrequencyHz
      - float
-     - -
+     - Hz
      - 0.001 to 10.0
      - 1.0
-     - -
+     - Frequency of periodic health reads while healthLogEnabled is true.
    * - integrationTimeMs
      - int
-     - -
+     - ms
      - 1 to 65535
      - 100
-     - -
+     - Integration time written to the Photek controller during initialization.
    * - maxRecoveryAttempts
      - int
      - -
      - 0 to 10
      - 3
-     - -
+     - Maximum automatic stop/start recovery attempts for one invalid health reading.
    * - zeroConsecutiveLimit
      - int
      - -
      - 1 to 10
      - 1
-     - -
+     - Consecutive guarded readings at or below zeroCountThreshold required to declare a latch.
 
 Signals
 -------
 
-No readable signals.
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Description
+   * - alert
+     - object
+     - -
+     - Alert created for the current invalid health reading, when present.
+   * - allCounts
+     - object
+     - -
+     - Latest counts for all 16 controller channels, keyed by 1-based channel number.
+   * - counts
+     - object
+     - -
+     - Latest counts for latchGuardChannels, keyed by 1-based channel number.
+   * - discardedReadings
+     - list
+     - -
+     - Invalid readings retained while automatic recovery is attempted.
+   * - invalidatesMeasurements
+     - bool
+     - -
+     - Whether the most recent latch result requires concurrent TimeTagger measurements to be discarded.
+   * - lastAlert
+     - object
+     - -
+     - Most recently recorded latch alert, including after a later valid reading.
+   * - latchEventCount
+     - int
+     - -
+     - Number of invalid latch detections since the latest driver initialization.
+   * - latchGuardChannels
+     - list
+     - -
+     - Configured 1-based channels monitored for latch detection.
+   * - latchedChannels
+     - list
+     - -
+     - Latch guard channels detected as latched in the most recent health reading.
+   * - readingCorrupted
+     - bool
+     - -
+     - Inverse of readingValid for the most recent health reading.
+   * - readingValid
+     - bool
+     - -
+     - Whether the most recent health reading contains no latched guard channel.
+   * - recoveryStatus
+     - str
+     - -
+     - Health recovery outcome: NOT_NEEDED, PENDING, RECOVERED, or FAILED.
 
 Exported Tasks
 --------------
@@ -66,6 +126,12 @@ InitializeBiasCurrents
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Apply configured integration time, trigger levels, and calibrated bias currents.
+
+Apply the full configured detector setup.
+
+Writes integrationTimeMs, all 16 triggerLevels, and the active bias
+vector, then resets latch tracking. The normal INITIALIZE lifecycle
+operation already performs this same setup.
 
 Admission policy: ``sync``
 
@@ -78,6 +144,11 @@ StopDetectors
 
 Set all Photek SNSPD bias currents to zero.
 
+Set all 16 hardware bias-current outputs to zero.
+
+This does not alter the stored bias configuration. CLEAR_READY and
+DISCONNECT also perform this hardware-safe operation.
+
 Admission policy: ``sync``
 
 No public parameters.
@@ -89,6 +160,12 @@ StartDetectors
 
 Restore calibrated bias currents on configured Photek SNSPD bias channels.
 
+Write the configured active bias vector to the controller.
+
+Only configured biasChannels receive their configured current; every
+other controller channel is written as zero. SET_READY already applies
+the same vector as part of the normal lifecycle.
+
 Admission policy: ``sync``
 
 No public parameters.
@@ -98,7 +175,14 @@ Returns: ``Dict[str, Any]``
 SetBiasCurrents
 ^^^^^^^^^^^^^^^
 
-Set calibrated bias currents. Accepts biasCurrentsUa as a list or channel->value map.
+Set calibrated bias currents from a 16-value list, 1-based channel map, or scalar.
+
+Replace the configured bias-current vector and apply it immediately.
+
+biasCurrentsUa accepts a 16-element list, a map from 1-based channel to
+current in microamperes, or one scalar applied to all 16 channels. The
+existing biasChannels selection is retained, so values outside that
+selection are stored but written as zero until the selection changes.
 
 Admission policy: ``sync``
 
@@ -110,7 +194,7 @@ Admission policy: ``sync``
      - Required
      - Default
    * - biasCurrentsUa
-     - -
+     - List[float] \| Dict[int, float] \| float \| None
      - No
      - None
 
@@ -119,7 +203,13 @@ Returns: ``Dict[str, Any]``
 SetTriggerLevels
 ^^^^^^^^^^^^^^^^
 
-Set Photek SNSPD trigger levels. Accepts triggerLevels as a list or channel->value map.
+Set Photek SNSPD trigger levels from a 16-value list, 1-based channel map, or scalar.
+
+Replace all 16 configured trigger levels and apply them immediately.
+
+triggerLevels accepts a 16-element list, a map from 1-based channel to
+level, or one scalar applied to every channel. Values are rounded to
+integers and the controller accepts values from 0 through 65535.
 
 Admission policy: ``sync``
 
@@ -131,7 +221,7 @@ Admission policy: ``sync``
      - Required
      - Default
    * - triggerLevels
-     - -
+     - List[int] \| Dict[int, int] \| int \| None
      - No
      - None
 
@@ -141,6 +231,14 @@ ReadDetectorHealth
 ^^^^^^^^^^^^^^^^^^
 
 Read Photek detector health counts and optionally recover latched guard channels.
+
+Read guarded and all-channel counts, then evaluate latch health.
+
+A latch is a guarded count at or below zeroCountThreshold for
+zeroConsecutiveLimit consecutive reads. If autoRecoverOnLatch is true,
+invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
+The returned payload includes readingValid, invalidatesMeasurements,
+latchEventCount, recoveryStatus, counts, and any alert details.
 
 Admission policy: ``sync``
 
@@ -153,6 +251,13 @@ RecoverLatchedDetectors
 
 Run stop/start recovery on configured or supplied Photek SNSPD channels.
 
+Run one manual stop/start recovery cycle.
+
+channels defaults to latchGuardChannels and is returned in the recovery
+report. Recovery itself disables all 16 outputs, waits recoveryOffSec,
+restores the configured active bias vector, then waits recoverySettleSec;
+it does not selectively power-cycle only the supplied channels.
+
 Admission policy: ``sync``
 
 .. list-table::
@@ -163,7 +268,7 @@ Admission policy: ``sync``
      - Required
      - Default
    * - channels
-     - -
+     - List[int] \| None
      - No
      - None
 

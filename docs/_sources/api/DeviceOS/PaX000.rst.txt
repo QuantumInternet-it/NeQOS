@@ -5,6 +5,8 @@ Nucrypt PaX000 HardwareDriver with live serial-backed waveplate control.
 
 Source: ``DeviceOSPack/PaX000Driver.py``
 
+Official product page: `NuCrypt <https://nucrypt.net/PA-1000.html>`_
+
 Parameters
 ----------
 

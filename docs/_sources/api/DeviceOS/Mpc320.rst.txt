@@ -13,6 +13,8 @@ declares the exported tasks together with their admission policy.
 
 Source: ``DeviceOSPack/Mpc320Driver.py``
 
+Official product page: `Thorlabs <https://www.thorlabs.com/thorproduct.cfm?partnumber=MPC320>`_
+
 Parameters
 ----------
 

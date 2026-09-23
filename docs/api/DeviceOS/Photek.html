@@ -193,13 +193,13 @@
   <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html">Dv1550AA Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Eps1000W.html">Eps1000W Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Fake.html">Fake Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Mpc320.html">Mpc320 Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PaX000.html">PaX000 Driver</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Photek Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SwabianTT.html">SwabianTT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Photec SNSPD Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SwabianTT.html">Swabian Instruments Time Tagger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mpc320.html">Thorlabs MPC320 Polarization Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fake.html">Fake Driver (Software-only Evaluation)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -248,8 +248,12 @@
         <article role="main" id="furo-main-content">
           <section id="photek-driver">
 <h1>Photek Driver<a class="headerlink" href="#photek-driver" title="Link to this heading">¶</a></h1>
-<p>NeQOS driver for the Photek 16-channel SNSPD controller.</p>
+<p>Control a 16-channel Photek SNSPD bias controller.</p>
+<p>The driver configures detector bias currents, integration time, and trigger
+levels. It also exposes count-based latch health. Photon measurements are
+intentionally owned by the TimeTagger driver, rather than by this driver.</p>
 <p>Source: <code class="docutils literal notranslate"><span class="pre">DeviceOSPack/PhotekDriver.py</span></code></p>
+<p>Official product page: <a class="reference external" href="https://www.cnphotec.com/en/product/snspd/snspd-system#product">Photec (Photon Technology)</a></p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper docutils container">
@@ -275,10 +279,7 @@
 </ul>
 </td>
 <td><p>True</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Automatically perform stop/start recovery after an invalid guarded count reading.</p></td>
 </tr>
 <tr class="row-odd"><td><p>healthLogEnabled</p></td>
 <td><p>bool</p></td>
@@ -291,36 +292,21 @@
 </ul>
 </td>
 <td><p>True</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Enable periodic health reads while the driver is ready.</p></td>
 </tr>
 <tr class="row-even"><td><p>healthLogFrequencyHz</p></td>
 <td><p>float</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Hz</p></td>
 <td><p>0.001 to 10.0</p></td>
 <td><p>1.0</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Frequency of periodic health reads while healthLogEnabled is true.</p></td>
 </tr>
 <tr class="row-odd"><td><p>integrationTimeMs</p></td>
 <td><p>int</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>ms</p></td>
 <td><p>1 to 65535</p></td>
 <td><p>100</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Integration time written to the Photek controller during initialization.</p></td>
 </tr>
 <tr class="row-even"><td><p>maxRecoveryAttempts</p></td>
 <td><p>int</p></td>
@@ -330,10 +316,7 @@
 </td>
 <td><p>0 to 10</p></td>
 <td><p>3</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Maximum automatic stop/start recovery attempts for one invalid health reading.</p></td>
 </tr>
 <tr class="row-odd"><td><p>zeroConsecutiveLimit</p></td>
 <td><p>int</p></td>
@@ -343,10 +326,7 @@
 </td>
 <td><p>1 to 10</p></td>
 <td><p>1</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Consecutive guarded readings at or below zeroCountThreshold required to declare a latch.</p></td>
 </tr>
 </tbody>
 </table>
@@ -354,13 +334,125 @@
 </section>
 <section id="signals">
 <h2>Signals<a class="headerlink" href="#signals" title="Link to this heading">¶</a></h2>
-<p>No readable signals.</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>alert</p></td>
+<td><p>object</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Alert created for the current invalid health reading, when present.</p></td>
+</tr>
+<tr class="row-odd"><td><p>allCounts</p></td>
+<td><p>object</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Latest counts for all 16 controller channels, keyed by 1-based channel number.</p></td>
+</tr>
+<tr class="row-even"><td><p>counts</p></td>
+<td><p>object</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Latest counts for latchGuardChannels, keyed by 1-based channel number.</p></td>
+</tr>
+<tr class="row-odd"><td><p>discardedReadings</p></td>
+<td><p>list</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Invalid readings retained while automatic recovery is attempted.</p></td>
+</tr>
+<tr class="row-even"><td><p>invalidatesMeasurements</p></td>
+<td><p>bool</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Whether the most recent latch result requires concurrent TimeTagger measurements to be discarded.</p></td>
+</tr>
+<tr class="row-odd"><td><p>lastAlert</p></td>
+<td><p>object</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Most recently recorded latch alert, including after a later valid reading.</p></td>
+</tr>
+<tr class="row-even"><td><p>latchEventCount</p></td>
+<td><p>int</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Number of invalid latch detections since the latest driver initialization.</p></td>
+</tr>
+<tr class="row-odd"><td><p>latchGuardChannels</p></td>
+<td><p>list</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Configured 1-based channels monitored for latch detection.</p></td>
+</tr>
+<tr class="row-even"><td><p>latchedChannels</p></td>
+<td><p>list</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Latch guard channels detected as latched in the most recent health reading.</p></td>
+</tr>
+<tr class="row-odd"><td><p>readingCorrupted</p></td>
+<td><p>bool</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Inverse of readingValid for the most recent health reading.</p></td>
+</tr>
+<tr class="row-even"><td><p>readingValid</p></td>
+<td><p>bool</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Whether the most recent health reading contains no latched guard channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p>recoveryStatus</p></td>
+<td><p>str</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>Health recovery outcome: NOT_NEEDED, PENDING, RECOVERED, or FAILED.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="exported-tasks">
 <h2>Exported Tasks<a class="headerlink" href="#exported-tasks" title="Link to this heading">¶</a></h2>
 <section id="initializebiascurrents">
 <h3>InitializeBiasCurrents<a class="headerlink" href="#initializebiascurrents" title="Link to this heading">¶</a></h3>
 <p>Apply configured integration time, trigger levels, and calibrated bias currents.</p>
+<p>Apply the full configured detector setup.</p>
+<p>Writes integrationTimeMs, all 16 triggerLevels, and the active bias
+vector, then resets latch tracking. The normal INITIALIZE lifecycle
+operation already performs this same setup.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
@@ -368,6 +460,9 @@
 <section id="stopdetectors">
 <h3>StopDetectors<a class="headerlink" href="#stopdetectors" title="Link to this heading">¶</a></h3>
 <p>Set all Photek SNSPD bias currents to zero.</p>
+<p>Set all 16 hardware bias-current outputs to zero.</p>
+<p>This does not alter the stored bias configuration. CLEAR_READY and
+DISCONNECT also perform this hardware-safe operation.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
@@ -375,13 +470,22 @@
 <section id="startdetectors">
 <h3>StartDetectors<a class="headerlink" href="#startdetectors" title="Link to this heading">¶</a></h3>
 <p>Restore calibrated bias currents on configured Photek SNSPD bias channels.</p>
+<p>Write the configured active bias vector to the controller.</p>
+<p>Only configured biasChannels receive their configured current; every
+other controller channel is written as zero. SET_READY already applies
+the same vector as part of the normal lifecycle.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
 </section>
 <section id="setbiascurrents">
 <h3>SetBiasCurrents<a class="headerlink" href="#setbiascurrents" title="Link to this heading">¶</a></h3>
-<p>Set calibrated bias currents. Accepts biasCurrentsUa as a list or channel-&gt;value map.</p>
+<p>Set calibrated bias currents from a 16-value list, 1-based channel map, or scalar.</p>
+<p>Replace the configured bias-current vector and apply it immediately.</p>
+<p>biasCurrentsUa accepts a 16-element list, a map from 1-based channel to
+current in microamperes, or one scalar applied to all 16 channels. The
+existing biasChannels selection is retained, so values outside that
+selection are stored but written as zero until the selection changes.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -394,10 +498,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>biasCurrentsUa</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>List[float] | Dict[int, float] | float | None</p></td>
 <td><p>No</p></td>
 <td><p>None</p></td>
 </tr>
@@ -408,7 +509,11 @@
 </section>
 <section id="settriggerlevels">
 <h3>SetTriggerLevels<a class="headerlink" href="#settriggerlevels" title="Link to this heading">¶</a></h3>
-<p>Set Photek SNSPD trigger levels. Accepts triggerLevels as a list or channel-&gt;value map.</p>
+<p>Set Photek SNSPD trigger levels from a 16-value list, 1-based channel map, or scalar.</p>
+<p>Replace all 16 configured trigger levels and apply them immediately.</p>
+<p>triggerLevels accepts a 16-element list, a map from 1-based channel to
+level, or one scalar applied to every channel. Values are rounded to
+integers and the controller accepts values from 0 through 65535.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -421,10 +526,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>triggerLevels</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>List[int] | Dict[int, int] | int | None</p></td>
 <td><p>No</p></td>
 <td><p>None</p></td>
 </tr>
@@ -436,6 +538,12 @@
 <section id="readdetectorhealth">
 <h3>ReadDetectorHealth<a class="headerlink" href="#readdetectorhealth" title="Link to this heading">¶</a></h3>
 <p>Read Photek detector health counts and optionally recover latched guard channels.</p>
+<p>Read guarded and all-channel counts, then evaluate latch health.</p>
+<p>A latch is a guarded count at or below zeroCountThreshold for
+zeroConsecutiveLimit consecutive reads. If autoRecoverOnLatch is true,
+invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
+The returned payload includes readingValid, invalidatesMeasurements,
+latchEventCount, recoveryStatus, counts, and any alert details.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
@@ -443,6 +551,11 @@
 <section id="recoverlatcheddetectors">
 <h3>RecoverLatchedDetectors<a class="headerlink" href="#recoverlatcheddetectors" title="Link to this heading">¶</a></h3>
 <p>Run stop/start recovery on configured or supplied Photek SNSPD channels.</p>
+<p>Run one manual stop/start recovery cycle.</p>
+<p>channels defaults to latchGuardChannels and is returned in the recovery
+report. Recovery itself disables all 16 outputs, waits recoveryOffSec,
+restores the configured active bias vector, then waits recoverySettleSec;
+it does not selectively power-cycle only the supplied channels.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -455,10 +568,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>channels</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>List[int] | None</p></td>
 <td><p>No</p></td>
 <td><p>None</p></td>
 </tr>

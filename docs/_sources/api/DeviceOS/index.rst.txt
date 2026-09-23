@@ -4,10 +4,10 @@ DeviceOS API
 .. toctree::
    :maxdepth: 2
 
-   Dv1550AA
-   Eps1000W
-   Fake
-   Mpc320
-   PaX000
-   Photek
-   SwabianTT
+   NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>
+   NuCrypt PA1000/PA2000 Polarization Controller <PaX000>
+   Photec SNSPD Controller <Photek>
+   Swabian Instruments Time Tagger <SwabianTT>
+   Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>
+   Thorlabs MPC320 Polarization Controller <Mpc320>
+   Fake Driver (Software-only Evaluation) <Fake>

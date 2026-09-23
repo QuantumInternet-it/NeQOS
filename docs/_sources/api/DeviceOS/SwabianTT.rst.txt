@@ -3,25 +3,50 @@ SwabianTT Driver
 
 HardwareDriver for a single Swabian Time Tagger.
 
-The driver manages:
-- physical channels discovered from the device
-- logical channels created through Swabian virtual-channel primitives
-- synchronized measurements created on those channels
-- the subset of active measurements used by the next StartMeasurement window
+The driver manages physical channels discovered from the device, logical
+channels created through Swabian virtual-channel primitives, and synchronized
+COUNTRATE or CORRELATION measurements. Configured physical channels also
+expose runtime parameters named ``channel.<id>.triggerLevelVolt`` and
+``channel.<id>.inputDelayPs``.
 
-Implemented task surface:
-- CreateLogicalChannel
-- CreateMeasurement
-- ResetMeasurementEngine
-- ActivateMeasurements
-- StartMeasurement
+Measurement definitions remain registered until ResetMeasurementEngine.
+ActivateMeasurements selects the subset used by the next StartMeasurement
+window. RecordTimeTagStream writes raw selected-channel events as .ttbin.
 
 Source: ``DeviceOSPack/SwabianTTDriver.py``
+
+Official product page: `Swabian Instruments <https://www.swabianinstruments.com/time-tagger/>`_
 
 Parameters
 ----------
 
-No configurable parameters.
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - defaultCoincidenceWindowPs
+     - int
+     - -
+     - 1 to 1000000000
+     - 1000
+     - Default AND-coincidence window used when CreateLogicalChannel omits coincidenceWindowPs.
+   * - defaultCorrelationBinCount
+     - int
+     - -
+     - 1 to 1000000
+     - 4096
+     - Default correlation-bin count used when CreateMeasurement CORRELATION omits binCount.
+   * - defaultCorrelationBinWidthPs
+     - int
+     - -
+     - 1 to 1000000000
+     - 1000
+     - Default correlation-bin width used when CreateMeasurement CORRELATION omits binWidthPs.
 
 Signals
 -------
@@ -34,29 +59,29 @@ Signals
      - Unit
      - Description
    * - activeMeasurements
+     - list
      - -
-     - -
-     - -
+     - Measurement references selected for the next StartMeasurement window.
    * - deviceInfo
+     - object
      - -
-     - -
-     - -
+     - Resolved Time Tagger identity and model information.
    * - lastMeasurementResults
+     - object
      - -
-     - -
-     - -
+     - Results returned by the most recently completed StartMeasurement task.
    * - logicalChannels
+     - list
      - -
-     - -
-     - -
+     - Logical channels created during the current measurement-engine session.
    * - measurements
+     - list
      - -
-     - -
-     - -
+     - Measurement definitions created during the current measurement-engine session.
    * - physicalChannels
+     - list
      - -
-     - -
-     - -
+     - Discovered physical channels with live trigger-level and input-delay state.
 
 Exported Tasks
 --------------
@@ -65,6 +90,13 @@ CreateLogicalChannel
 ^^^^^^^^^^^^^^^^^^^^
 
 Create a logical channel from existing physical/logical channels using AND, OR, or NOT.
+
+Create or reuse a named logical channel.
+
+AND accepts one or more input references and uses coincidenceWindowPs or
+defaultCoincidenceWindowPs. OR ignores coincidenceWindowPs; NOT requires
+exactly one input reference. Supplying an existing name with identical
+configuration returns its channel reference with ``reused=True``.
 
 Admission policy: ``sync``
 
@@ -98,6 +130,12 @@ CreateMeasurement
 ^^^^^^^^^^^^^^^^^
 
 Create a synchronized Swabian measurement on an existing physical or logical channel.
+
+Create or reuse one synchronized COUNTRATE or CORRELATION measurement.
+
+COUNTRATE requires channelRef. CORRELATION requires channelRefA and
+channelRefB; omitted binWidthPs and binCount use the documented default
+parameters. An existing name may be reused only with identical settings.
 
 Admission policy: ``sync``
 
@@ -144,6 +182,12 @@ ResetMeasurementEngine
 
 Reopen the Time Tagger measurement engine and restore physical-channel trigger levels and input delays.
 
+Reopen the measurement engine and discard its derived state.
+
+Logical channels, measurement definitions, and active-measurement
+selections are released. Physical trigger levels and input delays are
+read before the reset, restored afterward, and returned as readback.
+
 Admission policy: ``sync``
 
 No public parameters.
@@ -154,6 +198,11 @@ ActivateMeasurements
 ^^^^^^^^^^^^^^^^^^^^
 
 Activate the subset of created measurements that will run during the next StartMeasurement window.
+
+Select the created measurements used by StartMeasurement.
+
+The supplied references replace the active selection. Unknown references
+fail the task; duplicates are removed while preserving their first order.
 
 Admission policy: ``sync``
 
@@ -175,6 +224,13 @@ StartMeasurement
 ^^^^^^^^^^^^^^^^
 
 Run the active synchronized measurements for a fixed duration and return counts/coincidences.
+
+Acquire all active synchronized measurements for durationSec.
+
+clear resets compatible measurement handles before acquisition. With
+rawDataMode ``node``, correlation arrays are returned in the result;
+with ``device``, raw correlation data and a preview are scheduled as
+device artifacts and artifactWriteState is initially ``pending``.
 
 Admission policy: ``async``
 
@@ -204,6 +260,13 @@ RecordTimeTagStream
 ^^^^^^^^^^^^^^^^^^^
 
 Record selected Time Tagger channels to a local .ttbin file and return a transfer manifest.
+
+Record selected channels to one local .ttbin artifact.
+
+channelRefs must resolve to at least one channel and durationSec must be
+positive. recordingSubdirectory is sanitized below the recording root.
+The result includes a transfer-ready manifest with path, SHA-256, size,
+channel mapping, duration, and FileWriter statistics.
 
 Admission policy: ``async``
 

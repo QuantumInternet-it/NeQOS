@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Dv1550AA Driver" href="Dv1550AA.html"><link rel="prev" title="NeQOS Developer API" href="../../index.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Eps1000W Driver" href="Eps1000W.html"><link rel="prev" title="NeQOS Developer API" href="../../index.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>DeviceOS API - NeQOS Developer API</title>
@@ -193,13 +193,13 @@
   <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html">Dv1550AA Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Eps1000W.html">Eps1000W Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Fake.html">Fake Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Mpc320.html">Mpc320 Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PaX000.html">PaX000 Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Photek.html">Photek Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SwabianTT.html">SwabianTT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Photek.html">Photec SNSPD Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SwabianTT.html">Swabian Instruments Time Tagger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mpc320.html">Thorlabs MPC320 Polarization Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fake.html">Fake Driver (Software-only Evaluation)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -250,46 +250,46 @@
 <h1>DeviceOS API<a class="headerlink" href="#deviceos-api" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Dv1550AA.html">Dv1550AA Driver</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html#parameters">Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html#signals">Signals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html#exported-tasks">Exported Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Eps1000W.html">Eps1000W Driver</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Eps1000W.html#parameters">Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Eps1000W.html#signals">Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Eps1000W.html#exported-tasks">Exported Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Fake.html">Fake Driver</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Fake.html#parameters">Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Fake.html#signals">Signals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Fake.html#exported-tasks">Exported Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Mpc320.html">Mpc320 Driver</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Mpc320.html#parameters">Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Mpc320.html#signals">Signals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Mpc320.html#exported-tasks">Exported Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="PaX000.html">PaX000 Driver</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="PaX000.html#parameters">Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PaX000.html#signals">Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PaX000.html#exported-tasks">Exported Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Photek.html">Photek Driver</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="Photek.html">Photec SNSPD Controller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Photek.html#parameters">Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Photek.html#signals">Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Photek.html#exported-tasks">Exported Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SwabianTT.html">SwabianTT Driver</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="SwabianTT.html">Swabian Instruments Time Tagger</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="SwabianTT.html#parameters">Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SwabianTT.html#signals">Signals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SwabianTT.html#exported-tasks">Exported Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dv1550AA.html#exported-tasks">Exported Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Mpc320.html">Thorlabs MPC320 Polarization Controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Mpc320.html#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mpc320.html#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mpc320.html#exported-tasks">Exported Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Fake.html">Fake Driver (Software-only Evaluation)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Fake.html#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fake.html#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fake.html#exported-tasks">Exported Tasks</a></li>
 </ul>
 </li>
 </ul>
@@ -301,12 +301,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="Dv1550AA.html">
+          <a class="next-page" href="Eps1000W.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Dv1550AA Driver</div>
+                <div class="title">Eps1000W Driver</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

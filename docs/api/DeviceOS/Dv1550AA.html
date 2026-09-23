@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Eps1000W Driver" href="Eps1000W.html"><link rel="prev" title="DeviceOS API" href="index.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Mpc320 Driver" href="Mpc320.html"><link rel="prev" title="SwabianTT Driver" href="SwabianTT.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>Dv1550AA Driver - NeQOS Developer API</title>
@@ -193,13 +193,13 @@
   <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Dv1550AA Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Eps1000W.html">Eps1000W Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Fake.html">Fake Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Mpc320.html">Mpc320 Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PaX000.html">PaX000 Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Photek.html">Photek Driver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SwabianTT.html">SwabianTT Driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Photek.html">Photec SNSPD Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SwabianTT.html">Swabian Instruments Time Tagger</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Thorlabs DV1550AA Variable Optical Attenuator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Mpc320.html">Thorlabs MPC320 Polarization Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fake.html">Fake Driver (Software-only Evaluation)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -248,8 +248,12 @@
         <article role="main" id="furo-main-content">
           <section id="dv1550aa-driver">
 <h1>Dv1550AA Driver<a class="headerlink" href="#dv1550aa-driver" title="Link to this heading">¶</a></h1>
-<p>Serial-backed DV1550AA attenuator driver aligned with the current DeviceEngine contract.</p>
+<p>Control a Thorlabs DV1550AA variable optical attenuator.</p>
+<p>The driver configures attenuation, operating mode, wavelength, and VOA
+output power through the DeviceOS parameter API. It exposes convenience
+tasks for common attenuation operations, but no ReadSignal surface.</p>
 <p>Source: <code class="docutils literal notranslate"><span class="pre">DeviceOSPack/Dv1550AADriver.py</span></code></p>
+<p>Official product page: <a class="reference external" href="https://www.thorlabs.com/digital-variable-optical-attenuators-dvoas-sm-fiber-coupled">Thorlabs</a></p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper docutils container">
@@ -266,16 +270,10 @@
 <tbody>
 <tr class="row-even"><td><p>attenuation</p></td>
 <td><p>float</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>dB</p></td>
 <td><p>0.0 to 34.0</p></td>
 <td><p>0.0</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Optical attenuation. Values must be from 0.00 to 34.00 dB in 0.01 dB increments.</p></td>
 </tr>
 <tr class="row-odd"><td><p>mode</p></td>
 <td><p>int</p></td>
@@ -288,10 +286,7 @@
 </ul>
 </td>
 <td><p>0</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Attenuator operating mode: 0 for calibrated operation or 2 for manual operation.</p></td>
 </tr>
 <tr class="row-even"><td><p>voaEnabled</p></td>
 <td><p>bool</p></td>
@@ -304,26 +299,17 @@
 </ul>
 </td>
 <td><p>False</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Whether the VOA optical output is enabled.</p></td>
 </tr>
 <tr class="row-odd"><td><p>wavelength</p></td>
 <td><p>int</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>nm</p></td>
 <td><ul class="simple">
 <li></li>
 </ul>
 </td>
 <td><p>1550</p></td>
-<td><ul class="simple">
-<li></li>
-</ul>
-</td>
+<td><p>Operating wavelength. Supported values are 1310, 1550, and 1590 nm.</p></td>
 </tr>
 </tbody>
 </table>
@@ -338,6 +324,10 @@
 <section id="setattenuation">
 <h3>setAttenuation<a class="headerlink" href="#setattenuation" title="Link to this heading">¶</a></h3>
 <p>Set the attenuator attenuation in dB.</p>
+<p>Set and read back the attenuation in dB.</p>
+<p>value must be in the inclusive range 0.00 through 34.00 and aligned to
+0.01 dB. This task is a convenience wrapper around the public
+<code class="docutils literal notranslate"><span class="pre">attenuation</span></code> parameter.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
@@ -365,6 +355,9 @@
 <section id="readattenuation">
 <h3>readAttenuation<a class="headerlink" href="#readattenuation" title="Link to this heading">¶</a></h3>
 <p>Read the current attenuator attenuation in dB.</p>
+<p>Read the current attenuation from the hardware.</p>
+<p>The returned value comes from GetParameter(“attenuation”), which reads
+a complete device snapshot before selecting its attenuation value.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
@@ -372,6 +365,9 @@
 <section id="clearattenuation">
 <h3>clearAttenuation<a class="headerlink" href="#clearattenuation" title="Link to this heading">¶</a></h3>
 <p>Set the attenuator attenuation to 0 dB.</p>
+<p>Set and read back an attenuation of 0.00 dB.</p>
+<p>This changes the live attenuation only; it does not change the stored
+home attenuation captured during initialization.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
@@ -379,6 +375,10 @@
 <section id="homeattenuation">
 <h3>homeAttenuation<a class="headerlink" href="#homeattenuation" title="Link to this heading">¶</a></h3>
 <p>Restore the configured home attenuation, i.e. hardwareConfig.defaultAttenuationDb from network.json.</p>
+<p>Restore the attenuation captured during driver initialization.</p>
+<p>The home value is initialized from hardwareConfig.defaultAttenuationDb,
+or the default attenuation when that configuration is absent. Later
+changes to the live <code class="docutils literal notranslate"><span class="pre">attenuation</span></code> parameter do not replace it.</p>
 <p>Admission policy: <code class="docutils literal notranslate"><span class="pre">sync</span></code></p>
 <p>No public parameters.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span></code></p>
@@ -391,23 +391,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="Eps1000W.html">
+          <a class="next-page" href="Mpc320.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Eps1000W Driver</div>
+                <div class="title">Mpc320 Driver</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="SwabianTT.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">DeviceOS API</div>
+                <div class="title">SwabianTT Driver</div>
                 
               </div>
             </a>

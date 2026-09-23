@@ -5,6 +5,8 @@ NuCrypt EPS-1000-W HardwareDriver aligned with the current DeviceEngine contract
 
 Source: ``DeviceOSPack/Eps1000WDriver.py``
 
+Official product page: `NuCrypt <https://www.nucrypt.net/EPS-1000-W.html>`_
+
 Parameters
 ----------
 
