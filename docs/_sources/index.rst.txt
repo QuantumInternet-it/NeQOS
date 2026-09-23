@@ -8,6 +8,9 @@ NeQOS Developer API
 
 Automatically generated reference for NeQOS DeviceOS and NodeEngine.
 
+Source code, release archives, and project updates are available in the
+`NeQOS GitHub repository <https://github.com/QuantumInternet-it/NeQOS>`_.
+
 .. toctree::
    :maxdepth: 2
    :caption: API Reference
