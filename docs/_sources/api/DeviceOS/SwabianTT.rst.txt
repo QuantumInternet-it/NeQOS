@@ -1,0 +1,242 @@
+SwabianTT Driver
+================
+
+HardwareDriver for a single Swabian Time Tagger.
+
+The driver manages:
+- physical channels discovered from the device
+- logical channels created through Swabian virtual-channel primitives
+- synchronized measurements created on those channels
+- the subset of active measurements used by the next StartMeasurement window
+
+Implemented task surface:
+- CreateLogicalChannel
+- CreateMeasurement
+- ResetMeasurementEngine
+- ActivateMeasurements
+- StartMeasurement
+
+Source: ``DeviceOSPack/SwabianTTDriver.py``
+
+Parameters
+----------
+
+No configurable parameters.
+
+Signals
+-------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Description
+   * - activeMeasurements
+     - -
+     - -
+     - -
+   * - deviceInfo
+     - -
+     - -
+     - -
+   * - lastMeasurementResults
+     - -
+     - -
+     - -
+   * - logicalChannels
+     - -
+     - -
+     - -
+   * - measurements
+     - -
+     - -
+     - -
+   * - physicalChannels
+     - -
+     - -
+     - -
+
+Exported Tasks
+--------------
+
+CreateLogicalChannel
+^^^^^^^^^^^^^^^^^^^^
+
+Create a logical channel from existing physical/logical channels using AND, OR, or NOT.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - operator
+     - str
+     - Yes
+     - -
+   * - inputRefs
+     - List[Any]
+     - Yes
+     - -
+   * - coincidenceWindowPs
+     - Optional[int]
+     - No
+     - None
+   * - name
+     - Optional[str]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+CreateMeasurement
+^^^^^^^^^^^^^^^^^
+
+Create a synchronized Swabian measurement on an existing physical or logical channel.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - measurementType
+     - str
+     - Yes
+     - -
+   * - channelRef
+     - Any
+     - No
+     - None
+   * - channelRefA
+     - Any
+     - No
+     - None
+   * - channelRefB
+     - Any
+     - No
+     - None
+   * - binWidthPs
+     - Optional[int]
+     - No
+     - None
+   * - binCount
+     - Optional[int]
+     - No
+     - None
+   * - name
+     - Optional[str]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+ResetMeasurementEngine
+^^^^^^^^^^^^^^^^^^^^^^
+
+Reopen the Time Tagger measurement engine and restore physical-channel trigger levels and input delays.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+ActivateMeasurements
+^^^^^^^^^^^^^^^^^^^^
+
+Activate the subset of created measurements that will run during the next StartMeasurement window.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - measurementRefs
+     - List[str]
+     - Yes
+     - -
+
+Returns: ``Dict[str, Any]``
+
+StartMeasurement
+^^^^^^^^^^^^^^^^
+
+Run the active synchronized measurements for a fixed duration and return counts/coincidences.
+
+Admission policy: ``async``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - durationSec
+     - float
+     - Yes
+     - -
+   * - clear
+     - bool
+     - No
+     - True
+   * - rawDataMode
+     - str
+     - No
+     - 'node'
+
+Returns: ``Dict[str, Any]``
+
+RecordTimeTagStream
+^^^^^^^^^^^^^^^^^^^
+
+Record selected Time Tagger channels to a local .ttbin file and return a transfer manifest.
+
+Admission policy: ``async``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channelRefs
+     - List[Any]
+     - Yes
+     - -
+   * - durationSec
+     - float
+     - Yes
+     - -
+   * - recordingRef
+     - Optional[str]
+     - No
+     - None
+   * - recordingSubdirectory
+     - Optional[str]
+     - No
+     - None
+   * - marker
+     - Optional[str]
+     - No
+     - None
+   * - maxFileSizeBytes
+     - Optional[int]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

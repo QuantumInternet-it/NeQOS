@@ -1,0 +1,129 @@
+Eps1000W Driver
+===============
+
+NuCrypt EPS-1000-W HardwareDriver aligned with the current DeviceEngine contract.
+
+Source: ``DeviceOSPack/Eps1000WDriver.py``
+
+Parameters
+----------
+
+No configurable parameters.
+
+Signals
+-------
+
+No readable signals.
+
+Exported Tasks
+--------------
+
+setOutputHH
+^^^^^^^^^^^
+
+Set EPS output to HH
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+setOutputDD
+^^^^^^^^^^^
+
+Set EPS output to DD
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+setOutputEntangled
+^^^^^^^^^^^^^^^^^^
+
+Set EPS output to entangled mode
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+reAlign
+^^^^^^^
+
+Run EPS realignment procedure
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+readStatus
+^^^^^^^^^^
+
+Read EPS status report
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+readDiagnostics
+^^^^^^^^^^^^^^^
+
+Read EPS diagnostics report
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+readIdentity
+^^^^^^^^^^^^
+
+Read EPS identity report
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+readVersionInfo
+^^^^^^^^^^^^^^^
+
+Read EPS firmware/version report
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+saveSettings
+^^^^^^^^^^^^
+
+Save EPS settings to persistent storage
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+resetSettings
+^^^^^^^^^^^^^
+
+Reset EPS settings
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``

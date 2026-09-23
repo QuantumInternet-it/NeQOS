@@ -1,0 +1,170 @@
+Photek Driver
+=============
+
+NeQOS driver for the Photek 16-channel SNSPD controller.
+
+Source: ``DeviceOSPack/PhotekDriver.py``
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - autoRecoverOnLatch
+     - bool
+     - -
+     - -
+     - True
+     - -
+   * - healthLogEnabled
+     - bool
+     - -
+     - -
+     - True
+     - -
+   * - healthLogFrequencyHz
+     - float
+     - -
+     - 0.001 to 10.0
+     - 1.0
+     - -
+   * - integrationTimeMs
+     - int
+     - -
+     - 1 to 65535
+     - 100
+     - -
+   * - maxRecoveryAttempts
+     - int
+     - -
+     - 0 to 10
+     - 3
+     - -
+   * - zeroConsecutiveLimit
+     - int
+     - -
+     - 1 to 10
+     - 1
+     - -
+
+Signals
+-------
+
+No readable signals.
+
+Exported Tasks
+--------------
+
+InitializeBiasCurrents
+^^^^^^^^^^^^^^^^^^^^^^
+
+Apply configured integration time, trigger levels, and calibrated bias currents.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+StopDetectors
+^^^^^^^^^^^^^
+
+Set all Photek SNSPD bias currents to zero.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+StartDetectors
+^^^^^^^^^^^^^^
+
+Restore calibrated bias currents on configured Photek SNSPD bias channels.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+SetBiasCurrents
+^^^^^^^^^^^^^^^
+
+Set calibrated bias currents. Accepts biasCurrentsUa as a list or channel->value map.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - biasCurrentsUa
+     - -
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+SetTriggerLevels
+^^^^^^^^^^^^^^^^
+
+Set Photek SNSPD trigger levels. Accepts triggerLevels as a list or channel->value map.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - triggerLevels
+     - -
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+ReadDetectorHealth
+^^^^^^^^^^^^^^^^^^
+
+Read Photek detector health counts and optionally recover latched guard channels.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+RecoverLatchedDetectors
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Run stop/start recovery on configured or supplied Photek SNSPD channels.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channels
+     - -
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

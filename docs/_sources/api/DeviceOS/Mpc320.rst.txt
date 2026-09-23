@@ -1,0 +1,258 @@
+Mpc320 Driver
+=============
+
+Control a Thorlabs MPC320 three-paddle polarization controller.
+
+This driver exposes absolute and relative paddle moves, polarizer
+configuration, and position or connection readback through DeviceOS.
+
+The runtime declarations are the source of truth for generated driver
+documentation: ``_PARAMETER_SPECS`` defines configurable parameters,
+``_SIGNAL_SPECS`` defines readable signals, and ``@foreground_task``
+declares the exported tasks together with their admission policy.
+
+Source: ``DeviceOSPack/Mpc320Driver.py``
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - angle
+     - float
+     - deg
+     - 0.0 to 160.0
+     - 0.0
+     - Default target angle in degrees.
+   * - home_position
+     - float
+     - deg
+     - 0.0 to 160.0
+     - 0.0
+     - Home position in degrees.
+   * - jog_size1
+     - float
+     - deg
+     - 0.2 to 90.0
+     - 1.0
+     - Jog size 1 in degrees.
+   * - jog_size2
+     - float
+     - deg
+     - 0.2 to 90.0
+     - 1.0
+     - Jog size 2 in degrees.
+   * - jog_size3
+     - float
+     - deg
+     - 0.2 to 90.0
+     - 1.0
+     - Jog size 3 in degrees.
+   * - minimum_step
+     - float
+     - deg
+     - >= 0.12
+     - 0.12
+     - Minimum accepted movement delta in degrees.
+   * - operation_timeout
+     - float
+     - s
+     - 1.0 to 600.0
+     - 30.0
+     - Default timeout for blocking hardware operations.
+   * - polling_interval_ms
+     - int
+     - ms
+     - 50 to 5000
+     - 250
+     - Polling interval used after connection.
+   * - velocity
+     - int
+     - deg/s
+     - 0.0 to 100.0
+     - 50
+     - Polarizer velocity in degrees/second.
+
+Signals
+-------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Description
+   * - connection_ok
+     - bool
+     - -
+     - Result of the driver connection probe.
+   * - paddle1_position
+     - float
+     - deg
+     - Current reported position of paddle 1; unavailable when the position read fails.
+   * - paddle2_position
+     - float
+     - deg
+     - Current reported position of paddle 2; unavailable when the position read fails.
+   * - paddle3_position
+     - float
+     - deg
+     - Current reported position of paddle 3; unavailable when the position read fails.
+   * - serialNumber
+     - str
+     - -
+     - Serial number currently resolved by the driver.
+
+Exported Tasks
+--------------
+
+SetParameters
+^^^^^^^^^^^^^
+
+Apply MPC320 polarizer parameters (velocity/home/jog sizes) with optional overrides. Any parameter set to None keeps the current configured value.
+
+Apply optional polarizer configuration overrides.
+
+The task holds the driver I/O lock while it calls the vendor API. An
+argument set to ``None`` keeps the corresponding configured value.
+On success, the result contains the resolved serial number and all
+five applied polarizer settings. A cancelled context returns
+``CANCELLED``; a rejected or unavailable device raises ``RuntimeError``.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - velocity
+     - float \| int \| None
+     - No
+     - None
+   * - home_position
+     - float \| int \| None
+     - No
+     - None
+   * - jog_size1
+     - float \| int \| None
+     - No
+     - None
+   * - jog_size2
+     - float \| int \| None
+     - No
+     - None
+   * - jog_size3
+     - float \| int \| None
+     - No
+     - None
+   * - serialNumber
+     - str \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+MoveTo
+^^^^^^
+
+Move one MPC320 paddle to an absolute angle.
+
+Move one paddle to an absolute target angle.
+
+The task holds the driver I/O lock for both the movement and its
+position readback. When ``timeout`` is omitted it uses
+``operation_timeout``. The target angle is constrained to the
+configured 0--160 degree range. A requested displacement smaller than
+``minimum_step`` is accepted without issuing a vendor movement.
+
+The result contains ``status``, the resolved serial number, normalized
+paddle index, requested target angle, reported position, and effective
+timeout. Movement failures are reported with ``status: ERROR``;
+a cancelled context returns ``CANCELLED``.
+
+Admission policy: ``async``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - angle
+     - float
+     - Yes
+     - -
+   * - paddle
+     - int
+     - Yes
+     - -
+   * - timeout
+     - float \| None
+     - No
+     - None
+   * - serialNumber
+     - str \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+MoveRelative
+^^^^^^^^^^^^
+
+Move one MPC320 paddle by a relative angle.
+
+Move one paddle by a relative angle.
+
+The task holds the driver I/O lock for both the movement and its
+position readback. When ``timeout`` is omitted it uses
+``operation_timeout``. Relative requests above 160 degrees in
+magnitude are rejected. If a target is within 2 degrees of either
+hardware boundary, it is clamped to the 0--160 degree range; targets
+further outside that range are rejected. A displacement smaller than
+``minimum_step`` is accepted without issuing a vendor movement.
+
+The result contains ``status``, the resolved serial number, normalized
+paddle index, requested relative angle, reported position, and
+effective timeout. Movement failures are reported with ``status: ERROR``;
+a cancelled context returns ``CANCELLED``.
+
+Admission policy: ``async``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - relative_angle
+     - float
+     - Yes
+     - -
+   * - paddle
+     - int
+     - Yes
+     - -
+   * - timeout
+     - float \| None
+     - No
+     - None
+   * - serialNumber
+     - str \| None
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

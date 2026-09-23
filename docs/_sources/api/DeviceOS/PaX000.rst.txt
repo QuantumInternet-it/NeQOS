@@ -1,0 +1,127 @@
+PaX000 Driver
+=============
+
+Nucrypt PaX000 HardwareDriver with live serial-backed waveplate control.
+
+Source: ``DeviceOSPack/PaX000Driver.py``
+
+Parameters
+----------
+
+No configurable parameters.
+
+Signals
+-------
+
+No readable signals.
+
+Exported Tasks
+--------------
+
+setTomographyState
+^^^^^^^^^^^^^^^^^^
+
+Set the tomography state on a selected PaX000 channel.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channel
+     - int
+     - Yes
+     - -
+   * - state
+     - str
+     - Yes
+     - -
+   * - useCompensated
+     - bool
+     - No
+     - True
+
+Returns: ``Dict[str, Any]``
+
+installCompensatedTomographyStates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install compensated tomography states for a selected PaX000 channel and persist them locally.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channel
+     - int
+     - Yes
+     - -
+   * - states
+     - Dict[str, Any]
+     - Yes
+     - -
+   * - persist
+     - bool
+     - No
+     - True
+   * - sourceReport
+     - Optional[Dict[str, Any]]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+loadPersistedCompensatedTomographyStates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Force-load persisted compensated tomography states from disk for selected PaX000 channels.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channels
+     - Optional[List[int]]
+     - No
+     - None
+   * - applyState
+     - Optional[str]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``
+
+readOpticalConfiguration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Return cached PaX000 optical configuration, including waveplate axes.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - channel
+     - Optional[int]
+     - No
+     - None
+
+Returns: ``Dict[str, Any]``

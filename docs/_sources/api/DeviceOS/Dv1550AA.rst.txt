@@ -1,0 +1,105 @@
+Dv1550AA Driver
+===============
+
+Serial-backed DV1550AA attenuator driver aligned with the current DeviceEngine contract.
+
+Source: ``DeviceOSPack/Dv1550AADriver.py``
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Unit
+     - Range
+     - Default
+     - Description
+   * - attenuation
+     - float
+     - -
+     - 0.0 to 34.0
+     - 0.0
+     - -
+   * - mode
+     - int
+     - -
+     - -
+     - 0
+     - -
+   * - voaEnabled
+     - bool
+     - -
+     - -
+     - False
+     - -
+   * - wavelength
+     - int
+     - -
+     - -
+     - 1550
+     - -
+
+Signals
+-------
+
+No readable signals.
+
+Exported Tasks
+--------------
+
+setAttenuation
+^^^^^^^^^^^^^^
+
+Set the attenuator attenuation in dB.
+
+Admission policy: ``sync``
+
+.. list-table::
+   :header-rows: 1
+
+   * - Parameter
+     - Type
+     - Required
+     - Default
+   * - value
+     - float
+     - Yes
+     - -
+
+Returns: ``Dict[str, Any]``
+
+readAttenuation
+^^^^^^^^^^^^^^^
+
+Read the current attenuator attenuation in dB.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+clearAttenuation
+^^^^^^^^^^^^^^^^
+
+Set the attenuator attenuation to 0 dB.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``
+
+homeAttenuation
+^^^^^^^^^^^^^^^
+
+Restore the configured home attenuation, i.e. hardwareConfig.defaultAttenuationDb from network.json.
+
+Admission policy: ``sync``
+
+No public parameters.
+
+Returns: ``Dict[str, Any]``

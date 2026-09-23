@@ -1,0 +1,105 @@
+Protected Microprotocols
+========================
+
+Protected templates listed here are explicitly exported and may be invoked by an open meta-protocol.
+Templates not marked ``exported: true`` remain internal to NodeEngine.
+
+Source: ``NodeEnginePack/ProtectedProtocolCatalog.py``
+
+MPC-OptimizeCounts-OneDetector
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Automatically align an MPC320 polarization controller by scanning paddles 1..3 and optimizing one TimeTagger detector countrate.
+
+Invocation: ``SubmitMicroProtocolStage`` with this ``templateId`` is allowed from an open pack.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Property
+     - Value
+   * - Application
+     - MPC320-Examples
+   * - Execution mode
+     - foreground
+   * - Privilege
+     - NORMAL
+   * - Preemptive
+     - False
+   * - Timeout
+     - 1800.0
+   * - Resources
+     - ["MPC-1", "TT-1"]
+   * - Dependencies
+     - []
+
+Shared Parameters
+"""""""""""""""""
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Default
+   * - channelRef
+     - int
+     - 6
+   * - clear
+     - bool
+     - True
+   * - finalAnglesDeg
+     - list
+     - [160.0, 160.0, 160.0]
+   * - initialAnglesDeg
+     - list
+     - [0.0, 0.0, 0.0]
+   * - measurementDurationSec
+     - float
+     - 0.2
+   * - measurementRef
+     - str
+     - MPC-OPT-CH6
+   * - moveTimeoutSec
+     - float
+     - 30.0
+   * - mpcDeviceId
+     - str
+     - MPC-1
+   * - optimizationMode
+     - str
+     - max
+   * - paddles
+     - list
+     - [0, 1, 2]
+   * - refinementHalfRangeDeg
+     - float
+     - 10.0
+   * - refinementStepDeg
+     - float
+     - 1.0
+   * - settleAfterMoveSec
+     - float
+     - 0.2
+   * - stepDeg
+     - float
+     - 10.0
+   * - ttDeviceId
+     - str
+     - TT-1
+
+Stages
+""""""
+
+.. list-table::
+   :header-rows: 1
+
+   * - Stage
+     - Handler
+     - Declared parameters
+   * - 00-MPC-OptimizeCounts-OneDetector
+     - MpcMaximizeCountsStage
+     - {"channelRef": "$shared.channelRef", "clear": "$shared.clear", "finalAnglesDeg": "$shared.finalAnglesDeg", "initialAnglesDeg": "$shared.initialAnglesDeg", "measurementDurationSec": "$shared.measurementDurationSec", "measurementRef": "$shared.measurementRef", "moveTimeoutSec": "$shared.moveTimeoutSec", "mpcDeviceId": "$shared.mpcDeviceId", "optimizationMode": "$shared.optimizationMode", "paddles": "$shared.paddles", "refinementHalfRangeDeg": "$shared.refinementHalfRangeDeg", "refinementStepDeg": "$shared.refinementStepDeg", "settleAfterMoveSec": "$shared.settleAfterMoveSec", "stepDeg": "$shared.stepDeg", "ttDeviceId": "$shared.ttDeviceId"}
+   * - 01-ExportScratchStage
+     - ExportScratchStage
+     - {"exports": [{"as": "mpcCountOptimization", "from": "mpcCountOptimization"}, {"as": "mpcCountOptimizationPath", "from": "mpcCountOptimizationPath"}]}

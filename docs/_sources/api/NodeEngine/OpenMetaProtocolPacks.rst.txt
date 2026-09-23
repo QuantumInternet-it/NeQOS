@@ -1,0 +1,107 @@
+Open Meta-protocol Packs
+========================
+
+ieee-qce-2026-demo
+^^^^^^^^^^^^^^^^^^
+
+Open meta-protocol example that invokes NeQOS's exported protected MPC optimization template.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Manifest field
+     - Value
+   * - Schema version
+     - 0.3
+   * - Catalog
+     - MicroProtocols.json
+
+MPC320CountsMaximization
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Open meta-protocol for Laura's MPC-1/TT-1 count optimization. The protected child implements the scan and writes its result artifact.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Property
+     - Value
+   * - Application
+     - IEEE-QCE-2026-Demo
+   * - Execution mode
+     - foreground
+   * - Privilege
+     - NORMAL
+   * - Preemptive
+     - False
+   * - Timeout
+     - 3600.0
+   * - Resources
+     - ["MPC-1", "TT-1"]
+   * - Dependencies
+     - []
+
+Shared Parameters
+"""""""""""""""""
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Type
+     - Default
+   * - channelRef
+     - int
+     - 1
+   * - finalAnglesDeg
+     - list
+     - [160.0, 160.0, 160.0]
+   * - initialAnglesDeg
+     - list
+     - [0.0, 0.0, 0.0]
+   * - measurementDurationSec
+     - float
+     - 2.0
+   * - measurementRef
+     - str
+     - LAURA-MPC-MAX-CH1
+   * - moveTimeoutSec
+     - float
+     - 30.0
+   * - mpcDeviceId
+     - str
+     - MPC-1
+   * - optimizationMode
+     - str
+     - max
+   * - paddles
+     - list
+     - [0, 1, 2]
+   * - settleAfterMoveSec
+     - float
+     - 0.2
+   * - stepDeg
+     - float
+     - 20.0
+   * - ttDeviceId
+     - str
+     - TT-1
+
+Stages
+""""""
+
+.. list-table::
+   :header-rows: 1
+
+   * - Stage
+     - Handler
+     - Declared parameters
+   * - 00-RunProtectedOptimization
+     - SubmitMicroProtocolStage
+     - {"protocolKey": "optimization", "sharedParamOverrides": {"channelRef": "$shared.channelRef", "clear": true, "finalAnglesDeg": "$shared.finalAnglesDeg", "initialAnglesDeg": "$shared.initialAnglesDeg", "measurementDurationSec": "$shared.measurementDurationSec", "measurementRef": "$shared.measurementRef", "moveTimeoutSec": "$shared.moveTimeoutSec", "mpcDeviceId": "$shared.mpcDeviceId", "optimizationMode": "$shared.optimizationMode", "paddles": "$shared.paddles", "refinementHalfRangeDeg": 0.0, "refinementStepDeg": 1.0, "settleAfterMoveSec": "$shared.settleAfterMoveSec", "stepDeg": "$shared.stepDeg", "ttDeviceId": "$shared.ttDeviceId"}, "templateId": "MPC-OptimizeCounts-OneDetector"}
+   * - 01-WaitAndImportOptimization
+     - WaitMicroProtocolStage
+     - {"imports": [{"as": "optimization.result", "from": "mpcCountOptimization"}, {"as": "optimization.resultPath", "from": "mpcCountOptimizationPath"}], "protocolKey": "optimization", "templateId": "MPC-OptimizeCounts-OneDetector"}
+   * - 02-ExportResult
+     - ExportScratchStage
+     - {"exports": [{"as": "optimization.result", "from": "optimization.result"}, {"as": "optimization.resultPath", "from": "optimization.resultPath"}]}

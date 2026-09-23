@@ -1,0 +1,86 @@
+Meta-protocol Handlers
+======================
+
+These compiled handlers implement child microprotocol submission, waiting, export, and abort semantics.
+
+AbortMicroProtocolStage
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Abort the child runtime stored by ``SubmitMicroProtocolStage``.
+
+``templateId`` and optional ``protocolKey`` identify the runtime key. The
+optional ``reason`` defaults to ``META_PROTOCOL_ABORT``. With
+``ignoreTerminal`` true (the default), an already terminal child is treated
+as a successful advance; otherwise an unsuccessful abort fails the stage.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Signature
+     - Returns
+     - Source
+   * - ctx: StageContext, params: Dict[str, Any]
+     - StageResult
+     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+
+ExportScratchStage
+^^^^^^^^^^^^^^^^^^
+
+Copy selected scratchpad values into the parent protocol exports.
+
+``exports`` is a non-empty list of ``from``/``as`` mappings. Each source
+must exist in the current scratchpad. Successful mappings are stored in the
+current microprotocol metadata and recorded as an ``ExportScratch`` task
+result before the stage advances.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Signature
+     - Returns
+     - Source
+   * - ctx: StageContext, params: Dict[str, Any]
+     - StageResult
+     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+
+SubmitMicroProtocolStage
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Submit a child microprotocol and retain its runtime ID in scratchpad.
+
+``templateId`` is required; ``protocolKey`` selects the scratchpad key
+``_mp_<protocolKey>`` and defaults to the template ID. Optional shared,
+common-stage, stage-specific, resource, and scratch-import overrides are
+validated before submission. Shared references are resolved before the
+child is submitted, then the stage advances.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Signature
+     - Returns
+     - Source
+   * - ctx: StageContext, params: Dict[str, Any]
+     - StageResult
+     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
+
+WaitMicroProtocolStage
+^^^^^^^^^^^^^^^^^^^^^^
+
+Wait for a child runtime submitted under a protocol key.
+
+The handler reads the runtime ID saved by ``SubmitMicroProtocolStage``. It
+requeues while the child is active, advances when it succeeds, and fails
+when it reaches a failed or aborted state. On success, optional ``imports``
+copy declared child exports into the parent scratchpad. ``pollDelaySec``
+controls the requeue delay and defaults to 2 seconds.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Signature
+     - Returns
+     - Source
+   * - ctx: StageContext, params: Dict[str, Any]
+     - StageResult
+     - NodeEnginePack/MicroProtocolHandlers/mp_meta.py
