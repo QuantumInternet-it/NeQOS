@@ -17,6 +17,9 @@ SwabianTT Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -32,63 +35,79 @@ SwabianTT Foreground Tasks
         - ``str``
         - Yes
         - —
-        - —
+        - Logical operator ``AND``, ``OR``, or ``NOT``.
       * - ``inputRefs``
         - ``List[Any]``
         - Yes
         - —
-        - —
+        - Non-empty references to channels known to this driver.
       * - ``coincidenceWindowPs``
         - ``Optional[int]``
         - No
         - ``None``
-        - —
+        - Coincidence window in ps for ``AND``; omit to use ``defaultCoincidenceWindowPs``. It is ignored by ``OR`` and ``NOT``.
       * - ``name``
         - ``Optional[str]``
         - No
         - ``None``
-        - —
+        - Optional stable logical-channel reference; an existing name can be reused only with identical configuration.
 
-   :Result keys: ``channelId``, ``channelRef``, ``implementation``, ``inputRefs``, ``operator``, ``resolvedInputChannels``, ``reused``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "CreateLogicalChannel",
-          "taskParams": {
-            "operator": "<str>",
-            "inputRefs": "<List[Any]>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="CreateLogicalChannel",
-          params={
-              "operator": "<str>",
-              "inputRefs": "<List[Any]>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channelRef``
+        - ``str``
+        - Yes
+        - ``—``
+        - Stable logical-channel reference.
+      * - ``channelId``
+        - ``int``
+        - Yes
+        - ``—``
+        - Time Tagger logical-channel identifier.
+      * - ``operator``
+        - ``str``
+        - Yes
+        - ``AND, OR, NOT``
+        - Logical operator.
+      * - ``inputRefs``
+        - ``list[object]``
+        - Yes
+        - ``—``
+        - Requested input channel references.
+      * - ``resolvedInputChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Resolved Time Tagger channel identifiers.
+      * - ``implementation``
+        - ``str \| None``
+        - Yes
+        - ``—``
+        - Time Tagger implementation used for the logical channel.
+      * - ``reused``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether an identical named logical channel was reused.
 
 
 .. _deviceos-swabiantt-createmeasurement:
@@ -106,6 +125,9 @@ SwabianTT Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -121,76 +143,94 @@ SwabianTT Foreground Tasks
         - ``str``
         - Yes
         - —
-        - —
+        - Measurement kind ``COUNTRATE`` or ``CORRELATION``.
       * - ``channelRef``
         - ``Any``
         - No
         - ``None``
-        - —
+        - Channel reference required by ``COUNTRATE``.
       * - ``channelRefA``
         - ``Any``
         - No
         - ``None``
-        - —
+        - First channel reference required by ``CORRELATION``.
       * - ``channelRefB``
         - ``Any``
         - No
         - ``None``
-        - —
+        - Second channel reference required by ``CORRELATION``.
       * - ``binWidthPs``
         - ``Optional[int]``
         - No
         - ``None``
-        - —
+        - Correlation bin width in ps; omit to use the configured default. Ignored by ``COUNTRATE``.
       * - ``binCount``
         - ``Optional[int]``
         - No
         - ``None``
-        - —
+        - Number of correlation bins; omit to use the configured default. Ignored by ``COUNTRATE``.
       * - ``name``
         - ``Optional[str]``
         - No
         - ``None``
-        - —
+        - Optional stable measurement reference; an existing name can be reused only with identical configuration.
 
-   :Result keys: ``binCount``, ``binWidthPs``, ``channelIds``, ``channelRefs``, ``measurementRef``, ``measurementType``, ``reused``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "CreateMeasurement",
-          "taskParams": {
-            "measurementType": "<str>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="CreateMeasurement",
-          params={
-              "measurementType": "<str>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``measurementRef``
+        - ``str``
+        - Yes
+        - ``—``
+        - Stable measurement reference.
+      * - ``measurementType``
+        - ``str``
+        - Yes
+        - ``COUNTRATE, CORRELATION``
+        - Measurement kind.
+      * - ``channelRefs``
+        - ``list[object]``
+        - Yes
+        - ``—``
+        - Channel references used by the measurement.
+      * - ``channelIds``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Resolved Time Tagger channel identifiers.
+      * - ``binWidthPs``
+        - ``int \| None``
+        - Yes
+        - ``ps``
+        - Correlation bin width; null for COUNTRATE.
+      * - ``binCount``
+        - ``int \| None``
+        - Yes
+        - ``—``
+        - Correlation bin count; null for COUNTRATE.
+      * - ``reused``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether an identical named measurement was reused.
 
 
 .. _deviceos-swabiantt-resetmeasurementengine:
@@ -208,41 +248,57 @@ SwabianTT Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "ResetMeasurementEngine",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="ResetMeasurementEngine",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``releasedLogicalChannelCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of logical channels released during reset.
+      * - ``releasedMeasurementCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of measurements released during reset.
+      * - ``releasedActiveMeasurementCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of active-measurement selections released during reset.
+      * - ``timeTaggerReopened``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the Time Tagger measurement engine was reopened.
+      * - ``restoredChannelState``
+        - ``object``
+        - Yes
+        - ``—``
+        - Physical-channel trigger-level and input-delay state restored after reset.
 
 
 .. _deviceos-swabiantt-activatemeasurements:
@@ -259,6 +315,9 @@ SwabianTT Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -274,46 +333,34 @@ SwabianTT Foreground Tasks
         - ``List[str]``
         - Yes
         - —
-        - —
+        - List of previously created measurement references to use in the next ``StartMeasurement`` call.
 
-   :Result keys: ``activeMeasurements``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "ActivateMeasurements",
-          "taskParams": {
-            "measurementRefs": "<List[str]>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="ActivateMeasurements",
-          params={
-              "measurementRefs": "<List[str]>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``activeMeasurements``
+        - ``list[str]``
+        - Yes
+        - ``—``
+        - Measurement references selected for the next acquisition.
 
 
 .. _deviceos-swabiantt-startmeasurement:
@@ -332,6 +379,9 @@ SwabianTT Foreground Tasks
    :Admission policy: ``async``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -347,56 +397,74 @@ SwabianTT Foreground Tasks
         - ``float``
         - Yes
         - —
-        - —
+        - Positive acquisition duration in seconds.
       * - ``clear``
         - ``bool``
         - No
         - ``True``
-        - —
+        - Clear compatible measurement handles before acquisition.
       * - ``rawDataMode``
         - ``str``
         - No
         - ``'node'``
-        - —
+        - ``node`` returns correlation data in the reply; ``device`` schedules raw data and preview artifacts on disk.
 
-   :Result keys: ``activeMeasurements``, ``artifactDirectory``, ``artifactWriteState``, ``durationSec``, ``rawDataMode``, ``results``, ``status``, ``timingSec``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "StartMeasurement",
-          "taskParams": {
-            "durationSec": "<float>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="StartMeasurement",
-          params={
-              "durationSec": "<float>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``durationSec``
+        - ``float``
+        - Yes
+        - ``s``
+        - Acquisition duration.
+      * - ``activeMeasurements``
+        - ``list[str]``
+        - Yes
+        - ``—``
+        - Measurement references included in the acquisition.
+      * - ``rawDataMode``
+        - ``str``
+        - Yes
+        - ``node, device``
+        - Raw-data delivery mode.
+      * - ``timingSec``
+        - ``object``
+        - Yes
+        - ``—``
+        - Timing breakdown for the acquisition.
+      * - ``artifactDirectory``
+        - ``str \| None``
+        - Yes
+        - ``—``
+        - Directory used for scheduled device artifacts.
+      * - ``artifactWriteState``
+        - ``str``
+        - Yes
+        - ``pending, complete``
+        - Device-artifact write state.
+      * - ``results``
+        - ``object``
+        - Yes
+        - ``—``
+        - Counts and coincidence results keyed by measurement reference.
 
 
 .. _deviceos-swabiantt-recordtimetagstream:
@@ -415,6 +483,9 @@ SwabianTT Foreground Tasks
    :Admission policy: ``async``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -430,71 +501,57 @@ SwabianTT Foreground Tasks
         - ``List[Any]``
         - Yes
         - —
-        - —
+        - Non-empty references to channels known to this driver.
       * - ``durationSec``
         - ``float``
         - Yes
         - —
-        - —
+        - Positive recording duration in seconds.
       * - ``recordingRef``
         - ``Optional[str]``
         - No
         - ``None``
-        - —
+        - Optional token used in the generated artifact filename.
       * - ``recordingSubdirectory``
         - ``Optional[str]``
         - No
         - ``None``
-        - —
+        - Optional sanitized relative directory below the configured recording root.
       * - ``marker``
         - ``Optional[str]``
         - No
         - ``None``
-        - —
+        - Optional marker forwarded to the vendor FileWriter when supported by the installed SDK.
       * - ``maxFileSizeBytes``
         - ``Optional[int]``
         - No
         - ``None``
-        - —
+        - Optional maximum file size forwarded to the vendor FileWriter when supported by the installed SDK.
 
-   :Result keys: ``artifact``, ``status``, ``totalEvents``, ``totalSizeBytes``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "RecordTimeTagStream",
-          "taskParams": {
-            "channelRefs": "<List[Any]>",
-            "durationSec": "<float>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="RecordTimeTagStream",
-          params={
-              "channelRefs": "<List[Any]>",
-              "durationSec": "<float>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``artifact``
+        - ``object``
+        - Yes
+        - ``—``
+        - Transfer-ready .ttbin manifest including path, SHA-256, size, channel mapping, duration, and FileWriter statistics.
 

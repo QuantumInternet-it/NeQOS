@@ -32,6 +32,24 @@ table.api-task-parameter-table td:nth-child(3) {
   margin: 1.5rem 0;
 }
 
+.task-reference .table-wrapper.api-table {
+  width: calc(100% - 2rem);
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.task-reference .table-wrapper.api-table table {
+  margin: 0;
+}
+
+@media (max-width: 46em) {
+  .task-reference .table-wrapper.api-table {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .task-reference .admonition-title {
   font-family: var(--font-stack--monospace);
 }

@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=2ed564f8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=798a7bb0" />
     
     
 
@@ -234,9 +234,16 @@
 <li class="toctree-l3"><a class="reference internal" href="background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/tasks.html">Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../NodeEngine/ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../NodeEngine/OpenMetaProtocolPacks.html">Open Meta-protocol Packs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
@@ -284,7 +291,7 @@
 <h1>Fake Foreground Tasks<a class="headerlink" href="#fake-foreground-tasks" title="Link to this heading">¶</a></h1>
 <div class="driver-overview task-reference admonition" id="deviceos-fake-setgaintask">
 <p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">SetGainTask</span></code></p>
-<p>Set gain parameter</p>
+<p>Set the synthetic driver gain.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Task class<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Foreground</p>
@@ -296,6 +303,7 @@
 <dd class="field-odd"><p>No</p>
 </dd>
 </dl>
+<p class="invocation-heading rubric">Parameters</p>
 <div class="table-wrapper colwidths-given api-table api-task-parameter-table docutils container">
 <table class="api-table api-task-parameter-table docutils align-default" style="width: 100%">
 <colgroup>
@@ -318,42 +326,45 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>Yes</p></td>
 <td><p>—</p></td>
-<td><p>—</p></td>
+<td><p>Gain value stored by the fake driver.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Result keys<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">gain</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code></p>
-</dd>
-</dl>
-<p class="examples-heading rubric">Examples</p>
-<p>The enclosing micro-protocol must include the target <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> in its <code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code>. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.</p>
-<p>Replace each <code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> placeholder with a value accepted by the corresponding parameter.</p>
-<p class="invocation-heading rubric">Static task invocation from a micro-protocol declaration</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;stageId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;stage-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RunSingleTaskStage&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SetGainTask&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;float&gt;&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p class="invocation-heading rubric">Dynamic task invocation from a Python handler</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span>
-    <span class="n">deviceId</span><span class="o">=</span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-    <span class="n">taskName</span><span class="o">=</span><span class="s2">&quot;SetGainTask&quot;</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;float&gt;&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-</pre></div>
+<p class="invocation-heading rubric">Result payload</p>
+<p>The task-specific value exposed as <code class="docutils literal notranslate"><span class="pre">result</span></code> in the NodeEngine execution envelope.</p>
+<div class="table-wrapper colwidths-given api-table api-task-result-table docutils container">
+<table class="api-table api-task-result-table docutils align-default" style="width: 100%">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 18.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Values / unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OK</span></code></p></td>
+<td><p>Task outcome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Stored synthetic gain.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="driver-overview task-reference admonition" id="deviceos-fake-foregroundshorttask">
@@ -370,6 +381,7 @@
 <dd class="field-odd"><p>No</p>
 </dd>
 </dl>
+<p class="invocation-heading rubric">Parameters</p>
 <div class="table-wrapper colwidths-given api-table api-task-parameter-table docutils container">
 <table class="api-table api-task-parameter-table docutils align-default" style="width: 100%">
 <colgroup>
@@ -392,45 +404,63 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">10.0</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Total synthetic task duration in seconds.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1.0</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Delay between progress updates in seconds.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Result keys<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">durationSec</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">task</span></code></p>
-</dd>
-</dl>
-<p class="examples-heading rubric">Examples</p>
-<p>The enclosing micro-protocol must include the target <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> in its <code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code>. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.</p>
-<p>Replace each <code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> placeholder with a value accepted by the corresponding parameter.</p>
-<p class="invocation-heading rubric">Static task invocation from a micro-protocol declaration</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;stageId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;stage-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RunSingleTaskStage&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ForegroundShortTask&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p class="invocation-heading rubric">Dynamic task invocation from a Python handler</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span>
-    <span class="n">deviceId</span><span class="o">=</span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-    <span class="n">taskName</span><span class="o">=</span><span class="s2">&quot;ForegroundShortTask&quot;</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-</pre></div>
+<p class="invocation-heading rubric">Result payload</p>
+<p>The task-specific value exposed as <code class="docutils literal notranslate"><span class="pre">result</span></code> in the NodeEngine execution envelope.</p>
+<div class="table-wrapper colwidths-given api-table api-task-result-table docutils container">
+<table class="api-table api-task-result-table docutils align-default" style="width: 100%">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 18.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Values / unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OK,</span> <span class="pre">CANCELLED</span></code></p></td>
+<td><p>Task outcome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reason</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">\|</span> <span class="pre">None</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Cancellation reason when status is CANCELLED.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">task</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Completed task name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">durationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
+<td><p>Completed synthetic duration.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="driver-overview task-reference admonition" id="deviceos-fake-firstforegroundlongpausabletask">
@@ -451,6 +481,7 @@
 <dd class="field-odd"><p>Yes</p>
 </dd>
 </dl>
+<p class="invocation-heading rubric">Parameters</p>
 <div class="table-wrapper colwidths-given api-table api-task-parameter-table docutils container">
 <table class="api-table api-task-parameter-table docutils align-default" style="width: 100%">
 <colgroup>
@@ -473,51 +504,81 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">120.0</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Total synthetic task duration in seconds.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1.0</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Delay between progress updates in seconds.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">_pauseState</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span> <span class="pre">\|</span> <span class="pre">None</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Internal state injected by DeviceEngine during a resume; callers should omit it.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Result keys<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">durationSec</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>, <code class="docutils literal notranslate"><span class="pre">seedValue</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">task</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks</span></code></p>
-</dd>
-</dl>
-<p class="examples-heading rubric">Examples</p>
-<p>The enclosing micro-protocol must include the target <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> in its <code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code>. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.</p>
-<p>Replace each <code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> placeholder with a value accepted by the corresponding parameter.</p>
-<p class="invocation-heading rubric">Static task invocation from a micro-protocol declaration</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;stageId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;stage-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RunSingleTaskStage&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FirstForegroundLongPausableTask&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p class="invocation-heading rubric">Dynamic task invocation from a Python handler</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span>
-    <span class="n">deviceId</span><span class="o">=</span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-    <span class="n">taskName</span><span class="o">=</span><span class="s2">&quot;FirstForegroundLongPausableTask&quot;</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-</pre></div>
+<p class="invocation-heading rubric">Result payload</p>
+<p>The task-specific value exposed as <code class="docutils literal notranslate"><span class="pre">result</span></code> in the NodeEngine execution envelope.</p>
+<div class="table-wrapper colwidths-given api-table api-task-result-table docutils container">
+<table class="api-table api-task-result-table docutils align-default" style="width: 100%">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 18.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Values / unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OK,</span> <span class="pre">CANCELLED</span></code></p></td>
+<td><p>Task outcome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reason</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">\|</span> <span class="pre">None</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Cancellation reason when status is CANCELLED.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">task</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Completed task name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">seedValue</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Synthetic value generated for the run.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ticks</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Completed synthetic iteration count.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">durationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
+<td><p>Completed synthetic duration.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="driver-overview task-reference admonition" id="deviceos-fake-secondforegroundlongpausabletask">
@@ -538,6 +599,7 @@
 <dd class="field-odd"><p>Yes</p>
 </dd>
 </dl>
+<p class="invocation-heading rubric">Parameters</p>
 <div class="table-wrapper colwidths-given api-table api-task-parameter-table docutils container">
 <table class="api-table api-task-parameter-table docutils align-default" style="width: 100%">
 <colgroup>
@@ -560,51 +622,81 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">90.0</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Total synthetic task duration in seconds.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1.0</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Delay between progress updates in seconds.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">_pauseState</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Any]</span> <span class="pre">\|</span> <span class="pre">None</span></code></p></td>
 <td><p>No</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
-<td><p>—</p></td>
+<td><p>Internal state injected by DeviceEngine during a resume; callers should omit it.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Result keys<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">amplitude</span></code>, <code class="docutils literal notranslate"><span class="pre">durationSec</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">task</span></code>, <code class="docutils literal notranslate"><span class="pre">ticks</span></code></p>
-</dd>
-</dl>
-<p class="examples-heading rubric">Examples</p>
-<p>The enclosing micro-protocol must include the target <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> in its <code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code>. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.</p>
-<p>Replace each <code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> placeholder with a value accepted by the corresponding parameter.</p>
-<p class="invocation-heading rubric">Static task invocation from a micro-protocol declaration</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;stageId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;stage-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RunSingleTaskStage&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SecondForegroundLongPausableTask&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p class="invocation-heading rubric">Dynamic task invocation from a Python handler</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reply</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span>
-    <span class="n">deviceId</span><span class="o">=</span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-    <span class="n">taskName</span><span class="o">=</span><span class="s2">&quot;SecondForegroundLongPausableTask&quot;</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-</pre></div>
+<p class="invocation-heading rubric">Result payload</p>
+<p>The task-specific value exposed as <code class="docutils literal notranslate"><span class="pre">result</span></code> in the NodeEngine execution envelope.</p>
+<div class="table-wrapper colwidths-given api-table api-task-result-table docutils container">
+<table class="api-table api-task-result-table docutils align-default" style="width: 100%">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 18.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Values / unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OK,</span> <span class="pre">CANCELLED</span></code></p></td>
+<td><p>Task outcome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reason</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">\|</span> <span class="pre">None</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Cancellation reason when status is CANCELLED.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">task</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Completed task name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">amplitude</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Synthetic wave amplitude.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ticks</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">—</span></code></p></td>
+<td><p>Completed synthetic iteration count.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">durationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
+<td><p>Completed synthetic duration.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>

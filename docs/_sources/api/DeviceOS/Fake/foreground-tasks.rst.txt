@@ -6,11 +6,14 @@ Fake Foreground Tasks
 .. admonition:: ``SetGainTask``
    :class: driver-overview task-reference
 
-   Set gain parameter
+   Set the synthetic driver gain.
 
    :Task class: Foreground
    :Admission policy: ``sync``
    :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
 
    .. list-table::
       :header-rows: 1
@@ -27,46 +30,34 @@ Fake Foreground Tasks
         - ``float``
         - Yes
         - —
-        - —
+        - Gain value stored by the fake driver.
 
-   :Result keys: ``gain``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "SetGainTask",
-          "taskParams": {
-            "value": "<float>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="SetGainTask",
-          params={
-              "value": "<float>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``gain``
+        - ``float``
+        - Yes
+        - ``—``
+        - Stored synthetic gain.
 
 
 .. _deviceos-fake-foregroundshorttask:
@@ -79,6 +70,9 @@ Fake Foreground Tasks
    :Task class: Foreground
    :Admission policy: ``sync``
    :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
 
    .. list-table::
       :header-rows: 1
@@ -95,48 +89,49 @@ Fake Foreground Tasks
         - ``float``
         - No
         - ``10.0``
-        - —
+        - Total synthetic task duration in seconds.
       * - ``tickSec``
         - ``float``
         - No
         - ``1.0``
-        - —
+        - Delay between progress updates in seconds.
 
-   :Result keys: ``durationSec``, ``reason``, ``status``, ``task``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "ForegroundShortTask",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="ForegroundShortTask",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``task``
+        - ``str``
+        - No
+        - ``—``
+        - Completed task name.
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``s``
+        - Completed synthetic duration.
 
 
 .. _deviceos-fake-firstforegroundlongpausabletask:
@@ -155,6 +150,9 @@ Fake Foreground Tasks
    :Admission policy: ``async``
    :Pausable: Yes
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -170,53 +168,64 @@ Fake Foreground Tasks
         - ``float``
         - No
         - ``120.0``
-        - —
+        - Total synthetic task duration in seconds.
       * - ``tickSec``
         - ``float``
         - No
         - ``1.0``
-        - —
+        - Delay between progress updates in seconds.
       * - ``_pauseState``
         - ``Dict[str, Any] \| None``
         - No
         - ``None``
-        - —
+        - Internal state injected by DeviceEngine during a resume; callers should omit it.
 
-   :Result keys: ``durationSec``, ``reason``, ``seedValue``, ``status``, ``task``, ``ticks``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "FirstForegroundLongPausableTask",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="FirstForegroundLongPausableTask",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``task``
+        - ``str``
+        - No
+        - ``—``
+        - Completed task name.
+      * - ``seedValue``
+        - ``float``
+        - No
+        - ``—``
+        - Synthetic value generated for the run.
+      * - ``ticks``
+        - ``int``
+        - No
+        - ``—``
+        - Completed synthetic iteration count.
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``s``
+        - Completed synthetic duration.
 
 
 .. _deviceos-fake-secondforegroundlongpausabletask:
@@ -235,6 +244,9 @@ Fake Foreground Tasks
    :Admission policy: ``async``
    :Pausable: Yes
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -250,51 +262,62 @@ Fake Foreground Tasks
         - ``float``
         - No
         - ``90.0``
-        - —
+        - Total synthetic task duration in seconds.
       * - ``tickSec``
         - ``float``
         - No
         - ``1.0``
-        - —
+        - Delay between progress updates in seconds.
       * - ``_pauseState``
         - ``Dict[str, Any] \| None``
         - No
         - ``None``
-        - —
+        - Internal state injected by DeviceEngine during a resume; callers should omit it.
 
-   :Result keys: ``amplitude``, ``durationSec``, ``reason``, ``status``, ``task``, ``ticks``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "SecondForegroundLongPausableTask",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="SecondForegroundLongPausableTask",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``task``
+        - ``str``
+        - No
+        - ``—``
+        - Completed task name.
+      * - ``amplitude``
+        - ``float``
+        - No
+        - ``—``
+        - Synthetic wave amplitude.
+      * - ``ticks``
+        - ``int``
+        - No
+        - ``—``
+        - Completed synthetic iteration count.
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``s``
+        - Completed synthetic duration.
 

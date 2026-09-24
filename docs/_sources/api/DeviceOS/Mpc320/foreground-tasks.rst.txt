@@ -18,6 +18,9 @@ Mpc320 Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -33,68 +36,89 @@ Mpc320 Foreground Tasks
         - ``float \| int \| None``
         - No
         - ``None``
-        - —
+        - Optional polarizer velocity in degrees per second.
       * - ``home_position``
         - ``float \| int \| None``
         - No
         - ``None``
-        - —
+        - Optional home position in degrees.
       * - ``jog_size1``
         - ``float \| int \| None``
         - No
         - ``None``
-        - —
+        - Optional jog distance for paddle 1 in degrees.
       * - ``jog_size2``
         - ``float \| int \| None``
         - No
         - ``None``
-        - —
+        - Optional jog distance for paddle 2 in degrees.
       * - ``jog_size3``
         - ``float \| int \| None``
         - No
         - ``None``
-        - —
+        - Optional jog distance for paddle 3 in degrees.
       * - ``serialNumber``
         - ``str \| None``
         - No
         - ``None``
-        - —
+        - Optional target controller serial number; omitting it uses the driver-resolved controller.
 
-   :Result keys: ``home_position``, ``jog_size1``, ``jog_size2``, ``jog_size3``, ``reason``, ``serialNumber``, ``status``, ``velocity``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "SetParameters",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="SetParameters",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``serialNumber``
+        - ``str``
+        - No
+        - ``—``
+        - Resolved controller serial number.
+      * - ``velocity``
+        - ``float \| int \| None``
+        - No
+        - ``deg/s``
+        - Applied polarizer velocity.
+      * - ``home_position``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied home position.
+      * - ``jog_size1``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied paddle 1 jog size.
+      * - ``jog_size2``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied paddle 2 jog size.
+      * - ``jog_size3``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied paddle 3 jog size.
 
 
 .. _deviceos-mpc320-moveto:
@@ -119,6 +143,9 @@ Mpc320 Foreground Tasks
    :Admission policy: ``async``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -134,63 +161,74 @@ Mpc320 Foreground Tasks
         - ``float``
         - Yes
         - —
-        - —
+        - Absolute target angle in degrees, constrained to 0 through 160.
       * - ``paddle``
         - ``int``
         - Yes
         - —
-        - —
+        - Zero-based paddle index: 0, 1, or 2 for paddles 1, 2, or 3.
       * - ``timeout``
         - ``float \| None``
         - No
         - ``None``
-        - —
+        - Optional operation timeout in seconds; the configured ``operation_timeout`` is used when omitted.
       * - ``serialNumber``
         - ``str \| None``
         - No
         - ``None``
-        - —
+        - Optional target controller serial number; omitting it uses the driver-resolved controller.
 
-   :Result keys: ``paddle``, ``position``, ``reason``, ``serialNumber``, ``status``, ``target_angle``, ``timeout``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "MoveTo",
-          "taskParams": {
-            "angle": "<float>",
-            "paddle": "<int>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="MoveTo",
-          params={
-              "angle": "<float>",
-              "paddle": "<int>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, ERROR, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``serialNumber``
+        - ``str``
+        - No
+        - ``—``
+        - Resolved controller serial number.
+      * - ``paddle``
+        - ``int``
+        - No
+        - ``0, 1, 2``
+        - Normalized zero-based paddle index.
+      * - ``target_angle``
+        - ``float``
+        - No
+        - ``deg``
+        - Requested absolute target angle.
+      * - ``position``
+        - ``float \| None``
+        - No
+        - ``deg``
+        - Position read back after the move.
+      * - ``timeout``
+        - ``float``
+        - No
+        - ``s``
+        - Effective operation timeout.
 
 
 .. _deviceos-mpc320-moverelative:
@@ -217,6 +255,9 @@ Mpc320 Foreground Tasks
    :Admission policy: ``async``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -232,61 +273,72 @@ Mpc320 Foreground Tasks
         - ``float``
         - Yes
         - —
-        - —
+        - Requested signed displacement in degrees.
       * - ``paddle``
         - ``int``
         - Yes
         - —
-        - —
+        - Zero-based paddle index: 0, 1, or 2 for paddles 1, 2, or 3.
       * - ``timeout``
         - ``float \| None``
         - No
         - ``None``
-        - —
+        - Optional operation timeout in seconds; the configured ``operation_timeout`` is used when omitted.
       * - ``serialNumber``
         - ``str \| None``
         - No
         - ``None``
-        - —
+        - Optional target controller serial number; omitting it uses the driver-resolved controller.
 
-   :Result keys: ``paddle``, ``position``, ``reason``, ``relative_angle``, ``serialNumber``, ``status``, ``timeout``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "MoveRelative",
-          "taskParams": {
-            "relative_angle": "<float>",
-            "paddle": "<int>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="MoveRelative",
-          params={
-              "relative_angle": "<float>",
-              "paddle": "<int>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, ERROR, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``serialNumber``
+        - ``str``
+        - No
+        - ``—``
+        - Resolved controller serial number.
+      * - ``paddle``
+        - ``int``
+        - No
+        - ``0, 1, 2``
+        - Normalized zero-based paddle index.
+      * - ``relative_angle``
+        - ``float``
+        - No
+        - ``deg``
+        - Requested signed displacement.
+      * - ``position``
+        - ``float \| None``
+        - No
+        - ``deg``
+        - Position read back after the move.
+      * - ``timeout``
+        - ``float``
+        - No
+        - ``s``
+        - Effective operation timeout.
 

@@ -8,6 +8,34 @@ Mpc320 Driver
    :Source: ``DeviceOSPack/Mpc320Driver.py``
    :Official product page: `Thorlabs MPC320 <https://www.thorlabs.com/thorproduct.cfm?partnumber=MPC320>`_
 
+.. admonition:: Runtime requirements
+   :class: api-reference runtime-requirements
+
+   :Vendor software: Thorlabs Kinesis
+   :Python packages: ``pythonnet``
+
+   .. rubric:: Local settings
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-runtime-settings-table
+      :widths: 28 12 25 35
+
+      * - Setting
+        - Required
+        - Default
+        - Description
+      * - ``THORLABS_KINESIS_PATH``
+        - No
+        - ``C:\\Program Files\\Thorlabs\\Kinesis``
+        - Kinesis installation root containing the DeviceManagerCLI, GenericMotorCLI, and PolarizerCLI assemblies.
+
+   The Python and Kinesis architectures must match.
+
+   See :doc:`DeviceOS runtime setup <RuntimeSetup>` for local-config discovery and overrides.
+
 Control a Thorlabs MPC320 three-paddle polarization controller.
 
 This driver exposes absolute and relative paddle moves, polarizer

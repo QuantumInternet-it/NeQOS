@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=2ed564f8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=798a7bb0" />
     
     
 
@@ -234,9 +234,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../Fake/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Examples/tasks.html">Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../NodeEngine/ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../NodeEngine/OpenMetaProtocolPacks.html">Open Meta-protocol Packs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
@@ -376,25 +383,6 @@
 </tr>
 </tbody>
 </table>
-</div>
-<p class="examples-heading rubric">Examples</p>
-<p>A running micro-protocol must include the target <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> in its <code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code>. NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested parameter is advertised.</p>
-<p>Use the parameter table to choose an advertised parameter and a valid value.</p>
-<p>Replace each <code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> placeholder with the appropriate device ID, advertised parameter name, or valid parameter value.</p>
-<p class="invocation-heading rubric">Read a parameter from a Python handler</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span>
-    <span class="n">deviceId</span><span class="o">=</span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&lt;parameter-name&gt;&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p class="invocation-heading rubric">Write a parameter from a Python handler</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span>
-    <span class="n">deviceId</span><span class="o">=</span><span class="s2">&quot;&lt;device-id&gt;&quot;</span><span class="p">,</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&lt;parameter-name&gt;&quot;</span><span class="p">,</span>
-    <span class="n">value</span><span class="o">=</span><span class="s2">&quot;&lt;parameter-value&gt;&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
 </div>
 </div>
 <div class="parameter-note admonition note">

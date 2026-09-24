@@ -12,41 +12,42 @@ Eps1000W Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "setOutputHH",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="setOutputHH",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``setOutputHH``
+        - Executed device task name.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``HH``
+        - Output mode selected by the device.
 
 
 .. _deviceos-eps1000w-setoutputdd:
@@ -60,41 +61,42 @@ Eps1000W Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "setOutputDD",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="setOutputDD",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``setOutputDD``
+        - Executed device task name.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``DD``
+        - Output mode selected by the device.
 
 
 .. _deviceos-eps1000w-setoutputentangled:
@@ -108,41 +110,42 @@ Eps1000W Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "setOutputEntangled",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="setOutputEntangled",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``setOutputEntangled``
+        - Executed device task name.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``ENTANGLED``
+        - Output mode selected by the device.
 
 
 .. _deviceos-eps1000w-realign:
@@ -159,41 +162,45 @@ Eps1000W Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   :Result keys: ``outputMode``, ``reply``, ``status``, ``task``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "reAlign",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="reAlign",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``reAlign``
+        - Executed device task name.
+      * - ``reply``
+        - ``object``
+        - Yes
+        - ``—``
+        - Raw reply from the device Realign command.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``—``
+        - Output mode read back after realignment.
 

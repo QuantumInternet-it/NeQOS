@@ -19,6 +19,9 @@ PaX000 Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -34,56 +37,59 @@ PaX000 Foreground Tasks
         - ``int``
         - Yes
         - —
-        - —
+        - Discovered controller channel that receives the state.
       * - ``state``
         - ``Literal['H', 'V', 'D', 'A', 'R', 'L']``
         - Yes
         - —
-        - —
+        - Tomography state ``H``, ``V``, ``D``, ``A``, ``R``, or ``L``.
       * - ``useCompensated``
         - ``bool``
         - No
         - ``True``
-        - —
+        - Prefer installed compensated waveplate angles when available; otherwise use the controller's native state.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "setTomographyState",
-          "taskParams": {
-            "channel": "<int>",
-            "state": "<Literal['H', 'V', 'D', 'A', 'R', 'L']>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="setTomographyState",
-          params={
-              "channel": "<int>",
-              "state": "<Literal['H', 'V', 'D', 'A', 'R', 'L']>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Controller channel that received the state.
+      * - ``tomographyState``
+        - ``str``
+        - Yes
+        - ``H, V, D, A, R, L``
+        - Canonical tomography state.
+      * - ``appliedMode``
+        - ``str``
+        - Yes
+        - ``—``
+        - Whether controller-native or compensated angles were applied.
+      * - ``appliedWaveplateAnglesDeg``
+        - ``object``
+        - No
+        - ``deg``
+        - Applied waveplate angles by one-based waveplate number.
 
 
 .. _deviceos-pax000-installcompensatedtomographystates:
@@ -102,6 +108,9 @@ PaX000 Foreground Tasks
    :Task class: Foreground
    :Admission policy: ``sync``
    :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
 
    .. list-table::
       :header-rows: 1
@@ -135,46 +144,47 @@ PaX000 Foreground Tasks
         - ``None``
         - Optional free-form provenance metadata persisted with the states when ``persist`` is enabled.
 
-   :Result keys: ``channel``, ``persisted``, ``persistenceFile``, ``states``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "installCompensatedTomographyStates",
-          "taskParams": {
-            "channel": "<int>",
-            "states": "<Dict[str, Dict[int, float]]>"
-          }
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="installCompensatedTomographyStates",
-          params={
-              "channel": "<int>",
-              "states": "<Dict[str, Dict[int, float]]>",
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Controller channel whose compensated states were installed.
+      * - ``states``
+        - ``object``
+        - Yes
+        - ``deg``
+        - Validated compensated angles, keyed by tomography state and one-based waveplate number.
+      * - ``persisted``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the states were written to local persistence.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - Local compensated-state persistence-file path.
 
 
 .. _deviceos-pax000-loadpersistedcompensatedtomographystates:
@@ -194,6 +204,9 @@ PaX000 Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -209,48 +222,59 @@ PaX000 Foreground Tasks
         - ``Optional[List[int]]``
         - No
         - ``None``
-        - —
+        - Optional discovered channel IDs to load; omitting it loads persisted states for every channel in the file.
       * - ``applyState``
         - ``Optional[Literal['H', 'V', 'D', 'A', 'R', 'L']]``
         - No
         - ``None``
-        - —
+        - Optional state to apply after loading on every selected channel; omit it to load without moving the controller.
 
-   :Result keys: ``appliedByChannel``, ``applyState``, ``channelCount``, ``channels``, ``persistenceFile``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "loadPersistedCompensatedTomographyStates",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="loadPersistedCompensatedTomographyStates",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Channels whose persisted states were loaded.
+      * - ``channelCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of channels whose persisted states were loaded.
+      * - ``applyState``
+        - ``str \| None``
+        - No
+        - ``H, V, D, A, R, L``
+        - State applied after loading, or null when no movement was requested.
+      * - ``appliedByChannel``
+        - ``object``
+        - No
+        - ``—``
+        - Applied-state report keyed by channel; empty when applyState was omitted.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - Local compensated-state persistence-file path.
 
 
 .. _deviceos-pax000-readopticalconfiguration:
@@ -269,6 +293,9 @@ PaX000 Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -284,41 +311,32 @@ PaX000 Foreground Tasks
         - ``Optional[int]``
         - No
         - ``None``
-        - —
+        - Optional discovered channel ID; omit to return all channels.
 
-   :Result keys: ``configuration``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "readOpticalConfiguration",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="readOpticalConfiguration",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``configuration``
+        - ``object``
+        - Yes
+        - ``—``
+        - Cached optical, calibration, wavelength, and tomography configuration.
 

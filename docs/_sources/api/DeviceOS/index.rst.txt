@@ -12,6 +12,16 @@ Device drivers
 * :doc:`Thorlabs MPC320 Polarization Controller <Mpc320>`
 * :doc:`Fake Driver (Software-only Evaluation) <Fake>`
 
+Runtime setup
+-------------
+
+* :doc:`Local vendor-runtime configuration <RuntimeSetup>`
+
+Examples
+--------
+
+* :doc:`Shared DeviceOS invocation patterns <Examples/index>`
+
 .. toctree::
    :maxdepth: 2
    :hidden:
@@ -23,3 +33,5 @@ Device drivers
    Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>
    Thorlabs MPC320 Polarization Controller <Mpc320>
    Fake Driver (Software-only Evaluation) <Fake>
+   Runtime setup <RuntimeSetup>
+   Examples <Examples/index>

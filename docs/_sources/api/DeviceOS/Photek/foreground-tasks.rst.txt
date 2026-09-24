@@ -16,43 +16,82 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   :Result keys: ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "InitializeBiasCurrents",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="InitializeBiasCurrents",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``integrationTimeMs``
+        - ``int``
+        - Yes
+        - ``ms``
+        - Applied integration time.
+      * - ``autoRecoverOnLatch``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether automatic latch recovery is enabled.
+      * - ``maxRecoveryAttempts``
+        - ``int``
+        - Yes
+        - ``—``
+        - Maximum automatic recovery attempts.
+      * - ``zeroConsecutiveLimit``
+        - ``int``
+        - Yes
+        - ``—``
+        - Consecutive zero-count threshold used to detect a latch.
+      * - ``healthLogEnabled``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether periodic detector-health logging is enabled.
+      * - ``healthLogFrequencyHz``
+        - ``float``
+        - Yes
+        - ``Hz``
+        - Configured detector-health logging frequency.
+      * - ``biasChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Configured one-based bias channels.
+      * - ``latchGuardChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Configured one-based latch-guard channels.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Configured bias currents keyed by one-based channel.
+      * - ``triggerLevels``
+        - ``object``
+        - Yes
+        - ``—``
+        - Configured trigger levels keyed by one-based channel.
 
 
 .. _deviceos-photek-stopdetectors:
@@ -69,43 +108,37 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   :Result keys: ``biasCurrentsUa``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "StopDetectors",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="StopDetectors",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Readback bias currents keyed by one-based channel.
 
 
 .. _deviceos-photek-startdetectors:
@@ -123,43 +156,37 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   :Result keys: ``biasCurrentsUa``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "StartDetectors",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="StartDetectors",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Readback bias currents keyed by one-based channel.
 
 
 .. _deviceos-photek-setbiascurrents:
@@ -178,6 +205,9 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -193,43 +223,34 @@ Photek Foreground Tasks
         - ``List[float] \| Dict[int, float] \| float \| None``
         - No
         - ``None``
-        - —
+        - A 16-value current vector, a map from one-based channel to microamperes, or one current for every channel.
 
-   :Result keys: ``biasCurrentsUa``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "SetBiasCurrents",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="SetBiasCurrents",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Readback bias currents keyed by one-based channel.
 
 
 .. _deviceos-photek-settriggerlevels:
@@ -247,6 +268,9 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -262,43 +286,34 @@ Photek Foreground Tasks
         - ``List[int] \| Dict[int, int] \| int \| None``
         - No
         - ``None``
-        - —
+        - A 16-value level vector, a map from one-based channel to level, or one level for every channel.
 
-   :Result keys: ``status``, ``triggerLevels``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "SetTriggerLevels",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="SetTriggerLevels",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``triggerLevels``
+        - ``object``
+        - Yes
+        - ``—``
+        - Readback trigger levels keyed by one-based channel.
 
 
 .. _deviceos-photek-readdetectorhealth:
@@ -318,41 +333,122 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    No public parameters.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "ReadDetectorHealth",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="ReadDetectorHealth",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, ERROR``
+        - Detector-health outcome.
+      * - ``timestampEpoch``
+        - ``float``
+        - Yes
+        - ``s``
+        - Health-read timestamp.
+      * - ``timestamp``
+        - ``str``
+        - Yes
+        - ``—``
+        - Local formatted health-read timestamp.
+      * - ``readingValid``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether guarded detector counts passed the latch check.
+      * - ``readingCorrupted``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the reading is considered corrupted by a latch.
+      * - ``invalidatesMeasurements``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether concurrent measurements must be discarded.
+      * - ``counts``
+        - ``object``
+        - Yes
+        - ``—``
+        - Guarded count values keyed by channel.
+      * - ``allCounts``
+        - ``object``
+        - Yes
+        - ``—``
+        - All detector count values keyed by channel.
+      * - ``latchedChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Channels currently considered latched.
+      * - ``latchGuardChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Channels included in the latch check.
+      * - ``discardedReadings``
+        - ``list[object]``
+        - Yes
+        - ``—``
+        - Readings discarded while recovery was attempted.
+      * - ``recoveryStatus``
+        - ``str``
+        - Yes
+        - ``—``
+        - Automatic recovery state.
+      * - ``lastValidCounts``
+        - ``object``
+        - Yes
+        - ``—``
+        - Most recent valid guarded counts keyed by channel.
+      * - ``alert``
+        - ``object \| None``
+        - Yes
+        - ``—``
+        - Alert produced by the current health read, when any.
+      * - ``lastAlert``
+        - ``object \| None``
+        - Yes
+        - ``—``
+        - Most recent latch alert, when any.
+      * - ``latchEventCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Cumulative detected latch-event count.
+      * - ``lastRecovery``
+        - ``object``
+        - No
+        - ``—``
+        - Last automatic recovery report.
+      * - ``errorType``
+        - ``str``
+        - No
+        - ``—``
+        - Error type when recovery failed.
+      * - ``errorMessage``
+        - ``str``
+        - No
+        - ``—``
+        - Error message when recovery failed.
 
 
 .. _deviceos-photek-recoverlatcheddetectors:
@@ -371,6 +467,9 @@ Photek Foreground Tasks
    :Admission policy: ``sync``
    :Pausable: No
 
+   .. rubric:: Parameters
+      :class: invocation-heading
+
    .. list-table::
       :header-rows: 1
       :width: 100%
@@ -386,41 +485,32 @@ Photek Foreground Tasks
         - ``List[int] \| None``
         - No
         - ``None``
-        - —
+        - Optional one-based channels reported as the recovery target; omitting it uses ``latchGuardChannels``.
 
-   :Result keys: ``recovery``, ``status``
-
-   .. rubric:: Examples
-      :class: examples-heading
-
-   The enclosing micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the task is advertised.
-
-   Replace each ``<...>`` placeholder with a value accepted by the corresponding parameter.
-
-   .. rubric:: Static task invocation from a micro-protocol declaration
+   .. rubric:: Result payload
       :class: invocation-heading
 
-   .. code-block:: json
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
 
-      {
-        "stageId": "<stage-id>",
-        "handler": "RunSingleTaskStage",
-        "params": {
-          "deviceId": "<device-id>",
-          "taskName": "RecoverLatchedDetectors",
-          "taskParams": {}
-        }
-      }
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
 
-   .. rubric:: Dynamic task invocation from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      reply = await ctx.run_task(
-          deviceId="<device-id>",
-          taskName="RecoverLatchedDetectors",
-          params={
-          },
-      )
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``recovery``
+        - ``object``
+        - Yes
+        - ``—``
+        - Manual recovery report containing attempt, target channels, and off/settle durations.
 

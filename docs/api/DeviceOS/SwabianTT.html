@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=2ed564f8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=798a7bb0" />
     
     
 
@@ -234,9 +234,16 @@
 <li class="toctree-l3"><a class="reference internal" href="Fake/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Examples/tasks.html">Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../NodeEngine/ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../NodeEngine/OpenMetaProtocolPacks.html">Open Meta-protocol Packs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
@@ -295,6 +302,46 @@
 <dd class="field-odd"><p><a class="reference external" href="https://www.swabianinstruments.com/time-tagger/">Swabian Time Tagger</a></p>
 </dd>
 </dl>
+</div>
+<div class="api-reference runtime-requirements admonition">
+<p class="admonition-title">Runtime requirements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Vendor software<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Swabian Instruments Time Tagger software</p>
+</dd>
+</dl>
+<p class="invocation-heading rubric">Local settings</p>
+<div class="table-wrapper colwidths-given api-table api-runtime-settings-table docutils container">
+<table class="api-table api-runtime-settings-table docutils align-default" style="width: 100%">
+<colgroup>
+<col style="width: 28.0%" />
+<col style="width: 12.0%" />
+<col style="width: 25.0%" />
+<col style="width: 35.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SWABIAN_TIMETAGGER_PYTHON_PATH</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>—</p></td>
+<td><p>Directory containing the official TimeTagger Python API.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SWABIAN_TIMETAGGER_NATIVE_PATH</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>—</p></td>
+<td><p>Directory containing the native Time Tagger runtime libraries.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>DeviceOS configures both directories before importing this driver.</p>
+<p>See <a class="reference internal" href="RuntimeSetup.html"><span class="doc">DeviceOS runtime setup</span></a> for local-config discovery and overrides.</p>
 </div>
 <p>HardwareDriver for a single Swabian Time Tagger.</p>
 <p>The driver manages physical channels discovered from the device, logical

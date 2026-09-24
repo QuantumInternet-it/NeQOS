@@ -1,0 +1,43 @@
+DeviceOS Runtime Setup
+======================
+
+Vendor SDKs and native libraries are installed on the DeviceOS host and are not redistributed with NeQOS.
+
+DeviceOS reads ``config/DeviceOS.local.json`` automatically when present. In a standalone release, it searches beside the executable before loading the selected driver. Use ``--localConfigFile <path>`` to select another local-runtime JSON file.
+
+Local settings belong to the host machine. Do not place them in ``network.json``.
+
+.. rubric:: Local runtime configuration
+   :class: invocation-heading
+
+Copy ``DeviceOS.local.json.example`` to ``DeviceOS.local.json`` and adapt paths to the installed vendor software:
+
+.. code-block:: json
+
+   {
+     "environment": {
+       "SWABIAN_TIMETAGGER_PYTHON_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\python",
+       "SWABIAN_TIMETAGGER_NATIVE_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\x64",
+       "THORLABS_KINESIS_PATH": "C:\\Program Files\\Thorlabs\\Kinesis"
+     }
+   }
+
+.. rubric:: Driver requirements
+   :class: invocation-heading
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table api-runtime-driver-table
+   :widths: 28 30 42
+
+   * - Driver
+     - Vendor software
+     - Local settings
+   * - :doc:`Swabian Instruments Time Tagger <SwabianTT>`
+     - Swabian Instruments Time Tagger software
+     - ``SWABIAN_TIMETAGGER_PYTHON_PATH``, ``SWABIAN_TIMETAGGER_NATIVE_PATH``
+   * - :doc:`Thorlabs MPC320 Polarization Controller <Mpc320>`
+     - Thorlabs Kinesis
+     - ``THORLABS_KINESIS_PATH``
+

@@ -63,19 +63,3 @@ Photek Signals
         - —
         - Health recovery outcome: NOT_NEEDED, PENDING, RECOVERED, or FAILED.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   A running micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested signal is advertised.
-
-   Read one advertised signal from a Python handler.
-
-   Replace each ``<...>`` placeholder with the appropriate device ID or advertised signal name.
-
-   .. code-block:: python
-
-      result = await ctx.read_signal(
-          deviceId="<device-id>",
-          name="<signal-name>",
-      )
-

@@ -8,6 +8,37 @@ SwabianTT Driver
    :Source: ``DeviceOSPack/SwabianTTDriver.py``
    :Official product page: `Swabian Time Tagger <https://www.swabianinstruments.com/time-tagger/>`_
 
+.. admonition:: Runtime requirements
+   :class: api-reference runtime-requirements
+
+   :Vendor software: Swabian Instruments Time Tagger software
+
+   .. rubric:: Local settings
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-runtime-settings-table
+      :widths: 28 12 25 35
+
+      * - Setting
+        - Required
+        - Default
+        - Description
+      * - ``SWABIAN_TIMETAGGER_PYTHON_PATH``
+        - Yes
+        - —
+        - Directory containing the official TimeTagger Python API.
+      * - ``SWABIAN_TIMETAGGER_NATIVE_PATH``
+        - Yes
+        - —
+        - Directory containing the native Time Tagger runtime libraries.
+
+   DeviceOS configures both directories before importing this driver.
+
+   See :doc:`DeviceOS runtime setup <RuntimeSetup>` for local-config discovery and overrides.
+
 HardwareDriver for a single Swabian Time Tagger.
 
 The driver manages physical channels discovered from the device, logical

@@ -35,33 +35,3 @@ PaX000 Parameters
 
       ``<N>`` is the index of a discovered hardware channel and ``<M>`` is the index of a waveplate within that channel. For example, the concrete advertised names are ``channel1WavelengthNm`` and ``channel1Waveplate1AngleDeg``.
 
-   .. rubric:: Examples
-      :class: examples-heading
-
-   A running micro-protocol must include the target ``deviceId`` in its ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested parameter is advertised.
-
-   Use the parameter table to choose an advertised parameter and a valid value.
-
-   Replace each ``<...>`` placeholder with the appropriate device ID, advertised parameter name, or valid parameter value.
-
-   .. rubric:: Read a parameter from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      result = await ctx.get_parameter(
-          deviceId="<device-id>",
-          name="<parameter-name>",
-      )
-
-   .. rubric:: Write a parameter from a Python handler
-      :class: invocation-heading
-
-   .. code-block:: python
-
-      result = await ctx.set_parameter(
-          deviceId="<device-id>",
-          name="<parameter-name>",
-          value="<parameter-value>",
-      )
-

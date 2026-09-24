@@ -1,0 +1,67 @@
+Tasks
+=====
+
+Invoke only tasks advertised by the target driver's capability reply.
+
+Every enclosing micro-protocol must reserve the target device in ``resourceRequests``. NodeEngine retrieves driver capabilities during the device handshake before the stage or handler runs.
+
+Replace each ``<...>`` placeholder with a value accepted by the task reference.
+
+.. rubric:: Static task invocation from a micro-protocol declaration
+   :class: invocation-heading
+
+.. code-block:: json
+
+   {
+     "resourceRequests": ["<device-id>"],
+     "stages": [
+       {
+         "stageId": "<stage-id>",
+         "handler": "RunSingleTaskStage",
+         "params": {
+           "deviceId": "<device-id>",
+           "taskName": "<exported-task-name>",
+           "taskParams": {
+             "<required-parameter-name>": "<value>"
+           }
+         }
+       }
+     ]
+   }
+
+Use an empty ``taskParams`` object when the task has no required parameters.
+
+.. rubric:: Dynamic task invocation from a Python handler
+   :class: invocation-heading
+
+.. code-block:: python
+
+   reply = await ctx.run_task(
+       deviceId="<device-id>",
+       taskName="<exported-task-name>",
+       params={"<parameter-name>": "<value>"},
+   )
+
+.. rubric:: Task results
+   :class: invocation-heading
+
+A Python handler receives a NodeEngine execution envelope. Its top-level ``status`` reports the transport and execution outcome between NodeEngine and DeviceEngine; it does not describe the device-specific outcome returned by the task.
+
+.. code-block:: json
+
+   {
+       "deviceId": "<device-id>",
+       "taskName": "<exported-task-name>",
+       "status": "OK",
+       "result": {
+           "status": "<OK-or-ERROR>",
+           "<task-specific-key>": "<value>",
+       },
+       "errorType": null,
+       "errorMessage": null,
+       "reply": "<raw-device-engine-reply>",
+   }
+
+The nested ``result`` is the exact payload returned by the driver task. Its ``result.status`` represents the task and hardware outcome, so an outer ``status`` of ``OK`` can coexist with a nested ``result.status`` of ``ERROR``. Consult the task reference for the fields contained in ``result``.
+
+When the outer ``status`` is ``ERROR``, ``result`` is ``None`` and ``errorType`` and ``errorMessage`` describe the NodeEngine or DeviceEngine failure. ``reply`` is retained for diagnostics rather than normal control flow.
