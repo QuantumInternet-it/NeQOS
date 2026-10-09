@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "fake-device-examples",
+    "folder": "../.."
+  },
+  "steps": [
+    {
+      "protocolId": "FAKE-COMPOSED-SWEEP",
+      "sharedParams": {
+    "sweepCount": 3,
+    "valueStart": 10,
+    "fakeDeviceId": "FakeDeviceId",
+    "fakeTaskDurationSec": 0.05,
+        "pollDelaySec": 0.2
+      }
+    }
+  ]
+}

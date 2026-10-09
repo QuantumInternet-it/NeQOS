@@ -47,6 +47,10 @@ table.api-task-parameter-table td:nth-child(3) {
     font-size: 1.6rem;
   }
 
+  .documentation-home h2 {
+    font-size: 1.3rem;
+  }
+
   .task-reference .table-wrapper.api-table {
     width: 100%;
     margin-left: 0;
@@ -79,8 +83,21 @@ table.api-task-parameter-table td:nth-child(3) {
 }
 
 /* Keep tables and long protocol/namespace identifiers inside the content. */
-.content, .article-container, article, section, .sd-col {
+.main, .content, .article-container, article, section, .sd-col {
   min-width: 0;
+}
+
+/* Reclaim the space of the removed right-hand table of contents. */
+.content {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: auto;
+}
+
+@media (min-width: 82em) {
+  .main {
+    padding-right: 15em;
+  }
 }
 
 .table-wrapper {
@@ -123,6 +140,11 @@ table.api-table td {
 .highlight {
   max-width: 100%;
   overflow-x: auto;
+}
+
+.llm-authoring-source pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 46em) {

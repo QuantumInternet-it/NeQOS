@@ -1,0 +1,81 @@
+{
+  "protocolId": "FAKE-STAGED",
+  "description": "Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": true,
+  "timeoutSec": 120.0,
+  "resourceRequests": ["FakeDeviceId"],
+  "sharedParams": {
+    "fakeDeviceId": "FakeDeviceId",
+    "gain": 4.2,
+    "shortTaskDurationSec": 1.0,
+    "shortTickSec": 0.5,
+    "firstLongDurationSec": 12.0,
+    "secondLongDurationSec": 8.0,
+    "longTickSec": 1.0
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "fakeDeviceId": {"type": "string", "description": "Identifier of the shared FakeDriver device.", "required": true, "minLength": 1},
+      "gain": {"type": "number", "description": "Synthetic gain set during preparation.", "required": true, "minimum": 0},
+      "shortTaskDurationSec": {"type": "number", "description": "Duration of each short foreground task in seconds.", "required": true, "minimum": 0},
+      "shortTickSec": {"type": "number", "description": "Tick interval for short tasks in seconds.", "required": true, "minimum": 0},
+      "firstLongDurationSec": {"type": "number", "description": "Duration of the first pausable task in seconds.", "required": true, "minimum": 0},
+      "secondLongDurationSec": {"type": "number", "description": "Duration of the second pausable task in seconds.", "required": true, "minimum": 0},
+      "longTickSec": {"type": "number", "description": "Tick interval for pausable tasks in seconds.", "required": true, "minimum": 0}
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "summary.status": {"type": "string", "description": "Terminal status returned by the final foreground check."},
+      "summary.deviceId": {"type": "string", "description": "FakeDriver device used by every stage.", "minLength": 1},
+      "summary.gain": {"type": "number", "description": "Gain confirmed by the preparation task."},
+      "summary.firstLongDurationSec": {"type": "number", "description": "Duration confirmed by the first pausable task in seconds.", "minimum": 0},
+      "summary.secondLongDurationSec": {"type": "number", "description": "Duration confirmed by the second pausable task in seconds.", "minimum": 0}
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-FAKE-STAGED-Prepare",
+      "handler": "RunSingleTaskStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "taskName": "SetGainTask", "taskParams": {"value": "$shared.gain"}, "resultKey": "staged.prepare"}
+    },
+    {
+      "stageId": "01-FAKE-STAGED-PreCheck",
+      "handler": "RunSingleTaskStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "taskName": "ForegroundShortTask", "taskParams": {"durationSec": "$shared.shortTaskDurationSec", "tickSec": "$shared.shortTickSec"}, "resultKey": "staged.preCheck"}
+    },
+    {
+      "stageId": "02-FAKE-STAGED-LongPhaseA",
+      "handler": "RunSingleTaskStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "taskName": "FirstForegroundLongPausableTask", "taskParams": {"durationSec": "$shared.firstLongDurationSec", "tickSec": "$shared.longTickSec"}, "resultKey": "staged.longPhaseA"}
+    },
+    {
+      "stageId": "03-FAKE-STAGED-LongPhaseB",
+      "handler": "RunSingleTaskStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "taskName": "SecondForegroundLongPausableTask", "taskParams": {"durationSec": "$shared.secondLongDurationSec", "tickSec": "$shared.longTickSec"}, "resultKey": "staged.longPhaseB"}
+    },
+    {
+      "stageId": "04-FAKE-STAGED-PostCheck",
+      "handler": "RunSingleTaskStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "taskName": "ForegroundShortTask", "taskParams": {"durationSec": "$shared.shortTaskDurationSec", "tickSec": "$shared.shortTickSec"}, "resultKey": "staged.postCheck"}
+    },
+    {
+      "stageId": "05-FAKE-STAGED-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {"from": "staged.postCheck.reply.result.status", "as": "summary.status"},
+          {"from": "staged.postCheck.deviceId", "as": "summary.deviceId"},
+          {"from": "staged.prepare.reply.result.gain", "as": "summary.gain"},
+          {"from": "staged.longPhaseA.reply.result.durationSec", "as": "summary.firstLongDurationSec"},
+          {"from": "staged.longPhaseB.reply.result.durationSec", "as": "summary.secondLongDurationSec"}
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "protocolId": "FAKE-COMPOSED-SWEEP-LEAF",
+  "description": "Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 10.0,
+  "resourceRequests": ["FakeDeviceId"],
+  "sharedParams": {
+    "value": 0,
+    "iteration": 0,
+    "fakeDeviceId": "FakeDeviceId",
+    "fakeTaskDurationSec": 0.05
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "value": {"type": "integer", "description": "Deterministic value exported by this leaf."},
+      "iteration": {"type": "integer", "description": "One-based position inside the parent sweep.", "minimum": 0},
+      "fakeDeviceId": {"type": "string", "description": "Identifier of the FakeDriver device.", "minLength": 1},
+      "fakeTaskDurationSec": {"type": "number", "description": "Duration of the fake foreground task in seconds.", "minimum": 0}
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "test.leaf": {"type": "object", "description": "Iteration and deterministic value produced by this leaf.", "artifact": {"path": "result.json", "format": "json"}}
+    }
+  },
+  "stages": [
+    {"stageId": "00-FAKE-COMPOSED-SWEEP-LEAF-RunFakeTask", "handler": "RunSingleTaskStage", "params": {"deviceId": "$shared.fakeDeviceId", "taskName": "ForegroundShortTask", "taskParams": {"durationSec": "$shared.fakeTaskDurationSec", "tickSec": 0.01}, "resultKey": "test.fakeTask"}},
+    {"stageId": "01-FAKE-COMPOSED-SWEEP-LEAF-ProduceValue", "handler": "FakeComposedSweepProduceValueStage", "params": {"value": "$shared.value", "iteration": "$shared.iteration"}},
+    {"stageId": "02-FAKE-COMPOSED-SWEEP-LEAF-PublishResult", "handler": "PublishResultStage", "params": {"exports": [{"from": "test.leaf", "as": "test.leaf"}]}}
+  ]
+}

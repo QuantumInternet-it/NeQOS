@@ -1,0 +1,33 @@
+{
+  "networkId": "fake-device-examples",
+  "telemetryDefaults": {
+    "periodSec": 1.0,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "FakeNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "FakeDeviceId",
+          "deviceType": "Fake",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "127.0.0.1",
+            "syncCmdPort": 39101,
+            "asyncCmdPort": 39111,
+            "telemetryPort": 39121
+          },
+          "driverConfig": {
+            "probeTimeoutSec": 1.0,
+            "probeBeforeInitialize": false,
+            "probeFailureThreshold": 3
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

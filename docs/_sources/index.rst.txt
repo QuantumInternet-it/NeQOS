@@ -1,3 +1,5 @@
+.. rst-class:: documentation-home
+
 NeQOS Developer API
 ===================
 
@@ -8,17 +10,33 @@ run the software; use the API Reference to extend it.
 Source code, release archives, and project updates are available in the
 `NeQOS GitHub repository <https://github.com/QuantumInternet-it/NeQOS>`_.
 
-.. include:: _generated/driver-list.rst
+User Guide
+----------
+
+* :doc:`NeQOS User Guide <user-guide/index>`: installation, network setup,
+  protocol runs and results.
+* :doc:`LLM Authoring Guide <llm-authoring>`: creating Open
+  meta-protocol libraries with downloadable instructions for your LLM.
+
+API Reference
+-------------
+
+* :doc:`NodeEngine API <api/NodeEngine/index>`: the built-in meta-protocol
+  library, Open libraries and composition handlers.
+* :doc:`DeviceOS API <api/DeviceOS/index>`: driver tasks, parameters and signals.
 
 .. toctree::
    :maxdepth: 2
    :caption: User Guide
+   :hidden:
 
    user-guide/index
+   llm-authoring
 
 .. toctree::
    :maxdepth: 2
    :caption: API Reference
+   :hidden:
 
-   api/DeviceOS/index
    api/NodeEngine/index
+   api/DeviceOS/index

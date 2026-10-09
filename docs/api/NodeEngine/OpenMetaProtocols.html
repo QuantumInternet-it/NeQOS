@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Meta-protocol Handlers" href="MetaProtocolHandlers.html"><link rel="prev" title="ReconstructTwoQubitDensityMatrix" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="External Python Package Dependency" href="open/external-python-package-dependency.html"><link rel="prev" title="ReconstructTwoQubitDensityMatrix" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>Open Meta-protocols - NeQOS Developer API</title>
@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=3be5f3af" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=05b004e2" />
     
     
 
@@ -175,7 +175,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -202,94 +202,47 @@
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/running.html">4. Run and customize a protocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/results.html">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../user-guide/protocols/index.html">Built-in Protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../user-guide/documentation-maintenance.html">Build and publish this guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/protocols/index.html">Built-in Meta-Protocol Library</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../llm/authoring-instructions.html">NeQOS_LLM_AUTHORING.md</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/signals.html">Signals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/foreground-tasks.html">Foreground Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/signals.html">Signals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/signals.html">Signals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/signals.html">Signals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/parameters.html">Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/signals.html">Signals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/tasks.html">Tasks</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="ProtectedMicroprotocols.html">Built-in Protocols</a><input aria-label="Toggle navigation of Built-in Protocols" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="ProtectedMicroprotocols.html">Built-in Meta-Protocol Library</a><input aria-label="Toggle navigation of Built-in Meta-Protocol Library" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/correlation/index.html">Correlation</a><input aria-label="Toggle navigation of Correlation" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/correlation/index.html">Correlation</a><input aria-label="Toggle navigation of Correlation" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/countrate/index.html">Countrate</a><input aria-label="Toggle navigation of Countrate" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/countrate/index.html">Countrate</a><input aria-label="Toggle navigation of Countrate" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureCountRates.html">MeasureCountRates</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MonitorCountRates.html">MonitorCountRates</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/rawStream/index.html">Raw stream</a><input aria-label="Toggle navigation of Raw stream" class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/rawStream/index.html">Raw stream</a><input aria-label="Toggle navigation of Raw stream" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/device/index.html">Device</a><input aria-label="Toggle navigation of Device" class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/calibrationStore/index.html">Calibration store</a><input aria-label="Toggle navigation of Calibration store" class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/device/index.html">Device</a><input aria-label="Toggle navigation of Device" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/calibrationStore/index.html">Calibration store</a><input aria-label="Toggle navigation of Calibration store" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
@@ -297,23 +250,23 @@
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/fileTransfer/index.html">File transfer</a><input aria-label="Toggle navigation of File transfer" class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/fileTransfer/index.html">File transfer</a><input aria-label="Toggle navigation of File transfer" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/initialization/index.html">Initialization</a><input aria-label="Toggle navigation of Initialization" class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/initialization/index.html">Initialization</a><input aria-label="Toggle navigation of Initialization" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/index.html">Entanglement</a><input aria-label="Toggle navigation of Entanglement" class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/distillation/index.html">Distillation</a><input aria-label="Toggle navigation of Distillation" class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/index.html">Entanglement</a><input aria-label="Toggle navigation of Entanglement" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/distillation/index.html">Distillation</a><input aria-label="Toggle navigation of Distillation" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/fidelity/index.html">Fidelity</a><input aria-label="Toggle navigation of Fidelity" class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/fidelity/index.html">Fidelity</a><input aria-label="Toggle navigation of Fidelity" class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
@@ -321,15 +274,15 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/execution/index.html">Execution</a><input aria-label="Toggle navigation of Execution" class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/execution/control/index.html">Control</a><input aria-label="Toggle navigation of Control" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/execution/index.html">Execution</a><input aria-label="Toggle navigation of Execution" class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/execution/control/index.html">Control</a><input aria-label="Toggle navigation of Control" class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/HoldDuration.html">HoldDuration</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/link/index.html">Link</a><input aria-label="Toggle navigation of Link" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/characterization/index.html">Characterization</a><input aria-label="Toggle navigation of Characterization" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/link/index.html">Link</a><input aria-label="Toggle navigation of Link" class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/characterization/index.html">Characterization</a><input aria-label="Toggle navigation of Characterization" class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
@@ -340,16 +293,16 @@
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/polarizationAlignment/index.html">Polarization alignment</a><input aria-label="Toggle navigation of Polarization alignment" class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/polarizationAlignment/index.html">Polarization alignment</a><input aria-label="Toggle navigation of Polarization alignment" class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
 </ul>
 </li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/polarizationCompensation/index.html">Polarization compensation</a><input aria-label="Toggle navigation of Polarization compensation" class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/polarizationCompensation/index.html">Polarization compensation</a><input aria-label="Toggle navigation of Polarization compensation" class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
@@ -359,8 +312,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/timing/index.html">Timing</a><input aria-label="Toggle navigation of Timing" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/timing/alignment/index.html">Alignment</a><input aria-label="Toggle navigation of Alignment" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/timing/index.html">Timing</a><input aria-label="Toggle navigation of Timing" class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/timing/alignment/index.html">Alignment</a><input aria-label="Toggle navigation of Alignment" class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/AlignChannels.html">AlignChannels</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
@@ -368,8 +321,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/tomography/index.html">Tomography</a><input aria-label="Toggle navigation of Tomography" class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/tomography/state/index.html">State</a><input aria-label="Toggle navigation of State" class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/tomography/index.html">Tomography</a><input aria-label="Toggle navigation of Tomography" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/tomography/state/index.html">State</a><input aria-label="Toggle navigation of State" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
 </ul>
 </li>
@@ -377,8 +330,95 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Open Meta-protocols</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">Open Meta-protocols</a><input aria-label="Toggle navigation of Open Meta-protocols" checked="" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="open/external-python-package-dependency.html">External Python Package Dependency</a><input aria-label="Toggle navigation of External Python Package Dependency" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="open/fake-device-examples.html">Fake Device Examples</a><input aria-label="Toggle navigation of Fake Device Examples" class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="open/fake-device-examples--FAKE-SIMPLE.html">FAKE-SIMPLE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="open/fake-device-examples--FAKE-STAGED.html">FAKE-STAGED</a></li>
+<li class="toctree-l4"><a class="reference internal" href="open/fake-device-examples--FAKE-HANDLER.html">FAKE-HANDLER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="open/fake-device-examples--FAKE-COMPOSED-SWEEP.html">FAKE-COMPOSED-SWEEP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH.html">FAKE-COMPOSED-SWEEP-BRANCH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF.html">FAKE-COMPOSED-SWEEP-LEAF</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="open/ieee-qce-2026-demo.html">IEEE QCE 2026 Demo</a><input aria-label="Toggle navigation of IEEE QCE 2026 Demo" class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="open/ieee-qce-2026-demo--MPC320CountsMaximization.html">MPC320CountsMaximization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="MetaProtocolHandlers.html">Meta-protocol Handlers</a><input aria-label="Toggle navigation of Meta-protocol Handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="handlers/composition.html">Child protocols</a><input aria-label="Toggle navigation of Child protocols" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="handlers/SubmitMicroProtocolStage.html">SubmitMicroProtocolStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="handlers/WaitMicroProtocolStage.html">WaitMicroProtocolStage</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="handlers/results.html">Results</a><input aria-label="Toggle navigation of Results" class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="handlers/PublishResultStage.html">PublishResultStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="handlers/ExportScratchStage.html">ExportScratchStage</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="handlers/device-lifecycle.html">Device tasks and cleanup</a><input aria-label="Toggle navigation of Device tasks and cleanup" class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="handlers/RunSingleTaskStage.html">RunSingleTaskStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="handlers/RegisterTerminalCleanupTaskStage.html">RegisterTerminalCleanupTaskStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="handlers/ClearTerminalCleanupTaskStage.html">ClearTerminalCleanupTaskStage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/tasks.html">Tasks</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -414,1310 +454,115 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="open-meta-protocols">
 <h1>Open Meta-protocols<a class="headerlink" href="#open-meta-protocols" title="Link to this heading">¶</a></h1>
+<p>Editable protocol libraries loaded alongside NeQOS. Each library declares its templates and any local Python handlers.</p>
+<p><a class="reference internal" href="../../user-guide/quickstart.html"><span class="doc">Run an Open library</span></a> | <a class="reference internal" href="MetaProtocolHandlers.html"><span class="doc">Composition handlers</span></a></p>
+<div class="toctree-wrapper compound">
+</div>
 <section id="external-python-package-dependency">
-<h2>external-python-package-dependency<a class="headerlink" href="#external-python-package-dependency" title="Link to this heading">¶</a></h2>
+<h2>External Python Package Dependency<a class="headerlink" href="#external-python-package-dependency" title="Link to this heading">¶</a></h2>
 <p>Self-contained demonstration of a pure-Python dependency loaded by an open NeQOS meta-protocol handler.</p>
-</section>
-<section id="external-python-package-dependency-test">
-<h2>EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST<a class="headerlink" href="#external-python-package-dependency-test" title="Link to this heading">¶</a></h2>
-<p>Verifies that an open handler can import a distribution-local pure-Python dependency.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>10.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
+<p><code class="docutils literal notranslate"><span class="pre">external-python-package-dependency</span></code>, 1 template</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</div>
+<p class="sd-card-text" id="external-python-package-dependency-test">Verifies that an open handler can import a distribution-local pure-Python dependency.</p>
 </div>
-<section id="input-contract">
-<h3>Input Contract<a class="headerlink" href="#input-contract" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Integer formatted by the humanize package.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html"><span class="doc">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</span></a></div>
 </div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="output-contract">
-<h3>Output Contract<a class="headerlink" href="#output-contract" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.formattedValue</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Comma-separated representation returned by the external-package handler.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="stages">
-<h3>Stages<a class="headerlink" href="#stages" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">ExternalPythonPackageDependencyHumanizeStage</span></code></p></td>
-<td><p>{“value”: “$shared.value”}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-publish-result</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “test.formattedValue”, “from”: “externalPythonPackageDependency.formattedValue”}]}</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Manifest field</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Schema version</p></td>
-<td><p>0.5</p></td>
-</tr>
-<tr class="row-odd"><td><p>EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</p></td>
-<td><p>MetaProtocolsDef/EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST/protocol.json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
 </section>
 <section id="fake-device-examples">
-<h2>fake-device-examples<a class="headerlink" href="#fake-device-examples" title="Link to this heading">¶</a></h2>
+<h2>Fake Device Examples<a class="headerlink" href="#fake-device-examples" title="Link to this heading">¶</a></h2>
 <p>FakeDriver examples covering compiled stages, local handlers, staged execution, and contract-compliant parent-child result composition.</p>
-</section>
-<section id="fake-simple">
-<h2>FAKE-SIMPLE<a class="headerlink" href="#fake-simple" title="Link to this heading">¶</a></h2>
-<p>Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>30.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[“FakeDeviceId”]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
+<p><code class="docutils literal notranslate"><span class="pre">fake-device-examples</span></code>, 6 templates</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+FAKE-SIMPLE</div>
+<p class="sd-card-text" id="fake-simple">Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.</p>
 </div>
-<section id="id1">
-<h3>Input Contract<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Identifier of the shared FakeDriver device.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Synthetic gain set before the foreground task.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Foreground task duration in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>FakeDriver task tick interval in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/fake-device-examples--FAKE-SIMPLE.html"><span class="doc">FAKE-SIMPLE</span></a></div>
 </div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id2">
-<h3>Output Contract<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.deviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>FakeDriver device used by the run.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.durationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Duration confirmed by the foreground check in seconds.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Gain confirmed by the SetGainTask.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.status</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Terminal status returned by the foreground check.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+FAKE-STAGED</div>
+<p class="sd-card-text" id="fake-staged">Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.</p>
 </div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id3">
-<h3>Stages<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-SIMPLE-SetGain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “simple.setGain”, “taskName”: “SetGainTask”, “taskParams”: {“value”: “$shared.gain”}}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-SIMPLE-ShortCheck</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “simple.shortCheck”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.taskDurationSec”, “tickSec”: “$shared.tickSec”}}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-SIMPLE-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “summary.status”, “from”: “simple.shortCheck.reply.result.status”}, {“as”: “summary.deviceId”, “from”: “simple.shortCheck.deviceId”}, {“as”: “summary.gain”, “from”: “simple.setGain.reply.result.gain”}, {“as”: “summary.durationSec”, “from”: “simple.shortCheck.reply.result.durationSec”}]}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/fake-device-examples--FAKE-STAGED.html"><span class="doc">FAKE-STAGED</span></a></div>
 </div>
-</section>
-</section>
-<section id="fake-staged">
-<h2>FAKE-STAGED<a class="headerlink" href="#fake-staged" title="Link to this heading">¶</a></h2>
-<p>Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>True</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>120.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[“FakeDeviceId”]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+FAKE-HANDLER</div>
+<p class="sd-card-text" id="fake-handler">FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.</p>
 </div>
-<section id="id4">
-<h3>Input Contract<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Identifier of the shared FakeDriver device.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">firstLongDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Duration of the first pausable task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Synthetic gain set during preparation.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longTickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Tick interval for pausable tasks in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">secondLongDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Duration of the second pausable task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shortTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Duration of each short foreground task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shortTickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Tick interval for short tasks in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/fake-device-examples--FAKE-HANDLER.html"><span class="doc">FAKE-HANDLER</span></a></div>
 </div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id5">
-<h3>Output Contract<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.deviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>FakeDriver device used by every stage.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.firstLongDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Duration confirmed by the first pausable task in seconds.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Gain confirmed by the preparation task.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.secondLongDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Duration confirmed by the second pausable task in seconds.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.status</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Terminal status returned by the final foreground check.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+FAKE-COMPOSED-SWEEP</div>
+<p class="sd-card-text" id="fake-composed-sweep">Hardware-free root meta-protocol.</p>
 </div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id6">
-<h3>Stages<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-STAGED-Prepare</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.prepare”, “taskName”: “SetGainTask”, “taskParams”: {“value”: “$shared.gain”}}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-STAGED-PreCheck</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.preCheck”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.shortTaskDurationSec”, “tickSec”: “$shared.shortTickSec”}}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-STAGED-LongPhaseA</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.longPhaseA”, “taskName”: “FirstForegroundLongPausableTask”, “taskParams”: {“durationSec”: “$shared.firstLongDurationSec”, “tickSec”: “$shared.longTickSec”}}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">03-FAKE-STAGED-LongPhaseB</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.longPhaseB”, “taskName”: “SecondForegroundLongPausableTask”, “taskParams”: {“durationSec”: “$shared.secondLongDurationSec”, “tickSec”: “$shared.longTickSec”}}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">04-FAKE-STAGED-PostCheck</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.postCheck”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.shortTaskDurationSec”, “tickSec”: “$shared.shortTickSec”}}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">05-FAKE-STAGED-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “summary.status”, “from”: “staged.postCheck.reply.result.status”}, {“as”: “summary.deviceId”, “from”: “staged.postCheck.deviceId”}, {“as”: “summary.gain”, “from”: “staged.prepare.reply.result.gain”}, {“as”: “summary.firstLongDurationSec”, “from”: “staged.longPhaseA.reply.result.durationSec”}, {“as”: “summary.secondLongDurationSec”, “from”: “staged.longPhaseB.reply.result.durationSec”}]}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/fake-device-examples--FAKE-COMPOSED-SWEEP.html"><span class="doc">FAKE-COMPOSED-SWEEP</span></a></div>
 </div>
-</section>
-</section>
-<section id="fake-handler">
-<h2>FAKE-HANDLER<a class="headerlink" href="#fake-handler" title="Link to this heading">¶</a></h2>
-<p>FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>30.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[“FakeDeviceId”]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+FAKE-COMPOSED-SWEEP-BRANCH</div>
+<p class="sd-card-text" id="fake-composed-sweep-branch">Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.</p>
 </div>
-<section id="id7">
-<h3>Input Contract<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Identifier of the shared FakeDriver device.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Synthetic gain set by the local handler.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">maxIterations</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Number of repeat-stage executions.</p></td>
-<td><p>{“minimum”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Duration of each handler-run foreground task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>FakeDriver task tick interval in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH.html"><span class="doc">FAKE-COMPOSED-SWEEP-BRANCH</span></a></div>
 </div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id8">
-<h3>Output Contract<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.deviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>FakeDriver device used by the local handlers.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.durationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Duration submitted to every foreground check in seconds.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Gain submitted by the preparation handler.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.iterations</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Number of foreground checks executed by the repeat handler.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.status</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Terminal status returned by the final repeated foreground check.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+FAKE-COMPOSED-SWEEP-LEAF</div>
+<p class="sd-card-text" id="fake-composed-sweep-leaf">Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.</p>
 </div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id9">
-<h3>Stages<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-HANDLER-Prepare</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">FakePrepareStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “durationSec”: “$shared.taskDurationSec”, “gain”: “$shared.gain”, “tickSec”: “$shared.tickSec”}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-HANDLER-RepeatShortCheck</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">FakeRepeatShortCheckStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “durationSec”: “$shared.taskDurationSec”, “maxIterations”: “$shared.maxIterations”, “tickSec”: “$shared.tickSec”}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-HANDLER-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “summary.status”, “from”: “handler.status”}, {“as”: “summary.deviceId”, “from”: “handler.deviceId”}, {“as”: “summary.gain”, “from”: “handler.gain”}, {“as”: “summary.durationSec”, “from”: “handler.durationSec”}, {“as”: “summary.iterations”, “from”: “handler.iterations”}]}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF.html"><span class="doc">FAKE-COMPOSED-SWEEP-LEAF</span></a></div>
 </div>
-</section>
-</section>
-<section id="fake-composed-sweep">
-<h2>FAKE-COMPOSED-SWEEP<a class="headerlink" href="#fake-composed-sweep" title="Link to this heading">¶</a></h2>
-<p>Hardware-free root meta-protocol. It submits one branch which submits a configurable number of leaf runs from the same stage.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>30.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[“$shared.fakeDeviceId”]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<section id="id10">
-<h3>Input Contract<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Identifier of the FakeDriver device.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Duration of each fake foreground task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Parent polling interval in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Number of deterministic leaf runs.</p></td>
-<td><p>{“minimum”: 1}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Value assigned to the first leaf run.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id11">
-<h3>Output Contract<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.sweep</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Aggregated deterministic leaf results.</p></td>
-<td><p>{“format”: “json”, “path”: “result.json”}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id12">
-<h3>Stages<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-COMPOSED-SWEEP-BRANCH-Submit</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">SubmitMicroProtocolStage</span></code></p></td>
-<td><p>{“protocolKey”: “branch”, “resourceRequests”: [], “sharedParamOverrides”: {“fakeDeviceId”: “$shared.fakeDeviceId”, “fakeTaskDurationSec”: “$shared.fakeTaskDurationSec”, “pollDelaySec”: “$shared.pollDelaySec”, “sweepCount”: “$shared.sweepCount”, “valueStart”: “$shared.valueStart”}, “templateId”: “FAKE-COMPOSED-SWEEP-BRANCH”}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-COMPOSED-SWEEP-BRANCH-Wait</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">WaitMicroProtocolStage</span></code></p></td>
-<td><p>{“imports”: [{“as”: “test.sweep”, “from”: “test.sweep”}], “pollDelaySec”: “$shared.pollDelaySec”, “protocolKey”: “branch”, “templateId”: “FAKE-COMPOSED-SWEEP-BRANCH”}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-COMPOSED-SWEEP-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “test.sweep”, “from”: “test.sweep”}]}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
-<section id="fake-composed-sweep-branch">
-<h2>FAKE-COMPOSED-SWEEP-BRANCH<a class="headerlink" href="#fake-composed-sweep-branch" title="Link to this heading">¶</a></h2>
-<p>Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>30.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<section id="id13">
-<h3>Input Contract<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Identifier of the FakeDriver device.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Duration of each fake foreground task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Parent polling interval in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Number of deterministic leaf runs.</p></td>
-<td><p>{“minimum”: 1}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Value assigned to the first leaf run.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id14">
-<h3>Output Contract<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.sweep</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Aggregated deterministic leaf results.</p></td>
-<td><p>{“format”: “json”, “path”: “result.json”}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id15">
-<h3>Stages<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-COMPOSED-SWEEP-LEAF-SubmitSweep</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">FakeComposedSweepSubmitStage</span></code></p></td>
-<td><p>{“count”: “$shared.sweepCount”, “fakeDeviceId”: “$shared.fakeDeviceId”, “fakeTaskDurationSec”: “$shared.fakeTaskDurationSec”, “templateId”: “FAKE-COMPOSED-SWEEP-LEAF”, “valueStart”: “$shared.valueStart”}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-COMPOSED-SWEEP-LEAF-WaitSweep</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">FakeComposedSweepWaitStage</span></code></p></td>
-<td><p>{“pollDelaySec”: “$shared.pollDelaySec”}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-COMPOSED-SWEEP-BRANCH-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “test.sweep”, “from”: “test.sweep”}]}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
-<section id="fake-composed-sweep-leaf">
-<h2>FAKE-COMPOSED-SWEEP-LEAF<a class="headerlink" href="#fake-composed-sweep-leaf" title="Link to this heading">¶</a></h2>
-<p>Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>10.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[“FakeDeviceId”]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<section id="id16">
-<h3>Input Contract<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Identifier of the FakeDriver device.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Duration of the fake foreground task in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>False</p></td>
-<td><p>One-based position inside the parent sweep.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Deterministic value exported by this leaf.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id17">
-<h3>Output Contract<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.leaf</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
-<td><p>—</p></td>
-<td><p>Iteration and deterministic value produced by this leaf.</p></td>
-<td><p>{“format”: “json”, “path”: “result.json”}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id18">
-<h3>Stages<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-COMPOSED-SWEEP-LEAF-RunFakeTask</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
-<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “test.fakeTask”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.fakeTaskDurationSec”, “tickSec”: 0.01}}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-COMPOSED-SWEEP-LEAF-ProduceValue</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">FakeComposedSweepProduceValueStage</span></code></p></td>
-<td><p>{“iteration”: “$shared.iteration”, “value”: “$shared.value”}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-COMPOSED-SWEEP-LEAF-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “test.leaf”, “from”: “test.leaf”}]}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Manifest field</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Schema version</p></td>
-<td><p>0.5</p></td>
-</tr>
-<tr class="row-odd"><td><p>FAKE-SIMPLE</p></td>
-<td><p>MetaProtocolsDef/FAKE-SIMPLE/protocol.json</p></td>
-</tr>
-<tr class="row-even"><td><p>FAKE-STAGED</p></td>
-<td><p>MetaProtocolsDef/FAKE-STAGED/protocol.json</p></td>
-</tr>
-<tr class="row-odd"><td><p>FAKE-HANDLER</p></td>
-<td><p>MetaProtocolsDef/FAKE-HANDLER/protocol.json</p></td>
-</tr>
-<tr class="row-even"><td><p>FAKE-COMPOSED-SWEEP</p></td>
-<td><p>MetaProtocolsDef/FAKE-COMPOSED-SWEEP/protocol.json</p></td>
-</tr>
-<tr class="row-odd"><td><p>FAKE-COMPOSED-SWEEP-BRANCH</p></td>
-<td><p>MetaProtocolsDef/FAKE-COMPOSED-SWEEP-BRANCH/protocol.json</p></td>
-</tr>
-<tr class="row-even"><td><p>FAKE-COMPOSED-SWEEP-LEAF</p></td>
-<td><p>MetaProtocolsDef/FAKE-COMPOSED-SWEEP-LEAF/protocol.json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
 </section>
 <section id="ieee-qce-2026-demo">
-<h2>ieee-qce-2026-demo<a class="headerlink" href="#ieee-qce-2026-demo" title="Link to this heading">¶</a></h2>
+<h2>IEEE QCE 2026 Demo<a class="headerlink" href="#ieee-qce-2026-demo" title="Link to this heading">¶</a></h2>
 <p>Open meta-protocol example that invokes NeQOS’s exported protected MPC optimization template.</p>
-</section>
-<section id="mpc320countsmaximization">
-<h2>MPC320CountsMaximization<a class="headerlink" href="#mpc320countsmaximization" title="Link to this heading">¶</a></h2>
-<p>Open IEEE QCE demonstration wrapper for aligning the polarization incident on the SNSPD of one selected quantum link.</p>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Property</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Domain</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Function</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p>Status</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p>Execution mode</p></td>
-<td><p>foreground</p></td>
-</tr>
-<tr class="row-even"><td><p>Privilege</p></td>
-<td><p>NORMAL</p></td>
-</tr>
-<tr class="row-odd"><td><p>Preemptive</p></td>
-<td><p>False</p></td>
-</tr>
-<tr class="row-even"><td><p>Timeout</p></td>
-<td><p>3600.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Resources</p></td>
-<td><p>[]</p></td>
-</tr>
-<tr class="row-even"><td><p>Dependencies</p></td>
-<td><p>[]</p></td>
-</tr>
-</tbody>
-</table>
+<p><code class="docutils literal notranslate"><span class="pre">ieee-qce-2026-demo</span></code>, 1 template</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-2 sd-g-xs-2 sd-g-sm-2 sd-g-md-2 sd-g-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+MPC320CountsMaximization</div>
+<p class="sd-card-text" id="mpc320countsmaximization">Open IEEE QCE demonstration wrapper for aligning the polarization incident on the SNSPD of one selected quantum link.</p>
 </div>
-<section id="id19">
-<h3>Input Contract<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Required</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Constraints</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finalAnglesDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Final angle per paddle, in degrees.</p></td>
-<td><p>{“minItems”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">initialAnglesDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Initial angle per paddle, in degrees.</p></td>
-<td><p>{“minItems”: 1}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">linkId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Quantum link whose SNSPD input polarization is aligned.</p></td>
-<td><p>{“minLength”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">measurementDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Integration duration of each count sample, in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">moveTimeoutSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Timeout per controller movement, in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">optimizationMode</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Whether the child maximizes or minimizes the SNSPD count rate.</p></td>
-<td><p>{“enum”: [“maximize”, “minimize”]}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">paddles</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
-<td><p>True</p></td>
-<td><p>MPC320 paddle indices to scan.</p></td>
-<td><p>{“minItems”: 1}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
-<td><p>True</p></td>
-<td><p>MPC320 and TimeTagger identifiers reserved by the protected child.</p></td>
-<td><p>{“minItems”: 2}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settleAfterMoveSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>False</p></td>
-<td><p>Settling delay after each movement, in seconds.</p></td>
-<td><p>{“minimum”: 0}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stepDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
-<td><p>True</p></td>
-<td><p>Coarse angular scan increment in degrees.</p></td>
-<td><p>{“minimum”: 1e-06}</p></td>
-</tr>
-</tbody>
-</table>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="open/ieee-qce-2026-demo--MPC320CountsMaximization.html"><span class="doc">MPC320CountsMaximization</span></a></div>
 </div>
-<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
-</section>
-<section id="id20">
-<h3>Output Contract<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Export</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Role</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Artifact</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment.applied.selectedControllerAnglesDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">applied</span></code></p></td>
-<td><p>Selected MPC320 angles, in paddle order.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment.observation.countSamples</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">observation</span></code></p></td>
-<td><p>Count samples collected by the alignment scan.</p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment.status.alignment</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
-<td><p>Terminal alignment status and resolved target.</p></td>
-<td><p>—</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
-</section>
-<section id="id21">
-<h3>Stages<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Stage</p></th>
-<th class="head"><p>Handler</p></th>
-<th class="head"><p>Declared parameters</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-AlignSNSPDInputPolarization</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">SubmitMicroProtocolStage</span></code></p></td>
-<td><p>{“protocolKey”: “alignment”, “sharedParamOverrides”: {“clear”: true, “finalAnglesDeg”: “$shared.finalAnglesDeg”, “initialAnglesDeg”: “$shared.initialAnglesDeg”, “linkId”: “$shared.linkId”, “measurementDurationSec”: “$shared.measurementDurationSec”, “moveTimeoutSec”: “$shared.moveTimeoutSec”, “optimizationMode”: “$shared.optimizationMode”, “paddles”: “$shared.paddles”, “resourceDeviceIds”: “$shared.resourceDeviceIds”, “settleAfterMoveSec”: “$shared.settleAfterMoveSec”, “stepDeg”: “$shared.stepDeg”}, “templateId”: “AlignSNSPDInputPolarization”}</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-WaitForSNSPDInputPolarizationAlignment</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">WaitMicroProtocolStage</span></code></p></td>
-<td><p>{“imports”: [{“as”: “alignment.status”, “from”: “link.polarizationAlignment.status.alignment”}, {“as”: “alignment.selectedControllerAnglesDeg”, “from”: “link.polarizationAlignment.applied.selectedControllerAnglesDeg”}, {“as”: “alignment.countSamples”, “from”: “link.polarizationAlignment.observation.countSamples”}], “protocolKey”: “alignment”, “templateId”: “AlignSNSPDInputPolarization”}</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-MPC320CountsMaximization-PublishResult</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
-<td><p>{“exports”: [{“as”: “link.polarizationAlignment.status.alignment”, “from”: “alignment.status”}, {“as”: “link.polarizationAlignment.applied.selectedControllerAnglesDeg”, “from”: “alignment.selectedControllerAnglesDeg”}, {“as”: “link.polarizationAlignment.observation.countSamples”, “from”: “alignment.countSamples”}]}</p></td>
-</tr>
-</tbody>
-</table>
 </div>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Manifest field</p></th>
-<th class="head"><p>Value</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Schema version</p></td>
-<td><p>0.5</p></td>
-</tr>
-<tr class="row-odd"><td><p>MPC320CountsMaximization</p></td>
-<td><p>MetaProtocolsDef/MPC320CountsMaximization/protocol.json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
 </section>
 </section>
 
@@ -1726,12 +571,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="MetaProtocolHandlers.html">
+          <a class="next-page" href="open/external-python-package-dependency.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Meta-protocol Handlers</div>
+                <div class="title">External Python Package Dependency</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -1764,77 +609,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Open Meta-protocols</a><ul>
-<li><a class="reference internal" href="#external-python-package-dependency">external-python-package-dependency</a></li>
-<li><a class="reference internal" href="#external-python-package-dependency-test">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a><ul>
-<li><a class="reference internal" href="#input-contract">Input Contract</a></li>
-<li><a class="reference internal" href="#output-contract">Output Contract</a></li>
-<li><a class="reference internal" href="#stages">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fake-device-examples">fake-device-examples</a></li>
-<li><a class="reference internal" href="#fake-simple">FAKE-SIMPLE</a><ul>
-<li><a class="reference internal" href="#id1">Input Contract</a></li>
-<li><a class="reference internal" href="#id2">Output Contract</a></li>
-<li><a class="reference internal" href="#id3">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fake-staged">FAKE-STAGED</a><ul>
-<li><a class="reference internal" href="#id4">Input Contract</a></li>
-<li><a class="reference internal" href="#id5">Output Contract</a></li>
-<li><a class="reference internal" href="#id6">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fake-handler">FAKE-HANDLER</a><ul>
-<li><a class="reference internal" href="#id7">Input Contract</a></li>
-<li><a class="reference internal" href="#id8">Output Contract</a></li>
-<li><a class="reference internal" href="#id9">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fake-composed-sweep">FAKE-COMPOSED-SWEEP</a><ul>
-<li><a class="reference internal" href="#id10">Input Contract</a></li>
-<li><a class="reference internal" href="#id11">Output Contract</a></li>
-<li><a class="reference internal" href="#id12">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fake-composed-sweep-branch">FAKE-COMPOSED-SWEEP-BRANCH</a><ul>
-<li><a class="reference internal" href="#id13">Input Contract</a></li>
-<li><a class="reference internal" href="#id14">Output Contract</a></li>
-<li><a class="reference internal" href="#id15">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fake-composed-sweep-leaf">FAKE-COMPOSED-SWEEP-LEAF</a><ul>
-<li><a class="reference internal" href="#id16">Input Contract</a></li>
-<li><a class="reference internal" href="#id17">Output Contract</a></li>
-<li><a class="reference internal" href="#id18">Stages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#ieee-qce-2026-demo">ieee-qce-2026-demo</a></li>
-<li><a class="reference internal" href="#mpc320countsmaximization">MPC320CountsMaximization</a><ul>
-<li><a class="reference internal" href="#id19">Input Contract</a></li>
-<li><a class="reference internal" href="#id20">Output Contract</a></li>
-<li><a class="reference internal" href="#id21">Stages</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

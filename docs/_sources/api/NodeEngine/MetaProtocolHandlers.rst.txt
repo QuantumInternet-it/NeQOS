@@ -1,161 +1,92 @@
 Meta-protocol Handlers
 ======================
 
-These compiled handlers implement child microprotocol submission, contract-checked import, result publication, and one declared DeviceOS task invocation.
+Stage handlers for child submission, result publication, DeviceOS tasks and terminal cleanup.
 
-ClearTerminalCleanupTaskStage
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+All handlers receive ``ctx: StageContext`` and ``params: dict`` and return ``StageResult``. Parameters belong to the stage's ``params`` object, not directly to a run plan.
 
-Remove a cleanup task once its normal compensating action completed.
+**Declared composition:** use :doc:`SubmitMicroProtocolStage <handlers/SubmitMicroProtocolStage>` followed by :doc:`WaitMicroProtocolStage <handlers/WaitMicroProtocolStage>`.
 
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
+**Runtime composition:** an Open library can bind local Python handlers; see :doc:`FAKE-COMPOSED-SWEEP-BRANCH </api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH>`.
 
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+.. toctree::
+   :hidden:
+   :maxdepth: 2
 
-ExportScratchStage
-^^^^^^^^^^^^^^^^^^
+   handlers/composition
+   handlers/results
+   handlers/device-lifecycle
 
-Copy selected scratchpad values into the parent protocol exports.
+Child protocols
+---------------
 
-``exports`` is a non-empty list of ``from``/``as`` mappings. Each source
-must exist in the current scratchpad. Successful mappings are stored in the
-current microprotocol metadata and recorded as an ``ExportScratch`` task
-result before the stage advances.
+.. grid:: 1 1 2 2
+   :gutter: 2
 
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
+   .. grid-item-card:: SubmitMicroProtocolStage
+      :link: handlers/SubmitMicroProtocolStage
+      :link-type: doc
 
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+      .. _submitmicroprotocolstage:
 
-PublishResultStage
-^^^^^^^^^^^^^^^^^^
+      Submit a child microprotocol and retain its runtime ID in scratchpad.
 
-Atomically validate, persist, and publish the declared result contract.
+   .. grid-item-card:: WaitMicroProtocolStage
+      :link: handlers/WaitMicroProtocolStage
+      :link-type: doc
 
-``exports`` is a non-empty list of scratchpad ``from``/contract ``as``
-mappings. All values are assembled first, validated against the active
-output schema, written as ``result.json`` in the current run directory,
-and only then exposed as protocol exports. This keeps disk output and
-parent-visible output consistent.
+      .. _waitmicroprotocolstage:
 
-An optional ``failIfScratchPath`` names a scratchpad value that is checked
-*after* successful publication. A non-empty value makes the protocol fail
-with that value as its reason, while preserving the result artifact and
-declared exports for operators and an enclosing parent to inspect.
+      Wait for a child runtime submitted under a protocol key.
 
-``writeSummary: true`` additionally writes a shared ``summary.md`` view
-beside the canonical result, including a post-publication failure reason.
-It introduces no scientific output or protocol-specific sidecar JSON.
-The default is false; existing publications remain unchanged.
+Results
+-------
 
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
+.. grid:: 1 1 2 2
+   :gutter: 2
 
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+   .. grid-item-card:: PublishResultStage
+      :link: handlers/PublishResultStage
+      :link-type: doc
 
-RegisterTerminalCleanupTaskStage
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      .. _publishresultstage:
 
-Register an idempotent device task for terminal protocol cleanup.
+      Atomically validate, persist, and publish the declared result contract.
 
-The task is executed by NodeEngine while the lease root is still valid if
-the current protocol aborts, fails, or is forcibly released.  It is useful
-for a declared child workflow which temporarily opens device-side state
-that must be closed before the physical device lease is relinquished.
+   .. grid-item-card:: ExportScratchStage
+      :link: handlers/ExportScratchStage
+      :link-type: doc
 
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
+      .. _exportscratchstage:
 
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+      Copy selected scratchpad values into the parent protocol exports.
 
-RunSingleTaskStage
-^^^^^^^^^^^^^^^^^^
+Device tasks and cleanup
+------------------------
 
-Run one DeviceOS task and fail unless its reply is explicitly successful.
+.. grid:: 1 1 2 2
+   :gutter: 2
 
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
+   .. grid-item-card:: RunSingleTaskStage
+      :link: handlers/RunSingleTaskStage
+      :link-type: doc
 
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+      .. _runsingletaskstage:
 
-SubmitMicroProtocolStage
-^^^^^^^^^^^^^^^^^^^^^^^^
+      Run one DeviceOS task and fail unless its reply is explicitly successful.
 
-Submit a child microprotocol and retain its runtime ID in scratchpad.
+   .. grid-item-card:: RegisterTerminalCleanupTaskStage
+      :link: handlers/RegisterTerminalCleanupTaskStage
+      :link-type: doc
 
-``templateId`` is required; ``protocolKey`` selects the scratchpad key
-``_mp_<protocolKey>`` and defaults to the template ID. Optional shared,
-common-stage, stage-specific, resource, and scratch-import overrides are
-validated before submission. Shared references are resolved before the
-child is submitted, then the stage advances.
+      .. _registerterminalcleanuptaskstage:
 
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
+      Register an idempotent device task for terminal protocol cleanup.
 
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+   .. grid-item-card:: ClearTerminalCleanupTaskStage
+      :link: handlers/ClearTerminalCleanupTaskStage
+      :link-type: doc
 
-WaitMicroProtocolStage
-^^^^^^^^^^^^^^^^^^^^^^
+      .. _clearterminalcleanuptaskstage:
 
-Wait for a child runtime submitted under a protocol key.
-
-The handler reads the runtime ID saved by ``SubmitMicroProtocolStage``. It
-requeues while the child is active, advances when it succeeds, and fails
-when it reaches a failed or aborted state. On success, optional ``imports``
-copy declared child exports into the parent scratchpad. ``pollDelaySec``
-controls the requeue delay and defaults to 2 seconds.
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Signature
-     - Returns
-     - Source
-   * - ``ctx: StageContext, params: Dict[str, Any]``
-     - ``StageResult``
-     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+      Remove a cleanup task once its normal compensating action completed.

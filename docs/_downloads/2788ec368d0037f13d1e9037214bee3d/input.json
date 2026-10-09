@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "ieee-qce-2026-demo",
+    "folder": "../.."
+  },
+  "steps": [
+    {
+      "protocolId": "MPC320CountsMaximization",
+      "sharedParams": {
+        "linkId": "QLINK-DETECTOR-1",
+        "resourceDeviceIds": [
+          "MPC-1",
+          "TT-1"
+        ],
+        "measurementDurationSec": 2.0,
+        "optimizationMode": "maximize",
+        "paddles": [
+          0,
+          1,
+          2
+        ],
+        "initialAnglesDeg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finalAnglesDeg": [
+          160.0,
+          160.0,
+          160.0
+        ],
+        "stepDeg": 20.0,
+        "settleAfterMoveSec": 0.2,
+        "moveTimeoutSec": 30.0
+      }
+    }
+  ]
+}

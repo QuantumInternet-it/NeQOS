@@ -1,7 +1,7 @@
-Built-in Protocols
-==================
+Built-in Meta-Protocol Library
+==============================
 
-Protocols included with NeQOS and available for invocation from a run plan or a parent meta-protocol.
+The built-in meta-protocol library is included with NodeEngine. Its protocols can be invoked from a run plan or a parent meta-protocol.
 Choose a domain and function to open the corresponding protocol sheet.
 
 :doc:`Browse protocol summaries and examples </user-guide/protocols/index>`.
