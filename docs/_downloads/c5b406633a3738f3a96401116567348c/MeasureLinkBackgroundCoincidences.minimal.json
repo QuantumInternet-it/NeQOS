@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkBackgroundCoincidences",
+      "sharedParams": {
+        "referenceLinkId": "ExampleReferenceLinkId",
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleTimeTaggerId"
+        ]
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 {
   "protocolId": "EstimateEntangledPairFidelity",
   "description": "Estimates Phi+ lab-frame fidelity, the fully entangled fraction over local unitary frames, and their fidelity gap from a physical two-qubit density matrix without acquiring data or changing hardware.",
+  "summary": "Estimate lab-frame fidelity and fully entangled fraction from a density matrix.",
   "domain": "entanglement",
   "function": "fidelity",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [],
   "sharedParams": {
     "twoQubitDensityMatrix": null,
@@ -21,13 +22,13 @@
     "parameters": {
       "twoQubitDensityMatrix": {
         "type": "object",
-        "description": "Output object from ReconstructTwoQubitDensityMatrix, containing its physical rho payload in |00>, |01>, |10>, |11> order.",
+        "description": "Output object from ReconstructTwoQubitDensityMatrix, containing its physical rho payload in |00>, |01>, |10>, |11> order. rho requires numeric 4x4 real arrays; omitted imag means zero, while a supplied imag array must have the same shape. Physical state validation reuses the shared density-matrix validator.",
         "required": true
       },
       "numericLocalUnitaryRestarts": {
         "type": "integer",
         "description": "Number of random numerical local-unitary initializations in addition to the identity initialization.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "numericLocalUnitarySeed": {
@@ -42,7 +43,7 @@
     "exports": {
       "entanglement.fidelity.estimate.entangledPairFidelity": {
         "type": "object",
-        "description": "Dimensionless state metrics in [0,1]: labFrameFidelity is the Phi+ overlap in the current laboratory frame; fullyEntangledFraction is the SVD maximum overlap over all maximally entangled two-qubit states, invariant under local unitaries; frameMisalignmentFidelityLoss is fullyEntangledFraction minus labFrameFidelity (clamped at zero for roundoff), ideally recoverable by local unitary compensation. targetStateDefinition fixes Phi+ = (HH + VV) / sqrt(2). crossCheck.fullyEntangledFractionNumeric and crossCheck.numericLocalUnitary contain the independent numerical optimization, without a delta field. svdLocalUnitary records method=svd and the correlation/singular-value diagnostics. No metric implies a correction applied to hardware or identifies the physical cause of a fidelity deficit. numericLocalUnitary retains only bestAttempt and attemptCount, plus unitaryA, unitaryB and rhoOptimized for that best attempt; matrices use real/imag payloads and the stated dagger transformation. Full restart histories are not exported.",
+        "description": "Dimensionless state metrics in [0,1]: labFrameFidelity is the Phi+ overlap in the current laboratory frame; fullyEntangledFraction is the SVD maximum overlap over all maximally entangled two-qubit states, invariant under local unitaries; frameMisalignmentFidelityLoss is their gap (clamped at zero for roundoff), ideally recoverable by local compensation. targetStateDefinition fixes Phi+ = (HH + VV) / sqrt(2). crossCheck contains the independent numerical estimate, bestAttempt/attemptCount, best-frame unitaryA/unitaryB/rhoOptimized as real/imag payloads, numeric SO(3) rotations/unitarity residuals/determinants, and rotationComparison with laboratory/direct/relative angles, Procrustes maps, aligned correlation matrices and Frobenius distances. Numeric and SVD frames share the dagger state convention and T'=RA T RB^T. Rotations can differ at equal optima; even relative maps can differ at degenerate optima. There is no fidelity delta, agreement tolerance/verdict or comparison gate, and no full restart history. svdLocalUnitary retains correlation/singular-value diagnostics. No metric implies an applied hardware correction or identifies the cause of a fidelity deficit.",
         "role": "estimate"
       },
       "entanglement.fidelity.artifact.entangledPairFidelityReport": {
@@ -63,6 +64,16 @@
       "entanglement.fidelity.artifact.fidelityComparisonPlot": {
         "type": "object",
         "description": "Matching PNG/SVG bar chart of laboratory-frame Phi+ fidelity and the independent numerical local-unitary cross-check, on a dimensionless [0,1] axis; no hardware correction is applied.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.svdDiagnosticsPlot": {
+        "type": "object",
+        "description": "Matching PNG/SVG diagnostic panels of the signed X/Y/Z Pauli correlation matrix, lab/SVD/numerical fidelities on [0,1] axes and singular values; no fidelity delta, agreement verdict or hardware correction.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.localUnitaryComparisonPlot": {
+        "type": "object",
+        "description": "Matching PNG/SVG panels of numerical/SVD SO(3) rotations for both arms on a common signed [-1,1] scale, direct/relative angles in degrees, matrix distances and numerical residuals. Gauge freedom and degenerate optima prevent interpreting rotation differences as an acceptance gate.",
         "role": "artifact"
       }
     }
@@ -101,6 +112,14 @@
           {
             "from": "entangledPairFidelity.fidelityComparisonPlot",
             "as": "entanglement.fidelity.artifact.fidelityComparisonPlot"
+          },
+          {
+            "from": "entangledPairFidelity.svdDiagnosticsPlot",
+            "as": "entanglement.fidelity.artifact.svdDiagnosticsPlot"
+          },
+          {
+            "from": "entangledPairFidelity.localUnitaryComparisonPlot",
+            "as": "entanglement.fidelity.artifact.localUnitaryComparisonPlot"
           }
         ],
         "writeSummary": true

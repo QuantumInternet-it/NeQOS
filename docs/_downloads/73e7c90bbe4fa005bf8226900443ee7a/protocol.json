@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureLinkCoincidences",
   "description": "Measures finite reference-target coincidence counts and rates for resolved quantum links and returns their acquisition provenance.",
+  "summary": "Measure coincidence counts and rates between resolved reference and target links.",
   "domain": "link",
   "function": "characterization",
   "status": "production",
@@ -9,12 +10,12 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 180.0,
+  "timeoutSec": 180,
   "resourceRequests": [],
   "sharedParams": {
     "referenceLinkId": null,
     "targetLinkIds": null,
-    "measurementDurationSec": 1.0,
+    "measurementDurationSec": 1,
     "coincidenceWindowPs": 1000,
     "clear": true
   },
@@ -42,19 +43,19 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite integration duration for the shared coincidence observation window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "coincidenceWindowPs": {
         "type": "integer",
         "description": "AND-logical coincidence window, in picoseconds.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "clear": {
         "type": "boolean",
         "description": "Whether the selected stable coincidence measurements are cleared before acquisition.",
-        "required": false
+        "required": true
       }
     }
   },

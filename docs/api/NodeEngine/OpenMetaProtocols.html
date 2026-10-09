@@ -3,14 +3,16 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Meta-protocol Handlers" href="MetaProtocolHandlers.html"><link rel="prev" title="Protected Microprotocols" href="ProtectedMicroprotocols.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Meta-protocol Handlers" href="MetaProtocolHandlers.html"><link rel="prev" title="ReconstructTwoQubitDensityMatrix" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>Open Meta-protocols - NeQOS Developer API</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=798a7bb0" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=3be5f3af" />
     
     
 
@@ -200,92 +202,48 @@
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/running.html">4. Run and customize a protocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/results.html">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../user-guide/protocols/index.html">Public protocol cookbook</a><input aria-label="Toggle navigation of Public protocol cookbook" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureCountRates.html">MeasureCountRates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MonitorCountRates.html">MonitorCountRates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/RealignEntangledPhotonSourcePolarization.html">RealignEntangledPhotonSourcePolarization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/HoldDuration.html">HoldDuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkCoincidences.html">MeasureLinkCoincidences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkPolarizationCoincidences.html">MeasureLinkPolarizationCoincidences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkPolarizationSingles.html">MeasureLinkPolarizationSingles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkSingles.html">MeasureLinkSingles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/EstimateLinkPolarizationCompensationFromHDProbes.html">EstimateLinkPolarizationCompensationFromHDProbes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ValidateLinkPolarizationCompensation.html">ValidateLinkPolarizationCompensation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/AlignChannels.html">AlignChannels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/protocols/index.html">Built-in Protocols</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/documentation-maintenance.html">Build and publish this guide</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/foreground-tasks.html">Foreground Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
@@ -293,7 +251,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/tasks.html">Tasks</a></li>
@@ -301,8 +259,124 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="ProtectedMicroprotocols.html">Built-in Protocols</a><input aria-label="Toggle navigation of Built-in Protocols" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/correlation/index.html">Correlation</a><input aria-label="Toggle navigation of Correlation" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/countrate/index.html">Countrate</a><input aria-label="Toggle navigation of Countrate" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureCountRates.html">MeasureCountRates</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MonitorCountRates.html">MonitorCountRates</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/acquisition/rawStream/index.html">Raw stream</a><input aria-label="Toggle navigation of Raw stream" class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/device/index.html">Device</a><input aria-label="Toggle navigation of Device" class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/calibrationStore/index.html">Calibration store</a><input aria-label="Toggle navigation of Calibration store" class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/RealignEntangledPhotonSourcePolarization.html">RealignEntangledPhotonSourcePolarization</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/fileTransfer/index.html">File transfer</a><input aria-label="Toggle navigation of File transfer" class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/device/initialization/index.html">Initialization</a><input aria-label="Toggle navigation of Initialization" class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/index.html">Entanglement</a><input aria-label="Toggle navigation of Entanglement" class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/distillation/index.html">Distillation</a><input aria-label="Toggle navigation of Distillation" class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/entanglement/fidelity/index.html">Fidelity</a><input aria-label="Toggle navigation of Fidelity" class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/execution/index.html">Execution</a><input aria-label="Toggle navigation of Execution" class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/execution/control/index.html">Control</a><input aria-label="Toggle navigation of Control" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/HoldDuration.html">HoldDuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/link/index.html">Link</a><input aria-label="Toggle navigation of Link" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/characterization/index.html">Characterization</a><input aria-label="Toggle navigation of Characterization" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkCoincidences.html">MeasureLinkCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkPolarizationCoincidences.html">MeasureLinkPolarizationCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkPolarizationSingles.html">MeasureLinkPolarizationSingles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkSingles.html">MeasureLinkSingles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/polarizationAlignment/index.html">Polarization alignment</a><input aria-label="Toggle navigation of Polarization alignment" class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/link/polarizationCompensation/index.html">Polarization compensation</a><input aria-label="Toggle navigation of Polarization compensation" class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/EstimateLinkPolarizationCompensationFromHDProbes.html">EstimateLinkPolarizationCompensationFromHDProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ValidateLinkPolarizationCompensation.html">ValidateLinkPolarizationCompensation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/timing/index.html">Timing</a><input aria-label="Toggle navigation of Timing" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/timing/alignment/index.html">Alignment</a><input aria-label="Toggle navigation of Alignment" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/AlignChannels.html">AlignChannels</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../user-guide/protocols/tomography/index.html">Tomography</a><input aria-label="Toggle navigation of Tomography" class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../user-guide/protocols/tomography/state/index.html">State</a><input aria-label="Toggle navigation of State" class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Open Meta-protocols</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
 </ul>
@@ -392,25 +466,6 @@
 </tbody>
 </table>
 </div>
-<section id="shared-parameters">
-<h3>Shared Parameters<a class="headerlink" href="#shared-parameters" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>1234567</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
 <section id="input-contract">
 <h3>Input Contract<a class="headerlink" href="#input-contract" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
@@ -433,6 +488,7 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
 <section id="output-contract">
 <h3>Output Contract<a class="headerlink" href="#output-contract" title="Link to this heading">¶</a></h3>
@@ -456,6 +512,7 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
 <section id="stages">
 <h3>Stages<a class="headerlink" href="#stages" title="Link to this heading">¶</a></h3>
@@ -544,38 +601,7 @@
 </table>
 </div>
 <section id="id1">
-<h3>Shared Parameters<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>FakeDeviceId</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>2.5</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>1.0</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.5</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id2">
-<h3>Input Contract<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<h3>Input Contract<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -614,9 +640,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id3">
-<h3>Output Contract<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<section id="id2">
+<h3>Output Contract<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -655,9 +682,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id4">
-<h3>Stages<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<section id="id3">
+<h3>Stages<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -725,51 +753,8 @@
 </tbody>
 </table>
 </div>
-<section id="id5">
-<h3>Shared Parameters<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>FakeDeviceId</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">firstLongDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>12.0</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>4.2</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longTickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>1.0</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">secondLongDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>8.0</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shortTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>1.0</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shortTickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.5</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id6">
-<h3>Input Contract<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<section id="id4">
+<h3>Input Contract<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -826,9 +811,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id7">
-<h3>Output Contract<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<section id="id5">
+<h3>Output Contract<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -873,9 +859,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id8">
-<h3>Stages<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<section id="id6">
+<h3>Stages<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -955,43 +942,8 @@
 </tbody>
 </table>
 </div>
-<section id="id9">
-<h3>Shared Parameters<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>FakeDeviceId</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>3.3</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">maxIterations</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>2</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>1.0</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.5</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id10">
-<h3>Input Contract<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<section id="id7">
+<h3>Input Contract<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1036,9 +988,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id11">
-<h3>Output Contract<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<section id="id8">
+<h3>Output Contract<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1083,9 +1036,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id12">
-<h3>Stages<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<section id="id9">
+<h3>Stages<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1153,43 +1107,8 @@
 </tbody>
 </table>
 </div>
-<section id="id13">
-<h3>Shared Parameters<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>FakeDeviceId</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.05</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.2</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>3</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>10</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id14">
-<h3>Input Contract<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<section id="id10">
+<h3>Input Contract<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1234,9 +1153,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id15">
-<h3>Output Contract<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
+<section id="id11">
+<h3>Output Contract<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1257,9 +1177,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id16">
-<h3>Stages<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
+<section id="id12">
+<h3>Stages<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1327,43 +1248,8 @@
 </tbody>
 </table>
 </div>
-<section id="id17">
-<h3>Shared Parameters<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>FakeDeviceId</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.05</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.2</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>3</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>10</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id18">
-<h3>Input Contract<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
+<section id="id13">
+<h3>Input Contract<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1408,9 +1294,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id19">
-<h3>Output Contract<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
+<section id="id14">
+<h3>Output Contract<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1431,9 +1318,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id20">
-<h3>Stages<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
+<section id="id15">
+<h3>Stages<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1501,39 +1389,8 @@
 </tbody>
 </table>
 </div>
-<section id="id21">
-<h3>Shared Parameters<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>FakeDeviceId</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.05</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
-<td><p>0</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id22">
-<h3>Input Contract<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
+<section id="id16">
+<h3>Input Contract<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1572,9 +1429,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id23">
-<h3>Output Contract<a class="headerlink" href="#id23" title="Link to this heading">¶</a></h3>
+<section id="id17">
+<h3>Output Contract<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1595,9 +1453,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id24">
-<h3>Stages<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
+<section id="id18">
+<h3>Stages<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1701,63 +1560,8 @@
 </tbody>
 </table>
 </div>
-<section id="id25">
-<h3>Shared Parameters<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h3>
-<div class="table-wrapper api-table docutils container">
-<table class="api-table docutils align-default" style="width: 100%">
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finalAnglesDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
-<td><p>[160.0, 160.0, 160.0]</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">initialAnglesDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
-<td><p>[0.0, 0.0, 0.0]</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">linkId</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">measurementDurationSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>2.0</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">moveTimeoutSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>30.0</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">optimizationMode</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>maximize</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">paddles</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
-<td><p>[0, 1, 2]</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></p></td>
-<td><p>—</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settleAfterMoveSec</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>0.2</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stepDeg</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
-<td><p>20.0</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="id26">
-<h3>Input Contract<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
+<section id="id19">
+<h3>Input Contract<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1832,9 +1636,10 @@
 </tbody>
 </table>
 </div>
+<p>Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.</p>
 </section>
-<section id="id27">
-<h3>Output Contract<a class="headerlink" href="#id27" title="Link to this heading">¶</a></h3>
+<section id="id20">
+<h3>Output Contract<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1867,9 +1672,10 @@
 </tbody>
 </table>
 </div>
+<p>Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.</p>
 </section>
-<section id="id28">
-<h3>Stages<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h3>
+<section id="id21">
+<h3>Stages<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper api-table docutils container">
 <table class="api-table docutils align-default" style="width: 100%">
 <thead>
@@ -1929,14 +1735,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="ProtectedMicroprotocols.html">
+          <a class="prev-page" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Protected Microprotocols</div>
+                <div class="title">ReconstructTwoQubitDensityMatrix</div>
                 
               </div>
             </a>
@@ -1973,7 +1779,6 @@
 <li><a class="reference internal" href="#">Open Meta-protocols</a><ul>
 <li><a class="reference internal" href="#external-python-package-dependency">external-python-package-dependency</a></li>
 <li><a class="reference internal" href="#external-python-package-dependency-test">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a><ul>
-<li><a class="reference internal" href="#shared-parameters">Shared Parameters</a></li>
 <li><a class="reference internal" href="#input-contract">Input Contract</a></li>
 <li><a class="reference internal" href="#output-contract">Output Contract</a></li>
 <li><a class="reference internal" href="#stages">Stages</a></li>
@@ -1981,53 +1786,46 @@
 </li>
 <li><a class="reference internal" href="#fake-device-examples">fake-device-examples</a></li>
 <li><a class="reference internal" href="#fake-simple">FAKE-SIMPLE</a><ul>
-<li><a class="reference internal" href="#id1">Shared Parameters</a></li>
-<li><a class="reference internal" href="#id2">Input Contract</a></li>
-<li><a class="reference internal" href="#id3">Output Contract</a></li>
-<li><a class="reference internal" href="#id4">Stages</a></li>
+<li><a class="reference internal" href="#id1">Input Contract</a></li>
+<li><a class="reference internal" href="#id2">Output Contract</a></li>
+<li><a class="reference internal" href="#id3">Stages</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fake-staged">FAKE-STAGED</a><ul>
-<li><a class="reference internal" href="#id5">Shared Parameters</a></li>
-<li><a class="reference internal" href="#id6">Input Contract</a></li>
-<li><a class="reference internal" href="#id7">Output Contract</a></li>
-<li><a class="reference internal" href="#id8">Stages</a></li>
+<li><a class="reference internal" href="#id4">Input Contract</a></li>
+<li><a class="reference internal" href="#id5">Output Contract</a></li>
+<li><a class="reference internal" href="#id6">Stages</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fake-handler">FAKE-HANDLER</a><ul>
-<li><a class="reference internal" href="#id9">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id7">Input Contract</a></li>
+<li><a class="reference internal" href="#id8">Output Contract</a></li>
+<li><a class="reference internal" href="#id9">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-composed-sweep">FAKE-COMPOSED-SWEEP</a><ul>
 <li><a class="reference internal" href="#id10">Input Contract</a></li>
 <li><a class="reference internal" href="#id11">Output Contract</a></li>
 <li><a class="reference internal" href="#id12">Stages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fake-composed-sweep">FAKE-COMPOSED-SWEEP</a><ul>
-<li><a class="reference internal" href="#id13">Shared Parameters</a></li>
-<li><a class="reference internal" href="#id14">Input Contract</a></li>
-<li><a class="reference internal" href="#id15">Output Contract</a></li>
-<li><a class="reference internal" href="#id16">Stages</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#fake-composed-sweep-branch">FAKE-COMPOSED-SWEEP-BRANCH</a><ul>
-<li><a class="reference internal" href="#id17">Shared Parameters</a></li>
-<li><a class="reference internal" href="#id18">Input Contract</a></li>
-<li><a class="reference internal" href="#id19">Output Contract</a></li>
-<li><a class="reference internal" href="#id20">Stages</a></li>
+<li><a class="reference internal" href="#id13">Input Contract</a></li>
+<li><a class="reference internal" href="#id14">Output Contract</a></li>
+<li><a class="reference internal" href="#id15">Stages</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fake-composed-sweep-leaf">FAKE-COMPOSED-SWEEP-LEAF</a><ul>
-<li><a class="reference internal" href="#id21">Shared Parameters</a></li>
-<li><a class="reference internal" href="#id22">Input Contract</a></li>
-<li><a class="reference internal" href="#id23">Output Contract</a></li>
-<li><a class="reference internal" href="#id24">Stages</a></li>
+<li><a class="reference internal" href="#id16">Input Contract</a></li>
+<li><a class="reference internal" href="#id17">Output Contract</a></li>
+<li><a class="reference internal" href="#id18">Stages</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#ieee-qce-2026-demo">ieee-qce-2026-demo</a></li>
 <li><a class="reference internal" href="#mpc320countsmaximization">MPC320CountsMaximization</a><ul>
-<li><a class="reference internal" href="#id25">Shared Parameters</a></li>
-<li><a class="reference internal" href="#id26">Input Contract</a></li>
-<li><a class="reference internal" href="#id27">Output Contract</a></li>
-<li><a class="reference internal" href="#id28">Stages</a></li>
+<li><a class="reference internal" href="#id19">Input Contract</a></li>
+<li><a class="reference internal" href="#id20">Output Contract</a></li>
+<li><a class="reference internal" href="#id21">Stages</a></li>
 </ul>
 </li>
 </ul>
@@ -2045,5 +1843,8 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     </body>
 </html>

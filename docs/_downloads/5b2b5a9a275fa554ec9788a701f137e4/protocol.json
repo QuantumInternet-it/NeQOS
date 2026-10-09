@@ -1,6 +1,7 @@
 {
   "protocolId": "ReinitializeTimeTagger",
   "description": "Release and recreate a Time Tagger measurement engine, then restore its physical-channel configuration.",
+  "summary": "Recreate the Time Tagger engine and restore its channel configuration.",
   "domain": "device",
   "function": "initialization",
   "status": "production",
@@ -9,8 +10,10 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 180.0,
-  "resourceRequests": ["$shared.timeTaggerDeviceId"],
+  "timeoutSec": 180,
+  "resourceRequests": [
+    "$shared.timeTaggerDeviceId"
+  ],
   "sharedParams": {
     "timeTaggerDeviceId": null
   },

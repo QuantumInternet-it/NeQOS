@@ -1,6 +1,7 @@
 {
   "protocolId": "SetPolarizationAnalyzerTomographyState",
   "description": "Sets one PA X000 or MPC320 polarization-analyzer channel to a named factory or compensated tomography state and returns the applied device configuration.",
+  "summary": "Apply a named factory or compensated tomography state to an analyzer.",
   "domain": "device",
   "function": "configuration",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [
     "$shared.polarizationAnalyzerDeviceId"
   ],
@@ -31,7 +32,7 @@
       "polarizationAnalyzerChannel": {
         "type": "integer",
         "description": "One-based polarization-analyzer channel to configure. MPC320 supports only channel 1.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "tomographyState": {
@@ -43,7 +44,7 @@
       "useCompensated": {
         "type": "boolean",
         "description": "Whether the device uses its compensated rather than factory tomography table.",
-        "required": false
+        "required": true
       }
     }
   },

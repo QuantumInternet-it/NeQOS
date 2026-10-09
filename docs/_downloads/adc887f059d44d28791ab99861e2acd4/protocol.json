@@ -1,6 +1,7 @@
 {
   "protocolId": "TransferDeviceFileToNode",
   "description": "Transfer a completed device-side file or file set to the NodeEngine host and verify every declared member.",
+  "summary": "Transfer completed device files to the NodeEngine host and verify them.",
   "domain": "device",
   "function": "fileTransfer",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
+  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.deviceId"
   ],
@@ -29,7 +30,7 @@
       },
       "deviceArtifact": {
         "type": "object",
-        "description": "Device-produced file artifact containing one localPath or an ordered files list with per-file size/digest metadata.",
+        "description": "Device-produced file artifact containing one localPath or an ordered files list with per-file size/digest metadata. Each transferred entry requires localPath; fileName defaults to its basename, and sizeBytes/sha256 are optional verification metadata. All entries are checked before the first pull.",
         "required": true
       },
       "nodeDestinationDirectory": {

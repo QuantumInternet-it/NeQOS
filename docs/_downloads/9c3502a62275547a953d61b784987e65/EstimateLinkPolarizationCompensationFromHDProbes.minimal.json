@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "EstimateLinkPolarizationCompensationFromHDProbes",
+      "sharedParams": {
+        "linkTomographyInputs": {
+          "ExampleLinkId": {
+            "observationKind": "singles",
+            "waveplateAxes": [
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "probeTraffic": "classical",
+            "countsByProbeState": {
+              "H": {
+                "H": 1000,
+                "V": 0,
+                "D": 500,
+                "A": 500,
+                "R": 500,
+                "L": 500
+              },
+              "D": {
+                "H": 500,
+                "V": 500,
+                "D": 1000,
+                "A": 0,
+                "R": 500,
+                "L": 500
+              }
+            }
+          },
+          "ExampleHeraldedTargetLinkId": {
+            "observationKind": "coincidences",
+            "waveplateAxes": [
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "probeTraffic": "entangled",
+            "countsByProbeState": {
+              "H": {
+                "H": 1000,
+                "V": 0,
+                "D": 500,
+                "A": 500,
+                "R": 500,
+                "L": 500
+              },
+              "D": {
+                "H": 500,
+                "V": 500,
+                "D": 1000,
+                "A": 0,
+                "R": 500,
+                "L": 500
+              }
+            },
+            "referenceLinkId": "ExampleReferenceLinkId",
+            "referenceUseCompensatedTomoStates": false
+          }
+        }
+      }
+    }
+  ]
+}

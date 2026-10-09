@@ -41,7 +41,7 @@ Which component does what?
   link roles and physical limits.
 * **input.json** describes the run: a library, an ordered list of protocols and
   their input overrides. It is not a replacement for the network file.
-* A **Reserved protocol** is built into NodeEngine. An **Open pack** supplies
+* A **built-in protocol** is included with NodeEngine. An **Open pack** supplies
   external definitions and, when needed, Python handlers.
 
 What this guide does not promise
@@ -52,7 +52,6 @@ by itself certify acceptable optical alignment, detector health without an
 enabled guard, or useful quantum-state quality. Read the measured observations,
 guard evidence and scientific metrics, not only the terminal state.
 
-Historical protected protocols and Open-pack APIs are listed separately in
-:doc:`../api/NodeEngine/index`. The cookbook focuses on explicitly exported,
-migrated Reserved capabilities rather than prescribing historical bench-specific
-workflows.
+The built-in protocol library and Open-pack APIs are listed in
+:doc:`../api/NodeEngine/index`. The cookbook covers the callable built-in
+protocols and their declared input and output contracts.

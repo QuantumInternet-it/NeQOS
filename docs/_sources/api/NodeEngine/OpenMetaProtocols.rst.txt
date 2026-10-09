@@ -37,21 +37,6 @@ Verifies that an open handler can import a distribution-local pure-Python depend
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``value``
-     - ``int``
-     - 1234567
-
 Input Contract
 """"""""""""""
 
@@ -71,6 +56,8 @@ Input Contract
      - Integer formatted by the humanize package.
      - —
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -89,6 +76,8 @@ Output Contract
      - —
      - Comma-separated representation returned by the external-package handler.
      - —
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -156,30 +145,6 @@ Very small FakeDriver foreground protocol: set the gain, then run a short synchr
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``fakeDeviceId``
-     - ``str``
-     - FakeDeviceId
-   * - ``gain``
-     - ``float``
-     - 2.5
-   * - ``taskDurationSec``
-     - ``float``
-     - 1.0
-   * - ``tickSec``
-     - ``float``
-     - 0.5
-
 Input Contract
 """"""""""""""
 
@@ -214,6 +179,8 @@ Input Contract
      - FakeDriver task tick interval in seconds.
      - {"minimum": 0}
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -247,6 +214,8 @@ Output Contract
      - —
      - Terminal status returned by the foreground check.
      - —
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -300,39 +269,6 @@ Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``fakeDeviceId``
-     - ``str``
-     - FakeDeviceId
-   * - ``firstLongDurationSec``
-     - ``float``
-     - 12.0
-   * - ``gain``
-     - ``float``
-     - 4.2
-   * - ``longTickSec``
-     - ``float``
-     - 1.0
-   * - ``secondLongDurationSec``
-     - ``float``
-     - 8.0
-   * - ``shortTaskDurationSec``
-     - ``float``
-     - 1.0
-   * - ``shortTickSec``
-     - ``float``
-     - 0.5
-
 Input Contract
 """"""""""""""
 
@@ -382,6 +318,8 @@ Input Contract
      - Tick interval for short tasks in seconds.
      - {"minimum": 0}
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -420,6 +358,8 @@ Output Contract
      - —
      - Terminal status returned by the final foreground check.
      - —
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -482,33 +422,6 @@ FakeDriver foreground protocol whose local handlers dynamically submit tasks and
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``fakeDeviceId``
-     - ``str``
-     - FakeDeviceId
-   * - ``gain``
-     - ``float``
-     - 3.3
-   * - ``maxIterations``
-     - ``int``
-     - 2
-   * - ``taskDurationSec``
-     - ``float``
-     - 1.0
-   * - ``tickSec``
-     - ``float``
-     - 0.5
-
 Input Contract
 """"""""""""""
 
@@ -548,6 +461,8 @@ Input Contract
      - FakeDriver task tick interval in seconds.
      - {"minimum": 0}
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -586,6 +501,8 @@ Output Contract
      - —
      - Terminal status returned by the final repeated foreground check.
      - —
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -639,33 +556,6 @@ Hardware-free root meta-protocol. It submits one branch which submits a configur
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``fakeDeviceId``
-     - ``str``
-     - FakeDeviceId
-   * - ``fakeTaskDurationSec``
-     - ``float``
-     - 0.05
-   * - ``pollDelaySec``
-     - ``float``
-     - 0.2
-   * - ``sweepCount``
-     - ``int``
-     - 3
-   * - ``valueStart``
-     - ``int``
-     - 10
-
 Input Contract
 """"""""""""""
 
@@ -705,6 +595,8 @@ Input Contract
      - Value assigned to the first leaf run.
      - —
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -723,6 +615,8 @@ Output Contract
      - —
      - Aggregated deterministic leaf results.
      - {"format": "json", "path": "result.json"}
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -776,33 +670,6 @@ Submits N deterministic leaf runs from its first stage, then aggregates the leaf
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``fakeDeviceId``
-     - ``str``
-     - FakeDeviceId
-   * - ``fakeTaskDurationSec``
-     - ``float``
-     - 0.05
-   * - ``pollDelaySec``
-     - ``float``
-     - 0.2
-   * - ``sweepCount``
-     - ``int``
-     - 3
-   * - ``valueStart``
-     - ``int``
-     - 10
-
 Input Contract
 """"""""""""""
 
@@ -842,6 +709,8 @@ Input Contract
      - Value assigned to the first leaf run.
      - —
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -860,6 +729,8 @@ Output Contract
      - —
      - Aggregated deterministic leaf results.
      - {"format": "json", "path": "result.json"}
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -913,30 +784,6 @@ Fake-device leaf which runs a short FakeDriver task and exports the value receiv
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``fakeDeviceId``
-     - ``str``
-     - FakeDeviceId
-   * - ``fakeTaskDurationSec``
-     - ``float``
-     - 0.05
-   * - ``iteration``
-     - ``int``
-     - 0
-   * - ``value``
-     - ``int``
-     - 0
-
 Input Contract
 """"""""""""""
 
@@ -971,6 +818,8 @@ Input Contract
      - Deterministic value exported by this leaf.
      - —
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -989,6 +838,8 @@ Output Contract
      - —
      - Iteration and deterministic value produced by this leaf.
      - {"format": "json", "path": "result.json"}
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""
@@ -1069,48 +920,6 @@ Open IEEE QCE demonstration wrapper for aligning the polarization incident on th
    * - Dependencies
      - []
 
-Shared Parameters
-"""""""""""""""""
-
-.. list-table::
-   :header-rows: 1
-   :width: 100%
-   :class: api-table
-
-   * - Name
-     - Type
-     - Default
-   * - ``finalAnglesDeg``
-     - ``list``
-     - [160.0, 160.0, 160.0]
-   * - ``initialAnglesDeg``
-     - ``list``
-     - [0.0, 0.0, 0.0]
-   * - ``linkId``
-     - ``NoneType``
-     - —
-   * - ``measurementDurationSec``
-     - ``float``
-     - 2.0
-   * - ``moveTimeoutSec``
-     - ``float``
-     - 30.0
-   * - ``optimizationMode``
-     - ``str``
-     - maximize
-   * - ``paddles``
-     - ``list``
-     - [0, 1, 2]
-   * - ``resourceDeviceIds``
-     - ``NoneType``
-     - —
-   * - ``settleAfterMoveSec``
-     - ``float``
-     - 0.2
-   * - ``stepDeg``
-     - ``float``
-     - 20.0
-
 Input Contract
 """"""""""""""
 
@@ -1175,6 +984,8 @@ Input Contract
      - Coarse angular scan increment in degrees.
      - {"minimum": 1e-06}
 
+Required applies to the effective value after catalog defaults and run overrides are merged. An explicit null does not restore a default. A required value with a usable default need not be written in the run input, but cannot be overridden with null. Nullable fields may still be required by the selected mode. Nested required fields are validated recursively; cross-field conditions remain owning-service checks. exclusiveMinimum=0 means strictly positive, without an additional physical minimum.
+
 Output Contract
 """""""""""""""
 
@@ -1203,6 +1014,8 @@ Output Contract
      - ``status``
      - Terminal alignment status and resolved target.
      - —
+
+Every declared output key is present after successful protocol completion; its value can still be null or empty. Publication is not guaranteed after a failure or abort. Any future exception to this common rule requires an explicit design decision.
 
 Stages
 """"""

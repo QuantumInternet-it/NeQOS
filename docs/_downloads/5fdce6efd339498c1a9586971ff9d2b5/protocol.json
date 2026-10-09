@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureLinkBackgroundSingles",
   "description": "Measures the finite singles background on one or more semantic quantum links. The protocol snapshots both live EPS attenuation paths, output mode, and every bound inline attenuator of each resolved source. Any traffic-mode change is first protected at declared source/attenuator maxima; it then parks each source at maximum entangled attenuation, composes MeasureLinkSingles, and restores the exact live state. The source and TimeTagger leases remain owned for the complete park/acquire/restore bracket, including failure cleanup. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "summary": "Measure link singles background while preserving and restoring the carrier state.",
   "domain": "link",
   "function": "characterization",
   "status": "production",
@@ -52,25 +53,25 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite integration duration of the background singles acquisition, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "settleSec": {
         "type": "number",
         "description": "Delay after parking the source carriers and before the finite acquisition, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "restoreSettleSec": {
         "type": "number",
         "description": "Delay after verified carrier restoration before the protocol completes, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Whether the finite singles acquisition clears its stable count-rate measurements first.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

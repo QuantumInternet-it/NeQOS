@@ -1,6 +1,7 @@
 {
   "protocolId": "InitializePolarizationAnalyzerChannel",
   "description": "Initializes one polarization-analyzer channel for a quantum link by setting its DWDM wavelength and an uncompensated tomography state.",
+  "summary": "Initialize an analyzer channel wavelength and factory tomography state for a link.",
   "domain": "device",
   "function": "initialization",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [
     "$shared.paDeviceId"
   ],
@@ -32,7 +33,7 @@
       },
       "paChannel": {
         "type": "integer",
-        "description": "One-based analyzer channel; set null to infer it from the link binding.",
+        "description": "One-based analyzer channel; set null to infer it from the link binding. Null resolves the channel from the link binding; omission keeps the catalog default.",
         "required": false,
         "minimum": 1
       },
@@ -57,8 +58,8 @@
       "settleSec": {
         "type": "number",
         "description": "Delay after the analyzer has accepted its configuration.",
-        "required": false,
-        "minimum": 0.0
+        "required": true,
+        "minimum": 0
       }
     }
   },

@@ -1,6 +1,7 @@
 {
   "protocolId": "InstallPolarizationAnalyzerCompensation",
   "description": "Installs a validated compensated tomography-state table on one PA X000 or MPC320 polarization analyzer, optionally persists it on the DeviceOS host, and optionally applies a final compensated state.",
+  "summary": "Install a validated compensated tomography-state table on an analyzer.",
   "domain": "device",
   "function": "calibrationStore",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [
     "$shared.polarizationAnalyzerDeviceId"
   ],
@@ -34,7 +35,7 @@
       "polarizationAnalyzerChannel": {
         "type": "integer",
         "description": "Analyzer channel. MPC320 supports only channel 1.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "states": {
@@ -45,7 +46,7 @@
       "persist": {
         "type": "boolean",
         "description": "Write the validated table to DeviceOS-local calibration storage after installation.",
-        "required": false
+        "required": true
       },
       "finalTomographyState": {
         "type": "string",

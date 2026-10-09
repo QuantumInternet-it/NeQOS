@@ -1,6 +1,7 @@
 {
   "protocolId": "ValidateLinkPolarizationCompensation",
   "description": "Validates an already applied link-polarization compensation from complete H and D separable source-probe H/V/D/A/R/L tomography counts. It derives measured Stokes vectors plus H, D, and average polarization-direction agreement; it does not calculate state fidelity, acquire data, read a device, write a device, or install a compensation table.",
+  "summary": "Assess installed link compensation from complete separable H/D tomography.",
   "domain": "link",
   "function": "polarizationCompensation",
   "status": "production",
@@ -9,12 +10,12 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 30.0,
+  "timeoutSec": 30,
   "resourceRequests": [],
   "sharedParams": {
     "linkId": null,
     "countsBySourceProbeState": null,
-    "minTotalCounts": 1.0
+    "minTotalCounts": 1
   },
   "inputSchema": {
     "schemaVersion": "0.1",
@@ -33,8 +34,8 @@
       "minTotalCounts": {
         "type": "number",
         "description": "Minimum sum of the six logical tomography counts required independently for each H or D source probe.",
-        "required": false,
-        "minimum": 0.0
+        "required": true,
+        "minimum": 0
       }
     }
   },

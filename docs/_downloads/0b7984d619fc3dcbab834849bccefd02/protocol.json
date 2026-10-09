@@ -1,6 +1,7 @@
 {
   "protocolId": "ReconstructTwoQubitDensityMatrix",
   "description": "Reconstructs a physical two-qubit density matrix from a complete background-corrected H/V/D/A/R/L coincidence observation. It preserves the unconstrained linear-inversion estimate as a diagnostic and fits a positive semidefinite trace-one matrix by maximum likelihood. The result is a reconstructed state, not a fidelity metric: downstream protocols may compare it with a target state or derive quality estimates without repeating tomography.",
+  "summary": "Reconstruct a physical two-qubit density matrix from complete corrected tomography.",
   "domain": "tomography",
   "function": "state",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [],
   "sharedParams": {
     "entangledPairPolarizationTomography": null,
@@ -20,13 +21,13 @@
     "parameters": {
       "entangledPairPolarizationTomography": {
         "type": "object",
-        "description": "Complete output object from MeasureEntangledPairPolarizationCoincidences. Its correctedCountsByProjection member must contain every logical H/V/D/A/R/L pair projection with finite non-negative counts.",
+        "description": "Complete output object from MeasureEntangledPairPolarizationCoincidences. Its correctedCountsByProjection member must contain every logical H/V/D/A/R/L pair projection with finite non-negative counts. Projection keys are two-state strings (HH, HV, ... LL); null or missing counts are invalid. Existing count normalization and reconstruction validation are reused.",
         "required": true
       },
       "maxIterations": {
         "type": "integer",
         "description": "Maximum L-BFGS-B iterations for the physical maximum-likelihood fit. The default preserves the historical reconstruction limit.",
-        "required": false,
+        "required": true,
         "minimum": 1
       }
     }

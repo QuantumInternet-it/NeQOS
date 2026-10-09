@@ -1,6 +1,7 @@
 {
     "protocolId": "AlignChannels",
     "description": "Measure correlations from a reference channel to target channels, estimate their relative timing offsets, and optionally apply the derived input delays.",
+    "summary": "Measure relative channel timing offsets and optionally apply the derived input delays.",
     "domain": "timing",
     "function": "alignment",
     "status": "production",
@@ -9,7 +10,7 @@
     "dependencies": [],
     "executionMode": "foreground",
     "preemptive": false,
-    "timeoutSec": 1800.0,
+    "timeoutSec": 1800,
     "resourceRequests": [],
     "sharedParams": {
         "timeTaggerDeviceId": null,
@@ -19,17 +20,17 @@
             "mode": "coarseFine",
             "clear": true,
             "single": {
-                "durationSec": 30.0,
+                "durationSec": 30,
                 "binWidthPs": 10,
                 "binCount": null
             },
             "coarse": {
-                "durationSec": 10.0,
+                "durationSec": 10,
                 "binWidthPs": 100,
                 "binCount": null
             },
             "fine": {
-                "durationSec": 30.0,
+                "durationSec": 30,
                 "binWidthPs": 10,
                 "binCount": null
             },
@@ -37,7 +38,7 @@
         },
         "delayCorrection": {
             "apply": true,
-            "sign": 1.0,
+            "sign": 1,
             "basePs": null,
             "settleSec": 0.2
         },
@@ -50,8 +51,8 @@
             "gaussianFitMinRelativeHeight": 0.2,
             "gaussianFitMaxHalfWidthPs": null,
             "diagnosticMaxPeaks": 20,
-            "minSeparationPs": 100.0,
-            "minCoincidences": 1.0
+            "minSeparationPs": 100,
+            "minCoincidences": 1
         }
     },
     "inputSchema": {
@@ -77,7 +78,8 @@
                 "items": {
                     "type": "integer",
                     "description": "Physical Time Tagger channel number.",
-                    "minimum": 1
+                    "minimum": 1,
+                    "required": true
                 }
             },
             "acquisition": {
@@ -87,7 +89,7 @@
                 "properties": {
                     "mode": {
                         "type": "string",
-                        "description": "Acquisition workflow.",
+                        "description": "Acquisition workflow. With coarseFine and delayCorrection.apply=false, acquisition.single is used for one measurement-only pass.",
                         "required": true,
                         "enum": [
                             "single",
@@ -101,14 +103,14 @@
                     },
                     "single": {
                         "type": "object",
-                        "description": "Single-pass acquisition settings.",
-                        "required": true,
+                        "description": "Single-pass acquisition settings. Required only for acquisition.mode='single' or delayCorrection.apply=false; unused otherwise.",
+                        "required": false,
                         "properties": {
                             "durationSec": {
                                 "type": "number",
                                 "description": "Integration duration in seconds.",
                                 "required": true,
-                                "minimum": 0
+                                "exclusiveMinimum": 0
                             },
                             "binWidthPs": {
                                 "type": "integer",
@@ -118,7 +120,7 @@
                             },
                             "binCount": {
                                 "type": "integer",
-                        "description": "Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.",
+                                "description": "Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.",
                                 "required": false,
                                 "minimum": 1
                             }
@@ -133,7 +135,7 @@
                                 "type": "number",
                                 "description": "Integration duration in seconds.",
                                 "required": true,
-                                "minimum": 0
+                                "exclusiveMinimum": 0
                             },
                             "binWidthPs": {
                                 "type": "integer",
@@ -158,7 +160,7 @@
                                 "type": "number",
                                 "description": "Integration duration in seconds.",
                                 "required": true,
-                                "minimum": 0
+                                "exclusiveMinimum": 0
                             },
                             "binWidthPs": {
                                 "type": "integer",
@@ -230,13 +232,13 @@
                     },
                     "rank": {
                         "type": "integer",
-                        "description": "Rank used by ranked selection modes.",
-                        "required": true,
+                        "description": "Rank used by ranked selection modes. Required only for rank/index/nth selection; unused for other modes.",
+                        "required": false,
                         "minimum": 1
                     },
                     "targetDelayPs": {
                         "type": "number",
-                        "description": "Target delay used by nearest-peak selection.",
+                        "description": "Target delay used by nearest-peak selection. Required for closest/nearest selection; there is no dominant-peak fallback.",
                         "required": false
                     },
                     "rejectCenterPs": {

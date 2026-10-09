@@ -1,6 +1,7 @@
 {
   "protocolId": "CaptureRawTimeTagStream",
   "description": "Resolve a link's TimeTagger channels from the active network, then declaratively start, hold, stop, and transfer one closed raw stream within the same lease-root instance.",
+  "summary": "Capture, close and transfer a raw time-tag stream for a quantum link.",
   "domain": "acquisition",
   "function": "rawStream",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 86460.0,
+  "timeoutSec": 86460,
   "resourceRequests": [
     "$shared.timeTaggerDeviceId"
   ],
@@ -18,7 +19,7 @@
     "linkId": null,
     "operation": "record",
     "detectorPorts": [],
-    "durationSec": 30.0,
+    "durationSec": 30,
     "recordingRef": null,
     "recordingSubdirectory": null,
     "marker": null,
@@ -63,8 +64,8 @@
       "durationSec": {
         "type": "number",
         "description": "Declared raw-stream hold duration in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "recordingRef": {
         "type": "string",

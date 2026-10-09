@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureEntangledPairPolarizationCoincidences",
   "description": "Measures a logical 6x6 coincidence matrix across two entangled-pair analyzer arms. Every physical acquisition uses the standard required detector-latch guard, so a recovered latch retries only its affected window while preserving previously accepted projections.",
+  "summary": "Acquire guarded two-arm polarization tomography as a logical 6x6 coincidence matrix.",
   "domain": "link",
   "function": "characterization",
   "status": "production",
@@ -71,36 +72,36 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite integration duration for each physical analyzer configuration, in seconds. network.json topology selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "settleSec": {
         "type": "number",
         "description": "Non-blocking delay after each analyzer-state change and before its finite measurement window, in seconds. The default allows the polarization analyzers to settle physically.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "coincidenceWindowPs": {
         "type": "integer",
         "description": "AND coincidence window for every projection, in picoseconds.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "useCompensatedTomoStates": {
         "type": "boolean",
         "description": "Whether analyzer states are applied from installed or loaded compensation tables; false uses factory states and never requires a compensation table.",
-        "required": false
+        "required": true
       },
       "backgroundCountRateHz": {
         "type": "number",
         "description": "Coincidence background rate subtracted from each finite projection before the corrected matrix is reported.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Must be true so an invalid latch-guarded child window can be retried as a fresh integration.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

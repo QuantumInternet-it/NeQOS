@@ -1,6 +1,7 @@
 {
   "protocolId": "CompensateLinkPolarizationFromSeparableHDProbes",
   "description": "Compensates one analyzer-equipped link from factory-state H/D singles tomography and a measured background, installs the estimated table without post-installation verification, and restores the exact pre-campaign source traffic, source attenuations and inline-attenuator settings; PA1000/PA2000 optical configuration is supported, while MPC320 requires driver support for readOpticalConfiguration. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "summary": "Estimate and install one link compensation table from separable H/D probes.",
   "domain": "link",
   "function": "polarizationCompensation",
   "status": "production",
@@ -81,25 +82,25 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite duration of each singles acquisition window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "settleSec": {
         "type": "number",
         "description": "Delay after carrier or analyzer-state changes and before the following finite measurement window, in seconds. The default preserves a one-second physical settling interval for analyzer rotations.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "minTotalCounts": {
         "type": "number",
         "description": "Minimum total background-corrected logical tomography counts required independently for the H and D source probes.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "persist": {
         "type": "boolean",
         "description": "Persist the installed compensation table on the analyzer DeviceOS host by default; set false for a nonpersistent installation. Persistence does not imply a physical acceptance gate.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

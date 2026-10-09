@@ -1,6 +1,7 @@
 {
   "protocolId": "EstimateLinkPolarizationCompensationFromHDProbes",
   "description": "Estimates per-link polarization compensation from source-prepared or entangled H/D H/D tomography counts and externally supplied calibrated analyzer axes, without acquiring data or touching hardware.",
+  "summary": "Estimate link compensation from existing H/D observations and calibrated analyzer axes.",
   "domain": "link",
   "function": "polarizationCompensation",
   "status": "production",
@@ -26,7 +27,7 @@
       "minTotalCounts": {
         "type": "number",
         "description": "Minimum sum of the six logical tomography counts required independently for each H or D probe, regardless of preparation.",
-        "required": false,
+        "required": true,
         "minimum": 0
       }
     }

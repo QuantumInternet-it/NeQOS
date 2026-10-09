@@ -110,6 +110,21 @@ performs runtime checks that a flat schema cannot express: exact device unions,
 network wiring, installed-table availability and cross-field compatibility.
 Passing schema validation does not establish physical validity.
 
+``required`` refers to the effective value after catalog defaults and recursive
+overrides: omit a defaulted field to keep its default; do not replace it with
+null. Numerical/boolean inputs without a defined null behavior reject explicit
+null. Array item requirements apply separately to every element.
+``exclusiveMinimum: 0`` means strictly positive, not a minimum duration or
+step imposed by the hardware. Selected-mode requirements are checked by the
+owning service before device writes/acquisition.
+
+For ``AlignChannels``, ``single`` settings are needed only for single-pass mode
+or measurement-only operation (``delayCorrection.apply=false``). A
+measurement-only coarse/fine request still uses one single pass.
+``closest``/``nearest`` peak selection needs ``targetDelayPs``; ranked selection
+needs ``rank``. Unused mode fields can be null, but the selected pass must
+have a positive duration and either a bin count or a positive pump frequency.
+
 In particular:
 
 * A finite ``latchGuard`` is explicit: ``disabled`` or ``required``. With

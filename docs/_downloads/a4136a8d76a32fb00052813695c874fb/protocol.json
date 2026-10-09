@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureCoincidences",
   "description": "Acquire finite count-rate observations for AND logical channels formed from two or more input channels.",
+  "summary": "Acquire coincidence counts and rates for selected channel combinations.",
   "domain": "acquisition",
   "function": "coincidence",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
+  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],
@@ -17,7 +18,7 @@
     "deviceId": null,
     "resourceDeviceIds": null,
     "observations": null,
-    "durationSec": 1.0,
+    "durationSec": 1,
     "clear": true,
     "latchGuard": null
   },
@@ -90,13 +91,13 @@
       "durationSec": {
         "type": "number",
         "description": "Finite integration duration of the shared coincidence observation window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Whether every selected coincidence measurement is cleared before the window.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

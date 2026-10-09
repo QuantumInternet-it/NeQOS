@@ -1,6 +1,7 @@
 {
   "protocolId": "RealignEntangledPhotonSourcePolarization",
   "description": "When the EPS is actively in ENTANGLED output mode, temporarily protects downstream detectors with the source's maximum entangled-output attenuation, searches the internal EFPC settings that restore source polarization, and restores the exact prior output state.",
+  "summary": "Realign an entangled-photon source with temporary detector protection and state restoration.",
   "domain": "device",
   "function": "configuration",
   "status": "production",
@@ -9,14 +10,14 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [
     "$shared.deviceId"
   ],
   "sharedParams": {
     "deviceId": null,
-    "protectionSettleSec": 0.0,
-    "settleSec": 10.0
+    "protectionSettleSec": 0,
+    "settleSec": 10
   },
   "inputSchema": {
     "schemaVersion": "0.1",
@@ -30,14 +31,14 @@
       "protectionSettleSec": {
         "type": "number",
         "description": "Optional delay after applying protective maximum entangled-output attenuation and before realignment, in seconds.",
-        "required": false,
-        "minimum": 0.0
+        "required": true,
+        "minimum": 0
       },
       "settleSec": {
         "type": "number",
         "description": "Delay after verified restoration of the prior source output state, in seconds.",
-        "required": false,
-        "minimum": 0.0
+        "required": true,
+        "minimum": 0
       }
     }
   },

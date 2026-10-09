@@ -1,6 +1,7 @@
 {
   "protocolId": "AlignMultipleSNSPDInputPolarizations",
   "description": "Align the input polarizations incident on multiple SNSPDs by scanning their associated MPC320 controllers in parallel and using simultaneous TimeTagger count-rate feedback.",
+  "summary": "Align multiple SNSPD input polarizations using parallel MPC320 scans and count-rate feedback.",
   "domain": "link",
   "function": "polarizationAlignment",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 2400.0,
+  "timeoutSec": 2400,
   "resourceRequests": [
     "$shared.deviceIds"
   ],
@@ -24,19 +25,19 @@
       2
     ],
     "initialAnglesDeg": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "finalAnglesDeg": [
-      160.0,
-      160.0,
-      160.0
+      160,
+      160,
+      160
     ],
-    "stepDeg": 10.0,
+    "stepDeg": 10,
     "refinements": [],
     "settleAfterMoveSec": 0.2,
-    "moveTimeoutSec": 30.0
+    "moveTimeoutSec": 30
   },
   "inputSchema": {
     "schemaVersion": "0.1",
@@ -56,8 +57,8 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Integration duration for each simultaneous count sample, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "optimizationMode": {
         "type": "string",
@@ -105,7 +106,7 @@
         "type": "number",
         "description": "Coarse scan angular increment in degrees.",
         "required": true,
-        "minimum": 0.000001
+        "exclusiveMinimum": 0
       },
       "refinements": {
         "type": "array",
@@ -126,7 +127,7 @@
               "type": "number",
               "description": "Angular increment for this local scan, in degrees.",
               "required": true,
-              "minimum": 0.000001
+              "exclusiveMinimum": 0
             }
           }
         }
@@ -134,12 +135,12 @@
       "settleAfterMoveSec": {
         "type": "number",
         "description": "Settling delay after every parallel controller movement, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "moveTimeoutSec": {
         "type": "number",
-        "description": "Timeout for each MPC320 movement, in seconds.",
+        "description": "Timeout for each MPC320 movement, in seconds. Null requests no per-move timeout override.",
         "required": false,
         "minimum": 0
       }

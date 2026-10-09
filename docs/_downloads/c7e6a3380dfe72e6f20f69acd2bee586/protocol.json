@@ -1,6 +1,7 @@
 {
   "protocolId": "LoadPolarizationAnalyzerCompensation",
   "description": "Loads persisted compensated tomography states for selected or every stored channel on one PA X000 or MPC320 DeviceOS host and can apply one loaded state.",
+  "summary": "Load stored analyzer compensation tables and optionally apply a state.",
   "domain": "device",
   "function": "calibrationStore",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [
     "$shared.polarizationAnalyzerDeviceId"
   ],

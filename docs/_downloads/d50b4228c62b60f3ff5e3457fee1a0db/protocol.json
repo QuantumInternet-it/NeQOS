@@ -1,6 +1,7 @@
 {
   "protocolId": "ConfigureEntangledPhotonSources",
   "description": "Applies the requested operating configuration to entangled-photon sources, associated attenuators, and optional clock settings, and returns the applied parameter values.",
+  "summary": "Configure entangled-photon sources, associated attenuators and clock settings.",
   "domain": "device",
   "function": "configuration",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 300.0,
+  "timeoutSec": 300,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],
@@ -18,7 +19,7 @@
     "sources": [],
     "attenuators": [],
     "clock": {},
-    "settleSec": 1.0
+    "settleSec": 1
   },
   "inputSchema": {
     "schemaVersion": "0.1",
@@ -37,22 +38,22 @@
       },
       "sources": {
         "type": "array",
-        "description": "Entangled-photon source device configurations to apply.",
+        "description": "Entangled-photon source device configurations to apply. Null or omission means no sources requested. Non-null entries require deviceId; paired clockOutputFrequencyMHz/clockOutputAttenuationDb must both be supplied, or clockOutput must contain frequencyMHz and attenuationDb (clockFrequencyMHz/clockAttenuationDb aliases are also accepted). Dynamic parameters remain driver-owned.",
         "required": false,
         "items": {
           "type": "object",
           "description": "One source device and its requested operating parameters.",
-          "required": false
+          "required": true
         }
       },
       "attenuators": {
         "type": "array",
-        "description": "Attenuator device configurations associated with the sources.",
+        "description": "Attenuator device configurations associated with the sources. Null or omission means no attenuators requested. Every non-null entry requires deviceId; a missing/null attenuation requests no change.",
         "required": false,
         "items": {
           "type": "object",
           "description": "One attenuator device and its requested parameter value.",
-          "required": false
+          "required": true
         }
       },
       "clock": {
@@ -63,7 +64,7 @@
       "settleSec": {
         "type": "number",
         "description": "Delay after applying the requested operating state, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       }
     }

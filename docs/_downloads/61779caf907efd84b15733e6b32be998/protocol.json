@@ -1,6 +1,7 @@
 {
   "protocolId": "RecordTimeTagStream",
   "description": "Record a finite raw stream from selected physical channels, or provide start/stop lifecycle primitives to a composition that owns the TimeTagger lease-root and guarantees closure.",
+  "summary": "Record a finite time-tag stream or provide recording lifecycle primitives.",
   "domain": "acquisition",
   "function": "rawStream",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
+  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.deviceId"
   ],
@@ -56,9 +57,9 @@
       },
       "durationSec": {
         "type": "number",
-        "description": "Finite recording duration in seconds; required only for operation record.",
+        "description": "Finite recording duration in seconds; required only for operation record. Must be omitted or null for start; unused for stop.",
         "required": false,
-        "minimum": 0.000001
+        "exclusiveMinimum": 0
       },
       "recordingRef": {
         "type": "string",

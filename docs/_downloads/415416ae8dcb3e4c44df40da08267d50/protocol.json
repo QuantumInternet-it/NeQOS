@@ -1,6 +1,7 @@
 {
   "protocolId": "HoldDuration",
   "description": "Wait for a declared duration without issuing device commands, then report the completed hold interval.",
+  "summary": "Wait for a declared interval and report the completed hold.",
   "domain": "execution",
   "function": "control",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 86460.0,
+  "timeoutSec": 86460,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],

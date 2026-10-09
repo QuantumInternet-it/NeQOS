@@ -1,6 +1,7 @@
 {
   "protocolId": "AlignSNSPDInputPolarization",
   "description": "Align the polarization incident on the SNSPD associated with one quantum link by scanning its upstream MPC320 and optimizing the measured count rate.",
+  "summary": "Align one SNSPD input polarization using its upstream MPC320 and count-rate feedback.",
   "domain": "link",
   "function": "polarizationAlignment",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 1800.0,
+  "timeoutSec": 1800,
   "resourceRequests": [
     "$shared.resourceMpcDeviceIds"
   ],
@@ -25,19 +26,19 @@
       2
     ],
     "initialAnglesDeg": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "finalAnglesDeg": [
-      160.0,
-      160.0,
-      160.0
+      160,
+      160,
+      160
     ],
-    "stepDeg": 10.0,
+    "stepDeg": 10,
     "refinements": [],
     "settleAfterMoveSec": 0.2,
-    "moveTimeoutSec": 30.0
+    "moveTimeoutSec": 30
   },
   "inputSchema": {
     "schemaVersion": "0.1",
@@ -63,8 +64,8 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Integration duration for each SNSPD count sample, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "optimizationMode": {
         "type": "string",
@@ -112,7 +113,7 @@
         "type": "number",
         "description": "Coarse scan angular increment in degrees.",
         "required": true,
-        "minimum": 0.000001
+        "exclusiveMinimum": 0
       },
       "refinements": {
         "type": "array",
@@ -133,7 +134,7 @@
               "type": "number",
               "description": "Angular increment for this local scan, in degrees.",
               "required": true,
-              "minimum": 0.000001
+              "exclusiveMinimum": 0
             }
           }
         }
@@ -141,12 +142,12 @@
       "settleAfterMoveSec": {
         "type": "number",
         "description": "Settling delay after each controller movement, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "moveTimeoutSec": {
         "type": "number",
-        "description": "Timeout for each MPC320 movement, in seconds.",
+        "description": "Timeout for each MPC320 movement, in seconds. Null requests no per-move timeout override.",
         "required": false,
         "minimum": 0
       }

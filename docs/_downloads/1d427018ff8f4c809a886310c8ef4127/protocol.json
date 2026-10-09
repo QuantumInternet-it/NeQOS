@@ -1,6 +1,7 @@
 {
   "protocolId": "ConfigureQuantumLinkCarrier",
   "description": "Selects a source output mode and applies the requested total attenuation on every link emitted by that source.",
+  "summary": "Select a source output mode and configure total attenuation on its emitted links.",
   "domain": "link",
   "function": "configuration",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 60.0,
+  "timeoutSec": 60,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],
@@ -87,7 +88,7 @@
       "settleSec": {
         "type": "number",
         "description": "Delay after applying the carrier configuration, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       }
     }

@@ -43,11 +43,19 @@ table.api-task-parameter-table td:nth-child(3) {
 }
 
 @media (max-width: 46em) {
+  article h1 {
+    font-size: 1.6rem;
+  }
+
   .task-reference .table-wrapper.api-table {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
+}
+
+.sidebar-tree a {
+  font-size: 0.8125rem;
 }
 
 .task-reference .admonition-title {
@@ -68,4 +76,60 @@ table.api-task-parameter-table td:nth-child(3) {
   font-weight: 600;
   margin-top: 1rem;
   margin-bottom: 0.35rem;
+}
+
+/* Keep tables and long protocol/namespace identifiers inside the content. */
+.content, .article-container, article, section, .sd-col {
+  min-width: 0;
+}
+
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-table-border);
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+table.api-table th,
+table.api-table td,
+table.api-table code,
+.sd-card-title,
+.sd-card-text,
+h1, h2, h3,
+.sidebar-tree a {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+table.api-table {
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+table.api-table td {
+  padding: 0.65rem;
+}
+
+.sd-card {
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.protocol-technical {
+  margin-top: 1.5rem;
+}
+
+.highlight {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 46em) {
+  table.api-parameter-table th:nth-child(4),
+  table.api-parameter-table td:nth-child(4),
+  table.api-task-parameter-table th:nth-child(3),
+  table.api-task-parameter-table td:nth-child(3) {
+    white-space: normal;
+  }
 }

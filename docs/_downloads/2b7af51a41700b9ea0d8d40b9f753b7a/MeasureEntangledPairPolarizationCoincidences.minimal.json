@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureEntangledPairPolarizationCoincidences",
+      "sharedParams": {
+        "linkPairIds": [
+          "ExampleEntangledArmA",
+          "ExampleEntangledArmB"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB"
+        ],
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleDetectorHealthId"
+        ],
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        }
+      }
+    }
+  ]
+}

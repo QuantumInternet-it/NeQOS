@@ -1,6 +1,7 @@
 {
   "protocolId": "CompensateSourcePolarizationFromEntangledPairProbes",
   "description": "Compensates the relative polarization mismatch between the two links emitted by one entangled-photon source, using entangled H/D H/D coincidence probes under the Phi+ convention and applying the resulting correction to only the selected target analyzer. It optionally installs and persists that analyzer table, then restores the original carrier state. The method attributes all observed reference-frame mismatch to the target and cannot distinguish link rotation, local source rotation or a departure from Phi+. Before conditional H/D scans it always composes MeasureLinkBackgroundCoincidences, parking the pair source and restoring its exact active setup. All physical detector pairs used by the scans are acquired together for measurementDurationSec with the same coincidence window and latch policy. External background input is not accepted; subtractBackground controls correction, not acquisition.",
+  "summary": "Compensate relative link polarization using entangled H/D coincidence probes.",
   "domain": "link",
   "function": "polarizationCompensation",
   "status": "production",
@@ -75,40 +76,40 @@
       "targetUseCompensatedTomoStates": {
         "type": "boolean",
         "description": "Target acquisition table; false uses factory states, true requires an installed/loaded table.",
-        "required": false
+        "required": true
       },
       "referenceResetCompensatedTomoStates": {
         "type": "boolean",
         "description": "After target installation succeeds, replace only the reference compensated table with its six factory-state read-backs; default true. Requires referenceUseCompensatedTomoStates=false. Uses the same persist flag; estimate-only runs do not reset. The reset returns the reference to H by default, or to its last reference projection when setFinalHAfterApply=false.",
-        "required": false
+        "required": true
       },
       "measurementEnabled": {
         "type": "boolean",
         "description": "False publishes a SKIPPED report without communicating with hardware.",
-        "required": false
+        "required": true
       },
       "measurementDurationSec": {
         "type": "number",
         "description": "Equal finite duration of every conditional acquisition window in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "coincidenceWindowPs": {
         "type": "integer",
         "description": "AND coincidence interval in picoseconds.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "settleSec": {
         "type": "number",
         "description": "Physical settling interval after analyzer or carrier changes.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Fresh windows; false is invalid with a required latch guard.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",
@@ -172,11 +173,11 @@
       "subtractBackground": {
         "type": "boolean",
         "description": "Subtract the internally acquired detector-pair background from each scan component using integration-duration scaling and zero clipping. False still measures and retains the background, but leaves scan counts uncorrected.",
-        "required": false
+        "required": true
       },
       "sourceSetup": {
         "type": "object",
-        "description": "Explicit source and inline-attenuator setup. An empty object preserves an already ENTANGLED source; no second source is inferred or parked. Source traffic/attenuation and inline ATT values are snapshotted and restored normally and on terminal failure.",
+        "description": "Explicit source and inline-attenuator setup. An empty object preserves an already ENTANGLED source; no second source is inferred or parked. Source traffic/attenuation and inline ATT values are snapshotted and restored normally and on terminal failure. Omit unused sources/attenuators members or supply arrays (not null). Supplied attenuation values must be numeric/non-null and within network limits; absent source attenuation fields mean no change.",
         "required": true,
         "properties": {
           "sources": {
@@ -186,7 +187,7 @@
             "items": {
               "type": "object",
               "description": "One source request.",
-              "required": false,
+              "required": true,
               "properties": {
                 "deviceId": {
                   "type": "string",
@@ -226,7 +227,7 @@
             "items": {
               "type": "object",
               "description": "One attenuation request.",
-              "required": false,
+              "required": true,
               "properties": {
                 "deviceId": {
                   "type": "string",
@@ -248,40 +249,40 @@
       "applyCompensation": {
         "type": "boolean",
         "description": "Install only the target compensation table; false leaves both tables unchanged.",
-        "required": false
+        "required": true
       },
       "persist": {
         "type": "boolean",
         "description": "Persist an installed estimate on the DeviceOS host by default; set false for a nonpersistent installation. This flag does not enable installation or imply a physical acceptance gate.",
-        "required": false
+        "required": true
       },
       "setFinalHAfterApply": {
         "type": "boolean",
         "description": "After successful target installation, leave both target and reference physically in H. The target uses its installed table; the reference uses the reset factory-equivalent table, or its selected existing policy when reset is disabled. False preserves the prior last-reference-projection behavior; estimate-only runs are unchanged.",
-        "required": false
+        "required": true
       },
       "hardCheckStokesAngle": {
         "type": "boolean",
         "description": "Preserved optional H/D direction-angle acceptance check, disabled by default.",
-        "required": false
+        "required": true
       },
       "stokesAngleTargetDeg": {
         "type": "number",
         "description": "Expected acute angle between H/D Stokes directions in degrees.",
-        "required": false,
+        "required": true,
         "minimum": 0,
         "maximum": 90
       },
       "stokesAngleToleranceDeg": {
         "type": "number",
         "description": "Optional direction-angle tolerance in degrees.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "minTotalCounts": {
         "type": "number",
         "description": "Minimum summed counts for each H/D probe passed to the existing pure estimator.",
-        "required": false,
+        "required": true,
         "minimum": 0
       }
     }

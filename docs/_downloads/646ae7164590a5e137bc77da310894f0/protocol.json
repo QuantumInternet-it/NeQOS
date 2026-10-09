@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureCorrelations",
   "description": "Acquire finite raw correlation histograms for the requested TimeTagger channel pairs without deriving physical estimates.",
+  "summary": "Acquire correlation histograms for selected Time Tagger channel pairs.",
   "domain": "acquisition",
   "function": "correlation",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
+  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],
@@ -17,7 +18,7 @@
     "deviceId": null,
     "resourceDeviceIds": null,
     "correlations": null,
-    "durationSec": 1.0,
+    "durationSec": 1,
     "clear": true,
     "latchGuard": null
   },
@@ -88,13 +89,13 @@
       "durationSec": {
         "type": "number",
         "description": "Finite integration duration of the shared correlation window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Whether every selected correlation histogram is cleared before the window.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

@@ -1,6 +1,7 @@
 {
   "protocolId": "MonitorCountRates",
   "description": "Acquire a declared number of complete count-rate windows and return the ordered observations with their aggregate summary.",
+  "summary": "Monitor successive count-rate windows and publish their ordered observations.",
   "domain": "acquisition",
   "function": "countrate",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 96000.0,
+  "timeoutSec": 96000,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],
@@ -17,9 +18,9 @@
     "deviceId": null,
     "resourceDeviceIds": null,
     "channelRefs": null,
-    "measurementDurationSec": 1.0,
+    "measurementDurationSec": 1,
     "windowCount": null,
-    "interWindowDelaySec": 0.0,
+    "interWindowDelaySec": 0,
     "latchGuard": null
   },
   "inputSchema": {
@@ -58,8 +59,8 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Integration duration of each acquisition window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "windowCount": {
         "type": "integer",
@@ -70,7 +71,7 @@
       "interWindowDelaySec": {
         "type": "number",
         "description": "Non-blocking delay between completed acquisition windows, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "latchGuard": {

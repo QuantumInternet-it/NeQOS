@@ -1,6 +1,7 @@
 {
   "protocolId": "ReadPolarizationAnalyzerOpticalConfiguration",
   "description": "Reads one PA1000 or PA2000 polarization-analyzer channel's cached DeviceOS optical configuration and publishes its validated canonical three-waveplate axis matrix. MPC320 is intentionally unsupported until its driver exposes the same optical-configuration task.",
+  "summary": "Read a PA1000 or PA2000 analyzer optical configuration and waveplate axes.",
   "domain": "device",
   "function": "configuration",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 30.0,
+  "timeoutSec": 30,
   "resourceRequests": [
     "$shared.deviceId"
   ],

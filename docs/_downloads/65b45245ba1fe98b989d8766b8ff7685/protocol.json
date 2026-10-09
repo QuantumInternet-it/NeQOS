@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureLinkSingles",
   "description": "Measures finite singles counts and rates for resolved quantum links and returns their acquisition provenance. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "summary": "Measure guarded singles counts and rates on resolved quantum links.",
   "domain": "link",
   "function": "characterization",
   "status": "production",
@@ -36,13 +37,13 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite integration duration for the shared singles observation window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Whether the selected stable count-rate measurements are cleared before acquisition.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

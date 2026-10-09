@@ -1,6 +1,7 @@
 {
   "protocolId": "DeriveEntangledPairFidelitySummary",
   "description": "Derives a unified fidelity and detected-throughput summary, verifies matrix-to-metric consistency, and renders laboratory, SVD and numerical cross-check density matrices without reacquiring data or repeating optimization.",
+  "summary": "Combine existing fidelity and throughput results into a verified summary.",
   "domain": "entanglement",
   "function": "fidelity",
   "status": "production",
@@ -38,7 +39,7 @@
       "writeToArtifactRoot": {
         "type": "boolean",
         "description": "Write summary artifacts in this protocol's run directory rather than its stage subdirectory; never the ancestor's or entire run-plan directory.",
-        "required": false
+        "required": true
       }
     }
   },
@@ -104,4 +105,3 @@
     }
   ]
 }
-

@@ -1,6 +1,7 @@
 {
   "protocolId": "ValidateEntangledPairPolarizationTomography",
   "description": "Assesses a complete background-corrected entangled-pair 6x6 coincidence observation before density-matrix reconstruction. It accepts or rejects whole four-outcome basis settings rather than individual projections, because a valid Bell state may have nearly zero complementary outcomes. A rejected assessment remains a completed protocol with its evidence published, so a parent can stop before calculating a misleading fidelity.",
+  "summary": "Assess complete entangled-pair tomography against an explicit acceptance policy.",
   "domain": "link",
   "function": "characterization",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 60.0,
+  "timeoutSec": 60,
   "resourceRequests": [],
   "sharedParams": {
     "entangledPairPolarizationTomography": null,
@@ -32,13 +33,13 @@
             "type": "number",
             "description": "Minimum background-corrected sum of all four outcomes in each of the nine X/Y/Z basis pairs.",
             "required": true,
-            "minimum": 0.0
+            "minimum": 0
           },
           "maximumBasisRateRelativeStandardDeviation": {
             "type": "number",
             "description": "Maximum allowed standard-deviation-to-mean ratio across the nine complete basis rates.",
             "required": true,
-            "minimum": 0.0
+            "minimum": 0
           }
         }
       }

@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureCountRates",
   "description": "Acquire one finite count-rate observation for the requested device channels and return normalized counts and rates by measurement reference.",
+  "summary": "Acquire one finite window of channel counts and count rates.",
   "domain": "acquisition",
   "function": "countrate",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
+  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.resourceDeviceIds"
   ],
@@ -17,7 +18,7 @@
     "deviceId": null,
     "resourceDeviceIds": null,
     "channelRefs": null,
-    "durationSec": 1.0,
+    "durationSec": 1,
     "clear": true,
     "latchGuard": null
   },
@@ -57,13 +58,13 @@
       "durationSec": {
         "type": "number",
         "description": "Finite integration duration of the observation window, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Whether the device clears each measurement accumulation before the window.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

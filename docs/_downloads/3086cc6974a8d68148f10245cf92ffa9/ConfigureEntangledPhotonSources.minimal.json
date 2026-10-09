@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ConfigureEntangledPhotonSources",
+      "sharedParams": {
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSource2Id"
+        ]
+      }
+    }
+  ]
+}

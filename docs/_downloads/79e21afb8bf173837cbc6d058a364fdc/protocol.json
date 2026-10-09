@@ -1,6 +1,7 @@
 {
   "protocolId": "ReadChannelDelays",
   "description": "Read the live temporal input-delay settings of selected Time Tagger channels.",
+  "summary": "Read the current input delays of selected Time Tagger channels.",
   "domain": "timing",
   "function": "alignment",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
+  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.timeTaggerDeviceId"
   ],
@@ -34,7 +35,8 @@
         "items": {
           "type": "integer",
           "description": "Physical Time Tagger channel number.",
-          "minimum": 1
+          "minimum": 1,
+          "required": true
         }
       }
     }

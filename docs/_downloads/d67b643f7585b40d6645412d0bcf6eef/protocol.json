@@ -1,6 +1,7 @@
 {
   "protocolId": "CompensateSourcePolarizationFromSeparableHDProbes",
   "description": "Compensates each of the two selected emitted links of one entangled-photon source once from factory tomography states and publishes their installed absolute compensation tables without post-installation verification, acceptance thresholds or automatic repetition; COMPLETED denotes operational completion, not certified polarization quality. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "summary": "Compensate both source links from separable H/D tomography and install their tables.",
   "domain": "link",
   "function": "polarizationCompensation",
   "status": "production",
@@ -88,25 +89,25 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite duration of every singles window used by each link campaign, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "settleSec": {
         "type": "number",
         "description": "Delay after carrier and analyzer-state changes and before the following finite measurement window, in seconds. The default preserves a one-second physical settling interval for analyzer rotations.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "minTotalCounts": {
         "type": "number",
         "description": "Minimum total background-corrected tomography counts required independently for every H and D probe observation.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "persist": {
         "type": "boolean",
         "description": "Persist each installed analyzer compensation table on its owning DeviceOS host by default; set false for nonpersistent installations. Persistence does not imply a physical acceptance gate.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",

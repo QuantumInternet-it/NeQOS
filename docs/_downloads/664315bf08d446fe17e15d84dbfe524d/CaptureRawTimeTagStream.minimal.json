@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CaptureRawTimeTagStream",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "linkId": "ExampleLinkId",
+        "recordingRef": "example-finite-raw-stream"
+      }
+    }
+  ]
+}

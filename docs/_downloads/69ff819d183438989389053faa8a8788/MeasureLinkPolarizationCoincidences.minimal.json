@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkPolarizationCoincidences",
+      "sharedParams": {
+        "referenceLinkId": "ExampleReferenceLinkId",
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExamplePolarizationAnalyzerId"
+        ]
+      }
+    }
+  ]
+}

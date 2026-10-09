@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureLinkBackgroundCoincidences",
   "description": "Measures finite coincidence background between one reference link and one or more target links. The protocol snapshots both EPS attenuation paths, output mode, and every bound inline attenuator of each resolved source. Any traffic-mode change is first protected at declared source/attenuator maxima; it then parks the sources, composes MeasureLinkCoincidences for the requested pairs, and restores the exact live state. The source and TimeTagger leases remain owned for the complete park/acquire/restore bracket, including failure cleanup. Optional detectorPairs select physical reference-target channels validated against network bindings, including PBS/multibranch ports; these pairs are acquired together through MeasureCoincidences. latchGuard is forwarded unchanged, with the exact selected health-guard lease union.",
+  "summary": "Measure link coincidence background while preserving and restoring the carrier state.",
   "domain": "link",
   "function": "characterization",
   "status": "production",
@@ -64,31 +65,31 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite integration duration of each background coincidence observation, in seconds.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "coincidenceWindowPs": {
         "type": "integer",
         "description": "AND coincidence window used for every reference-target pair, in picoseconds.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "settleSec": {
         "type": "number",
         "description": "Delay after parking the source carriers and before the finite acquisition, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "restoreSettleSec": {
         "type": "number",
         "description": "Delay after verified carrier restoration before the protocol completes, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Whether the finite coincidence acquisition clears its stable measurements first.",
-        "required": false
+        "required": true
       },
       "detectorPairs": {
         "type": "array",

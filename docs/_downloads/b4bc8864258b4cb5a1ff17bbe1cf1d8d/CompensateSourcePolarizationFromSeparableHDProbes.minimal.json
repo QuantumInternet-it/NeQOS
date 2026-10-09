@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CompensateSourcePolarizationFromSeparableHDProbes",
+      "sharedParams": {
+        "deviceId": "ExampleEntangledPhotonSourceId",
+        "linkIds": [
+          "ExampleSourceLinkOneId",
+          "ExampleSourceLinkTwoId"
+        ],
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId",
+          "ExamplePolarizationAnalyzerOneId",
+          "ExamplePolarizationAnalyzerTwoId",
+          "ExampleTimeTaggerId",
+          "ExampleDetectorHealthId"
+        ],
+        "probeAttenuation": {
+          "mode": "perLink"
+        },
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        }
+      }
+    }
+  ]
+}

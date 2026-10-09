@@ -1,6 +1,7 @@
 {
   "protocolId": "ResetPolarizationAnalyzerCompensationToFactory",
   "description": "Replaces one analyzer channel's compensated table with its six applied factory states at the configured wavelength, optionally persists it on DeviceOS, and applies a selected final state.",
+  "summary": "Replace an analyzer compensation table with its factory tomography states.",
   "domain": "device",
   "function": "calibrationStore",
   "status": "production",
@@ -31,13 +32,13 @@
       "channel": {
         "type": "integer",
         "description": "Analyzer channel; MPC320 supports channel 1.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "persist": {
         "type": "boolean",
         "description": "Also overwrite DeviceOS-local persisted calibration; false changes only the active table.",
-        "required": false
+        "required": true
       },
       "finalTomographyState": {
         "type": "string",

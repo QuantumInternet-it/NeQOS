@@ -1,6 +1,7 @@
 {
   "protocolId": "MeasureEntangledPairFidelity",
   "description": "Measures Phi+ lab-frame fidelity, the fully entangled fraction, and their fidelity gap from guarded entangled-pair tomography of the current optical state without configuring or compensating the source.",
+  "summary": "Measure entangled-pair fidelity from guarded tomography of the current optical state.",
   "domain": "entanglement",
   "function": "fidelity",
   "status": "production",
@@ -75,36 +76,36 @@
       "measurementDurationSec": {
         "type": "number",
         "description": "Finite integration duration for each topology-derived physical coincidence acquisition.",
-        "required": false,
-        "minimum": 0.000001
+        "required": true,
+        "exclusiveMinimum": 0
       },
       "settleSec": {
         "type": "number",
         "description": "Delay after each analyzer-state change before its finite coincidence window.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "coincidenceWindowPs": {
         "type": "integer",
         "description": "AND coincidence window in picoseconds.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "useCompensatedTomoStates": {
         "type": "boolean",
         "description": "Use installed or loaded analyzer compensation tables. False uses factory tomography states and does not require a table.",
-        "required": false
+        "required": true
       },
       "backgroundCountRateHz": {
         "type": "number",
         "description": "Coincidence background rate subtracted from every projection before reconstruction.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "clear": {
         "type": "boolean",
         "description": "Must be true because required latch protection retries an invalid window as a fresh integration.",
-        "required": false
+        "required": true
       },
       "latchGuard": {
         "type": "object",
@@ -149,13 +150,13 @@
       "maxReconstructionIterations": {
         "type": "integer",
         "description": "Maximum maximum-likelihood density-reconstruction iterations.",
-        "required": false,
+        "required": true,
         "minimum": 1
       },
       "numericLocalUnitaryRestarts": {
         "type": "integer",
         "description": "Random restarts for the independent numerical local-unitary Phi+ diagnostic.",
-        "required": false,
+        "required": true,
         "minimum": 0
       },
       "numericLocalUnitarySeed": {

@@ -1,6 +1,7 @@
 {
   "protocolId": "ApplyChannelDelays",
   "description": "Apply an explicit temporal-delay map to the input channels of a Time Tagger.",
+  "summary": "Apply an explicit input-delay map to Time Tagger channels.",
   "domain": "timing",
   "function": "alignment",
   "status": "production",
@@ -9,8 +10,10 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120.0,
-  "resourceRequests": ["$shared.timeTaggerDeviceId"],
+  "timeoutSec": 120,
+  "resourceRequests": [
+    "$shared.timeTaggerDeviceId"
+  ],
   "sharedParams": {
     "timeTaggerDeviceId": null,
     "channelDelaysPs": null,
@@ -33,7 +36,7 @@
       "settleSec": {
         "type": "number",
         "description": "Delay after applying the channel settings, in seconds.",
-        "required": false,
+        "required": true,
         "minimum": 0
       }
     }

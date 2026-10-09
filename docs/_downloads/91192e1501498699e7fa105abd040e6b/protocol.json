@@ -1,6 +1,7 @@
 {
   "protocolId": "ConfigureMPC320",
   "description": "Applies optional velocity, home-position, and jog-size settings to one MPC320 polarization controller and returns the applied configuration.",
+  "summary": "Configure an MPC320 controller velocity, home position and jog sizes.",
   "domain": "device",
   "function": "configuration",
   "status": "production",
@@ -9,7 +10,7 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 60.0,
+  "timeoutSec": 60,
   "resourceRequests": [
     "$shared.mpcDeviceId"
   ],
