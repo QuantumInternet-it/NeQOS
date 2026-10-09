@@ -1,0 +1,107 @@
+{
+  "protocolId": "DeriveEntangledPairFidelitySummary",
+  "description": "Derives a unified fidelity and detected-throughput summary, verifies matrix-to-metric consistency, and renders laboratory, SVD and numerical cross-check density matrices without reacquiring data or repeating optimization.",
+  "domain": "entanglement",
+  "function": "fidelity",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300,
+  "resourceRequests": [],
+  "sharedParams": {
+    "twoQubitDensityMatrix": null,
+    "entangledPairFidelity": null,
+    "distillableEntanglementRate": null,
+    "writeToArtifactRoot": true
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "twoQubitDensityMatrix": {
+        "type": "object",
+        "description": "Declared physical state output from ReconstructTwoQubitDensityMatrix.",
+        "required": true
+      },
+      "entangledPairFidelity": {
+        "type": "object",
+        "description": "Declared output from EstimateEntangledPairFidelity for that state, including svdLocalUnitary.rhoOptimized and crossCheck.numericLocalUnitary.bestAttempt.parameters.",
+        "required": true
+      },
+      "distillableEntanglementRate": {
+        "type": "object",
+        "description": "Declared successful output from EstimateEntangledPairDistillableEntanglementRate for the same reconstruction/observation.",
+        "required": true
+      },
+      "writeToArtifactRoot": {
+        "type": "boolean",
+        "description": "Write summary artifacts in this protocol's run directory rather than its stage subdirectory; never the ancestor's or entire run-plan directory.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "entanglement.fidelity.estimate.entangledPairFidelitySummary": {
+        "type": "object",
+        "description": "Aggregate of labFrameFidelity, fullyEntangledFraction, frameMisalignmentFidelityLoss, numerical crossCheck (no delta), detected hashing throughput, three frame matrices and input provenance. Verifies their reported overlaps with the preserved 1e-7 tolerance; no new physical acceptance gate.",
+        "role": "estimate"
+      },
+      "entanglement.fidelity.artifact.entangledPairFidelitySummaryReport": {
+        "type": "string",
+        "description": "Detailed aggregate JSON report.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.entangledPairFidelitySummaryCompactReport": {
+        "type": "string",
+        "description": "Markdown summary with links to the three density-matrix figures.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.entangledPairFidelitySummaryPlots": {
+        "type": "object",
+        "description": "Three paired PNG/SVG signed-3D real/imaginary matrix plots on common scales with numeric labels and dashed ideal Phi+ references. Only labFrame represents the measured frame.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-DeriveEntangledPairFidelitySummary",
+      "handler": "DeriveEntangledPairFidelitySummaryStage",
+      "params": {
+        "twoQubitDensityMatrix": "$shared.twoQubitDensityMatrix",
+        "entangledPairFidelity": "$shared.entangledPairFidelity",
+        "distillableEntanglementRate": "$shared.distillableEntanglementRate",
+        "writeToArtifactRoot": "$shared.writeToArtifactRoot"
+      }
+    },
+    {
+      "stageId": "01-DeriveEntangledPairFidelitySummary-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "entangledPairFidelitySummary",
+            "as": "entanglement.fidelity.estimate.entangledPairFidelitySummary"
+          },
+          {
+            "from": "entangledPairFidelitySummary.artifactPath",
+            "as": "entanglement.fidelity.artifact.entangledPairFidelitySummaryReport"
+          },
+          {
+            "from": "entangledPairFidelitySummary.compactPath",
+            "as": "entanglement.fidelity.artifact.entangledPairFidelitySummaryCompactReport"
+          },
+          {
+            "from": "entangledPairFidelitySummary.densityMatrixPlots",
+            "as": "entanglement.fidelity.artifact.entangledPairFidelitySummaryPlots"
+          }
+        ]
+      }
+    }
+  ]
+}
+

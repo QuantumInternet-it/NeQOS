@@ -1,0 +1,221 @@
+5. Experimental recipes
+=======================
+
+Use these recipes to choose a capability and the checks around it. The linked
+cookbook sheets provide the exact current input/network templates and every
+optional field. All hardware examples require adaptation and verification on
+your bench; numerical examples do not require a DeviceOS process merely to
+analyse already acquired data.
+
+Finite detector observations
+----------------------------
+
+1. With safe source power, verify the physical detector-to-Time-Tagger mapping.
+2. Run :doc:`protocols/MeasureCountRates` for a finite singles window. Its input
+   specifies Time Tagger channel references, not analyzer movement.
+3. For logical coincidences, use :doc:`protocols/MeasureCoincidences`.
+   ``observations`` declares each observation ID, input references, logical
+   operator and coincidence window. Multiple observations share the physical
+   acquisition window; they do not represent sequential analyzer settings.
+4. Use :doc:`protocols/MeasureCorrelations` when you need a delay histogram,
+   rather than just an integrated coincidence count.
+5. For network-resolved channels on a link, use
+   :doc:`protocols/MeasureLinkSingles` or
+   :doc:`protocols/MeasureLinkCoincidences` instead of copying detector IDs into
+   a handler.
+
+``MonitorCountRates`` is a series of windows, not a single indefinitely growing
+count. An explicit ``windowCount`` produces a finite ordered series; a null
+count requires a parent responsible for termination. Its latch policy uses
+annotation rather than retries. See :doc:`protocols/MonitorCountRates`.
+
+Align detector timing before narrow-window coincidences
+-------------------------------------------------------
+
+:doc:`protocols/AlignChannels` reads live input delays, acquires correlations
+against a reference channel, selects peaks and optionally applies delay
+corrections. Choose a reference/target set that matches the experiment, then
+review ``acquisition``, ``peakSelection`` and ``delayCorrection`` separately.
+
+For coarse/fine acquisition, inspect both measurement durations, bin widths
+and bin counts. The total histogram span is ``binWidthPs * binCount``; the
+bin width is resolution, not the entire search range. A broad coarse search
+locates the delay; a fine search refines it. The distributed example currently
+uses 10 s coarse and 30 s fine acquisition, but different bins/ranges remain
+explicitly selectable. Diagnostic peak limits restrict extra peak reporting,
+not the acquisition span itself.
+
+Before using corrected delays, inspect the selected peaks, inferred offsets,
+the applied read-backs and generated plots. ``delayCorrection.apply=false``
+is an analysis-only timing trial. Use :doc:`protocols/ReadChannelDelays` and
+:doc:`protocols/ApplyChannelDelays` for explicit read/apply operations.
+Do not diagnose a wide coincidence background before checking timing and
+physical input mapping.
+
+Capture and transfer raw time tags
+----------------------------------
+
+:doc:`protocols/CaptureRawTimeTagStream` resolves link sink channels and closes
+the recording before transfer. Supply a stable ``recordingRef`` and choose
+``operation=stream`` for the canonical lifecycle. ``record`` is currently a
+compatibility alias in this composed protocol, not an unbounded recorder.
+
+The source files are created on the Time Tagger's DeviceOS host; transferred
+files appear on the NodeEngine host. Inspect both artifact manifests, file-set
+members, sizes and digests. A small base ``.ttbin`` plus numbered members can
+be a FileWriter sequence: do not assume the largest member alone is the entire
+recording. :doc:`protocols/TransferDeviceFileToNode` is the reusable transfer
+capability; transfer is not another acquisition.
+
+Measure background without leaving the source parked
+----------------------------------------------------
+
+Choose :doc:`protocols/MeasureLinkBackgroundSingles` for clicks or
+:doc:`protocols/MeasureLinkBackgroundCoincidences` for coincidence background.
+They snapshot the participating source/ATT state, park the carrier, measure,
+then attempt restoration before publication. Inspect restoration evidence even
+if acquisition failed. A failed cleanup needs operator attention; a terminal
+state is not proof that every parameter was restored.
+
+These protocols do not move the analyzer to an implicit background projection.
+If the background must correspond to a particular projection, configure it
+explicitly first. Hold the analyzer in an enclosing parent if it must remain
+exclusive across configuration and background acquisition.
+
+Single-link and two-link polarization acquisition
+-------------------------------------------------
+
+Use :doc:`protocols/InitializePolarizationAnalyzerChannel` when wavelength and
+factory channel configuration must be initialized. Use
+:doc:`protocols/SetPolarizationAnalyzerTomographyState` for one explicit state.
+Then select the observation shape:
+
+* :doc:`protocols/MeasureLinkPolarizationSingles` measures six logical
+  projections on one link using detector singles. It need not prepare another
+  link in a reference state.
+* :doc:`protocols/MeasureLinkPolarizationCoincidences` scans a target while the
+  reference is prepared according to the requested observation. It is not a
+  two-qubit 6-by-6 acquisition by itself.
+* :doc:`protocols/MeasureEntangledPairPolarizationCoincidences` acquires the
+  complete logical 6-by-6 coincidence matrix on the two arms of a pair.
+
+Logical projection order is H, V, D, A, R, L. Physical settings depend on the
+network topology. One polarizer needs six settings; a PBS can read complementary
+outputs at H, D and R. A pair therefore needs 36 physical configurations for
+two polarizers, 18 for mixed polarizer/PBS, or 9 for two PBS analyzers. The
+exported logical matrix remains 6-by-6. These counts describe simultaneous PBS
+readout, not every optional acquisition policy.
+
+Where ``pbsReadout`` is exposed, ``simultaneous`` reads both PBS outputs in one
+window per basis. ``symmetrized`` also acquires complementary analyzer settings
+so a projection is observed through both physical outputs. Preserve the
+documented aggregation: a single selected branch can be averaged, while the
+legacy multi-branch policy sums its selected contributions. Do not compare raw
+counts from the two policies without their normalization/provenance.
+
+The resolver supports distinct analyzers or separately declared channels on a
+multi-channel analyzer when the driver implements the required task. This
+does not imply that every optical-configuration task exists on MPC320.
+
+Compensate with classical H/D probes
+------------------------------------
+
+:doc:`protocols/CompensateLinkPolarizationFromSeparableHDProbes` compensates
+one link. :doc:`protocols/CompensateSourcePolarizationFromSeparableHDProbes`
+applies that campaign to the selected source's emitted links in a single pass.
+The source supplies HH and DD probes, the protocol acquires singles and
+background, reads analyzer axes, estimates retardances and installs the table.
+The source and ATT snapshot is restored at the end; this is not a request to
+leave the source in entangled traffic regardless of its initial state.
+
+Set ``probeAttenuation`` to a safe supported per-link/global request; do not
+encode above-limit source settings in the network. Both H and D must remain
+safe. Carrier changes use the protected configuration path; inspect the
+maximum-attenuation transition and final applied read-backs instead of relying
+only on requested numbers.
+
+These campaigns have no automatic convergence loop or internal acceptance
+gate. Installing/persisting a table is not certification of compensation.
+For the source campaign, inspect the common source report and its per-link
+child evidence. Both source-campaign variants create JSON/compact text reports
+and use comparable public plan/observation/estimate/applied/status keys.
+
+Compensate one arm using entangled H/D probes
+---------------------------------------------
+
+:doc:`protocols/CompensateSourcePolarizationFromEntangledPairProbes` uses
+coincidences to compensate only the chosen target analyzer relative to the
+reference arm. It acquires its own coincidence background and conditional H/D
+scans, estimates the target table and installs it only when
+``applyCompensation=true``. Its external-background input is not supported;
+``subtractBackground`` chooses whether the internally acquired background is
+used for correction.
+
+Choose ``referenceUseCompensatedTomoStates`` explicitly. If the reference uses
+factory states, the default ``referenceResetCompensatedTomoStates=true`` can
+replace its old compensated table with factory-equivalent states after target
+installation; it does not reset the target's newly calculated table. This
+reset is incompatible with choosing compensated reference probes. Persistence
+uses the campaign's ``persist`` policy.
+
+With application and the default final-state policy enabled, the target and
+reference end on H in their resulting respective tables. This analyzer H/H
+state is separate from the source carrier snapshot restoration. Estimate-only
+runs do not install/reset those tables. The method attributes observed
+reference-frame mismatch to the target; it is not a diagnostic that separates
+source-state errors from target-link rotation.
+
+Measure fidelity after compensation as a separate step
+------------------------------------------------------
+
+Use one run plan rather than inventing another wrapper solely to sequence:
+
+1. One of the source compensation campaigns.
+2. :doc:`protocols/ConfigureQuantumLinkCarrier` to explicitly request
+   ``ENTANGLED`` and safe attenuation for the next measurement.
+3. :doc:`protocols/AlignChannels` for the relevant detector pair.
+4. :doc:`protocols/MeasureEntangledPairFidelity` to acquire the matrix, apply its
+   observation-quality checks, reconstruct density and estimate fidelity.
+
+The compensation campaign restores its previous carrier state, so step 2 is
+deliberate. Fidelity measurement does not implicitly set source traffic or
+perform timing alignment. Its choice of compensated/factory states must agree
+with the tables actually installed on each link. Use
+``useCompensatedTomoStatesByLink`` when the links need distinct choices.
+
+Inspect ``labFrameFidelity`` (the current analyzer frame),
+``fullyEntangledFraction`` (the best local frame inferred using SVD) and
+``frameMisalignmentFidelityLoss`` separately. Numerical local-unitary
+optimization is a cross-check, not a hardware correction that was applied.
+``polarizationDirectionAgreement`` from one-qubit compensation mathematics
+is not a two-qubit state fidelity and does not measure depolarization.
+
+For already saved matrices, use :doc:`protocols/ValidateEntangledPairPolarizationTomography`,
+:doc:`protocols/ReconstructTwoQubitDensityMatrix`,
+:doc:`protocols/EstimateEntangledPairFidelity` and, when appropriate,
+:doc:`protocols/DeriveEntangledPairFidelitySummary` instead of reacquiring
+hardware data. Plot/report artifacts are declared on the relevant sheets.
+
+Calibration and alignment utilities
+-----------------------------------
+
+:doc:`protocols/InstallPolarizationAnalyzerCompensation` writes the requested
+table to the device and can persist it. :doc:`protocols/LoadPolarizationAnalyzerCompensation`
+loads on that host: a null channel selection omits the filter and requests all
+persisted channels; an array selects channels. Inspect returned presence/channel
+evidence, not just an OK command reply. :doc:`protocols/ResetPolarizationAnalyzerCompensationToFactory`
+copies factory-equivalent states into the compensated table; it is not merely
+a request to move the analyzer to factory H.
+
+:doc:`protocols/AlignSNSPDInputPolarization` and
+:doc:`protocols/AlignMultipleSNSPDInputPolarizations` optimize detector coupling
+from singles feedback. They are not tomography-based link compensation. Their
+coarse/refinement passes keep iteration evidence and plots; inspect the saved
+best angles and pass-specific folders rather than just the final value.
+
+:doc:`protocols/RealignEntangledPhotonSourcePolarization` is source-internal
+alignment, not a substitute for link compensation. The current contract
+requires an already ENTANGLED source and rejects HH/DD; do not assume it
+performs that traffic transition itself. Consult its source/ATT protection and
+restoration contract and hardware-specific limits before operating; do not
+infer its safety sequence from the command name.

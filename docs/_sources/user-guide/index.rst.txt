@@ -1,0 +1,58 @@
+NeQOS User Guide
+================
+
+This guide takes an operator from an executable distribution to a reproducible
+measurement and its saved results. It uses the same documentation site as the
+Developer API; no separate application or Markdown renderer is required.
+
+Follow the chapters in order for a first installation. Afterwards, use the
+recipes and public protocol cookbook to select an operation and inspect every
+declared input, including optional inputs not present in the shipped examples.
+The API Reference remains the detailed reference for driver tasks and protocol
+implementation stages.
+
+.. important::
+
+   This guide describes the source catalog for the documentation's version.
+   Use matching NodeEngine, DeviceOS, contracts and examples. A run template is
+   not a hardware certification. Never apply its example optical powers,
+   attenuation, serial numbers or detector wiring without checking your bench.
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+   network
+   quickstart
+   running
+   recipes
+   results
+   protocols/index
+   documentation-maintenance
+
+Which component does what?
+--------------------------
+
+* **DeviceOS** runs next to a device, loads its driver and talks to the physical
+  hardware. Start one process for each device used by the experiment.
+* **NodeEngine** connects the enabled devices of one selected network node,
+  schedules protocols and saves the execution tree.
+* **network.json** describes the bench: device identities, addresses, channels,
+  link roles and physical limits.
+* **input.json** describes the run: a library, an ordered list of protocols and
+  their input overrides. It is not a replacement for the network file.
+* A **Reserved protocol** is built into NodeEngine. An **Open pack** supplies
+  external definitions and, when needed, Python handlers.
+
+What this guide does not promise
+--------------------------------
+
+Successful execution means that the declared operations completed. It does not
+by itself certify acceptable optical alignment, detector health without an
+enabled guard, or useful quantum-state quality. Read the measured observations,
+guard evidence and scientific metrics, not only the terminal state.
+
+Historical protected protocols and Open-pack APIs are listed separately in
+:doc:`../api/NodeEngine/index`. The cookbook focuses on explicitly exported,
+migrated Reserved capabilities rather than prescribing historical bench-specific
+workflows.

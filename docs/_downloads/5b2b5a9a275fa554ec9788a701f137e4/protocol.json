@@ -1,0 +1,59 @@
+{
+  "protocolId": "ReinitializeTimeTagger",
+  "description": "Release and recreate a Time Tagger measurement engine, then restore its physical-channel configuration.",
+  "domain": "device",
+  "function": "initialization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 180.0,
+  "resourceRequests": ["$shared.timeTaggerDeviceId"],
+  "sharedParams": {
+    "timeTaggerDeviceId": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "timeTaggerDeviceId": {
+        "type": "string",
+        "description": "Identifier of the Time Tagger to reinitialize.",
+        "required": true,
+        "minLength": 1
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.initialization.status.timeTagger": {
+        "type": "object",
+        "description": "Reinitialization outcome, including released measurements and restored channel state.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ReinitializeTimeTagger",
+      "handler": "ReinitializeTimeTaggerStage",
+      "params": {
+        "timeTaggerDeviceId": "$shared.timeTaggerDeviceId"
+      }
+    },
+    {
+      "stageId": "01-ReinitializeTimeTagger-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "reinitializeTimeTagger",
+            "as": "device.initialization.status.timeTagger"
+          }
+        ]
+      }
+    }
+  ]
+}

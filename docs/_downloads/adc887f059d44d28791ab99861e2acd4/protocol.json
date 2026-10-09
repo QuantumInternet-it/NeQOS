@@ -1,0 +1,76 @@
+{
+  "protocolId": "TransferDeviceFileToNode",
+  "description": "Transfer a completed device-side file or file set to the NodeEngine host and verify every declared member.",
+  "domain": "device",
+  "function": "fileTransfer",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 120.0,
+  "resourceRequests": [
+    "$shared.deviceId"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "deviceArtifact": null,
+    "nodeDestinationDirectory": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "Device host from which the completed file is retrieved.",
+        "required": true,
+        "minLength": 1
+      },
+      "deviceArtifact": {
+        "type": "object",
+        "description": "Device-produced file artifact containing one localPath or an ordered files list with per-file size/digest metadata.",
+        "required": true
+      },
+      "nodeDestinationDirectory": {
+        "type": "string",
+        "description": "Optional NodeEngine-host destination directory; defaults to this protocol run directory.",
+        "required": false,
+        "minLength": 1
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.fileTransfer.artifact.nodeFile": {
+        "type": "object",
+        "description": "Verified NodeEngine-host file or file-set artifact together with its source device artifact provenance.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-TransferDeviceFileToNode",
+      "handler": "TransferDeviceFileToNodeStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "deviceArtifact": "$shared.deviceArtifact",
+        "nodeDestinationDirectory": "$shared.nodeDestinationDirectory"
+      }
+    },
+    {
+      "stageId": "01-TransferDeviceFileToNode-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "deviceFileTransfer",
+            "as": "device.fileTransfer.artifact.nodeFile"
+          }
+        ]
+      }
+    }
+  ]
+}

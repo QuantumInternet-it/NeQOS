@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkCoincidences",
+      "sharedParams": {
+        "referenceLinkId": "ExampleReferenceLinkId",
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "measurementDurationSec": 1.0,
+        "coincidenceWindowPs": 1000,
+        "clear": true
+      }
+    }
+  ]
+}

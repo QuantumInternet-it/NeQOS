@@ -1,0 +1,204 @@
+{
+  "protocolId": "CompensateLinkPolarizationFromSeparableHDProbes",
+  "description": "Compensates one analyzer-equipped link from factory-state H/D singles tomography and a measured background, installs the estimated table without post-installation verification, and restores the exact pre-campaign source traffic, source attenuations and inline-attenuator settings; PA1000/PA2000 optical configuration is supported, while MPC320 requires driver support for readOpticalConfiguration. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "domain": "link",
+  "function": "polarizationCompensation",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 1800,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "linkId": null,
+    "deviceId": null,
+    "resourceDeviceIds": null,
+    "probeAttenuation": null,
+    "measurementDurationSec": 2,
+    "settleSec": 1,
+    "minTotalCounts": 1,
+    "persist": true,
+    "latchGuard": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "linkId": {
+        "type": "string",
+        "description": "Analyzer-equipped emitted link to compensate.",
+        "required": true,
+        "minLength": 1
+      },
+      "deviceId": {
+        "type": "string",
+        "description": "Source device that emits linkId.",
+        "required": true,
+        "minLength": 1
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact lease union: emitting source, every inline attenuator that its carrier configuration may write, the resolved TimeTagger, and the resolved polarization analyzer.",
+        "required": true,
+        "minItems": 3,
+        "items": {
+          "type": "string",
+          "description": "One unique device identifier in the link-compensation lease union.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "probeAttenuation": {
+        "type": "object",
+        "description": "Total attenuation request used for both H and D probe traffic, in the ConfigureQuantumLinkCarrier attenuation form. Use mode perLink with every emitted source link when their required totals differ; the carrier distributes each total between the source and its inline attenuator.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Carrier attenuation mode. This campaign normally uses perLink or common; networkConfigured is reserved for its final restore.",
+            "required": true,
+            "enum": [
+              "common",
+              "perLink"
+            ]
+          },
+          "commonDb": {
+            "type": "number",
+            "description": "Total attenuation on every source-emitted link when mode is common.",
+            "required": false,
+            "minimum": 0
+          },
+          "perLinkDb": {
+            "type": "object",
+            "description": "Total attenuation by source-emitted link when mode is perLink. The carrier requires every emitted source link exactly once.",
+            "required": false
+          }
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite duration of each singles acquisition window, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after carrier or analyzer-state changes and before the following finite measurement window, in seconds. The default preserves a one-second physical settling interval for analyzer rotations.",
+        "required": false,
+        "minimum": 0
+      },
+      "minTotalCounts": {
+        "type": "number",
+        "description": "Minimum total background-corrected logical tomography counts required independently for the H and D source probes.",
+        "required": false,
+        "minimum": 0
+      },
+      "persist": {
+        "type": "boolean",
+        "description": "Persist the installed compensation table on the analyzer DeviceOS host by default; set false for a nonpersistent installation. Persistence does not imply a physical acceptance gate.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether per-window detector-latch validation is disabled or required.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries of an invalid window after a recovered latch.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.polarizationCompensation.plan.separableHDCampaign": {
+        "type": "object",
+        "description": "Resolved source, carrier, analyzer, TimeTagger, and lease plan for the link compensation campaign.",
+        "role": "plan"
+      },
+      "link.polarizationCompensation.observation.separableHDCampaign": {
+        "type": "object",
+        "description": "Background and factory-state H/D probe singles observations gathered before compensation installation.",
+        "role": "observation"
+      },
+      "link.polarizationCompensation.estimate.separableHD": {
+        "type": "object",
+        "description": "Calculated link compensation estimate, including the H/V/D/A/R/L retardances derived from the separable H/D probes.",
+        "role": "estimate"
+      },
+      "link.polarizationCompensation.applied.installation": {
+        "type": "object",
+        "description": "Applied and optionally persisted analyzer compensation installation.",
+        "role": "applied"
+      },
+      "link.polarizationCompensation.status.campaign": {
+        "type": "object",
+        "description": "Terminal campaign status, any failure reason, and the attempted exact restoration of the pre-campaign carrier snapshot.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-CompensateLinkPolarizationFromSeparableHDProbes",
+      "handler": "CompensateLinkPolarizationFromSeparableHDProbesStage",
+      "params": {
+        "linkId": "$shared.linkId",
+        "deviceId": "$shared.deviceId",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "probeAttenuation": "$shared.probeAttenuation",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "settleSec": "$shared.settleSec",
+        "minTotalCounts": "$shared.minTotalCounts",
+        "persist": "$shared.persist",
+        "latchGuard": "$shared.latchGuard"
+      }
+    },
+    {
+      "stageId": "01-CompensateLinkPolarizationFromSeparableHDProbes-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "linkPolarizationCompensationFailureReason",
+        "exports": [
+          {
+            "from": "linkPolarizationCompensationPlan",
+            "as": "link.polarizationCompensation.plan.separableHDCampaign"
+          },
+          {
+            "from": "linkPolarizationCompensationObservation",
+            "as": "link.polarizationCompensation.observation.separableHDCampaign"
+          },
+          {
+            "from": "linkPolarizationCompensationEstimate",
+            "as": "link.polarizationCompensation.estimate.separableHD"
+          },
+          {
+            "from": "linkPolarizationCompensationInstallation",
+            "as": "link.polarizationCompensation.applied.installation"
+          },
+          {
+            "from": "linkPolarizationCompensationStatus",
+            "as": "link.polarizationCompensation.status.campaign"
+          }
+        ]
+      }
+    }
+  ]
+}

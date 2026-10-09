@@ -1,0 +1,417 @@
+{
+  "protocolId": "CompensateSourcePolarizationFromEntangledPairProbes",
+  "description": "Compensates the relative polarization mismatch between the two links emitted by one entangled-photon source, using entangled H/D H/D coincidence probes under the Phi+ convention and applying the resulting correction to only the selected target analyzer. It optionally installs and persists that analyzer table, then restores the original carrier state. The method attributes all observed reference-frame mismatch to the target and cannot distinguish link rotation, local source rotation or a departure from Phi+. Before conditional H/D scans it always composes MeasureLinkBackgroundCoincidences, parking the pair source and restoring its exact active setup. All physical detector pairs used by the scans are acquired together for measurementDurationSec with the same coincidence window and latch policy. External background input is not accepted; subtractBackground controls correction, not acquisition.",
+  "domain": "link",
+  "function": "polarizationCompensation",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 7200,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "referenceLinkId": null,
+    "compensationTargetLinkId": null,
+    "resourceDeviceIds": null,
+    "referenceUseCompensatedTomoStates": null,
+    "referenceResetCompensatedTomoStates": true,
+    "targetUseCompensatedTomoStates": false,
+    "measurementEnabled": true,
+    "measurementDurationSec": 2,
+    "coincidenceWindowPs": 1000,
+    "settleSec": 1,
+    "clear": true,
+    "latchGuard": null,
+    "pbsReadout": "simultaneous",
+    "targetBranchMode": "both",
+    "referenceDetectorChannel": null,
+    "referenceProjectionSetMode": "compact2x6",
+    "subtractBackground": false,
+    "sourceSetup": null,
+    "applyCompensation": false,
+    "persist": true,
+    "setFinalHAfterApply": true,
+    "hardCheckStokesAngle": false,
+    "stokesAngleTargetDeg": 90,
+    "stokesAngleToleranceDeg": 15,
+    "minTotalCounts": 1
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "referenceLinkId": {
+        "type": "string",
+        "description": "Reference analyzer link that heralds H/D probes under the Phi+ correlation convention.",
+        "required": true,
+        "minLength": 1
+      },
+      "compensationTargetLinkId": {
+        "type": "string",
+        "description": "Other emitted link whose single analyzer receives the calculated correction.",
+        "required": true,
+        "minLength": 1
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact union of both analyzers, measured TimeTagger, explicitly required detector guards, sources and all inline attenuators potentially changed by sourceSetup.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One leased device.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "referenceUseCompensatedTomoStates": {
+        "type": "boolean",
+        "description": "Explicit choice of factory or installed/loaded compensated reference states; true fails if the reference table is unavailable.",
+        "required": true
+      },
+      "targetUseCompensatedTomoStates": {
+        "type": "boolean",
+        "description": "Target acquisition table; false uses factory states, true requires an installed/loaded table.",
+        "required": false
+      },
+      "referenceResetCompensatedTomoStates": {
+        "type": "boolean",
+        "description": "After target installation succeeds, replace only the reference compensated table with its six factory-state read-backs; default true. Requires referenceUseCompensatedTomoStates=false. Uses the same persist flag; estimate-only runs do not reset. The reset returns the reference to H by default, or to its last reference projection when setFinalHAfterApply=false.",
+        "required": false
+      },
+      "measurementEnabled": {
+        "type": "boolean",
+        "description": "False publishes a SKIPPED report without communicating with hardware.",
+        "required": false
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Equal finite duration of every conditional acquisition window in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "coincidenceWindowPs": {
+        "type": "integer",
+        "description": "AND coincidence interval in picoseconds.",
+        "required": false,
+        "minimum": 1
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Physical settling interval after analyzer or carrier changes.",
+        "required": false,
+        "minimum": 0
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Fresh windows; false is invalid with a required latch guard.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window protection; no implicit detector guard and no matrix-level retry.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Guard policy.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Immediate retries of a recovered latch-invalid window.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      },
+      "pbsReadout": {
+        "type": "string",
+        "description": "Target PBS readout: simultaneous acquires both ports at H/D/R; symmetrized acquires all six settings. One branch averages the two same-projection readings. A multibranch topology preserves the legacy sum of selected components, even if just one branch is selected.",
+        "required": false,
+        "enum": [
+          "simultaneous",
+          "symmetrized"
+        ]
+      },
+      "targetBranchMode": {
+        "type": "string",
+        "description": "Fit selected target branch(es); positive/negative mean the lower/higher numbered physical detector within a branch, not a logical H/V state. Network outputPort provides logical orientation. Unselected measured components remain diagnostic evidence.",
+        "required": false,
+        "enum": [
+          "both",
+          "branch1",
+          "branch2",
+          "branch1-positive",
+          "branch1-negative",
+          "branch2-positive",
+          "branch2-negative"
+        ]
+      },
+      "referenceDetectorChannel": {
+        "type": "integer",
+        "description": "Optional selected reference sink channel, validated against referenceLinkId.",
+        "required": false,
+        "minimum": 0
+      },
+      "referenceProjectionSetMode": {
+        "type": "string",
+        "description": "H,D reference probes against the six logical target projections. Only compact2x6 is supported; extended pre-installation acquisition is retired.",
+        "required": false,
+        "enum": [
+          "compact2x6"
+        ]
+      },
+      "subtractBackground": {
+        "type": "boolean",
+        "description": "Subtract the internally acquired detector-pair background from each scan component using integration-duration scaling and zero clipping. False still measures and retains the background, but leaves scan counts uncorrected.",
+        "required": false
+      },
+      "sourceSetup": {
+        "type": "object",
+        "description": "Explicit source and inline-attenuator setup. An empty object preserves an already ENTANGLED source; no second source is inferred or parked. Source traffic/attenuation and inline ATT values are snapshotted and restored normally and on terminal failure.",
+        "required": true,
+        "properties": {
+          "sources": {
+            "type": "array",
+            "description": "Explicit source traffic/attenuation requests.",
+            "required": false,
+            "items": {
+              "type": "object",
+              "description": "One source request.",
+              "required": false,
+              "properties": {
+                "deviceId": {
+                  "type": "string",
+                  "description": "Source device.",
+                  "required": true,
+                  "minLength": 1
+                },
+                "outputMode": {
+                  "type": "string",
+                  "description": "Carrier traffic.",
+                  "required": false,
+                  "enum": [
+                    "HH",
+                    "DD",
+                    "ENTANGLED"
+                  ]
+                },
+                "entangledOutputAttenuationDb": {
+                  "type": "number",
+                  "description": "Entangled source attenuation, within network limits.",
+                  "required": false,
+                  "minimum": 0
+                },
+                "classicOutputAttenuationDb": {
+                  "type": "number",
+                  "description": "Classic source attenuation, within network limits.",
+                  "required": false,
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "attenuators": {
+            "type": "array",
+            "description": "Explicit inline attenuators on configured source links.",
+            "required": false,
+            "items": {
+              "type": "object",
+              "description": "One attenuation request.",
+              "required": false,
+              "properties": {
+                "deviceId": {
+                  "type": "string",
+                  "description": "Attenuator device.",
+                  "required": true,
+                  "minLength": 1
+                },
+                "attenuationDb": {
+                  "type": "number",
+                  "description": "Attenuation within network limits.",
+                  "required": true,
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "applyCompensation": {
+        "type": "boolean",
+        "description": "Install only the target compensation table; false leaves both tables unchanged.",
+        "required": false
+      },
+      "persist": {
+        "type": "boolean",
+        "description": "Persist an installed estimate on the DeviceOS host by default; set false for a nonpersistent installation. This flag does not enable installation or imply a physical acceptance gate.",
+        "required": false
+      },
+      "setFinalHAfterApply": {
+        "type": "boolean",
+        "description": "After successful target installation, leave both target and reference physically in H. The target uses its installed table; the reference uses the reset factory-equivalent table, or its selected existing policy when reset is disabled. False preserves the prior last-reference-projection behavior; estimate-only runs are unchanged.",
+        "required": false
+      },
+      "hardCheckStokesAngle": {
+        "type": "boolean",
+        "description": "Preserved optional H/D direction-angle acceptance check, disabled by default.",
+        "required": false
+      },
+      "stokesAngleTargetDeg": {
+        "type": "number",
+        "description": "Expected acute angle between H/D Stokes directions in degrees.",
+        "required": false,
+        "minimum": 0,
+        "maximum": 90
+      },
+      "stokesAngleToleranceDeg": {
+        "type": "number",
+        "description": "Optional direction-angle tolerance in degrees.",
+        "required": false,
+        "minimum": 0
+      },
+      "minTotalCounts": {
+        "type": "number",
+        "description": "Minimum summed counts for each H/D probe passed to the existing pure estimator.",
+        "required": false,
+        "minimum": 0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.polarizationCompensation.plan.sourceCampaign": {
+        "type": "object",
+        "description": "Resolved source/link roles and resources with explicit probeTraffic.",
+        "role": "plan"
+      },
+      "link.polarizationCompensation.observation.hdProbesByLink": {
+        "type": "object",
+        "description": "Background, H/D counts, raw child observations and latch evidence indexed by estimated link; no invented reference observation.",
+        "role": "observation"
+      },
+      "link.polarizationCompensation.estimate.compensationByLink": {
+        "type": "object",
+        "description": "H/D compensation estimates indexed only by estimated link.",
+        "role": "estimate"
+      },
+      "link.polarizationCompensation.applied.linkCampaigns": {
+        "type": "array",
+        "description": "Confirmed table installations with link identity and target/reference role; partial successful writes are retained.",
+        "role": "applied"
+      },
+      "link.polarizationCompensation.applied.referenceFactoryCompensation": {
+        "type": "object",
+        "description": "Confirmed reference-only factory-equivalent table reset, or null when not performed.",
+        "role": "applied"
+      },
+      "link.polarizationCompensation.status.campaign": {
+        "type": "object",
+        "description": "Operational outcome, failures, child identities and final analyzer state; completion does not certify polarization quality.",
+        "role": "status"
+      },
+      "link.polarizationCompensation.status.carrierRestoration": {
+        "type": "object",
+        "description": "Exact source/ATT snapshot restoration evidence, including partial or unknown outcomes.",
+        "role": "status"
+      },
+      "link.polarizationCompensation.artifact.sourceCampaignReport": {
+        "type": "string",
+        "description": "Detailed common JSON campaign report, or null if writing failed.",
+        "role": "artifact"
+      },
+      "link.polarizationCompensation.artifact.sourceCampaignCompactReport": {
+        "type": "string",
+        "description": "Common Markdown summary, or null if writing failed.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-CompensateSourcePolarizationFromEntangledPairProbes",
+      "handler": "CompensateSourcePolarizationFromEntangledPairProbesStage",
+      "params": {
+        "referenceLinkId": "$shared.referenceLinkId",
+        "compensationTargetLinkId": "$shared.compensationTargetLinkId",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "referenceUseCompensatedTomoStates": "$shared.referenceUseCompensatedTomoStates",
+        "referenceResetCompensatedTomoStates": "$shared.referenceResetCompensatedTomoStates",
+        "targetUseCompensatedTomoStates": "$shared.targetUseCompensatedTomoStates",
+        "measurementEnabled": "$shared.measurementEnabled",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "coincidenceWindowPs": "$shared.coincidenceWindowPs",
+        "settleSec": "$shared.settleSec",
+        "clear": "$shared.clear",
+        "latchGuard": "$shared.latchGuard",
+        "pbsReadout": "$shared.pbsReadout",
+        "targetBranchMode": "$shared.targetBranchMode",
+        "referenceDetectorChannel": "$shared.referenceDetectorChannel",
+        "referenceProjectionSetMode": "$shared.referenceProjectionSetMode",
+        "subtractBackground": "$shared.subtractBackground",
+        "sourceSetup": "$shared.sourceSetup",
+        "applyCompensation": "$shared.applyCompensation",
+        "persist": "$shared.persist",
+        "setFinalHAfterApply": "$shared.setFinalHAfterApply",
+        "hardCheckStokesAngle": "$shared.hardCheckStokesAngle",
+        "stokesAngleTargetDeg": "$shared.stokesAngleTargetDeg",
+        "stokesAngleToleranceDeg": "$shared.stokesAngleToleranceDeg",
+        "minTotalCounts": "$shared.minTotalCounts"
+      }
+    },
+    {
+      "stageId": "01-CompensateSourcePolarizationFromEntangledPairProbes-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "entangledProbeFailureReason",
+        "exports": [
+          {
+            "from": "entangledProbePlan",
+            "as": "link.polarizationCompensation.plan.sourceCampaign"
+          },
+          {
+            "from": "entangledProbeObservation",
+            "as": "link.polarizationCompensation.observation.hdProbesByLink"
+          },
+          {
+            "from": "entangledProbeEstimate",
+            "as": "link.polarizationCompensation.estimate.compensationByLink"
+          },
+          {
+            "from": "entangledProbeInstallation",
+            "as": "link.polarizationCompensation.applied.linkCampaigns"
+          },
+          {
+            "from": "entangledProbeReferenceFactoryReset",
+            "as": "link.polarizationCompensation.applied.referenceFactoryCompensation"
+          },
+          {
+            "from": "entangledProbeStatus",
+            "as": "link.polarizationCompensation.status.campaign"
+          },
+          {
+            "from": "entangledProbeRestoration",
+            "as": "link.polarizationCompensation.status.carrierRestoration"
+          },
+          {
+            "from": "entangledProbeReportPath",
+            "as": "link.polarizationCompensation.artifact.sourceCampaignReport"
+          },
+          {
+            "from": "entangledProbeCompactPath",
+            "as": "link.polarizationCompensation.artifact.sourceCampaignCompactReport"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+{
+    "protocolId": "AlignChannels",
+    "description": "Measure correlations from a reference channel to target channels, estimate their relative timing offsets, and optionally apply the derived input delays.",
+    "domain": "timing",
+    "function": "alignment",
+    "status": "production",
+    "exported": true,
+    "privilegeLevel": "NORMAL",
+    "dependencies": [],
+    "executionMode": "foreground",
+    "preemptive": false,
+    "timeoutSec": 1800.0,
+    "resourceRequests": [],
+    "sharedParams": {
+        "timeTaggerDeviceId": null,
+        "referenceChannel": null,
+        "targetChannels": null,
+        "acquisition": {
+            "mode": "coarseFine",
+            "clear": true,
+            "single": {
+                "durationSec": 30.0,
+                "binWidthPs": 10,
+                "binCount": null
+            },
+            "coarse": {
+                "durationSec": 10.0,
+                "binWidthPs": 100,
+                "binCount": null
+            },
+            "fine": {
+                "durationSec": 30.0,
+                "binWidthPs": 10,
+                "binCount": null
+            },
+            "pumpFrequencyMHz": null
+        },
+        "delayCorrection": {
+            "apply": true,
+            "sign": 1.0,
+            "basePs": null,
+            "settleSec": 0.2
+        },
+        "peakSelection": {
+            "mode": "dominant",
+            "rank": 1,
+            "targetDelayPs": null,
+            "rejectCenterPs": null,
+            "rejectHalfWidthPs": null,
+            "gaussianFitMinRelativeHeight": 0.2,
+            "gaussianFitMaxHalfWidthPs": null,
+            "diagnosticMaxPeaks": 20,
+            "minSeparationPs": 100.0,
+            "minCoincidences": 1.0
+        }
+    },
+    "inputSchema": {
+        "schemaVersion": "0.1",
+        "parameters": {
+            "timeTaggerDeviceId": {
+                "type": "string",
+                "description": "Identifier of the Time Tagger that measures and optionally corrects the channels.",
+                "required": true,
+                "minLength": 1
+            },
+            "referenceChannel": {
+                "type": "integer",
+                "description": "Physical channel used as the temporal reference.",
+                "required": true,
+                "minimum": 1
+            },
+            "targetChannels": {
+                "type": "array",
+                "description": "Physical channels aligned to the reference channel.",
+                "required": true,
+                "minItems": 1,
+                "items": {
+                    "type": "integer",
+                    "description": "Physical Time Tagger channel number.",
+                    "minimum": 1
+                }
+            },
+            "acquisition": {
+                "type": "object",
+                "description": "Correlation acquisition passes and histogram settings.",
+                "required": true,
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "description": "Acquisition workflow.",
+                        "required": true,
+                        "enum": [
+                            "single",
+                            "coarseFine"
+                        ]
+                    },
+                    "clear": {
+                        "type": "boolean",
+                        "description": "Clear measurements before acquisition.",
+                        "required": true
+                    },
+                    "single": {
+                        "type": "object",
+                        "description": "Single-pass acquisition settings.",
+                        "required": true,
+                        "properties": {
+                            "durationSec": {
+                                "type": "number",
+                                "description": "Integration duration in seconds.",
+                                "required": true,
+                                "minimum": 0
+                            },
+                            "binWidthPs": {
+                                "type": "integer",
+                                "description": "Histogram bin width in picoseconds.",
+                                "required": true,
+                                "minimum": 1
+                            },
+                            "binCount": {
+                                "type": "integer",
+                        "description": "Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.",
+                                "required": false,
+                                "minimum": 1
+                            }
+                        }
+                    },
+                    "coarse": {
+                        "type": "object",
+                        "description": "Coarse correction acquisition settings.",
+                        "required": false,
+                        "properties": {
+                            "durationSec": {
+                                "type": "number",
+                                "description": "Integration duration in seconds.",
+                                "required": true,
+                                "minimum": 0
+                            },
+                            "binWidthPs": {
+                                "type": "integer",
+                                "description": "Histogram bin width in picoseconds.",
+                                "required": true,
+                                "minimum": 1
+                            },
+                            "binCount": {
+                                "type": "integer",
+                                "description": "Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.",
+                                "required": false,
+                                "minimum": 1
+                            }
+                        }
+                    },
+                    "fine": {
+                        "type": "object",
+                        "description": "Fine verification acquisition settings.",
+                        "required": false,
+                        "properties": {
+                            "durationSec": {
+                                "type": "number",
+                                "description": "Integration duration in seconds.",
+                                "required": true,
+                                "minimum": 0
+                            },
+                            "binWidthPs": {
+                                "type": "integer",
+                                "description": "Histogram bin width in picoseconds.",
+                                "required": true,
+                                "minimum": 1
+                            },
+                            "binCount": {
+                                "type": "integer",
+                                "description": "Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.",
+                                "required": false,
+                                "minimum": 1
+                            }
+                        }
+                    },
+                    "pumpFrequencyMHz": {
+                        "type": "number",
+                        "description": "Pump frequency used to derive any omitted bin counts; required whenever the selected pass has binCount null.",
+                        "required": false,
+                        "minimum": 0
+                    }
+                }
+            },
+            "delayCorrection": {
+                "type": "object",
+                "description": "Policy for applying estimated input delays after reading the live Time Tagger baseline.",
+                "required": true,
+                "properties": {
+                    "apply": {
+                        "type": "boolean",
+                        "description": "Apply estimated offsets as Time Tagger input delays.",
+                        "required": true
+                    },
+                    "sign": {
+                        "type": "number",
+                        "description": "Sign applied to each estimated offset.",
+                        "required": true
+                    },
+                    "basePs": {
+                        "type": "number",
+                        "description": "Optional common input-delay baseline in picoseconds.",
+                        "required": false
+                    },
+                    "settleSec": {
+                        "type": "number",
+                        "description": "Delay after applying a correction round, in seconds.",
+                        "required": true,
+                        "minimum": 0
+                    }
+                }
+            },
+            "peakSelection": {
+                "type": "object",
+                "description": "Rules used to choose and qualify correlation peaks.",
+                "required": true,
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "description": "Rule used to select a correlation peak.",
+                        "required": true,
+                        "enum": [
+                            "dominant",
+                            "rank",
+                            "index",
+                            "nth",
+                            "closest",
+                            "nearest"
+                        ]
+                    },
+                    "rank": {
+                        "type": "integer",
+                        "description": "Rank used by ranked selection modes.",
+                        "required": true,
+                        "minimum": 1
+                    },
+                    "targetDelayPs": {
+                        "type": "number",
+                        "description": "Target delay used by nearest-peak selection.",
+                        "required": false
+                    },
+                    "rejectCenterPs": {
+                        "type": "number",
+                        "description": "Centre of an excluded delay interval.",
+                        "required": false
+                    },
+                    "rejectHalfWidthPs": {
+                        "type": "number",
+                        "description": "Half width of an excluded delay interval.",
+                        "required": false
+                    },
+                    "gaussianFitMinRelativeHeight": {
+                        "type": "number",
+                        "description": "Minimum relative height for local Gaussian fitting.",
+                        "required": true,
+                        "minimum": 0
+                    },
+                    "gaussianFitMaxHalfWidthPs": {
+                        "type": "number",
+                        "description": "Optional maximum half-width for local Gaussian fitting.",
+                        "required": false
+                    },
+                    "diagnosticMaxPeaks": {
+                        "type": "integer",
+                        "description": "Maximum locally selected diagnostic peaks to retain; zero retains all after minSeparationPs filtering.",
+                        "required": true,
+                        "minimum": 0
+                    },
+                    "minSeparationPs": {
+                        "type": "number",
+                        "description": "Minimum separation between diagnostic peaks in picoseconds.",
+                        "required": true,
+                        "minimum": 0
+                    },
+                    "minCoincidences": {
+                        "type": "number",
+                        "description": "Minimum coincidences required for a selected peak.",
+                        "required": true,
+                        "minimum": 0
+                    }
+                }
+            }
+        }
+    },
+    "outputSchema": {
+        "schemaVersion": "0.1",
+        "exports": {
+            "timing.alignment.observation.channelAlignment": {
+                "type": "object",
+                "description": "Measured correlations, selected peak estimates, and per-channel alignment outcomes.",
+                "role": "observation"
+            },
+            "timing.alignment.observation.correlations": {
+                "type": "object",
+                "description": "Correlation records indexed by reference-to-target measurement key.",
+                "role": "observation"
+            },
+            "timing.alignment.applied.channelDelays": {
+                "type": "object",
+                "description": "Initial live baseline plus planned, read-back, and applied Time Tagger input delays.",
+                "role": "applied"
+            },
+            "timing.alignment.artifact.histogramPngByCorrelation": {
+                "type": "object",
+                "description": "NodeEngine-local PNG diagnostic path for each coarse, fine, or single alignment histogram.",
+                "role": "artifact"
+            },
+            "timing.alignment.artifact.histogramSvgByCorrelation": {
+                "type": "object",
+                "description": "NodeEngine-local SVG diagnostic path for each coarse, fine, or single alignment histogram.",
+                "role": "artifact"
+            }
+        }
+    },
+    "stages": [
+        {
+            "stageId": "00-ReadChannelDelays",
+            "handler": "SubmitMicroProtocolStage",
+            "params": {
+                "templateId": "ReadChannelDelays",
+                "protocolKey": "initialChannelDelays",
+                "sharedParamOverrides": {
+                    "timeTaggerDeviceId": "$shared.timeTaggerDeviceId",
+                    "channels": "$shared.targetChannels"
+                }
+            }
+        },
+        {
+            "stageId": "01-ReadChannelDelays",
+            "handler": "WaitMicroProtocolStage",
+            "params": {
+                "templateId": "ReadChannelDelays",
+                "protocolKey": "initialChannelDelays",
+                "pollDelaySec": 0.05,
+                "imports": [
+                    {
+                        "from": "timing.alignment.observation.channelDelays",
+                        "as": "initialChannelDelays"
+                    }
+                ]
+            }
+        },
+        {
+            "stageId": "02-AlignChannels",
+            "handler": "AlignChannelsStage",
+            "params": {
+                "timeTaggerDeviceId": "$shared.timeTaggerDeviceId",
+                "referenceChannel": "$shared.referenceChannel",
+                "targetChannels": "$shared.targetChannels",
+                "acquisition": "$shared.acquisition",
+                "delayCorrection": "$shared.delayCorrection",
+                "peakSelection": "$shared.peakSelection"
+            }
+        },
+        {
+            "stageId": "03-AlignChannels-PublishResult",
+            "handler": "PublishResultStage",
+            "params": {
+                "exports": [
+                    {
+                        "from": "alignChannels",
+                        "as": "timing.alignment.observation.channelAlignment"
+                    },
+                    {
+                        "from": "alignChannelCorrelations",
+                        "as": "timing.alignment.observation.correlations"
+                    },
+                    {
+                        "from": "alignChannels.applied",
+                        "as": "timing.alignment.applied.channelDelays"
+                    },
+                    {
+                        "from": "alignChannelHistogramPngByCorrelation",
+                        "as": "timing.alignment.artifact.histogramPngByCorrelation"
+                    },
+                    {
+                        "from": "alignChannelHistogramSvgByCorrelation",
+                        "as": "timing.alignment.artifact.histogramSvgByCorrelation"
+                    }
+                ]
+            }
+        }
+    ]
+}

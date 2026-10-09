@@ -1,0 +1,88 @@
+{
+  "protocolId": "SetPolarizationAnalyzerTomographyState",
+  "description": "Sets one PA X000 or MPC320 polarization-analyzer channel to a named factory or compensated tomography state and returns the applied device configuration.",
+  "domain": "device",
+  "function": "configuration",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [
+    "$shared.polarizationAnalyzerDeviceId"
+  ],
+  "sharedParams": {
+    "polarizationAnalyzerDeviceId": null,
+    "polarizationAnalyzerChannel": 1,
+    "tomographyState": "H",
+    "useCompensated": true
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "polarizationAnalyzerDeviceId": {
+        "type": "string",
+        "description": "Polarization-analyzer device identifier to configure.",
+        "required": true,
+        "minLength": 1
+      },
+      "polarizationAnalyzerChannel": {
+        "type": "integer",
+        "description": "One-based polarization-analyzer channel to configure. MPC320 supports only channel 1.",
+        "required": false,
+        "minimum": 1
+      },
+      "tomographyState": {
+        "type": "string",
+        "description": "Named tomography state to apply on the selected channel.",
+        "required": false,
+        "minLength": 1
+      },
+      "useCompensated": {
+        "type": "boolean",
+        "description": "Whether the device uses its compensated rather than factory tomography table.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.configuration.applied.polarizationAnalyzerTomographyState": {
+        "type": "object",
+        "description": "Device reply for the applied polarization-analyzer channel, tomography state, and compensation-table selection.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-SetPolarizationAnalyzerTomographyState",
+      "handler": "RunSingleTaskStage",
+      "params": {
+        "deviceId": "$shared.polarizationAnalyzerDeviceId",
+        "taskName": "setTomographyState",
+        "taskParams": {
+          "channel": "$shared.polarizationAnalyzerChannel",
+          "state": "$shared.tomographyState",
+          "useCompensated": "$shared.useCompensated"
+        },
+        "resultKey": "setPolarizationAnalyzerTomographyState"
+      }
+    },
+    {
+      "stageId": "01-SetPolarizationAnalyzerTomographyState-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "setPolarizationAnalyzerTomographyState",
+            "as": "device.configuration.applied.polarizationAnalyzerTomographyState"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ConfigureMPC320",
+      "sharedParams": {
+        "mpcDeviceId": "ExampleMpc320Id",
+        "velocity": 20.0,
+        "homePosition": 0.0,
+        "jogSize1": 5.0,
+        "jogSize2": 5.0,
+        "jogSize3": 5.0
+      }
+    }
+  ]
+}

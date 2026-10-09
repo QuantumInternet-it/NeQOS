@@ -1,0 +1,72 @@
+3. First run without hardware
+=============================
+
+The FakeDeviceExamples pack exercises DeviceOS, NodeEngine, child submission
+and result publication without optical hardware. It still requires a valid
+license. Use it before diagnosing vendor SDKs or laboratory wiring.
+
+Prepare two terminals
+---------------------
+
+Work from the distribution/source root so the relative paths below resolve.
+Do not add a leading slash to ``NodeEnginePack``: on macOS/Linux that would
+refer to a directory at the filesystem root.
+
+The pack's network uses ``FakeNodeId`` and ``FakeDeviceId`` with localhost
+endpoints. Leave those identities consistent across the network and input.
+
+In terminal A, start DeviceOS (source-checkout form):
+
+.. code-block:: bash
+
+   python DeviceOSPack/DeviceOS.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json" \
+     --nodeId FakeNodeId \
+     --deviceId FakeDeviceId \
+     --openDriversFile "./DeviceOSPack/OpenDrivers/OpenDrivers.json"
+
+In terminal B, start NodeEngine:
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json" \
+     --nodeId FakeNodeId \
+     --metaProtocolRun "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json" \
+     --waitProtocol \
+     --verboseRunFolders
+
+For standalone distributions, keep the flags and substitute the matching
+executables. Use the pack and Open-driver registry paths supplied by that
+distribution; extracted layouts may differ. See :doc:`installation` for shell
+syntax. Do not mix a newer pack with an older executable without checking its
+schema compatibility.
+
+What to look for
+----------------
+
+1. License validation succeeds in both processes.
+2. DeviceOS becomes connected, initialized and ready (state ``111``).
+3. NodeEngine handshakes with ``FakeDeviceId`` and submits
+   ``FAKE-COMPOSED-SWEEP``.
+4. The parent launches and waits for successive child operations. A device
+   lease protects access; children inherit it when an ancestor already owns it.
+5. The plan reaches ``COMPLETED``. Inspect the new ``RunPlan_*`` directory
+   under ``MetaProtocolResults`` in NodeEngine's working directory.
+
+Keep DeviceOS running until the run has reached a terminal state and NodeEngine
+has finished cleanup. ``--waitProtocol`` waits for the run plan, not for an
+external instruction to disconnect the hardware.
+
+If it fails
+-----------
+
+Check paths first, then licensing, then endpoint/port conflicts. A missing
+input file is not a driver failure. A file that lacks a top-level ``nodes``
+list is probably a run input passed as ``--configFile``. See :doc:`results`
+for the full troubleshooting sequence.
+
+After this run succeeds, move to a single finite hardware acquisition. Do not
+start with compensation: first prove detector mapping and safe light levels.

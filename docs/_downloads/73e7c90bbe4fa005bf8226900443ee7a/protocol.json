@@ -1,0 +1,96 @@
+{
+  "protocolId": "MeasureLinkCoincidences",
+  "description": "Measures finite reference-target coincidence counts and rates for resolved quantum links and returns their acquisition provenance.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 180.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "referenceLinkId": null,
+    "targetLinkIds": null,
+    "measurementDurationSec": 1.0,
+    "coincidenceWindowPs": 1000,
+    "clear": true
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "referenceLinkId": {
+        "type": "string",
+        "description": "Quantum-link identifier whose TimeTagger sink channel is paired with every target link.",
+        "required": true,
+        "minLength": 1
+      },
+      "targetLinkIds": {
+        "type": "array",
+        "description": "Unique target quantum-link identifiers paired with the reference link in one acquisition window.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One target quantum-link identifier resolved from network.json.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite integration duration for the shared coincidence observation window, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "coincidenceWindowPs": {
+        "type": "integer",
+        "description": "AND-logical coincidence window, in picoseconds.",
+        "required": false,
+        "minimum": 1
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether the selected stable coincidence measurements are cleared before acquisition.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.observation.coincidences": {
+        "type": "object",
+        "description": "Reference-target coincidence counts and available rates by target link, with resolved channels and acquisition provenance.",
+        "role": "observation"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureLinkCoincidences",
+      "handler": "MeasureLinkCoincidencesStage",
+      "params": {
+        "referenceLinkId": "$shared.referenceLinkId",
+        "targetLinkIds": "$shared.targetLinkIds",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "coincidenceWindowPs": "$shared.coincidenceWindowPs",
+        "clear": "$shared.clear"
+      }
+    },
+    {
+      "stageId": "01-MeasureLinkCoincidences-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "linkCoincidencesObservation",
+            "as": "link.characterization.observation.coincidences"
+          }
+        ]
+      }
+    }
+  ]
+}

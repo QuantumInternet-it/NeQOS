@@ -474,10 +474,12 @@ SwabianTT Foreground Tasks
 
    Record selected channels to one local .ttbin artifact.
 
-   channelRefs must resolve to at least one channel and durationSec must be
-   positive. recordingSubdirectory is sanitized below the recording root.
-   The result includes a transfer-ready manifest with path, SHA-256, size,
-   channel mapping, duration, and FileWriter statistics.
+   ``operation='record'`` preserves the original finite-duration behavior:
+   it requires channelRefs and durationSec, then returns a completed
+   transfer-ready artifact. ``operation='start'`` starts an indefinite
+   recording and retains its FileWriter in this driver. A later
+   ``operation='stop'`` closes that writer and returns the completed
+   artifact. Only one explicit recording can be active per Time Tagger.
 
    :Task class: Foreground
    :Admission policy: ``async``
@@ -498,20 +500,20 @@ SwabianTT Foreground Tasks
         - Default
         - Description
       * - ``channelRefs``
-        - ``List[Any]``
-        - Yes
-        - —
-        - Non-empty references to channels known to this driver.
+        - ``Optional[List[Any]]``
+        - No
+        - ``None``
+        - Non-empty references to channels known to this driver; required for ``record`` and ``start``.
       * - ``durationSec``
-        - ``float``
-        - Yes
-        - —
-        - Positive recording duration in seconds.
+        - ``Optional[float]``
+        - No
+        - ``None``
+        - Positive finite recording duration in seconds; required only for ``record``.
       * - ``recordingRef``
         - ``Optional[str]``
         - No
         - ``None``
-        - Optional token used in the generated artifact filename.
+        - Optional token used in the generated artifact filename. It is required when stopping to identify the active stream.
       * - ``recordingSubdirectory``
         - ``Optional[str]``
         - No
@@ -527,6 +529,11 @@ SwabianTT Foreground Tasks
         - No
         - ``None``
         - Optional maximum file size forwarded to the vendor FileWriter when supported by the installed SDK.
+      * - ``operation``
+        - ``str``
+        - No
+        - ``'record'``
+        - ``record`` (default), ``start``, or ``stop``.
 
    .. rubric:: Result payload
       :class: invocation-heading
@@ -551,7 +558,12 @@ SwabianTT Foreground Tasks
         - Task outcome.
       * - ``artifact``
         - ``object``
-        - Yes
+        - No
         - ``—``
-        - Transfer-ready .ttbin manifest including path, SHA-256, size, channel mapping, duration, and FileWriter statistics.
+        - Transfer-ready .ttbin file-set manifest returned by a finite record or explicit stop, including the entry file, numbered data segments, per-file SHA-256/size, channel mapping, duration, and FileWriter statistics.
+      * - ``recording``
+        - ``object``
+        - No
+        - ``—``
+        - Active-recording descriptor returned by operation='start'.
 

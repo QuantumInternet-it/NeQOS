@@ -1,0 +1,156 @@
+{
+  "protocolId": "MeasureCountRates",
+  "description": "Acquire one finite count-rate observation for the requested device channels and return normalized counts and rates by measurement reference.",
+  "domain": "acquisition",
+  "function": "countrate",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 120.0,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "resourceDeviceIds": null,
+    "channelRefs": null,
+    "durationSec": 1.0,
+    "clear": true,
+    "latchGuard": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "Device that acquires the requested count-rate measurements.",
+        "required": true,
+        "minLength": 1
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device needed by this finite acquisition.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "channelRefs": {
+        "type": "array",
+        "description": "Unique physical or logical channel references measured in one acquisition window.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "description": "One channel reference accepted by the acquisition device.",
+          "required": true,
+          "minimum": 0
+        }
+      },
+      "durationSec": {
+        "type": "number",
+        "description": "Finite integration duration of the observation window, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether the device clears each measurement accumulation before the window.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window detector-latch policy; disabled permits an unguarded observation, while required validates network-declared detector-health guards and retries only the invalid window.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether detector-latch validation is disabled or required for this observation.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries after a recovered detector latch; use zero to reject the first invalid window.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "acquisition.countrate.observation.window": {
+        "type": "object",
+        "description": "Normalized context and raw device response for the completed acquisition window.",
+        "role": "observation"
+      },
+      "acquisition.countrate.observation.countsByMeasurement": {
+        "type": "object",
+        "description": "Normalized total counts indexed by measurement reference.",
+        "role": "observation"
+      },
+      "acquisition.countrate.observation.countRatesHzByMeasurement": {
+        "type": "object",
+        "description": "Observed count rates in hertz indexed by measurement reference.",
+        "role": "observation"
+      },
+      "acquisition.countrate.status.latchGuard": {
+        "type": "object",
+        "description": "Explicit latch-guard policy, health samples, accepted-window attempt, discarded-window count, and any terminal guard failure.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureCountRates",
+      "handler": "MeasureCountRatesStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "channelRefs": "$shared.channelRefs",
+        "durationSec": "$shared.durationSec",
+        "clear": "$shared.clear",
+        "latchGuard": "$shared.latchGuard"
+      }
+    },
+    {
+      "stageId": "01-MeasureCountRates-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "countRateLatchGuardFailure",
+        "exports": [
+          {
+            "from": "countRateObservation",
+            "as": "acquisition.countrate.observation.window"
+          },
+          {
+            "from": "countRateObservation.countsByMeasurement",
+            "as": "acquisition.countrate.observation.countsByMeasurement"
+          },
+          {
+            "from": "countRateObservation.countRatesHzByMeasurement",
+            "as": "acquisition.countrate.observation.countRatesHzByMeasurement"
+          },
+          {
+            "from": "countRateObservation.latchGuard",
+            "as": "acquisition.countrate.status.latchGuard"
+          }
+        ]
+      }
+    }
+  ]
+}

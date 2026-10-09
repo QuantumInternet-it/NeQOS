@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ReadPolarizationAnalyzerOpticalConfiguration",
+      "sharedParams": {
+        "deviceId": "ExamplePa2000Id",
+        "channel": 1
+      }
+    }
+  ]
+}

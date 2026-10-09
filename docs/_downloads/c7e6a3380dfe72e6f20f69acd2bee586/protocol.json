@@ -1,0 +1,82 @@
+{
+  "protocolId": "LoadPolarizationAnalyzerCompensation",
+  "description": "Loads persisted compensated tomography states for selected or every stored channel on one PA X000 or MPC320 DeviceOS host and can apply one loaded state.",
+  "domain": "device",
+  "function": "calibrationStore",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [
+    "$shared.polarizationAnalyzerDeviceId"
+  ],
+  "sharedParams": {
+    "polarizationAnalyzerDeviceId": null,
+    "polarizationAnalyzerChannels": null,
+    "applyTomographyState": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "polarizationAnalyzerDeviceId": {
+        "type": "string",
+        "description": "PA X000 or MPC320 device identifier that owns the persisted compensation table.",
+        "required": true,
+        "minLength": 1
+      },
+      "polarizationAnalyzerChannels": {
+        "type": "array",
+        "description": "Optional non-empty list of analyzer channels to load. When omitted, loads every channel persisted on this DeviceOS host; MPC320 supports only channel 1.",
+        "required": false,
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "description": "One analyzer channel to load.",
+          "required": true,
+          "minimum": 1
+        }
+      },
+      "applyTomographyState": {
+        "type": "string",
+        "description": "Optional compensated H/V/D/A/R/L state to apply immediately after loading.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.calibrationStore.calibration.polarizationAnalyzerCompensation": {
+        "type": "object",
+        "description": "Loaded compensation table summary, optional applied state, and DeviceOS-local persistence path.",
+        "role": "calibration"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-LoadPolarizationAnalyzerCompensation",
+      "handler": "LoadPolarizationAnalyzerCompensationStage",
+      "params": {
+        "polarizationAnalyzerDeviceId": "$shared.polarizationAnalyzerDeviceId",
+        "polarizationAnalyzerChannels": "$shared.polarizationAnalyzerChannels",
+        "applyTomographyState": "$shared.applyTomographyState"
+      }
+    },
+    {
+      "stageId": "01-LoadPolarizationAnalyzerCompensation-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "loadPolarizationAnalyzerCompensation",
+            "as": "device.calibrationStore.calibration.polarizationAnalyzerCompensation"
+          }
+        ]
+      }
+    }
+  ]
+}

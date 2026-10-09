@@ -1,0 +1,69 @@
+Build and publish this guide
+============================
+
+This chapter is for documentation maintainers. Operators do not need Sphinx
+to run NeQOS.
+
+One documentation project
+-------------------------
+
+The guide is reStructuredText inside ``DocumentationFolder/user-guide``.
+``DocumentationFolder/index.rst`` links it before the API Reference.
+It uses the existing Sphinx/Furo configuration and needs no Markdown parser
+or separate site. Handwritten chapters explain workflows and physical
+constraints; generated cookbook sheets enumerate the current exported Reserved
+contracts and actual shipped examples.
+
+From the repository root, in the documentation environment:
+
+.. code-block:: bash
+
+   python DocumentationFolder/scripts/generate_neqos_api.py
+   python -m unittest discover -s tests -p 'test_user_guide.py'
+   python -m sphinx -b html -W --keep-going DocumentationFolder DocumentationFolder/_build/html
+
+The environment needs Sphinx and Furo. The generator reads source/JSON
+statically: it does not start NodeEngine, import vendor SDKs, contact licensing,
+or operate hardware. Its generated cookbook pages include downloadable
+input/network/contract JSON in the HTML build.
+
+Open ``DocumentationFolder/_build/html/index.html`` to inspect navigation,
+examples and the parameter tables before publishing. A successful build is
+a documentation check, not a hardware regression.
+
+Publish with the existing API site
+----------------------------------
+
+Use the same GitHub Pages destination and publication procedure already used
+for the API. The local public-repository layout currently serves rendered
+documentation from its ``docs`` directory; the User Guide is part of the
+**same complete HTML build**, not an independent Markdown upload.
+
+Copy/synchronize the complete HTML build into the site's configured publishing
+directory, preserving ``_static``, ``_downloads`` and ``user-guide`` together
+with the API pages. Sphinx also copies the ``.nojekyll`` marker into the build;
+preserve it at the publishing root so GitHub Pages keeps underscore-prefixed
+asset directories.
+Review the site diff, then commit/push through the project's normal release
+process. Do not publish licenses, logs, local configuration or run results.
+
+The source changes and local build do not themselves change the remote GitHub
+site. No additional workflow or remote deployment is required merely to add
+this guide to the existing site.
+
+Keep exhaustive inputs current
+------------------------------
+
+After a public protocol changes, rerun the existing API generator. Cookbook
+pages are generated from ``inputSchema.parameters``, ``sharedParams`` and
+``outputSchema.exports``; optional fields absent from direct run examples are
+still included. ``exported`` must be explicitly true; omission stays false.
+Only generator-marked obsolete pages in the owned cookbook directory are
+removed. Do not hand-edit generated sheets.
+
+Review narrative recipes when runtime-only behavior changes: automatic
+extraction of field names cannot infer protected carrier transitions, a new
+acceptance gate or the scientific meaning of a metric. Downloadable examples
+are templates, not hardware-test claims. Keep release-version documentation
+consistent with the binaries and preserve prior-version documentation through
+the existing release process when needed.

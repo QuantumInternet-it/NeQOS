@@ -1,0 +1,2049 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="Meta-protocol Handlers" href="MetaProtocolHandlers.html"><link rel="prev" title="Protected Microprotocols" href="ProtectedMicroprotocols.html">
+
+    <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
+        <title>Open Meta-protocols - NeQOS Developer API</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=798a7bb0" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">NeQOS Developer API</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <span class="sidebar-brand-text">NeQOS Developer API</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../user-guide/index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/network.html">2. Describe the bench</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/quickstart.html">3. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/recipes.html">5. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/results.html">6. Read results and diagnose failures</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../user-guide/protocols/index.html">Public protocol cookbook</a><input aria-label="Toggle navigation of Public protocol cookbook" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureCountRates.html">MeasureCountRates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MonitorCountRates.html">MonitorCountRates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/RealignEntangledPhotonSourcePolarization.html">RealignEntangledPhotonSourcePolarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/HoldDuration.html">HoldDuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkCoincidences.html">MeasureLinkCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkPolarizationCoincidences.html">MeasureLinkPolarizationCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkPolarizationSingles.html">MeasureLinkPolarizationSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/MeasureLinkSingles.html">MeasureLinkSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/EstimateLinkPolarizationCompensationFromHDProbes.html">EstimateLinkPolarizationCompensationFromHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ValidateLinkPolarizationCompensation.html">ValidateLinkPolarizationCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/AlignChannels.html">AlignChannels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user-guide/protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/documentation-maintenance.html">Build and publish this guide</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Photek/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DeviceOS/Examples/tasks.html">Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Open Meta-protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../../_sources/api/NodeEngine/OpenMetaProtocols.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="open-meta-protocols">
+<h1>Open Meta-protocols<a class="headerlink" href="#open-meta-protocols" title="Link to this heading">¶</a></h1>
+<section id="external-python-package-dependency">
+<h2>external-python-package-dependency<a class="headerlink" href="#external-python-package-dependency" title="Link to this heading">¶</a></h2>
+<p>Self-contained demonstration of a pure-Python dependency loaded by an open NeQOS meta-protocol handler.</p>
+</section>
+<section id="external-python-package-dependency-test">
+<h2>EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST<a class="headerlink" href="#external-python-package-dependency-test" title="Link to this heading">¶</a></h2>
+<p>Verifies that an open handler can import a distribution-local pure-Python dependency.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>10.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="shared-parameters">
+<h3>Shared Parameters<a class="headerlink" href="#shared-parameters" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>1234567</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="input-contract">
+<h3>Input Contract<a class="headerlink" href="#input-contract" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Integer formatted by the humanize package.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="output-contract">
+<h3>Output Contract<a class="headerlink" href="#output-contract" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.formattedValue</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Comma-separated representation returned by the external-package handler.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="stages">
+<h3>Stages<a class="headerlink" href="#stages" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ExternalPythonPackageDependencyHumanizeStage</span></code></p></td>
+<td><p>{“value”: “$shared.value”}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-publish-result</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “test.formattedValue”, “from”: “externalPythonPackageDependency.formattedValue”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Manifest field</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Schema version</p></td>
+<td><p>0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</p></td>
+<td><p>MetaProtocolsDef/EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST/protocol.json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="fake-device-examples">
+<h2>fake-device-examples<a class="headerlink" href="#fake-device-examples" title="Link to this heading">¶</a></h2>
+<p>FakeDriver examples covering compiled stages, local handlers, staged execution, and contract-compliant parent-child result composition.</p>
+</section>
+<section id="fake-simple">
+<h2>FAKE-SIMPLE<a class="headerlink" href="#fake-simple" title="Link to this heading">¶</a></h2>
+<p>Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>30.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[“FakeDeviceId”]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id1">
+<h3>Shared Parameters<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>FakeDeviceId</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>2.5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.5</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id2">
+<h3>Input Contract<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Identifier of the shared FakeDriver device.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Synthetic gain set before the foreground task.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Foreground task duration in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>FakeDriver task tick interval in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id3">
+<h3>Output Contract<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.deviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>FakeDriver device used by the run.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.durationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Duration confirmed by the foreground check in seconds.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Gain confirmed by the SetGainTask.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Terminal status returned by the foreground check.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id4">
+<h3>Stages<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-SIMPLE-SetGain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “simple.setGain”, “taskName”: “SetGainTask”, “taskParams”: {“value”: “$shared.gain”}}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-SIMPLE-ShortCheck</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “simple.shortCheck”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.taskDurationSec”, “tickSec”: “$shared.tickSec”}}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-SIMPLE-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “summary.status”, “from”: “simple.shortCheck.reply.result.status”}, {“as”: “summary.deviceId”, “from”: “simple.shortCheck.deviceId”}, {“as”: “summary.gain”, “from”: “simple.setGain.reply.result.gain”}, {“as”: “summary.durationSec”, “from”: “simple.shortCheck.reply.result.durationSec”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="fake-staged">
+<h2>FAKE-STAGED<a class="headerlink" href="#fake-staged" title="Link to this heading">¶</a></h2>
+<p>Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>True</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>120.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[“FakeDeviceId”]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id5">
+<h3>Shared Parameters<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>FakeDeviceId</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">firstLongDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>12.0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>4.2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longTickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">secondLongDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>8.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shortTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shortTickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.5</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id6">
+<h3>Input Contract<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Identifier of the shared FakeDriver device.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">firstLongDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Duration of the first pausable task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Synthetic gain set during preparation.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longTickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Tick interval for pausable tasks in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">secondLongDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Duration of the second pausable task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shortTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Duration of each short foreground task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shortTickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Tick interval for short tasks in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id7">
+<h3>Output Contract<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.deviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>FakeDriver device used by every stage.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.firstLongDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Duration confirmed by the first pausable task in seconds.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Gain confirmed by the preparation task.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.secondLongDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Duration confirmed by the second pausable task in seconds.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Terminal status returned by the final foreground check.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id8">
+<h3>Stages<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-STAGED-Prepare</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.prepare”, “taskName”: “SetGainTask”, “taskParams”: {“value”: “$shared.gain”}}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-STAGED-PreCheck</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.preCheck”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.shortTaskDurationSec”, “tickSec”: “$shared.shortTickSec”}}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-STAGED-LongPhaseA</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.longPhaseA”, “taskName”: “FirstForegroundLongPausableTask”, “taskParams”: {“durationSec”: “$shared.firstLongDurationSec”, “tickSec”: “$shared.longTickSec”}}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">03-FAKE-STAGED-LongPhaseB</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.longPhaseB”, “taskName”: “SecondForegroundLongPausableTask”, “taskParams”: {“durationSec”: “$shared.secondLongDurationSec”, “tickSec”: “$shared.longTickSec”}}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">04-FAKE-STAGED-PostCheck</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “staged.postCheck”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.shortTaskDurationSec”, “tickSec”: “$shared.shortTickSec”}}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">05-FAKE-STAGED-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “summary.status”, “from”: “staged.postCheck.reply.result.status”}, {“as”: “summary.deviceId”, “from”: “staged.postCheck.deviceId”}, {“as”: “summary.gain”, “from”: “staged.prepare.reply.result.gain”}, {“as”: “summary.firstLongDurationSec”, “from”: “staged.longPhaseA.reply.result.durationSec”}, {“as”: “summary.secondLongDurationSec”, “from”: “staged.longPhaseB.reply.result.durationSec”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="fake-handler">
+<h2>FAKE-HANDLER<a class="headerlink" href="#fake-handler" title="Link to this heading">¶</a></h2>
+<p>FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>30.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[“FakeDeviceId”]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id9">
+<h3>Shared Parameters<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>FakeDeviceId</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>3.3</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">maxIterations</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>1.0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.5</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id10">
+<h3>Input Contract<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Identifier of the shared FakeDriver device.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Synthetic gain set by the local handler.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">maxIterations</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Number of repeat-stage executions.</p></td>
+<td><p>{“minimum”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">taskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Duration of each handler-run foreground task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tickSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>FakeDriver task tick interval in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id11">
+<h3>Output Contract<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.deviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>FakeDriver device used by the local handlers.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.durationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Duration submitted to every foreground check in seconds.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Gain submitted by the preparation handler.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.iterations</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Number of foreground checks executed by the repeat handler.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">summary.status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Terminal status returned by the final repeated foreground check.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id12">
+<h3>Stages<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-HANDLER-Prepare</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FakePrepareStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “durationSec”: “$shared.taskDurationSec”, “gain”: “$shared.gain”, “tickSec”: “$shared.tickSec”}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-HANDLER-RepeatShortCheck</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FakeRepeatShortCheckStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “durationSec”: “$shared.taskDurationSec”, “maxIterations”: “$shared.maxIterations”, “tickSec”: “$shared.tickSec”}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-HANDLER-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “summary.status”, “from”: “handler.status”}, {“as”: “summary.deviceId”, “from”: “handler.deviceId”}, {“as”: “summary.gain”, “from”: “handler.gain”}, {“as”: “summary.durationSec”, “from”: “handler.durationSec”}, {“as”: “summary.iterations”, “from”: “handler.iterations”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="fake-composed-sweep">
+<h2>FAKE-COMPOSED-SWEEP<a class="headerlink" href="#fake-composed-sweep" title="Link to this heading">¶</a></h2>
+<p>Hardware-free root meta-protocol. It submits one branch which submits a configurable number of leaf runs from the same stage.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>30.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[“$shared.fakeDeviceId”]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id13">
+<h3>Shared Parameters<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>FakeDeviceId</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id14">
+<h3>Input Contract<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Identifier of the FakeDriver device.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Duration of each fake foreground task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Parent polling interval in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Number of deterministic leaf runs.</p></td>
+<td><p>{“minimum”: 1}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Value assigned to the first leaf run.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id15">
+<h3>Output Contract<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.sweep</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Aggregated deterministic leaf results.</p></td>
+<td><p>{“format”: “json”, “path”: “result.json”}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id16">
+<h3>Stages<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-COMPOSED-SWEEP-BRANCH-Submit</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SubmitMicroProtocolStage</span></code></p></td>
+<td><p>{“protocolKey”: “branch”, “resourceRequests”: [], “sharedParamOverrides”: {“fakeDeviceId”: “$shared.fakeDeviceId”, “fakeTaskDurationSec”: “$shared.fakeTaskDurationSec”, “pollDelaySec”: “$shared.pollDelaySec”, “sweepCount”: “$shared.sweepCount”, “valueStart”: “$shared.valueStart”}, “templateId”: “FAKE-COMPOSED-SWEEP-BRANCH”}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-COMPOSED-SWEEP-BRANCH-Wait</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WaitMicroProtocolStage</span></code></p></td>
+<td><p>{“imports”: [{“as”: “test.sweep”, “from”: “test.sweep”}], “pollDelaySec”: “$shared.pollDelaySec”, “protocolKey”: “branch”, “templateId”: “FAKE-COMPOSED-SWEEP-BRANCH”}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-COMPOSED-SWEEP-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “test.sweep”, “from”: “test.sweep”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="fake-composed-sweep-branch">
+<h2>FAKE-COMPOSED-SWEEP-BRANCH<a class="headerlink" href="#fake-composed-sweep-branch" title="Link to this heading">¶</a></h2>
+<p>Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>30.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id17">
+<h3>Shared Parameters<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>FakeDeviceId</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id18">
+<h3>Input Contract<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Identifier of the FakeDriver device.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Duration of each fake foreground task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pollDelaySec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Parent polling interval in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweepCount</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Number of deterministic leaf runs.</p></td>
+<td><p>{“minimum”: 1}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">valueStart</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Value assigned to the first leaf run.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id19">
+<h3>Output Contract<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.sweep</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Aggregated deterministic leaf results.</p></td>
+<td><p>{“format”: “json”, “path”: “result.json”}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id20">
+<h3>Stages<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-COMPOSED-SWEEP-LEAF-SubmitSweep</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FakeComposedSweepSubmitStage</span></code></p></td>
+<td><p>{“count”: “$shared.sweepCount”, “fakeDeviceId”: “$shared.fakeDeviceId”, “fakeTaskDurationSec”: “$shared.fakeTaskDurationSec”, “templateId”: “FAKE-COMPOSED-SWEEP-LEAF”, “valueStart”: “$shared.valueStart”}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-COMPOSED-SWEEP-LEAF-WaitSweep</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FakeComposedSweepWaitStage</span></code></p></td>
+<td><p>{“pollDelaySec”: “$shared.pollDelaySec”}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-COMPOSED-SWEEP-BRANCH-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “test.sweep”, “from”: “test.sweep”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="fake-composed-sweep-leaf">
+<h2>FAKE-COMPOSED-SWEEP-LEAF<a class="headerlink" href="#fake-composed-sweep-leaf" title="Link to this heading">¶</a></h2>
+<p>Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>10.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[“FakeDeviceId”]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id21">
+<h3>Shared Parameters<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>FakeDeviceId</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.05</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id22">
+<h3>Input Contract<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fakeDeviceId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Identifier of the FakeDriver device.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fakeTaskDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Duration of the fake foreground task in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>False</p></td>
+<td><p>One-based position inside the parent sweep.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Deterministic value exported by this leaf.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id23">
+<h3>Output Contract<a class="headerlink" href="#id23" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test.leaf</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
+<td><p>—</p></td>
+<td><p>Iteration and deterministic value produced by this leaf.</p></td>
+<td><p>{“format”: “json”, “path”: “result.json”}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id24">
+<h3>Stages<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-FAKE-COMPOSED-SWEEP-LEAF-RunFakeTask</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunSingleTaskStage</span></code></p></td>
+<td><p>{“deviceId”: “$shared.fakeDeviceId”, “resultKey”: “test.fakeTask”, “taskName”: “ForegroundShortTask”, “taskParams”: {“durationSec”: “$shared.fakeTaskDurationSec”, “tickSec”: 0.01}}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-FAKE-COMPOSED-SWEEP-LEAF-ProduceValue</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FakeComposedSweepProduceValueStage</span></code></p></td>
+<td><p>{“iteration”: “$shared.iteration”, “value”: “$shared.value”}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-FAKE-COMPOSED-SWEEP-LEAF-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “test.leaf”, “from”: “test.leaf”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Manifest field</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Schema version</p></td>
+<td><p>0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>FAKE-SIMPLE</p></td>
+<td><p>MetaProtocolsDef/FAKE-SIMPLE/protocol.json</p></td>
+</tr>
+<tr class="row-even"><td><p>FAKE-STAGED</p></td>
+<td><p>MetaProtocolsDef/FAKE-STAGED/protocol.json</p></td>
+</tr>
+<tr class="row-odd"><td><p>FAKE-HANDLER</p></td>
+<td><p>MetaProtocolsDef/FAKE-HANDLER/protocol.json</p></td>
+</tr>
+<tr class="row-even"><td><p>FAKE-COMPOSED-SWEEP</p></td>
+<td><p>MetaProtocolsDef/FAKE-COMPOSED-SWEEP/protocol.json</p></td>
+</tr>
+<tr class="row-odd"><td><p>FAKE-COMPOSED-SWEEP-BRANCH</p></td>
+<td><p>MetaProtocolsDef/FAKE-COMPOSED-SWEEP-BRANCH/protocol.json</p></td>
+</tr>
+<tr class="row-even"><td><p>FAKE-COMPOSED-SWEEP-LEAF</p></td>
+<td><p>MetaProtocolsDef/FAKE-COMPOSED-SWEEP-LEAF/protocol.json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="ieee-qce-2026-demo">
+<h2>ieee-qce-2026-demo<a class="headerlink" href="#ieee-qce-2026-demo" title="Link to this heading">¶</a></h2>
+<p>Open meta-protocol example that invokes NeQOS’s exported protected MPC optimization template.</p>
+</section>
+<section id="mpc320countsmaximization">
+<h2>MPC320CountsMaximization<a class="headerlink" href="#mpc320countsmaximization" title="Link to this heading">¶</a></h2>
+<p>Open IEEE QCE demonstration wrapper for aligning the polarization incident on the SNSPD of one selected quantum link.</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Function</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>Status</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>Execution mode</p></td>
+<td><p>foreground</p></td>
+</tr>
+<tr class="row-even"><td><p>Privilege</p></td>
+<td><p>NORMAL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Preemptive</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="row-even"><td><p>Timeout</p></td>
+<td><p>3600.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Resources</p></td>
+<td><p>[]</p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies</p></td>
+<td><p>[]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id25">
+<h3>Shared Parameters<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finalAnglesDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
+<td><p>[160.0, 160.0, 160.0]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">initialAnglesDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
+<td><p>[0.0, 0.0, 0.0]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">linkId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">measurementDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>2.0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">moveTimeoutSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>30.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">optimizationMode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>maximize</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">paddles</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
+<td><p>[0, 1, 2]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settleAfterMoveSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stepDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>20.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id26">
+<h3>Input Contract<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Constraints</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finalAnglesDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Final angle per paddle, in degrees.</p></td>
+<td><p>{“minItems”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">initialAnglesDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Initial angle per paddle, in degrees.</p></td>
+<td><p>{“minItems”: 1}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">linkId</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Quantum link whose SNSPD input polarization is aligned.</p></td>
+<td><p>{“minLength”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">measurementDurationSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Integration duration of each count sample, in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">moveTimeoutSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Timeout per controller movement, in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">optimizationMode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Whether the child maximizes or minimizes the SNSPD count rate.</p></td>
+<td><p>{“enum”: [“maximize”, “minimize”]}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">paddles</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p>True</p></td>
+<td><p>MPC320 paddle indices to scan.</p></td>
+<td><p>{“minItems”: 1}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p>True</p></td>
+<td><p>MPC320 and TimeTagger identifiers reserved by the protected child.</p></td>
+<td><p>{“minItems”: 2}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">settleAfterMoveSec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Settling delay after each movement, in seconds.</p></td>
+<td><p>{“minimum”: 0}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stepDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">number</span></code></p></td>
+<td><p>True</p></td>
+<td><p>Coarse angular scan increment in degrees.</p></td>
+<td><p>{“minimum”: 1e-06}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id27">
+<h3>Output Contract<a class="headerlink" href="#id27" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Export</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Artifact</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment.applied.selectedControllerAnglesDeg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">applied</span></code></p></td>
+<td><p>Selected MPC320 angles, in paddle order.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment.observation.countSamples</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">observation</span></code></p></td>
+<td><p>Count samples collected by the alignment scan.</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment.status.alignment</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p>Terminal alignment status and resolved target.</p></td>
+<td><p>—</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id28">
+<h3>Stages<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Handler</p></th>
+<th class="head"><p>Declared parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">00-AlignSNSPDInputPolarization</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SubmitMicroProtocolStage</span></code></p></td>
+<td><p>{“protocolKey”: “alignment”, “sharedParamOverrides”: {“clear”: true, “finalAnglesDeg”: “$shared.finalAnglesDeg”, “initialAnglesDeg”: “$shared.initialAnglesDeg”, “linkId”: “$shared.linkId”, “measurementDurationSec”: “$shared.measurementDurationSec”, “moveTimeoutSec”: “$shared.moveTimeoutSec”, “optimizationMode”: “$shared.optimizationMode”, “paddles”: “$shared.paddles”, “resourceDeviceIds”: “$shared.resourceDeviceIds”, “settleAfterMoveSec”: “$shared.settleAfterMoveSec”, “stepDeg”: “$shared.stepDeg”}, “templateId”: “AlignSNSPDInputPolarization”}</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">01-WaitForSNSPDInputPolarizationAlignment</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WaitMicroProtocolStage</span></code></p></td>
+<td><p>{“imports”: [{“as”: “alignment.status”, “from”: “link.polarizationAlignment.status.alignment”}, {“as”: “alignment.selectedControllerAnglesDeg”, “from”: “link.polarizationAlignment.applied.selectedControllerAnglesDeg”}, {“as”: “alignment.countSamples”, “from”: “link.polarizationAlignment.observation.countSamples”}], “protocolKey”: “alignment”, “templateId”: “AlignSNSPDInputPolarization”}</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">02-MPC320CountsMaximization-PublishResult</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code></p></td>
+<td><p>{“exports”: [{“as”: “link.polarizationAlignment.status.alignment”, “from”: “alignment.status”}, {“as”: “link.polarizationAlignment.applied.selectedControllerAnglesDeg”, “from”: “alignment.selectedControllerAnglesDeg”}, {“as”: “link.polarizationAlignment.observation.countSamples”, “from”: “alignment.countSamples”}]}</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default" style="width: 100%">
+<thead>
+<tr class="row-odd"><th class="head"><p>Manifest field</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Schema version</p></td>
+<td><p>0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>MPC320CountsMaximization</p></td>
+<td><p>MetaProtocolsDef/MPC320CountsMaximization/protocol.json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="MetaProtocolHandlers.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Meta-protocol Handlers</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="ProtectedMicroprotocols.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Protected Microprotocols</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Quantum Internet Research Group, University of Naples Federico II
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Open Meta-protocols</a><ul>
+<li><a class="reference internal" href="#external-python-package-dependency">external-python-package-dependency</a></li>
+<li><a class="reference internal" href="#external-python-package-dependency-test">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a><ul>
+<li><a class="reference internal" href="#shared-parameters">Shared Parameters</a></li>
+<li><a class="reference internal" href="#input-contract">Input Contract</a></li>
+<li><a class="reference internal" href="#output-contract">Output Contract</a></li>
+<li><a class="reference internal" href="#stages">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-device-examples">fake-device-examples</a></li>
+<li><a class="reference internal" href="#fake-simple">FAKE-SIMPLE</a><ul>
+<li><a class="reference internal" href="#id1">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id2">Input Contract</a></li>
+<li><a class="reference internal" href="#id3">Output Contract</a></li>
+<li><a class="reference internal" href="#id4">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-staged">FAKE-STAGED</a><ul>
+<li><a class="reference internal" href="#id5">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id6">Input Contract</a></li>
+<li><a class="reference internal" href="#id7">Output Contract</a></li>
+<li><a class="reference internal" href="#id8">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-handler">FAKE-HANDLER</a><ul>
+<li><a class="reference internal" href="#id9">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id10">Input Contract</a></li>
+<li><a class="reference internal" href="#id11">Output Contract</a></li>
+<li><a class="reference internal" href="#id12">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-composed-sweep">FAKE-COMPOSED-SWEEP</a><ul>
+<li><a class="reference internal" href="#id13">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id14">Input Contract</a></li>
+<li><a class="reference internal" href="#id15">Output Contract</a></li>
+<li><a class="reference internal" href="#id16">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-composed-sweep-branch">FAKE-COMPOSED-SWEEP-BRANCH</a><ul>
+<li><a class="reference internal" href="#id17">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id18">Input Contract</a></li>
+<li><a class="reference internal" href="#id19">Output Contract</a></li>
+<li><a class="reference internal" href="#id20">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fake-composed-sweep-leaf">FAKE-COMPOSED-SWEEP-LEAF</a><ul>
+<li><a class="reference internal" href="#id21">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id22">Input Contract</a></li>
+<li><a class="reference internal" href="#id23">Output Contract</a></li>
+<li><a class="reference internal" href="#id24">Stages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ieee-qce-2026-demo">ieee-qce-2026-demo</a></li>
+<li><a class="reference internal" href="#mpc320countsmaximization">MPC320CountsMaximization</a><ul>
+<li><a class="reference internal" href="#id25">Shared Parameters</a></li>
+<li><a class="reference internal" href="#id26">Input Contract</a></li>
+<li><a class="reference internal" href="#id27">Output Contract</a></li>
+<li><a class="reference internal" href="#id28">Stages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

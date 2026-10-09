@@ -1,0 +1,74 @@
+{
+  "protocolId": "ApplyChannelDelays",
+  "description": "Apply an explicit temporal-delay map to the input channels of a Time Tagger.",
+  "domain": "timing",
+  "function": "alignment",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 120.0,
+  "resourceRequests": ["$shared.timeTaggerDeviceId"],
+  "sharedParams": {
+    "timeTaggerDeviceId": null,
+    "channelDelaysPs": null,
+    "settleSec": 0.2
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "timeTaggerDeviceId": {
+        "type": "string",
+        "description": "Identifier of the Time Tagger whose channel delays are updated.",
+        "required": true,
+        "minLength": 1
+      },
+      "channelDelaysPs": {
+        "type": "object",
+        "description": "Explicit map from physical channel number to temporal input delay in picoseconds.",
+        "required": true
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after applying the channel settings, in seconds.",
+        "required": false,
+        "minimum": 0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "timing.alignment.applied.channelDelays": {
+        "type": "object",
+        "description": "Applied channel delays and device read-back values.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ApplyChannelDelays",
+      "handler": "ApplyChannelDelaysStage",
+      "params": {
+        "timeTaggerDeviceId": "$shared.timeTaggerDeviceId",
+        "channelDelaysPs": "$shared.channelDelaysPs",
+        "settleSec": "$shared.settleSec"
+      }
+    },
+    {
+      "stageId": "01-ApplyChannelDelays-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "applyChannelDelays",
+            "as": "timing.alignment.applied.channelDelays"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "protocolId": "MonitorCountRates",
+  "description": "Acquire a declared number of complete count-rate windows and return the ordered observations with their aggregate summary.",
+  "domain": "acquisition",
+  "function": "countrate",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 96000.0,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "resourceDeviceIds": null,
+    "channelRefs": null,
+    "measurementDurationSec": 1.0,
+    "windowCount": null,
+    "interWindowDelaySec": 0.0,
+    "latchGuard": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "Device that acquires and continuously reports the requested count-rate measurements.",
+        "required": true,
+        "minLength": 1
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it annotates each monitor window.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device needed by this monitor.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "channelRefs": {
+        "type": "array",
+        "description": "Unique physical or logical channel references monitored in every acquisition window.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "description": "One channel reference accepted by the acquisition device.",
+          "required": true,
+          "minimum": 0
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Integration duration of each acquisition window, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "windowCount": {
+        "type": "integer",
+        "description": "Exact number of complete acquisition windows; null continues until the caller aborts the monitor.",
+        "required": false,
+        "minimum": 1
+      },
+      "interWindowDelaySec": {
+        "type": "number",
+        "description": "Non-blocking delay between completed acquisition windows, in seconds.",
+        "required": false,
+        "minimum": 0
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit monitor latch policy; annotate retains an invalid window with health evidence and excludes it from valid aggregate statistics rather than retrying it.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether detector-latch monitoring is disabled or each window is annotated.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "annotate"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "acquisition.countrate.observation.windows": {
+        "type": "array",
+        "description": "Ordered normalized observations for every completed count-rate window.",
+        "role": "observation"
+      },
+      "acquisition.countrate.observation.latestWindow": {
+        "type": "object",
+        "description": "Normalized context and raw device response for the final completed window over exactly the requested measurement set.",
+        "role": "observation"
+      },
+      "acquisition.countrate.observation.summaryByMeasurement": {
+        "type": "object",
+        "description": "Per-measurement valid-window count, missing-window count, latch-invalid-window count, accumulated counts, effective capture duration, and duration-weighted aggregate rate.",
+        "role": "observation"
+      },
+      "acquisition.countrate.status.monitor": {
+        "type": "object",
+        "description": "Current monitor status, timing, and completed-window count. A finite windowCount reaches a terminal result; an unbounded monitor ends through runtime abort and has no terminal result.json.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MonitorCountRates",
+      "handler": "MonitorCountRatesStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "channelRefs": "$shared.channelRefs",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "windowCount": "$shared.windowCount",
+        "interWindowDelaySec": "$shared.interWindowDelaySec",
+        "latchGuard": "$shared.latchGuard"
+      }
+    },
+    {
+      "stageId": "01-MonitorCountRates-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "countRateMonitor.windows",
+            "as": "acquisition.countrate.observation.windows"
+          },
+          {
+            "from": "countRateMonitor.latestWindow",
+            "as": "acquisition.countrate.observation.latestWindow"
+          },
+          {
+            "from": "countRateMonitor.summaryByMeasurement",
+            "as": "acquisition.countrate.observation.summaryByMeasurement"
+          },
+          {
+            "from": "countRateMonitor.status",
+            "as": "acquisition.countrate.status.monitor"
+          }
+        ]
+      }
+    }
+  ]
+}

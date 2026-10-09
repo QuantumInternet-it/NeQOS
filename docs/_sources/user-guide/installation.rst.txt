@@ -1,0 +1,170 @@
+1. Install the software
+=======================
+
+Choose a matching distribution
+------------------------------
+
+1. Obtain the archive for each host's operating system and architecture from
+   the `NeQOS release repository
+   <https://github.com/QuantumInternet-it/NeQOS/releases>`_. Check that release's
+   supported platforms and notes rather than assuming every driver exists on
+   every platform.
+2. Extract the entire standalone distribution to a stable directory, for
+   example ``C:\NeQOS`` on Windows. Keep the executable, libraries, contracts
+   and example directories together. Copying just the executable is not an
+   installation.
+3. Obtain a valid license for the installation. License/evaluation enquiries:
+   ``info@quantuminternet.it``. Place the license outside a public repository,
+   for example ``C:\NeQOSConfig\license.json``. Do not publish activation
+   credentials with your run examples.
+4. Keep your edited network and run inputs in a separate working directory.
+   Keep an untouched copy of the shipped examples for comparison.
+5. Run each executable with ``--version`` and ``--help`` before connecting
+   hardware. If a documented option is missing, check the distribution version.
+
+Standalone executables do not require a development Python environment for
+their compiled code. External Open drivers/packs and vendor SDKs can still
+require their own runtime files. Install those only on the host that uses them.
+License validation may need network access; do not assume an evaluation license
+works offline.
+
+In this guide, executable examples use ``DeviceOS.dist`` and ``NodeEngine.dist``
+as extracted directories. Substitute the actual archive layout. In a Windows
+Command Prompt, for example:
+
+.. code-block:: bat
+
+   C:\NeQOS\DeviceOS.dist\DeviceOS.exe --help
+   C:\NeQOS\NodeEngine.dist\NodeEngine.exe --help
+
+Use ``./NodeEngine.dist/NodeEngine`` in a Unix shell if that is the executable
+layout supplied for your host. Windows Command Prompt continues lines with
+``^``; PowerShell uses a backtick; Bash/Zsh use ``\``. Do not paste one shell's
+continuation characters into another.
+
+.. _windows-unsigned-builds:
+
+Windows: unsigned builds and Smart App Control
+----------------------------------------------
+
+A digital signature is not a universal NeQOS requirement. An unsigned
+``NodeEngine.exe`` or ``DeviceOS.exe`` can run when the host's application
+control policy permits it. On Windows 11, Smart App Control may block an
+unsigned build before it starts, with a message such as "blocked by your
+organization's Device Guard policies". This is an operating-system startup
+block, not a NodeEngine hang or license error.
+
+On a personally administered development/laboratory PC, if you explicitly
+accept the security trade-off, open:
+
+**Windows Security → App & browser control → Smart App Control settings → Off**.
+
+In Italian Windows: **Sicurezza di Windows → Controllo delle app e del browser
+→ Impostazioni Smart App Control → Disattivato**.
+
+Then retry ``NodeEngine.exe --help`` (or ``DeviceOS.exe --help``). A user
+confirmed that this setting resolved the unsigned NodeEngine startup block;
+it does not establish hardware or protocol regression coverage.
+
+.. warning::
+
+   Turning Smart App Control off removes this protection for **all
+   applications**, not just NeQOS; it is not a per-application exception.
+   Only use software from a verified source, and leave antivirus and firewall
+   protection enabled. On an organization-managed PC, ask IT for an approved
+   solution rather than changing policy yourself. Check Windows' warning and
+   the current Microsoft instructions before turning it off: re-enabling
+   conditions depend on the Windows version/update state.
+
+To retain Smart App Control, use a build accepted by that policy, such as one
+signed with a trusted certificate. Turning it off will not override a separate
+organization-enforced App Control policy. Changing PowerShell
+``ExecutionPolicy`` or merely running NeQOS as administrator does not resolve
+this executable-policy block.
+
+See Microsoft's `Smart App Control FAQ
+<https://support.microsoft.com/en-us/windows/security/threat-malware-protection/smart-app-control-frequently-asked-questions>`_
+for protection, exceptions and re-enabling guidance.
+
+Install the hardware runtime on the DeviceOS host
+-------------------------------------------------
+
+The vendor runtime is not installed by copying NeQOS. Examples include the
+Swabian Time Tagger Python/native driver and Thorlabs Kinesis for MPC320.
+Serial devices need a working serial interface and the correct COM/TTY path.
+The NodeEngine host does not need another device's vendor SDK merely to
+orchestrate it over the network.
+
+Start from the shipped ``config/DeviceOS.local.json.example`` and save your
+machine-specific copy as ``config/DeviceOS.local.json`` beside DeviceOS, or
+select a different file with ``--localConfigFile``. Follow
+:doc:`../api/DeviceOS/RuntimeSetup` for the exact supported environment keys
+and driver-specific search paths. Keep vendor paths out of portable
+``network.json`` files.
+
+.. code-block:: json
+
+   {
+     "environment": {
+       "SWABIAN_TIMETAGGER_PYTHON_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\python",
+       "SWABIAN_TIMETAGGER_NATIVE_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\x64"
+     }
+   }
+
+Check the installed vendor directory before using these illustrative paths.
+An SDK load error and a NodeEngine connectivity error are different problems.
+
+Choose writable per-PC data directories
+---------------------------------------
+
+Use a launcher to select logs, raw artifacts and calibration directories.
+For a Windows Command Prompt ``.bat`` file:
+
+.. code-block:: bat
+
+   @echo off
+   setlocal
+   set "NEQOS_LOG_DIR=C:\NeQOSData\%COMPUTERNAME%\logs"
+   set "NEQOS_DEVICE_ARTIFACT_DIR=C:\NeQOSData\%COMPUTERNAME%\DeviceArtifacts"
+   set "NEQOS_CALIBRATION_DIR=C:\NeQOSData\%COMPUTERNAME%\calibrations"
+   if not exist "%NEQOS_LOG_DIR%" mkdir "%NEQOS_LOG_DIR%"
+   if not exist "%NEQOS_DEVICE_ARTIFACT_DIR%" mkdir "%NEQOS_DEVICE_ARTIFACT_DIR%"
+   if not exist "%NEQOS_CALIBRATION_DIR%" mkdir "%NEQOS_CALIBRATION_DIR%"
+   C:\NeQOS\DeviceOS.dist\DeviceOS.exe ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --configFile "C:\NeQOSConfig\network.json" ^
+     --deviceId ExampleTimeTaggerId
+   pause
+
+If directory creation fails, correct permissions or the path before launching.
+Use a separate launcher per device or pass its identifier explicitly.
+Environment variables set with ``setlocal`` apply to the launched process, not
+to other terminals. A machine-local runtime configuration may also supply
+environment settings: avoid conflicting values for the same key.
+
+``NEQOS_LOG_DIR`` selects log files, not the NodeEngine result-tree root.
+``NEQOS_DEVICE_ARTIFACT_DIR`` selects device-created artifacts such as raw
+Time Tagger files. ``NEQOS_CALIBRATION_DIR`` selects compensation storage on
+the DeviceOS host. NodeEngine runs currently write under
+``MetaProtocolResults`` in its working directory. See :doc:`results` before
+looking for a file on the wrong computer.
+
+A local writable data directory is a useful troubleshooting baseline. You may
+choose a shared/synchronized directory, but a console logging error is not
+proof that synchronization caused a failure.
+
+Source-checkout alternative
+---------------------------
+
+This is a developer alternative, not a prerequisite for a standalone user.
+Use the repository's supported Python environment and dependencies, then run
+from the repository root. Replace executable prefixes in the instructions with:
+
+.. code-block:: bash
+
+   python DeviceOSPack/DeviceOS.py --help
+   python NodeEnginePack/NodeEngine.py --help
+
+Do not invent package names from module imports or install hardware SDKs on all
+hosts. Follow the release/development dependency instructions and the runtime
+setup page for the specific driver you need.

@@ -1,0 +1,275 @@
+{
+  "protocolId": "MeasureLinkPolarizationCoincidences",
+  "description": "Measures finite reference-target coincidence counts and rates across logical analyzer states for one or more analyzer-equipped target links. network.json declares each channel as polarizer or PBS: complementary PBS outputs are acquired together, reducing physical settings without changing the reported logical states. An optional symmetrized PBS readout preserves opposite-port component evidence and the declared single-branch average or multibranch sum.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 1800,
+  "resourceRequests": [
+    "$shared.polarizationAnalyzerDeviceIds",
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "referenceLinkId": null,
+    "targetLinkIds": null,
+    "polarizationAnalyzerDeviceIds": null,
+    "tomographyStates": [
+      "H",
+      "V",
+      "D",
+      "A",
+      "R",
+      "L"
+    ],
+    "measurementDurationSec": 3,
+    "coincidenceWindowPs": 1000,
+    "settleSec": 1,
+    "clear": true,
+    "useCompensatedTomoStates": false,
+    "dwdmChannelByLink": {},
+    "defaultDwdmChannel": null,
+    "finalTomographyState": null,
+    "pbsReadout": "simultaneous",
+    "targetBranchMode": "both",
+    "referenceDetectorChannel": null,
+    "resourceDeviceIds": [],
+    "latchGuard": {
+      "mode": "disabled",
+      "maxWindowRetries": 0
+    },
+    "subtractBackground": false,
+    "backgroundObservation": {}
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "referenceLinkId": {
+        "type": "string",
+        "description": "Reference link whose H detector defines the coincidence partner.",
+        "required": true,
+        "minLength": 1
+      },
+      "targetLinkIds": {
+        "type": "array",
+        "description": "Analyzer-equipped target quantum-link identifiers measured at each state.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One target quantum-link identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "polarizationAnalyzerDeviceIds": {
+        "type": "array",
+        "description": "Analyzer devices leased while their target channels are configured and scanned.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One polarization-analyzer device identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "tomographyStates": {
+        "type": "array",
+        "description": "Logical H/V/D/A/R/L projections to report. A PBS acquires complementary pairs from one physical H/D/R setting; a polarizer requires one setting per requested logical projection.",
+        "required": false,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One analyzer state accepted by the polarization analyzer.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite coincidence acquisition duration for each analyzer state, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "coincidenceWindowPs": {
+        "type": "integer",
+        "description": "AND coincidence window used for every analyzer state, in picoseconds.",
+        "required": false,
+        "minimum": 1
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Non-blocking delay after each analyzer-state change and before its finite measurement window, in seconds. The default allows the polarization analyzer to settle physically.",
+        "required": false,
+        "minimum": 0
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether every finite acquisition window starts from cleared measurements.",
+        "required": false
+      },
+      "useCompensatedTomoStates": {
+        "type": "boolean",
+        "description": "Whether named analyzer states are resolved from an installed or loaded compensation table instead of the factory tomography table.",
+        "required": false
+      },
+      "dwdmChannelByLink": {
+        "type": "object",
+        "description": "Optional per-target DWDM channel overrides for analyzer wavelength configuration.",
+        "required": false
+      },
+      "defaultDwdmChannel": {
+        "type": "integer",
+        "description": "Optional fallback DWDM channel when a target link does not declare one in network.json.",
+        "required": false,
+        "minimum": 1
+      },
+      "finalTomographyState": {
+        "type": "string",
+        "description": "Optional state applied to every target analyzer after the scan, including best-effort terminal cleanup after a failed or aborted scan.",
+        "required": false,
+        "minLength": 1
+      },
+      "pbsReadout": {
+        "type": "string",
+        "description": "PBS target readout: simultaneous reads complementary ports together in three settings; symmetrized uses six settings. One branch averages same-projection opposite-port readings; a multibranch topology preserves the sum of selected components, even when only one branch is selected.",
+        "required": false,
+        "enum": [
+          "simultaneous",
+          "symmetrized"
+        ]
+      },
+      "targetBranchMode": {
+        "type": "string",
+        "description": "Selected target branch(es). positive/negative select respectively the lower/higher numbered physical detector in that branch; logical orientation still follows network H/V port bindings. All measured components remain available.",
+        "required": false,
+        "enum": [
+          "both",
+          "branch1",
+          "branch2",
+          "branch1-positive",
+          "branch1-negative",
+          "branch2-positive",
+          "branch2-negative"
+        ]
+      },
+      "referenceDetectorChannel": {
+        "type": "integer",
+        "description": "Optional selected reference detector; must be a sink of referenceLinkId. Other reference outputs are preserved when scanning a single target output.",
+        "required": false,
+        "minimum": 0
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Acquisition lease union: TimeTagger and explicitly required health guards. An empty list preserves the existing unguarded child-owned TimeTagger behavior.",
+        "required": false,
+        "items": {
+          "type": "string",
+          "description": "One acquired device.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window policy. The default preserves the existing unguarded scan; required needs network healthGuards and their exact acquisition lease union.",
+        "required": false,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Window policy.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Immediate window retries.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      },
+      "subtractBackground": {
+        "type": "boolean",
+        "description": "Subtract a duration-scaled detector-pair background before combining physical components, clipping each component at zero.",
+        "required": false
+      },
+      "backgroundObservation": {
+        "type": "object",
+        "description": "Background countsByPair keyed referenceChannel&targetChannel and positive measurementDurationSec; required when subtractBackground is true.",
+        "required": false,
+        "properties": {
+          "countsByPair": {
+            "type": "object",
+            "description": "Non-negative detector-pair counts.",
+            "required": false
+          },
+          "measurementDurationSec": {
+            "type": "number",
+            "description": "Background integration seconds.",
+            "required": false,
+            "minimum": 0.000001
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.observation.linkPolarizationCoincidences": {
+        "type": "object",
+        "description": "Reference-target coincidence counts and rates indexed by target link and analyzer state, with resolved topology and acquisition provenance.",
+        "role": "observation"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureLinkPolarizationCoincidences",
+      "handler": "MeasureLinkPolarizationCoincidencesStage",
+      "params": {
+        "referenceLinkId": "$shared.referenceLinkId",
+        "targetLinkIds": "$shared.targetLinkIds",
+        "polarizationAnalyzerDeviceIds": "$shared.polarizationAnalyzerDeviceIds",
+        "tomographyStates": "$shared.tomographyStates",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "coincidenceWindowPs": "$shared.coincidenceWindowPs",
+        "settleSec": "$shared.settleSec",
+        "clear": "$shared.clear",
+        "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
+        "dwdmChannelByLink": "$shared.dwdmChannelByLink",
+        "defaultDwdmChannel": "$shared.defaultDwdmChannel",
+        "finalTomographyState": "$shared.finalTomographyState",
+        "pbsReadout": "$shared.pbsReadout",
+        "targetBranchMode": "$shared.targetBranchMode",
+        "referenceDetectorChannel": "$shared.referenceDetectorChannel",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "latchGuard": "$shared.latchGuard",
+        "subtractBackground": "$shared.subtractBackground",
+        "backgroundObservation": "$shared.backgroundObservation"
+      }
+    },
+    {
+      "stageId": "01-MeasureLinkPolarizationCoincidences-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "linkPolarizationFailureReason",
+        "exports": [
+          {
+            "from": "linkPolarizationCoincidencesObservation",
+            "as": "link.characterization.observation.linkPolarizationCoincidences"
+          }
+        ]
+      }
+    }
+  ]
+}

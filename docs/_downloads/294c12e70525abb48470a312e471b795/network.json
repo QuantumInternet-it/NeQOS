@@ -1,0 +1,57 @@
+{
+  "networkId": "example-measure-coincidences",
+  "telemetryDefaults": {
+    "periodSec": 1.0,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "linkBindings": [],
+          "healthGuards": [
+            {
+              "deviceId": "ExampleDetectorHealthId",
+              "channelMappings": [
+                {
+                  "timeTaggerChannel": 1,
+                  "detectorHealthChannel": 1
+                },
+                {
+                  "timeTaggerChannel": 2,
+                  "detectorHealthChannel": 2
+                }
+              ]
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 19001,
+            "asyncCmdPort": 19002,
+            "telemetryPort": 19003
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleDetectorHealthId",
+          "deviceType": "DetectorHealth",
+          "enabled": true,
+          "linkBindings": [],
+          "deviceEngine": {
+            "ip": "192.0.2.11",
+            "syncCmdPort": 19011,
+            "asyncCmdPort": 19012,
+            "telemetryPort": 19013
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

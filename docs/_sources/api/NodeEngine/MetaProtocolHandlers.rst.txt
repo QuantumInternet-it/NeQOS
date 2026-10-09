@@ -1,17 +1,12 @@
 Meta-protocol Handlers
 ======================
 
-These compiled handlers implement child microprotocol submission, waiting, export, and abort semantics.
+These compiled handlers implement child microprotocol submission, contract-checked import, result publication, and one declared DeviceOS task invocation.
 
-AbortMicroProtocolStage
-^^^^^^^^^^^^^^^^^^^^^^^
+ClearTerminalCleanupTaskStage
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Abort the child runtime stored by ``SubmitMicroProtocolStage``.
-
-``templateId`` and optional ``protocolKey`` identify the runtime key. The
-optional ``reason`` defaults to ``META_PROTOCOL_ABORT``. With
-``ignoreTerminal`` true (the default), an already terminal child is treated
-as a successful advance; otherwise an unsuccessful abort fails the stage.
+Remove a cleanup task once its normal compensating action completed.
 
 .. list-table::
    :header-rows: 1
@@ -34,6 +29,78 @@ Copy selected scratchpad values into the parent protocol exports.
 must exist in the current scratchpad. Successful mappings are stored in the
 current microprotocol metadata and recorded as an ``ExportScratch`` task
 result before the stage advances.
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Signature
+     - Returns
+     - Source
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+
+PublishResultStage
+^^^^^^^^^^^^^^^^^^
+
+Atomically validate, persist, and publish the declared result contract.
+
+``exports`` is a non-empty list of scratchpad ``from``/contract ``as``
+mappings. All values are assembled first, validated against the active
+output schema, written as ``result.json`` in the current run directory,
+and only then exposed as protocol exports. This keeps disk output and
+parent-visible output consistent.
+
+An optional ``failIfScratchPath`` names a scratchpad value that is checked
+*after* successful publication. A non-empty value makes the protocol fail
+with that value as its reason, while preserving the result artifact and
+declared exports for operators and an enclosing parent to inspect.
+
+``writeSummary: true`` additionally writes a shared ``summary.md`` view
+beside the canonical result, including a post-publication failure reason.
+It introduces no scientific output or protocol-specific sidecar JSON.
+The default is false; existing publications remain unchanged.
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Signature
+     - Returns
+     - Source
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+
+RegisterTerminalCleanupTaskStage
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Register an idempotent device task for terminal protocol cleanup.
+
+The task is executed by NodeEngine while the lease root is still valid if
+the current protocol aborts, fails, or is forcibly released.  It is useful
+for a declared child workflow which temporarily opens device-side state
+that must be closed before the physical device lease is relinquished.
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table
+
+   * - Signature
+     - Returns
+     - Source
+   * - ``ctx: StageContext, params: Dict[str, Any]``
+     - ``StageResult``
+     - ``NodeEnginePack/MicroProtocolHandlers/mp_meta.py``
+
+RunSingleTaskStage
+^^^^^^^^^^^^^^^^^^
+
+Run one DeviceOS task and fail unless its reply is explicitly successful.
 
 .. list-table::
    :header-rows: 1

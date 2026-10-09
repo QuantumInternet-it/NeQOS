@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ConfigureEntangledPhotonSources",
+      "sharedParams": {
+    "resourceDeviceIds": [
+      "ExampleEntangledPhotonSource2Id"
+    ],
+    "sources": [
+      {
+        "deviceId": "ExampleEntangledPhotonSource2Id",
+        "referenceFrequencyMHz": 100.0,
+        "pumpFrequencyMHz": 100.0,
+        "outputMode": "ENTANGLED",
+        "entangledOutputAttenuationDb": 20.0,
+        "splittingRatioPercent": 50.0
+      }
+    ],
+    "attenuators": [],
+    "clock": {},
+        "settleSec": 1.0
+      }
+    }
+  ]
+}

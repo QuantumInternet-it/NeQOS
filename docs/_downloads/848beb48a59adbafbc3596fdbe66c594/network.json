@@ -1,0 +1,120 @@
+{
+  "networkId": "example-quantum-link-carrier",
+  "telemetryDefaults": {
+    "periodSec": 1.0,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "192.0.2.10",
+      "devices": [
+        {
+          "deviceId": "ExampleEntangledPhotonSourceId",
+          "deviceType": "Eps1000W",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleQuantumLinkOneId",
+              "role": "source",
+              "outputPort": 1,
+              "hTrafficAdditionalAttenuationDb": 2.0,
+              "dTrafficAdditionalAttenuationDb": 2.0
+            },
+            {
+              "linkId": "ExampleQuantumLinkTwoId",
+              "role": "source",
+              "outputPort": 2,
+              "hTrafficAdditionalAttenuationDb": 15.0,
+              "dTrafficAdditionalAttenuationDb": 23.0
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45041,
+            "asyncCmdPort": 45042,
+            "telemetryPort": 45043
+          },
+          "driverConfig": {
+            "serialPort": "COM1"
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "entangledOutputAttenuation": {
+                "min": 0.0,
+                "max": 83.3
+              },
+              "classicOutputAttenuation": {
+                "min": 0.0,
+                "max": 44.9542
+              }
+            },
+            "hTrafficTargetAttenuationDb": 10.0,
+            "dTrafficTargetAttenuationDb": 10.0
+          }
+        },
+        {
+          "deviceId": "ExampleInlineAttenuatorOneId",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleQuantumLinkOneId",
+              "role": "inlineAttenuator"
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45051,
+            "asyncCmdPort": 45052,
+            "telemetryPort": 45053
+          },
+          "driverConfig": {
+            "serialPort": "COM2"
+          },
+          "hardwareConfig": {
+            "defaultAttenuationDb": 0.0,
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0.0,
+                "max": 34.0,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleInlineAttenuatorTwoId",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleQuantumLinkTwoId",
+              "role": "inlineAttenuator"
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45061,
+            "asyncCmdPort": 45062,
+            "telemetryPort": 45063
+          },
+          "driverConfig": {
+            "serialPort": "COM3"
+          },
+          "hardwareConfig": {
+            "defaultAttenuationDb": 0.0,
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0.0,
+                "max": 34.0,
+                "minStep": 0.01
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

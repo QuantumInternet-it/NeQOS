@@ -1,0 +1,96 @@
+{
+  "protocolId": "RealignEntangledPhotonSourcePolarization",
+  "description": "When the EPS is actively in ENTANGLED output mode, temporarily protects downstream detectors with the source's maximum entangled-output attenuation, searches the internal EFPC settings that restore source polarization, and restores the exact prior output state.",
+  "domain": "device",
+  "function": "configuration",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [
+    "$shared.deviceId"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "protectionSettleSec": 0.0,
+    "settleSec": 10.0
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "Entangled-photon source device identifier to realign.",
+        "required": true,
+        "minLength": 1
+      },
+      "protectionSettleSec": {
+        "type": "number",
+        "description": "Optional delay after applying protective maximum entangled-output attenuation and before realignment, in seconds.",
+        "required": false,
+        "minimum": 0.0
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after verified restoration of the prior source output state, in seconds.",
+        "required": false,
+        "minimum": 0.0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.configuration.plan.sourcePolarizationRealignment": {
+        "type": "object",
+        "description": "Live source state and protective attenuation plan used for the realignment.",
+        "role": "plan"
+      },
+      "device.configuration.applied.sourcePolarizationRealignment": {
+        "type": "object",
+        "description": "Protective attenuation, EPS realignment reply, and completed source-polarization realignment details.",
+        "role": "applied"
+      },
+      "device.configuration.status.sourcePolarizationRealignmentRestoration": {
+        "type": "object",
+        "description": "Verified restoration status for the source output state captured before realignment.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-RealignEntangledPhotonSourcePolarization",
+      "handler": "RealignEntangledPhotonSourcePolarizationStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "protectionSettleSec": "$shared.protectionSettleSec",
+        "settleSec": "$shared.settleSec"
+      }
+    },
+    {
+      "stageId": "01-RealignEntangledPhotonSourcePolarization-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "realignEntangledPhotonSourcePolarizationFailure",
+        "exports": [
+          {
+            "from": "realignEntangledPhotonSourcePolarizationPlan",
+            "as": "device.configuration.plan.sourcePolarizationRealignment"
+          },
+          {
+            "from": "realignEntangledPhotonSourcePolarization",
+            "as": "device.configuration.applied.sourcePolarizationRealignment"
+          },
+          {
+            "from": "realignEntangledPhotonSourcePolarizationRestoration",
+            "as": "device.configuration.status.sourcePolarizationRealignmentRestoration"
+          }
+        ]
+      }
+    }
+  ]
+}

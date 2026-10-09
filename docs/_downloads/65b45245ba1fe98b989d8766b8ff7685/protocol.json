@@ -1,0 +1,119 @@
+{
+  "protocolId": "MeasureLinkSingles",
+  "description": "Measures finite singles counts and rates for resolved quantum links and returns their acquisition provenance. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 180,
+  "resourceRequests": [],
+  "sharedParams": {
+    "targetLinkIds": null,
+    "measurementDurationSec": 1,
+    "clear": true,
+    "latchGuard": null,
+    "resourceDeviceIds": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "targetLinkIds": {
+        "type": "array",
+        "description": "Unique quantum-link identifiers whose TimeTagger sink channels are measured as singles.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One target quantum-link identifier resolved from network.json.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite integration duration for the shared singles observation window, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether the selected stable count-rate measurements are cleared before acquisition.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether per-window detector-latch validation is disabled or required.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries of an invalid window after a recovered latch.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact acquisition union: TimeTagger plus every network-resolved health guard when required. The acquisition child acquires or inherits these resources.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device needed by this acquisition or scan.",
+          "required": true,
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.observation.singles": {
+        "type": "object",
+        "description": "Singles counts and available rates by target link, with resolved TimeTagger channels and acquisition provenance.",
+        "role": "observation"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureLinkSingles",
+      "handler": "MeasureLinkSinglesStage",
+      "params": {
+        "targetLinkIds": "$shared.targetLinkIds",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "clear": "$shared.clear",
+        "latchGuard": "$shared.latchGuard",
+        "resourceDeviceIds": "$shared.resourceDeviceIds"
+      }
+    },
+    {
+      "stageId": "01-MeasureLinkSingles-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "linkSinglesObservation",
+            "as": "link.characterization.observation.singles"
+          }
+        ],
+        "failIfScratchPath": "linkSinglesFailureReason"
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "protocolId": "ReconstructTwoQubitDensityMatrix",
+  "description": "Reconstructs a physical two-qubit density matrix from a complete background-corrected H/V/D/A/R/L coincidence observation. It preserves the unconstrained linear-inversion estimate as a diagnostic and fits a positive semidefinite trace-one matrix by maximum likelihood. The result is a reconstructed state, not a fidelity metric: downstream protocols may compare it with a target state or derive quality estimates without repeating tomography.",
+  "domain": "tomography",
+  "function": "state",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "entangledPairPolarizationTomography": null,
+    "maxIterations": 5000
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "entangledPairPolarizationTomography": {
+        "type": "object",
+        "description": "Complete output object from MeasureEntangledPairPolarizationCoincidences. Its correctedCountsByProjection member must contain every logical H/V/D/A/R/L pair projection with finite non-negative counts.",
+        "required": true
+      },
+      "maxIterations": {
+        "type": "integer",
+        "description": "Maximum L-BFGS-B iterations for the physical maximum-likelihood fit. The default preserves the historical reconstruction limit.",
+        "required": false,
+        "minimum": 1
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "tomography.state.estimate.twoQubitDensityMatrix": {
+        "type": "object",
+        "description": "Physical maximum-likelihood two-qubit density-matrix estimate with its linear-inversion diagnostic, basis probabilities, Bloch vectors, correlations, optimizer metadata, and source-observation provenance.",
+        "role": "estimate"
+      },
+      "tomography.state.status.reconstruction": {
+        "type": "object",
+        "description": "Reconstruction completion state. A solver non-convergence is published as WARNING with its best physical estimate, preserving the historical behavior.",
+        "role": "status"
+      },
+      "tomography.state.artifact.twoQubitDensityMatrixReport": {
+        "type": "string",
+        "description": "Path to the JSON report for the reconstructed density matrix.",
+        "role": "artifact"
+      },
+      "tomography.state.artifact.twoQubitDensityMatrixCompactReport": {
+        "type": "string",
+        "description": "Path to the compact Markdown reconstruction summary.",
+        "role": "artifact"
+      },
+      "tomography.state.artifact.twoQubitDensityMatrixPlot": {
+        "type": "string",
+        "description": "Path to the SVG visualization of the real and imaginary density-matrix components.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ReconstructTwoQubitDensityMatrix",
+      "handler": "ReconstructTwoQubitDensityMatrixStage",
+      "params": {
+        "entangledPairPolarizationTomography": "$shared.entangledPairPolarizationTomography",
+        "maxIterations": "$shared.maxIterations"
+      }
+    },
+    {
+      "stageId": "01-ReconstructTwoQubitDensityMatrix-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "twoQubitDensityMatrixReconstruction",
+            "as": "tomography.state.estimate.twoQubitDensityMatrix"
+          },
+          {
+            "from": "twoQubitDensityMatrixReconstructionStatus",
+            "as": "tomography.state.status.reconstruction"
+          },
+          {
+            "from": "twoQubitDensityMatrixReconstruction.artifactPath",
+            "as": "tomography.state.artifact.twoQubitDensityMatrixReport"
+          },
+          {
+            "from": "twoQubitDensityMatrixReconstruction.compactPath",
+            "as": "tomography.state.artifact.twoQubitDensityMatrixCompactReport"
+          },
+          {
+            "from": "twoQubitDensityMatrixReconstruction.plotPath",
+            "as": "tomography.state.artifact.twoQubitDensityMatrixPlot"
+          }
+        ]
+      }
+    }
+  ]
+}

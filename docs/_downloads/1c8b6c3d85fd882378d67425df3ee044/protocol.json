@@ -1,0 +1,225 @@
+{
+  "protocolId": "AlignMultipleSNSPDInputPolarizations",
+  "description": "Align the input polarizations incident on multiple SNSPDs by scanning their associated MPC320 controllers in parallel and using simultaneous TimeTagger count-rate feedback.",
+  "domain": "link",
+  "function": "polarizationAlignment",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 2400.0,
+  "resourceRequests": [
+    "$shared.deviceIds"
+  ],
+  "sharedParams": {
+    "deviceIds": null,
+    "measurementDurationSec": 0.2,
+    "optimizationMode": "maximize",
+    "initialPositionMode": "explicit",
+    "paddles": [
+      0,
+      1,
+      2
+    ],
+    "initialAnglesDeg": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "finalAnglesDeg": [
+      160.0,
+      160.0,
+      160.0
+    ],
+    "stepDeg": 10.0,
+    "refinements": [],
+    "settleAfterMoveSec": 0.2,
+    "moveTimeoutSec": 30.0
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceIds": {
+        "type": "array",
+        "description": "Device identifiers of the MPC320 controllers, each bound to one SNSPD-associated quantum-link sink in the active network.",
+        "required": true,
+        "minItems": 2,
+        "items": {
+          "type": "string",
+          "description": "One MPC320 controller identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Integration duration for each simultaneous count sample, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "optimizationMode": {
+        "type": "string",
+        "description": "Whether each controller angle is selected to maximize or minimize its linked SNSPD count rate.",
+        "required": false,
+        "enum": [
+          "maximize",
+          "minimize"
+        ]
+      },
+      "initialPositionMode": {
+        "type": "string",
+        "description": "Whether all selected paddles are moved to initialAnglesDeg before scanning, or remain at their current positions until their individual coarse scans begin.",
+        "required": false,
+        "enum": [
+          "explicit",
+          "current"
+        ]
+      },
+      "paddles": {
+        "type": "array",
+        "description": "MPC320 paddle indices to scan on every selected controller.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "description": "One MPC320 paddle index.",
+          "required": true,
+          "minimum": 0
+        }
+      },
+      "initialAnglesDeg": {
+        "type": "array",
+        "description": "Initial scan angle for each selected paddle, in degrees.",
+        "required": true,
+        "minItems": 1
+      },
+      "finalAnglesDeg": {
+        "type": "array",
+        "description": "Final scan angle for each selected paddle, in degrees.",
+        "required": true,
+        "minItems": 1
+      },
+      "stepDeg": {
+        "type": "number",
+        "description": "Coarse scan angular increment in degrees.",
+        "required": true,
+        "minimum": 0.000001
+      },
+      "refinements": {
+        "type": "array",
+        "description": "Ordered optional whole-controller passes; each pass scans every selected paddle around the corresponding preceding-pass optimum and is bounded by the coarse scan endpoints.",
+        "required": false,
+        "items": {
+          "type": "object",
+          "description": "One refinement-pass configuration applied to every selected paddle on every controller.",
+          "required": true,
+          "properties": {
+            "halfRangeDeg": {
+              "type": "number",
+              "description": "Half-width of each paddle scan around its preceding-pass optimum, in degrees.",
+              "required": true,
+              "minimum": 0
+            },
+            "stepDeg": {
+              "type": "number",
+              "description": "Angular increment for this local scan, in degrees.",
+              "required": true,
+              "minimum": 0.000001
+            }
+          }
+        }
+      },
+      "settleAfterMoveSec": {
+        "type": "number",
+        "description": "Settling delay after every parallel controller movement, in seconds.",
+        "required": false,
+        "minimum": 0
+      },
+      "moveTimeoutSec": {
+        "type": "number",
+        "description": "Timeout for each MPC320 movement, in seconds.",
+        "required": false,
+        "minimum": 0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.polarizationAlignment.plan.topology": {
+        "type": "object",
+        "description": "Resolved controller, quantum-link, TimeTagger, and channel bindings used by the alignment.",
+        "role": "plan"
+      },
+      "link.polarizationAlignment.status.multipleAlignment": {
+        "type": "object",
+        "description": "Terminal status, resolved topology, and scan summary for all selected SNSPD alignments.",
+        "role": "status"
+      },
+      "link.polarizationAlignment.applied.selectedControllerAnglesDegByMpc": {
+        "type": "object",
+        "description": "Selected MPC320 paddle angles keyed by controller identifier.",
+        "role": "applied"
+      },
+      "link.polarizationAlignment.observation.countSamplesByMpc": {
+        "type": "object",
+        "description": "Count-rate samples keyed by MPC320 controller identifier.",
+        "role": "observation"
+      },
+      "link.polarizationAlignment.artifact.scanPasses": {
+        "type": "array",
+        "description": "NodeEngine-local JSON summaries and PNG scan curves written after each completed coarse or refinement pass.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-AlignMultipleSNSPDInputPolarizations",
+      "handler": "AlignMultipleSNSPDInputPolarizationsStage",
+      "params": {
+        "deviceIds": "$shared.deviceIds",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "optimizationMode": "$shared.optimizationMode",
+        "initialPositionMode": "$shared.initialPositionMode",
+        "paddles": "$shared.paddles",
+        "initialAnglesDeg": "$shared.initialAnglesDeg",
+        "finalAnglesDeg": "$shared.finalAnglesDeg",
+        "stepDeg": "$shared.stepDeg",
+        "refinements": "$shared.refinements",
+        "settleAfterMoveSec": "$shared.settleAfterMoveSec",
+        "moveTimeoutSec": "$shared.moveTimeoutSec"
+      }
+    },
+    {
+      "stageId": "01-AlignMultipleSNSPDInputPolarizations-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "multipleAlignment.topologyPlan",
+            "as": "link.polarizationAlignment.plan.topology"
+          },
+          {
+            "from": "multipleAlignment",
+            "as": "link.polarizationAlignment.status.multipleAlignment"
+          },
+          {
+            "from": "multipleAlignment.applied.selectedControllerAnglesDegByMpc",
+            "as": "link.polarizationAlignment.applied.selectedControllerAnglesDegByMpc"
+          },
+          {
+            "from": "multipleAlignment.observation.countSamplesByMpc",
+            "as": "link.polarizationAlignment.observation.countSamplesByMpc"
+          },
+          {
+            "from": "multipleAlignment.artifact.scanPasses",
+            "as": "link.polarizationAlignment.artifact.scanPasses"
+          }
+        ]
+      }
+    }
+  ]
+}

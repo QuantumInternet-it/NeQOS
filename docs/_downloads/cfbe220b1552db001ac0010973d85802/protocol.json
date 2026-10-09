@@ -1,0 +1,326 @@
+{
+  "protocolId": "CaptureRawTimeTagStream",
+  "description": "Resolve a link's TimeTagger channels from the active network, then declaratively start, hold, stop, and transfer one closed raw stream within the same lease-root instance.",
+  "domain": "acquisition",
+  "function": "rawStream",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 86460.0,
+  "resourceRequests": [
+    "$shared.timeTaggerDeviceId"
+  ],
+  "sharedParams": {
+    "timeTaggerDeviceId": null,
+    "linkId": null,
+    "operation": "record",
+    "detectorPorts": [],
+    "durationSec": 30.0,
+    "recordingRef": null,
+    "recordingSubdirectory": null,
+    "marker": null,
+    "maxFileSizeBytes": null,
+    "nodeDestinationDirectory": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "timeTaggerDeviceId": {
+        "type": "string",
+        "description": "TimeTagger expected to own the selected link's sink channels.",
+        "required": true,
+        "minLength": 1
+      },
+      "linkId": {
+        "type": "string",
+        "description": "Quantum link whose sink-channel bindings are recorded.",
+        "required": true,
+        "minLength": 1
+      },
+      "operation": {
+        "type": "string",
+        "description": "Use stream for the canonical lifecycle-safe semantic capture. record is a compatibility alias and may be retired in a future major release; both values execute the declared start, hold, stop, and transfer lifecycle within this lease-root instance.",
+        "required": false,
+        "enum": [
+          "record",
+          "stream"
+        ]
+      },
+      "detectorPorts": {
+        "type": "array",
+        "description": "Optional subset of named sink ports; an empty list records every sink channel of the link.",
+        "required": false,
+        "items": {
+          "type": "string",
+          "description": "One link sink-port label such as H or V.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "durationSec": {
+        "type": "number",
+        "description": "Declared raw-stream hold duration in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "recordingRef": {
+        "type": "string",
+        "description": "Caller-stable recording label retained with the device file artifact.",
+        "required": true,
+        "minLength": 1
+      },
+      "recordingSubdirectory": {
+        "type": "string",
+        "description": "Optional device-side directory below the driver's recording root.",
+        "required": false,
+        "minLength": 1
+      },
+      "marker": {
+        "type": "string",
+        "description": "Optional marker retained with the device recording.",
+        "required": false,
+        "minLength": 1
+      },
+      "maxFileSizeBytes": {
+        "type": "integer",
+        "description": "Optional maximum raw-stream file size accepted by the device.",
+        "required": false,
+        "minimum": 1
+      },
+      "nodeDestinationDirectory": {
+        "type": "string",
+        "description": "Optional NodeEngine-host transfer destination; defaults to the transfer child run directory.",
+        "required": false,
+        "minLength": 1
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "acquisition.rawStream.plan.capture": {
+        "type": "object",
+        "description": "Resolved link, TimeTagger, physical channels, and sink bindings selected for the capture.",
+        "role": "plan"
+      },
+      "acquisition.rawStream.observation.capture": {
+        "type": "object",
+        "description": "Paired raw device responses from the declared start and stop children of the closed capture lifecycle.",
+        "role": "observation"
+      },
+      "acquisition.rawStream.artifact.deviceFile": {
+        "type": "object",
+        "description": "Device-side raw-stream file-set artifact produced by the closed record or stream.",
+        "role": "artifact"
+      },
+      "acquisition.rawStream.artifact.nodeFile": {
+        "type": "object",
+        "description": "Verified NodeEngine-host raw-stream file-set artifact produced after the closed record or stream.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ResolveRawTimeTagStreamLink",
+      "handler": "ResolveRawTimeTagStreamLinkStage",
+      "params": {
+        "timeTaggerDeviceId": "$shared.timeTaggerDeviceId",
+        "linkId": "$shared.linkId",
+        "detectorPorts": "$shared.detectorPorts",
+        "operation": "$shared.operation",
+        "durationSec": "$shared.durationSec",
+        "recordingRef": "$shared.recordingRef"
+      }
+    },
+    {
+      "stageId": "01-RegisterRawTimeTagStreamStopCleanup",
+      "handler": "RegisterTerminalCleanupTaskStage",
+      "params": {
+        "deviceId": "$scratch.rawStreamCapture.plan.deviceId",
+        "taskName": "RecordTimeTagStream",
+        "taskParams": {
+          "operation": "stop",
+          "recordingRef": "$scratch.rawStreamCapture.plan.recordingRef"
+        }
+      }
+    },
+    {
+      "stageId": "02-StartRawTimeTagStream",
+      "handler": "SubmitMicroProtocolStage",
+      "params": {
+        "templateId": "RecordTimeTagStream",
+        "protocolKey": "start",
+        "resourceRequests": [
+          "$shared.timeTaggerDeviceId"
+        ],
+        "sharedParamOverrides": {
+          "deviceId": "$scratch.rawStreamCapture.plan.deviceId",
+          "operation": "start",
+          "channelRefs": "$scratch.rawStreamCapture.plan.channelRefs",
+          "durationSec": null,
+          "recordingRef": "$scratch.rawStreamCapture.plan.recordingRef",
+          "recordingSubdirectory": "$shared.recordingSubdirectory",
+          "marker": "$shared.marker",
+          "maxFileSizeBytes": "$shared.maxFileSizeBytes"
+        }
+      }
+    },
+    {
+      "stageId": "03-WaitRawTimeTagStreamStart",
+      "handler": "WaitMicroProtocolStage",
+      "params": {
+        "templateId": "RecordTimeTagStream",
+        "protocolKey": "start",
+        "pollDelaySec": 0.05,
+        "imports": [
+          {
+            "from": "acquisition.rawStream.observation.recording",
+            "as": "rawStreamCapture.startObservation"
+          }
+        ]
+      }
+    },
+    {
+      "stageId": "04-HoldRawTimeTagStream",
+      "handler": "SubmitMicroProtocolStage",
+      "params": {
+        "templateId": "HoldDuration",
+        "protocolKey": "hold",
+        "resourceRequests": [
+          "$shared.timeTaggerDeviceId"
+        ],
+        "sharedParamOverrides": {
+          "durationSec": "$scratch.rawStreamCapture.plan.durationSec",
+          "resourceDeviceIds": [
+            "$scratch.rawStreamCapture.plan.deviceId"
+          ]
+        }
+      }
+    },
+    {
+      "stageId": "05-WaitRawTimeTagStreamHold",
+      "handler": "WaitMicroProtocolStage",
+      "params": {
+        "templateId": "HoldDuration",
+        "protocolKey": "hold",
+        "pollDelaySec": 0.05
+      }
+    },
+    {
+      "stageId": "06-StopRawTimeTagStream",
+      "handler": "SubmitMicroProtocolStage",
+      "params": {
+        "templateId": "RecordTimeTagStream",
+        "protocolKey": "stop",
+        "resourceRequests": [
+          "$shared.timeTaggerDeviceId"
+        ],
+        "sharedParamOverrides": {
+          "deviceId": "$scratch.rawStreamCapture.plan.deviceId",
+          "operation": "stop",
+          "channelRefs": null,
+          "durationSec": null,
+          "recordingRef": "$scratch.rawStreamCapture.plan.recordingRef",
+          "recordingSubdirectory": null,
+          "marker": null,
+          "maxFileSizeBytes": null
+        }
+      }
+    },
+    {
+      "stageId": "07-WaitRawTimeTagStreamStop",
+      "handler": "WaitMicroProtocolStage",
+      "params": {
+        "templateId": "RecordTimeTagStream",
+        "protocolKey": "stop",
+        "pollDelaySec": 0.05,
+        "imports": [
+          {
+            "from": "acquisition.rawStream.observation.recording",
+            "as": "rawStreamCapture.stopObservation"
+          },
+          {
+            "from": "acquisition.rawStream.artifact.deviceFile",
+            "as": "rawStreamCapture.deviceArtifact"
+          }
+        ]
+      }
+    },
+    {
+      "stageId": "08-ClearRawTimeTagStreamStopCleanup",
+      "handler": "ClearTerminalCleanupTaskStage",
+      "params": {
+        "deviceId": "$scratch.rawStreamCapture.plan.deviceId",
+        "taskName": "RecordTimeTagStream",
+        "taskParams": {
+          "operation": "stop",
+          "recordingRef": "$scratch.rawStreamCapture.plan.recordingRef"
+        }
+      }
+    },
+    {
+      "stageId": "09-FinalizeRawTimeTagStreamCapture",
+      "handler": "FinalizeRawTimeTagStreamCaptureStage",
+      "params": {}
+    },
+    {
+      "stageId": "10-TransferRawTimeTagStream",
+      "handler": "SubmitMicroProtocolStage",
+      "params": {
+        "templateId": "TransferDeviceFileToNode",
+        "protocolKey": "transfer",
+        "resourceRequests": [
+          "$shared.timeTaggerDeviceId"
+        ],
+        "sharedParamOverrides": {
+          "deviceId": "$scratch.rawStreamCapture.plan.deviceId",
+          "deviceArtifact": "$scratch.rawStreamCapture.deviceArtifact",
+          "nodeDestinationDirectory": "$shared.nodeDestinationDirectory"
+        }
+      }
+    },
+    {
+      "stageId": "11-WaitRawTimeTagStreamTransfer",
+      "handler": "WaitMicroProtocolStage",
+      "params": {
+        "templateId": "TransferDeviceFileToNode",
+        "protocolKey": "transfer",
+        "pollDelaySec": 0.05,
+        "imports": [
+          {
+            "from": "device.fileTransfer.artifact.nodeFile",
+            "as": "rawStreamCapture.nodeFile"
+          }
+        ]
+      }
+    },
+    {
+      "stageId": "12-CaptureRawTimeTagStream-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "rawStreamCapture.plan",
+            "as": "acquisition.rawStream.plan.capture"
+          },
+          {
+            "from": "rawStreamCapture.observation",
+            "as": "acquisition.rawStream.observation.capture"
+          },
+          {
+            "from": "rawStreamCapture.deviceArtifact",
+            "as": "acquisition.rawStream.artifact.deviceFile"
+          },
+          {
+            "from": "rawStreamCapture.nodeFile",
+            "as": "acquisition.rawStream.artifact.nodeFile"
+          }
+        ]
+      }
+    }
+  ]
+}

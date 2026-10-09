@@ -1,0 +1,74 @@
+{
+  "protocolId": "HoldDuration",
+  "description": "Wait for a declared duration without issuing device commands, then report the completed hold interval.",
+  "domain": "execution",
+  "function": "control",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 86460.0,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "durationSec": null,
+    "resourceDeviceIds": []
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "durationSec": {
+        "type": "number",
+        "description": "Duration to hold execution, expressed in seconds.",
+        "required": true,
+        "minimum": 0,
+        "maximum": 86400
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Optional device identifiers leased for the full hold interval.",
+        "required": false,
+        "items": {
+          "type": "string",
+          "description": "One device identifier reserved while this hold is active.",
+          "required": true,
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "execution.control.status.holdDuration": {
+        "type": "object",
+        "description": "Completed hold duration and its start and completion timestamps.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-HoldDuration",
+      "handler": "HoldDurationStage",
+      "params": {
+        "durationSec": "$shared.durationSec"
+      }
+    },
+    {
+      "stageId": "01-HoldDuration-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "holdDuration",
+            "as": "execution.control.status.holdDuration"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "protocolId": "ValidateEntangledPairPolarizationTomography",
+  "description": "Assesses a complete background-corrected entangled-pair 6x6 coincidence observation before density-matrix reconstruction. It accepts or rejects whole four-outcome basis settings rather than individual projections, because a valid Bell state may have nearly zero complementary outcomes. A rejected assessment remains a completed protocol with its evidence published, so a parent can stop before calculating a misleading fidelity.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 60.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "entangledPairPolarizationTomography": null,
+    "qualityGate": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "entangledPairPolarizationTomography": {
+        "type": "object",
+        "description": "Complete output object from MeasureEntangledPairPolarizationCoincidences.",
+        "required": true
+      },
+      "qualityGate": {
+        "type": "object",
+        "description": "Explicit acceptance policy. It applies to complete four-outcome basis settings, never individual Bell-state projections.",
+        "required": true,
+        "properties": {
+          "minimumCompleteBasisCounts": {
+            "type": "number",
+            "description": "Minimum background-corrected sum of all four outcomes in each of the nine X/Y/Z basis pairs.",
+            "required": true,
+            "minimum": 0.0
+          },
+          "maximumBasisRateRelativeStandardDeviation": {
+            "type": "number",
+            "description": "Maximum allowed standard-deviation-to-mean ratio across the nine complete basis rates.",
+            "required": true,
+            "minimum": 0.0
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.status.entangledPairPolarizationTomographyQuality": {
+        "type": "object",
+        "description": "Accepted or rejected quality decision, the explicit policy, each complete-basis count/rate, and rejection reasons.",
+        "role": "status"
+      },
+      "link.characterization.artifact.entangledPairPolarizationTomographyQualityReport": {
+        "type": "string",
+        "description": "Path to the detailed JSON quality report.",
+        "role": "artifact"
+      },
+      "link.characterization.artifact.entangledPairPolarizationTomographyQualityCompactReport": {
+        "type": "string",
+        "description": "Path to the compact Markdown quality summary.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ValidateEntangledPairPolarizationTomography",
+      "handler": "ValidateEntangledPairPolarizationTomographyStage",
+      "params": {
+        "entangledPairPolarizationTomography": "$shared.entangledPairPolarizationTomography",
+        "qualityGate": "$shared.qualityGate"
+      }
+    },
+    {
+      "stageId": "01-ValidateEntangledPairPolarizationTomography-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "entangledPairPolarizationTomographyQuality",
+            "as": "link.characterization.status.entangledPairPolarizationTomographyQuality"
+          },
+          {
+            "from": "entangledPairPolarizationTomographyQuality.artifactPath",
+            "as": "link.characterization.artifact.entangledPairPolarizationTomographyQualityReport"
+          },
+          {
+            "from": "entangledPairPolarizationTomographyQuality.compactPath",
+            "as": "link.characterization.artifact.entangledPairPolarizationTomographyQualityCompactReport"
+          }
+        ]
+      }
+    }
+  ]
+}

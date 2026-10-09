@@ -1,0 +1,176 @@
+6. Read results and diagnose failures
+=====================================
+
+Find the right host and directory
+---------------------------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Data
+     - Host and location
+   * - Process logs
+     - Each process's ``NEQOS_LOG_DIR``; otherwise its local default logs directory.
+   * - NodeEngine run tree
+     - ``MetaProtocolResults`` under NodeEngine's working directory.
+   * - Original raw Time Tagger files
+     - DeviceOS host, under ``NEQOS_DEVICE_ARTIFACT_DIR`` or the default ``DeviceArtifacts`` directory.
+   * - Transferred raw files
+     - NodeEngine host, at the returned destination; normally the transfer child run directory unless overridden.
+   * - Persisted analyzer tables
+     - DeviceOS host, under ``NEQOS_CALIBRATION_DIR`` or its default calibration directory.
+
+A shared network/input path does not make every output shared. Likewise, log
+redirection does not redirect every artifact. Read the actual paths in the
+published manifest and artifact handles.
+
+Understand the execution tree
+-----------------------------
+
+``RunPlan_*`` contains the plan manifest and the executed protocol hierarchy.
+``Sxx`` denotes a stage; ``Nxx`` denotes a logical iteration; a nested ``Syy``
+is an operation within that iteration. With verbose names, protocol IDs help
+identify the child. Do not treat ``Nxx`` as a global detector or protocol
+counter, and do not assume every directory level contains a result file.
+
+At a protocol publication point:
+
+* ``result.json`` is the canonical scientific output. Read its ``outputs``
+  mapping using declared keys such as ``acquisition.countrate.observation.window``.
+  The cookbook lists each protocol's exact keys.
+* ``run-manifest.json`` records operational provenance: runtime identity,
+  parent/children, stage/state transitions, lease ownership and cleanup evidence.
+  This is where to investigate a failure before result publication.
+* ``summary.md``, when enabled by the publisher, is a compact human view of
+  the result. It can abbreviate arrays/detail; it does not replace JSON.
+* Declared scientific artifacts can include additional report JSON/text,
+  histograms, density-matrix plots, PNG and SVG. Use the exported artifact paths
+  rather than predicting a filename from the protocol's name.
+
+Parents aggregate observations appropriate to their output contract. The logical
+6-by-6 matrix belongs to the pair-polarization observation. A fidelity parent
+can refer to that child rather than duplicate the raw matrix under another
+namespace; retain the child evidence for reproducibility.
+
+Check execution and scientific meaning separately
+-------------------------------------------------
+
+1. Read the top-level plan terminal state and failed step, if any.
+2. For a failed child, open its manifest and follow the first specific failure
+   rather than only the parent's message that the child failed.
+3. Confirm the resolved device IDs, detector channels, source traffic,
+   attenuation requests/read-backs and analyzer-table policy.
+4. Inspect guard attempts, accepted/discarded windows and restoration/cleanup
+   status. A rejected-quality result and a transport exception require different
+   remedies.
+5. Read raw and corrected counts/rates, durations and units before interpreting
+   derived Stokes, density or fidelity estimates.
+
+Some protocols publish partial observations/restoration evidence before making
+the run terminal FAILED. Other exceptions can happen earlier, leaving only the
+manifest/logs. A ``result.json`` file alone is not proof of completion.
+``COMPLETED`` is not proof that compensation meets a physical threshold.
+
+Troubleshooting in order
+------------------------
+
+Windows blocks the executable before startup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A Device Guard/App Control block displayed by Windows before NeQOS prints
+anything is not a runtime hang. Check Windows Security and the
+``Microsoft-Windows-CodeIntegrity/Operational`` event log; event ``3077``
+records an enforced policy block. An unsigned executable alone does not prove
+that the PC is organization-managed, and the message alone does not identify
+Smart App Control rather than another App Control policy.
+
+For the confirmed Smart App Control case and its security implications, see
+:ref:`windows-unsigned-builds`. Do not delete policies, disable antivirus or
+firewall protection, or change PowerShell execution policy as a workaround.
+
+Wrong input or path
+~~~~~~~~~~~~~~~~~~~
+
+``must contain a top-level 'nodes' list`` usually means DeviceOS/NodeEngine
+received a run input instead of a network. ``Meta-protocol run file does not
+exist`` means the input path is wrong; check relative paths against the current
+working directory. On Unix, ``/NodeEnginePack/...`` is an absolute root path,
+not the local repository directory.
+
+An enum/type/unknown-property error means the input differs from the catalog
+contract. Compare the cookbook and executable versions, check renames, then
+edit the input. Do not bypass validation by changing protected definitions.
+
+Device not ready or no handshake
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Check the DeviceOS process, correct serial/hardware identity, vendor runtime,
+matching endpoint ports and firewall. A Windows serial ``Access is denied``
+or write timeout is a device-host transport problem, not evidence that a
+tomography estimator failed. Check port contention, disconnection and driver
+logs before issuing repeated initialization attempts.
+
+Device busy / waiting
+~~~~~~~~~~~~~~~~~~~~~
+
+Inspect the lease root and active executor in the manifest. Waiting for another
+live workflow is expected. A delegated foreground child can use an ancestor's
+device only when it declares that resource and has the active turn; the parent
+cannot simultaneously operate on it. Do not start a second measurement process
+to bypass a lease. Use supported operator recovery for stale ownership and
+preserve cleanup evidence; forced release is not a harmless queue reset.
+
+Latch-invalid windows
+~~~~~~~~~~~~~~~~~~~~~
+
+Finite guarded acquisitions compare detector-health counters across a window.
+If a latch occurred and recovered, the affected window can be repeated under
+the declared budget. Recovery failure or repeated contamination is recorded
+explicitly. Verify flux, detector settings and health wiring; do not simply
+switch to ``disabled`` to produce a successful result.
+
+Flat polarization or unexpectedly large background
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+First confirm detector mapping and actual source/ATT read-backs. Then compare
+per-projection counts, durations, pair sums and raw/background-corrected data.
+Changing one analyzer should affect its connected detector. A nearly flat
+projection series on an unaffected detector can look like a successful run
+while measuring the wrong path. Tiny numerical solver error does not establish
+high polarization contrast or valid experimental input.
+
+Cleanup or attenuation restore failure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Do not assume a failed restore left the device at either the requested value
+or the previous value. Read the manifest's remaining cleanup actions and the
+DeviceOS error. Verify live state using a supported read path and safe operating
+procedures before continuing. ``readBack=None`` after a transport error is not
+a floating-point tolerance problem. A reproducible hardware saturation should
+be described by correct limits, not hidden by an arbitrary comparison tolerance.
+
+Large histogram / slow analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Check acquisition span, bin count, transferred raw data and diagnostic peak
+selection before blaming a device timeout. Finishing data acquisition is
+different from finishing NodeEngine-side analysis/plotting. Reduce optional
+diagnostic workload only when it does not remove the required scientific
+search range or observation. Preserve the input used for the comparison.
+
+Console logging errors
+~~~~~~~~~~~~~~~~~~~~~~
+
+A traceback inside ``logging.emit``/``flush`` can be a console-output problem
+while device tasks still complete. Check the file logs and terminal task
+events separately. The fact that logs are on a synchronized folder is not by
+itself an explanation for a console ``Invalid argument`` error.
+
+What to retain for a reproducible report
+----------------------------------------
+
+Keep the edited input/network (redact credentials), executable versions,
+plan/protocol manifests, canonical result files, child matrices/window evidence,
+plots, device-side file manifests and the relevant host logs. Record whether
+the guard was disabled, whether calibration was persisted and which analyzer
+tables were used. Never include the license activation file in a public issue.

@@ -1,0 +1,114 @@
+{
+  "protocolId": "InstallPolarizationAnalyzerCompensation",
+  "description": "Installs a validated compensated tomography-state table on one PA X000 or MPC320 polarization analyzer, optionally persists it on the DeviceOS host, and optionally applies a final compensated state.",
+  "domain": "device",
+  "function": "calibrationStore",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [
+    "$shared.polarizationAnalyzerDeviceId"
+  ],
+  "sharedParams": {
+    "polarizationAnalyzerDeviceId": null,
+    "polarizationAnalyzerChannel": 1,
+    "states": null,
+    "persist": true,
+    "finalTomographyState": null,
+    "sourceReport": null,
+    "validationReport": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "polarizationAnalyzerDeviceId": {
+        "type": "string",
+        "description": "PA X000 or MPC320 device identifier that owns the compensation table.",
+        "required": true,
+        "minLength": 1
+      },
+      "polarizationAnalyzerChannel": {
+        "type": "integer",
+        "description": "Analyzer channel. MPC320 supports only channel 1.",
+        "required": false,
+        "minimum": 1
+      },
+      "states": {
+        "type": "object",
+        "description": "Complete compensated H/V/D/A/R/L table keyed by state and one-based waveplate or paddle number.",
+        "required": true
+      },
+      "persist": {
+        "type": "boolean",
+        "description": "Write the validated table to DeviceOS-local calibration storage after installation.",
+        "required": false
+      },
+      "finalTomographyState": {
+        "type": "string",
+        "description": "Optional compensated H/V/D/A/R/L state to apply after installation.",
+        "required": false
+      },
+      "sourceReport": {
+        "type": "object",
+        "description": "Optional provenance saved alongside the table on the DeviceOS host.",
+        "required": false
+      },
+      "validationReport": {
+        "type": "object",
+        "description": "Optional validation provenance persisted with the source report.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.calibrationStore.applied.polarizationAnalyzerCompensation": {
+        "type": "object",
+        "description": "Installed analyzer compensation table, DeviceOS reply, optional final state, and DeviceOS-local persistence path.",
+        "role": "applied"
+      },
+      "device.calibrationStore.calibration.persistenceFile": {
+        "type": "string",
+        "description": "DeviceOS-local path of the analyzer compensation table.",
+        "role": "calibration"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-InstallPolarizationAnalyzerCompensation",
+      "handler": "InstallPolarizationAnalyzerCompensationStage",
+      "params": {
+        "polarizationAnalyzerDeviceId": "$shared.polarizationAnalyzerDeviceId",
+        "polarizationAnalyzerChannel": "$shared.polarizationAnalyzerChannel",
+        "states": "$shared.states",
+        "persist": "$shared.persist",
+        "finalTomographyState": "$shared.finalTomographyState",
+        "sourceReport": "$shared.sourceReport",
+        "validationReport": "$shared.validationReport"
+      }
+    },
+    {
+      "stageId": "01-InstallPolarizationAnalyzerCompensation-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "installPolarizationAnalyzerCompensationFailure",
+        "exports": [
+          {
+            "from": "installPolarizationAnalyzerCompensation",
+            "as": "device.calibrationStore.applied.polarizationAnalyzerCompensation"
+          },
+          {
+            "from": "installPolarizationAnalyzerCompensationPersistenceFile",
+            "as": "device.calibrationStore.calibration.persistenceFile"
+          }
+        ]
+      }
+    }
+  ]
+}

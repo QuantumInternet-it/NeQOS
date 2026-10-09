@@ -121,6 +121,263 @@ Mpc320 Foreground Tasks
         - Applied paddle 3 jog size.
 
 
+.. _deviceos-mpc320-settomographystate:
+
+.. admonition:: ``setTomographyState``
+   :class: driver-overview task-reference
+
+   Apply one named H/V/D/A/R/L state using the configured MPC tables.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - —
+      * - ``state``
+        - ``str``
+        - Yes
+        - —
+        - —
+      * - ``useCompensated``
+        - ``bool``
+        - No
+        - ``True``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Logical polarization-analyzer channel (MPC320 supports channel 1).
+      * - ``tomographyState``
+        - ``str``
+        - Yes
+        - ``H, V, D, A, R, L``
+        - Applied tomography state.
+      * - ``appliedMode``
+        - ``str``
+        - Yes
+        - ``factory, compensated``
+        - Selected state table.
+      * - ``appliedWaveplateAnglesDeg``
+        - ``object``
+        - Yes
+        - ``deg``
+        - Read-back angles keyed by one-based paddle number.
+
+
+.. _deviceos-mpc320-installcompensatedtomographystates:
+
+.. admonition:: ``installCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Install a complete compensation table without moving the paddles.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - —
+      * - ``states``
+        - ``Dict[str, Dict[int, float]]``
+        - Yes
+        - —
+        - —
+      * - ``persist``
+        - ``bool``
+        - No
+        - ``True``
+        - —
+      * - ``sourceReport``
+        - ``Optional[Dict[str, Any]]``
+        - No
+        - ``None``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Logical polarization-analyzer channel (MPC320 supports channel 1).
+      * - ``states``
+        - ``object``
+        - Yes
+        - ``deg``
+        - Validated states keyed by H/V/D/A/R/L and one-based paddle number.
+      * - ``persisted``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the state table was written to DeviceOS-local storage.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - DeviceOS-local compensated-state persistence file.
+
+
+.. _deviceos-mpc320-loadpersistedcompensatedtomographystates:
+
+.. admonition:: ``loadPersistedCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Load the one MPC320 logical channel and optionally apply a state.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channels``
+        - ``Optional[list[int]]``
+        - No
+        - ``None``
+        - —
+      * - ``applyState``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Loaded logical channels.
+      * - ``channelCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of loaded channels.
+      * - ``applyState``
+        - ``str \| None``
+        - No
+        - ``H, V, D, A, R, L``
+        - Compensated state applied after loading, if requested.
+      * - ``appliedByChannel``
+        - ``object``
+        - Yes
+        - ``—``
+        - Applied state report by logical channel.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - DeviceOS-local compensated-state persistence file.
+
+
 .. _deviceos-mpc320-moveto:
 
 .. admonition:: ``MoveTo``

@@ -1,0 +1,101 @@
+{
+  "protocolId": "InitializePolarizationAnalyzerChannel",
+  "description": "Initializes one polarization-analyzer channel for a quantum link by setting its DWDM wavelength and an uncompensated tomography state.",
+  "domain": "device",
+  "function": "initialization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [
+    "$shared.paDeviceId"
+  ],
+  "sharedParams": {
+    "paDeviceId": null,
+    "paChannel": 1,
+    "linkId": null,
+    "dwdmChannel": null,
+    "initialTomographyState": "H",
+    "settleSec": 0.2
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "paDeviceId": {
+        "type": "string",
+        "description": "Polarization-analyzer device identifier to initialize.",
+        "required": true,
+        "minLength": 1
+      },
+      "paChannel": {
+        "type": "integer",
+        "description": "One-based analyzer channel; set null to infer it from the link binding.",
+        "required": false,
+        "minimum": 1
+      },
+      "linkId": {
+        "type": "string",
+        "description": "Quantum link whose DWDM wavelength and optional analyzer binding are used.",
+        "required": true,
+        "minLength": 1
+      },
+      "dwdmChannel": {
+        "type": "integer",
+        "description": "Optional explicit DWDM wavelength selector; null derives it from the link.",
+        "required": false,
+        "minimum": 1
+      },
+      "initialTomographyState": {
+        "type": "string",
+        "description": "Uncompensated tomography state to apply after setting the wavelength.",
+        "required": false,
+        "minLength": 1
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after the analyzer has accepted its configuration.",
+        "required": false,
+        "minimum": 0.0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.initialization.applied.polarizationAnalyzerTomography": {
+        "type": "object",
+        "description": "Applied analyzer channel wavelength and uncompensated tomography-state configuration.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-InitializePolarizationAnalyzerChannel",
+      "handler": "InitializePolarizationAnalyzerChannelStage",
+      "params": {
+        "paDeviceId": "$shared.paDeviceId",
+        "paChannel": "$shared.paChannel",
+        "linkId": "$shared.linkId",
+        "dwdmChannel": "$shared.dwdmChannel",
+        "initialTomographyState": "$shared.initialTomographyState",
+        "settleSec": "$shared.settleSec"
+      }
+    },
+    {
+      "stageId": "01-InitializePolarizationAnalyzerChannel-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "initializePolarizationAnalyzerTomography",
+            "as": "device.initialization.applied.polarizationAnalyzerTomography"
+          }
+        ]
+      }
+    }
+  ]
+}

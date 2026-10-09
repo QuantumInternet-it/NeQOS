@@ -1,0 +1,629 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="6. Read results and diagnose failures" href="results.html"><link rel="prev" title="4. Run and customize a protocol" href="running.html">
+
+    <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
+        <title>5. Experimental recipes - NeQOS Developer API</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=798a7bb0" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">NeQOS Developer API</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">NeQOS Developer API</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the bench</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">5. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">Public protocol cookbook</a><input aria-label="Toggle navigation of Public protocol cookbook" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureCountRates.html">MeasureCountRates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MonitorCountRates.html">MonitorCountRates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/RealignEntangledPhotonSourcePolarization.html">RealignEntangledPhotonSourcePolarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/HoldDuration.html">HoldDuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkCoincidences.html">MeasureLinkCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkPolarizationCoincidences.html">MeasureLinkPolarizationCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkPolarizationSingles.html">MeasureLinkPolarizationSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkSingles.html">MeasureLinkSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/EstimateLinkPolarizationCompensationFromHDProbes.html">EstimateLinkPolarizationCompensationFromHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ValidateLinkPolarizationCompensation.html">ValidateLinkPolarizationCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/AlignChannels.html">AlignChannels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="documentation-maintenance.html">Build and publish this guide</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photek/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photek/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photek/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/tasks.html">Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open Meta-protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/user-guide/recipes.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="experimental-recipes">
+<h1>5. Experimental recipes<a class="headerlink" href="#experimental-recipes" title="Link to this heading">¶</a></h1>
+<p>Use these recipes to choose a capability and the checks around it. The linked
+cookbook sheets provide the exact current input/network templates and every
+optional field. All hardware examples require adaptation and verification on
+your bench; numerical examples do not require a DeviceOS process merely to
+analyse already acquired data.</p>
+<section id="finite-detector-observations">
+<h2>Finite detector observations<a class="headerlink" href="#finite-detector-observations" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>With safe source power, verify the physical detector-to-Time-Tagger mapping.</p></li>
+<li><p>Run <a class="reference internal" href="protocols/MeasureCountRates.html"><span class="doc">MeasureCountRates</span></a> for a finite singles window. Its input
+specifies Time Tagger channel references, not analyzer movement.</p></li>
+<li><p>For logical coincidences, use <a class="reference internal" href="protocols/MeasureCoincidences.html"><span class="doc">MeasureCoincidences</span></a>.
+<code class="docutils literal notranslate"><span class="pre">observations</span></code> declares each observation ID, input references, logical
+operator and coincidence window. Multiple observations share the physical
+acquisition window; they do not represent sequential analyzer settings.</p></li>
+<li><p>Use <a class="reference internal" href="protocols/MeasureCorrelations.html"><span class="doc">MeasureCorrelations</span></a> when you need a delay histogram,
+rather than just an integrated coincidence count.</p></li>
+<li><p>For network-resolved channels on a link, use
+<a class="reference internal" href="protocols/MeasureLinkSingles.html"><span class="doc">MeasureLinkSingles</span></a> or
+<a class="reference internal" href="protocols/MeasureLinkCoincidences.html"><span class="doc">MeasureLinkCoincidences</span></a> instead of copying detector IDs into
+a handler.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">MonitorCountRates</span></code> is a series of windows, not a single indefinitely growing
+count. An explicit <code class="docutils literal notranslate"><span class="pre">windowCount</span></code> produces a finite ordered series; a null
+count requires a parent responsible for termination. Its latch policy uses
+annotation rather than retries. See <a class="reference internal" href="protocols/MonitorCountRates.html"><span class="doc">MonitorCountRates</span></a>.</p>
+</section>
+<section id="align-detector-timing-before-narrow-window-coincidences">
+<h2>Align detector timing before narrow-window coincidences<a class="headerlink" href="#align-detector-timing-before-narrow-window-coincidences" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="protocols/AlignChannels.html"><span class="doc">AlignChannels</span></a> reads live input delays, acquires correlations
+against a reference channel, selects peaks and optionally applies delay
+corrections. Choose a reference/target set that matches the experiment, then
+review <code class="docutils literal notranslate"><span class="pre">acquisition</span></code>, <code class="docutils literal notranslate"><span class="pre">peakSelection</span></code> and <code class="docutils literal notranslate"><span class="pre">delayCorrection</span></code> separately.</p>
+<p>For coarse/fine acquisition, inspect both measurement durations, bin widths
+and bin counts. The total histogram span is <code class="docutils literal notranslate"><span class="pre">binWidthPs</span> <span class="pre">*</span> <span class="pre">binCount</span></code>; the
+bin width is resolution, not the entire search range. A broad coarse search
+locates the delay; a fine search refines it. The distributed example currently
+uses 10 s coarse and 30 s fine acquisition, but different bins/ranges remain
+explicitly selectable. Diagnostic peak limits restrict extra peak reporting,
+not the acquisition span itself.</p>
+<p>Before using corrected delays, inspect the selected peaks, inferred offsets,
+the applied read-backs and generated plots. <code class="docutils literal notranslate"><span class="pre">delayCorrection.apply=false</span></code>
+is an analysis-only timing trial. Use <a class="reference internal" href="protocols/ReadChannelDelays.html"><span class="doc">ReadChannelDelays</span></a> and
+<a class="reference internal" href="protocols/ApplyChannelDelays.html"><span class="doc">ApplyChannelDelays</span></a> for explicit read/apply operations.
+Do not diagnose a wide coincidence background before checking timing and
+physical input mapping.</p>
+</section>
+<section id="capture-and-transfer-raw-time-tags">
+<h2>Capture and transfer raw time tags<a class="headerlink" href="#capture-and-transfer-raw-time-tags" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="protocols/CaptureRawTimeTagStream.html"><span class="doc">CaptureRawTimeTagStream</span></a> resolves link sink channels and closes
+the recording before transfer. Supply a stable <code class="docutils literal notranslate"><span class="pre">recordingRef</span></code> and choose
+<code class="docutils literal notranslate"><span class="pre">operation=stream</span></code> for the canonical lifecycle. <code class="docutils literal notranslate"><span class="pre">record</span></code> is currently a
+compatibility alias in this composed protocol, not an unbounded recorder.</p>
+<p>The source files are created on the Time Tagger’s DeviceOS host; transferred
+files appear on the NodeEngine host. Inspect both artifact manifests, file-set
+members, sizes and digests. A small base <code class="docutils literal notranslate"><span class="pre">.ttbin</span></code> plus numbered members can
+be a FileWriter sequence: do not assume the largest member alone is the entire
+recording. <a class="reference internal" href="protocols/TransferDeviceFileToNode.html"><span class="doc">TransferDeviceFileToNode</span></a> is the reusable transfer
+capability; transfer is not another acquisition.</p>
+</section>
+<section id="measure-background-without-leaving-the-source-parked">
+<h2>Measure background without leaving the source parked<a class="headerlink" href="#measure-background-without-leaving-the-source-parked" title="Link to this heading">¶</a></h2>
+<p>Choose <a class="reference internal" href="protocols/MeasureLinkBackgroundSingles.html"><span class="doc">MeasureLinkBackgroundSingles</span></a> for clicks or
+<a class="reference internal" href="protocols/MeasureLinkBackgroundCoincidences.html"><span class="doc">MeasureLinkBackgroundCoincidences</span></a> for coincidence background.
+They snapshot the participating source/ATT state, park the carrier, measure,
+then attempt restoration before publication. Inspect restoration evidence even
+if acquisition failed. A failed cleanup needs operator attention; a terminal
+state is not proof that every parameter was restored.</p>
+<p>These protocols do not move the analyzer to an implicit background projection.
+If the background must correspond to a particular projection, configure it
+explicitly first. Hold the analyzer in an enclosing parent if it must remain
+exclusive across configuration and background acquisition.</p>
+</section>
+<section id="single-link-and-two-link-polarization-acquisition">
+<h2>Single-link and two-link polarization acquisition<a class="headerlink" href="#single-link-and-two-link-polarization-acquisition" title="Link to this heading">¶</a></h2>
+<p>Use <a class="reference internal" href="protocols/InitializePolarizationAnalyzerChannel.html"><span class="doc">InitializePolarizationAnalyzerChannel</span></a> when wavelength and
+factory channel configuration must be initialized. Use
+<a class="reference internal" href="protocols/SetPolarizationAnalyzerTomographyState.html"><span class="doc">SetPolarizationAnalyzerTomographyState</span></a> for one explicit state.
+Then select the observation shape:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="protocols/MeasureLinkPolarizationSingles.html"><span class="doc">MeasureLinkPolarizationSingles</span></a> measures six logical
+projections on one link using detector singles. It need not prepare another
+link in a reference state.</p></li>
+<li><p><a class="reference internal" href="protocols/MeasureLinkPolarizationCoincidences.html"><span class="doc">MeasureLinkPolarizationCoincidences</span></a> scans a target while the
+reference is prepared according to the requested observation. It is not a
+two-qubit 6-by-6 acquisition by itself.</p></li>
+<li><p><a class="reference internal" href="protocols/MeasureEntangledPairPolarizationCoincidences.html"><span class="doc">MeasureEntangledPairPolarizationCoincidences</span></a> acquires the
+complete logical 6-by-6 coincidence matrix on the two arms of a pair.</p></li>
+</ul>
+<p>Logical projection order is H, V, D, A, R, L. Physical settings depend on the
+network topology. One polarizer needs six settings; a PBS can read complementary
+outputs at H, D and R. A pair therefore needs 36 physical configurations for
+two polarizers, 18 for mixed polarizer/PBS, or 9 for two PBS analyzers. The
+exported logical matrix remains 6-by-6. These counts describe simultaneous PBS
+readout, not every optional acquisition policy.</p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">pbsReadout</span></code> is exposed, <code class="docutils literal notranslate"><span class="pre">simultaneous</span></code> reads both PBS outputs in one
+window per basis. <code class="docutils literal notranslate"><span class="pre">symmetrized</span></code> also acquires complementary analyzer settings
+so a projection is observed through both physical outputs. Preserve the
+documented aggregation: a single selected branch can be averaged, while the
+legacy multi-branch policy sums its selected contributions. Do not compare raw
+counts from the two policies without their normalization/provenance.</p>
+<p>The resolver supports distinct analyzers or separately declared channels on a
+multi-channel analyzer when the driver implements the required task. This
+does not imply that every optical-configuration task exists on MPC320.</p>
+</section>
+<section id="compensate-with-classical-h-d-probes">
+<h2>Compensate with classical H/D probes<a class="headerlink" href="#compensate-with-classical-h-d-probes" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="protocols/CompensateLinkPolarizationFromSeparableHDProbes.html"><span class="doc">CompensateLinkPolarizationFromSeparableHDProbes</span></a> compensates
+one link. <a class="reference internal" href="protocols/CompensateSourcePolarizationFromSeparableHDProbes.html"><span class="doc">CompensateSourcePolarizationFromSeparableHDProbes</span></a>
+applies that campaign to the selected source’s emitted links in a single pass.
+The source supplies HH and DD probes, the protocol acquires singles and
+background, reads analyzer axes, estimates retardances and installs the table.
+The source and ATT snapshot is restored at the end; this is not a request to
+leave the source in entangled traffic regardless of its initial state.</p>
+<p>Set <code class="docutils literal notranslate"><span class="pre">probeAttenuation</span></code> to a safe supported per-link/global request; do not
+encode above-limit source settings in the network. Both H and D must remain
+safe. Carrier changes use the protected configuration path; inspect the
+maximum-attenuation transition and final applied read-backs instead of relying
+only on requested numbers.</p>
+<p>These campaigns have no automatic convergence loop or internal acceptance
+gate. Installing/persisting a table is not certification of compensation.
+For the source campaign, inspect the common source report and its per-link
+child evidence. Both source-campaign variants create JSON/compact text reports
+and use comparable public plan/observation/estimate/applied/status keys.</p>
+</section>
+<section id="compensate-one-arm-using-entangled-h-d-probes">
+<h2>Compensate one arm using entangled H/D probes<a class="headerlink" href="#compensate-one-arm-using-entangled-h-d-probes" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="protocols/CompensateSourcePolarizationFromEntangledPairProbes.html"><span class="doc">CompensateSourcePolarizationFromEntangledPairProbes</span></a> uses
+coincidences to compensate only the chosen target analyzer relative to the
+reference arm. It acquires its own coincidence background and conditional H/D
+scans, estimates the target table and installs it only when
+<code class="docutils literal notranslate"><span class="pre">applyCompensation=true</span></code>. Its external-background input is not supported;
+<code class="docutils literal notranslate"><span class="pre">subtractBackground</span></code> chooses whether the internally acquired background is
+used for correction.</p>
+<p>Choose <code class="docutils literal notranslate"><span class="pre">referenceUseCompensatedTomoStates</span></code> explicitly. If the reference uses
+factory states, the default <code class="docutils literal notranslate"><span class="pre">referenceResetCompensatedTomoStates=true</span></code> can
+replace its old compensated table with factory-equivalent states after target
+installation; it does not reset the target’s newly calculated table. This
+reset is incompatible with choosing compensated reference probes. Persistence
+uses the campaign’s <code class="docutils literal notranslate"><span class="pre">persist</span></code> policy.</p>
+<p>With application and the default final-state policy enabled, the target and
+reference end on H in their resulting respective tables. This analyzer H/H
+state is separate from the source carrier snapshot restoration. Estimate-only
+runs do not install/reset those tables. The method attributes observed
+reference-frame mismatch to the target; it is not a diagnostic that separates
+source-state errors from target-link rotation.</p>
+</section>
+<section id="measure-fidelity-after-compensation-as-a-separate-step">
+<h2>Measure fidelity after compensation as a separate step<a class="headerlink" href="#measure-fidelity-after-compensation-as-a-separate-step" title="Link to this heading">¶</a></h2>
+<p>Use one run plan rather than inventing another wrapper solely to sequence:</p>
+<ol class="arabic simple">
+<li><p>One of the source compensation campaigns.</p></li>
+<li><p><a class="reference internal" href="protocols/ConfigureQuantumLinkCarrier.html"><span class="doc">ConfigureQuantumLinkCarrier</span></a> to explicitly request
+<code class="docutils literal notranslate"><span class="pre">ENTANGLED</span></code> and safe attenuation for the next measurement.</p></li>
+<li><p><a class="reference internal" href="protocols/AlignChannels.html"><span class="doc">AlignChannels</span></a> for the relevant detector pair.</p></li>
+<li><p><a class="reference internal" href="protocols/MeasureEntangledPairFidelity.html"><span class="doc">MeasureEntangledPairFidelity</span></a> to acquire the matrix, apply its
+observation-quality checks, reconstruct density and estimate fidelity.</p></li>
+</ol>
+<p>The compensation campaign restores its previous carrier state, so step 2 is
+deliberate. Fidelity measurement does not implicitly set source traffic or
+perform timing alignment. Its choice of compensated/factory states must agree
+with the tables actually installed on each link. Use
+<code class="docutils literal notranslate"><span class="pre">useCompensatedTomoStatesByLink</span></code> when the links need distinct choices.</p>
+<p>Inspect <code class="docutils literal notranslate"><span class="pre">labFrameFidelity</span></code> (the current analyzer frame),
+<code class="docutils literal notranslate"><span class="pre">fullyEntangledFraction</span></code> (the best local frame inferred using SVD) and
+<code class="docutils literal notranslate"><span class="pre">frameMisalignmentFidelityLoss</span></code> separately. Numerical local-unitary
+optimization is a cross-check, not a hardware correction that was applied.
+<code class="docutils literal notranslate"><span class="pre">polarizationDirectionAgreement</span></code> from one-qubit compensation mathematics
+is not a two-qubit state fidelity and does not measure depolarization.</p>
+<p>For already saved matrices, use <a class="reference internal" href="protocols/ValidateEntangledPairPolarizationTomography.html"><span class="doc">ValidateEntangledPairPolarizationTomography</span></a>,
+<a class="reference internal" href="protocols/ReconstructTwoQubitDensityMatrix.html"><span class="doc">ReconstructTwoQubitDensityMatrix</span></a>,
+<a class="reference internal" href="protocols/EstimateEntangledPairFidelity.html"><span class="doc">EstimateEntangledPairFidelity</span></a> and, when appropriate,
+<a class="reference internal" href="protocols/DeriveEntangledPairFidelitySummary.html"><span class="doc">DeriveEntangledPairFidelitySummary</span></a> instead of reacquiring
+hardware data. Plot/report artifacts are declared on the relevant sheets.</p>
+</section>
+<section id="calibration-and-alignment-utilities">
+<h2>Calibration and alignment utilities<a class="headerlink" href="#calibration-and-alignment-utilities" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="protocols/InstallPolarizationAnalyzerCompensation.html"><span class="doc">InstallPolarizationAnalyzerCompensation</span></a> writes the requested
+table to the device and can persist it. <a class="reference internal" href="protocols/LoadPolarizationAnalyzerCompensation.html"><span class="doc">LoadPolarizationAnalyzerCompensation</span></a>
+loads on that host: a null channel selection omits the filter and requests all
+persisted channels; an array selects channels. Inspect returned presence/channel
+evidence, not just an OK command reply. <a class="reference internal" href="protocols/ResetPolarizationAnalyzerCompensationToFactory.html"><span class="doc">ResetPolarizationAnalyzerCompensationToFactory</span></a>
+copies factory-equivalent states into the compensated table; it is not merely
+a request to move the analyzer to factory H.</p>
+<p><a class="reference internal" href="protocols/AlignSNSPDInputPolarization.html"><span class="doc">AlignSNSPDInputPolarization</span></a> and
+<a class="reference internal" href="protocols/AlignMultipleSNSPDInputPolarizations.html"><span class="doc">AlignMultipleSNSPDInputPolarizations</span></a> optimize detector coupling
+from singles feedback. They are not tomography-based link compensation. Their
+coarse/refinement passes keep iteration evidence and plots; inspect the saved
+best angles and pass-specific folders rather than just the final value.</p>
+<p><a class="reference internal" href="protocols/RealignEntangledPhotonSourcePolarization.html"><span class="doc">RealignEntangledPhotonSourcePolarization</span></a> is source-internal
+alignment, not a substitute for link compensation. The current contract
+requires an already ENTANGLED source and rejects HH/DD; do not assume it
+performs that traffic transition itself. Consult its source/ATT protection and
+restoration contract and hardware-specific limits before operating; do not
+infer its safety sequence from the command name.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="results.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">6. Read results and diagnose failures</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="running.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">4. Run and customize a protocol</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Quantum Internet Research Group, University of Naples Federico II
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">5. Experimental recipes</a><ul>
+<li><a class="reference internal" href="#finite-detector-observations">Finite detector observations</a></li>
+<li><a class="reference internal" href="#align-detector-timing-before-narrow-window-coincidences">Align detector timing before narrow-window coincidences</a></li>
+<li><a class="reference internal" href="#capture-and-transfer-raw-time-tags">Capture and transfer raw time tags</a></li>
+<li><a class="reference internal" href="#measure-background-without-leaving-the-source-parked">Measure background without leaving the source parked</a></li>
+<li><a class="reference internal" href="#single-link-and-two-link-polarization-acquisition">Single-link and two-link polarization acquisition</a></li>
+<li><a class="reference internal" href="#compensate-with-classical-h-d-probes">Compensate with classical H/D probes</a></li>
+<li><a class="reference internal" href="#compensate-one-arm-using-entangled-h-d-probes">Compensate one arm using entangled H/D probes</a></li>
+<li><a class="reference internal" href="#measure-fidelity-after-compensation-as-a-separate-step">Measure fidelity after compensation as a separate step</a></li>
+<li><a class="reference internal" href="#calibration-and-alignment-utilities">Calibration and alignment utilities</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

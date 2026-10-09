@@ -1,0 +1,110 @@
+{
+  "protocolId": "EstimateEntangledPairFidelity",
+  "description": "Estimates Phi+ lab-frame fidelity, the fully entangled fraction over local unitary frames, and their fidelity gap from a physical two-qubit density matrix without acquiring data or changing hardware.",
+  "domain": "entanglement",
+  "function": "fidelity",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "twoQubitDensityMatrix": null,
+    "numericLocalUnitaryRestarts": 20,
+    "numericLocalUnitarySeed": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "twoQubitDensityMatrix": {
+        "type": "object",
+        "description": "Output object from ReconstructTwoQubitDensityMatrix, containing its physical rho payload in |00>, |01>, |10>, |11> order.",
+        "required": true
+      },
+      "numericLocalUnitaryRestarts": {
+        "type": "integer",
+        "description": "Number of random numerical local-unitary initializations in addition to the identity initialization.",
+        "required": false,
+        "minimum": 0
+      },
+      "numericLocalUnitarySeed": {
+        "type": "integer",
+        "description": "Optional deterministic seed for the numerical local-unitary diagnostic.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "entanglement.fidelity.estimate.entangledPairFidelity": {
+        "type": "object",
+        "description": "Dimensionless state metrics in [0,1]: labFrameFidelity is the Phi+ overlap in the current laboratory frame; fullyEntangledFraction is the SVD maximum overlap over all maximally entangled two-qubit states, invariant under local unitaries; frameMisalignmentFidelityLoss is fullyEntangledFraction minus labFrameFidelity (clamped at zero for roundoff), ideally recoverable by local unitary compensation. targetStateDefinition fixes Phi+ = (HH + VV) / sqrt(2). crossCheck.fullyEntangledFractionNumeric and crossCheck.numericLocalUnitary contain the independent numerical optimization, without a delta field. svdLocalUnitary records method=svd and the correlation/singular-value diagnostics. No metric implies a correction applied to hardware or identifies the physical cause of a fidelity deficit. numericLocalUnitary retains only bestAttempt and attemptCount, plus unitaryA, unitaryB and rhoOptimized for that best attempt; matrices use real/imag payloads and the stated dagger transformation. Full restart histories are not exported.",
+        "role": "estimate"
+      },
+      "entanglement.fidelity.artifact.entangledPairFidelityReport": {
+        "type": "string",
+        "description": "Path to the detailed JSON fidelity report.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.entangledPairFidelityCompactReport": {
+        "type": "string",
+        "description": "Path to the compact Markdown fidelity summary.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.densityMatrixPlots": {
+        "type": "object",
+        "description": "Matching PNG/SVG pairs in labFrame and svdFrame, each with real and imaginary 4x4 density-matrix panels, a common signed color scale, and its Phi+ metric in the title. The SVD frame is a theoretical local-unitary transformation, not a hardware correction.",
+        "role": "artifact"
+      },
+      "entanglement.fidelity.artifact.fidelityComparisonPlot": {
+        "type": "object",
+        "description": "Matching PNG/SVG bar chart of laboratory-frame Phi+ fidelity and the independent numerical local-unitary cross-check, on a dimensionless [0,1] axis; no hardware correction is applied.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-EstimateEntangledPairFidelity",
+      "handler": "EstimateEntangledPairFidelityStage",
+      "params": {
+        "twoQubitDensityMatrix": "$shared.twoQubitDensityMatrix",
+        "numericLocalUnitaryRestarts": "$shared.numericLocalUnitaryRestarts",
+        "numericLocalUnitarySeed": "$shared.numericLocalUnitarySeed"
+      }
+    },
+    {
+      "stageId": "01-EstimateEntangledPairFidelity-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "entangledPairFidelity",
+            "as": "entanglement.fidelity.estimate.entangledPairFidelity"
+          },
+          {
+            "from": "entangledPairFidelity.artifactPath",
+            "as": "entanglement.fidelity.artifact.entangledPairFidelityReport"
+          },
+          {
+            "from": "entangledPairFidelity.compactPath",
+            "as": "entanglement.fidelity.artifact.entangledPairFidelityCompactReport"
+          },
+          {
+            "from": "entangledPairFidelity.densityMatrixPlots",
+            "as": "entanglement.fidelity.artifact.densityMatrixPlots"
+          },
+          {
+            "from": "entangledPairFidelity.fidelityComparisonPlot",
+            "as": "entanglement.fidelity.artifact.fidelityComparisonPlot"
+          }
+        ],
+        "writeSummary": true
+      }
+    }
+  ]
+}

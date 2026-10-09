@@ -1,0 +1,92 @@
+{
+  "protocolId": "ResetPolarizationAnalyzerCompensationToFactory",
+  "description": "Replaces one analyzer channel's compensated table with its six applied factory states at the configured wavelength, optionally persists it on DeviceOS, and applies a selected final state.",
+  "domain": "device",
+  "function": "calibrationStore",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 1800,
+  "resourceRequests": [
+    "$shared.deviceId"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "channel": 1,
+    "persist": true,
+    "finalTomographyState": "H"
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "PA X000 or MPC320 device whose compensation table will be overwritten.",
+        "required": true,
+        "minLength": 1
+      },
+      "channel": {
+        "type": "integer",
+        "description": "Analyzer channel; MPC320 supports channel 1.",
+        "required": false,
+        "minimum": 1
+      },
+      "persist": {
+        "type": "boolean",
+        "description": "Also overwrite DeviceOS-local persisted calibration; false changes only the active table.",
+        "required": false
+      },
+      "finalTomographyState": {
+        "type": "string",
+        "description": "Factory-equivalent state applied after installation; the analyzer must already have the correct link wavelength. Factory capture moves through all six states.",
+        "required": false,
+        "enum": [
+          "H",
+          "V",
+          "D",
+          "A",
+          "R",
+          "L"
+        ]
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.calibrationStore.applied.factoryPolarizationAnalyzerCompensation": {
+        "type": "object",
+        "description": "Factory read-back table, confirmed installation/persistence and partial failure evidence.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ResetPolarizationAnalyzerCompensationToFactory",
+      "handler": "ResetPolarizationAnalyzerCompensationToFactoryStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "channel": "$shared.channel",
+        "persist": "$shared.persist",
+        "finalTomographyState": "$shared.finalTomographyState"
+      }
+    },
+    {
+      "stageId": "01-ResetPolarizationAnalyzerCompensationToFactory-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "resetAnalyzerFactoryFailure",
+        "exports": [
+          {
+            "from": "resetAnalyzerFactory",
+            "as": "device.calibrationStore.applied.factoryPolarizationAnalyzerCompensation"
+          }
+        ]
+      }
+    }
+  ]
+}

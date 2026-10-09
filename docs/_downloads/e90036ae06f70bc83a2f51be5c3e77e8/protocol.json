@@ -1,0 +1,78 @@
+{
+  "protocolId": "ReadPolarizationAnalyzerOpticalConfiguration",
+  "description": "Reads one PA1000 or PA2000 polarization-analyzer channel's cached DeviceOS optical configuration and publishes its validated canonical three-waveplate axis matrix. MPC320 is intentionally unsupported until its driver exposes the same optical-configuration task.",
+  "domain": "device",
+  "function": "configuration",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30.0,
+  "resourceRequests": [
+    "$shared.deviceId"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "channel": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "PA1000 or PA2000 DeviceOS identifier that owns the requested analyzer channel.",
+        "required": true,
+        "minLength": 1
+      },
+      "channel": {
+        "type": "integer",
+        "description": "One-based polarization-analyzer channel whose optical configuration is read.",
+        "required": true,
+        "minimum": 1
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.configuration.observation.polarizationAnalyzerOpticalConfiguration": {
+        "type": "object",
+        "description": "Observed DeviceOS optical-configuration snapshot for the selected analyzer channel.",
+        "role": "observation"
+      },
+      "device.configuration.calibration.polarizationAnalyzerWaveplateAxes": {
+        "type": "array",
+        "description": "Validated canonical 3x3 waveplate-axis matrix derived from the selected channel's calibrated optical configuration.",
+        "role": "calibration"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ReadPolarizationAnalyzerOpticalConfiguration",
+      "handler": "ReadPolarizationAnalyzerOpticalConfigurationStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "channel": "$shared.channel"
+      }
+    },
+    {
+      "stageId": "01-ReadPolarizationAnalyzerOpticalConfiguration-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "readPolarizationAnalyzerOpticalConfiguration",
+            "as": "device.configuration.observation.polarizationAnalyzerOpticalConfiguration"
+          },
+          {
+            "from": "readPolarizationAnalyzerOpticalConfigurationWaveplateAxes",
+            "as": "device.configuration.calibration.polarizationAnalyzerWaveplateAxes"
+          }
+        ]
+      }
+    }
+  ]
+}

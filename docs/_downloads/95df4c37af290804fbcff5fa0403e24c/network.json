@@ -1,0 +1,119 @@
+{
+  "networkId": "example-measure-entangled-pair-polarization-coincidences",
+  "quantumLinks": [
+    {
+      "linkId": "ExampleEntangledArmA",
+      "dwdmChannel": 24
+    },
+    {
+      "linkId": "ExampleEntangledArmB",
+      "dwdmChannel": 44
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleAnalyzerA",
+          "deviceType": "PolarizationAnalyzer",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "polarizationAnalyzer",
+              "channel": 1,
+              "outputPort": "H",
+              "measurementTopology": "polarizer",
+              "detectorConnected": true
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.11",
+            "syncCmdPort": 19111,
+            "asyncCmdPort": 19112,
+            "telemetryPort": 19113
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleAnalyzerB",
+          "deviceType": "PolarizationAnalyzer",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "polarizationAnalyzer",
+              "channel": 1,
+              "outputPort": "H",
+              "measurementTopology": "polarizer",
+              "detectorConnected": true
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.12",
+            "syncCmdPort": 19121,
+            "asyncCmdPort": 19122,
+            "telemetryPort": 19123
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "sink",
+              "inputPort": "H",
+              "channel": 1
+            },
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "sink",
+              "inputPort": "H",
+              "channel": 2
+            }
+          ],
+          "healthGuards": [
+            {
+              "deviceId": "ExampleDetectorHealthId",
+              "channelMappings": [
+                {
+                  "timeTaggerChannel": 1,
+                  "detectorHealthChannel": 1
+                },
+                {
+                  "timeTaggerChannel": 2,
+                  "detectorHealthChannel": 2
+                }
+              ]
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.13",
+            "syncCmdPort": 19131,
+            "asyncCmdPort": 19132,
+            "telemetryPort": 19133
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleDetectorHealthId",
+          "deviceType": "DetectorHealth",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.14",
+            "syncCmdPort": 19141,
+            "asyncCmdPort": 19142,
+            "telemetryPort": 19143
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

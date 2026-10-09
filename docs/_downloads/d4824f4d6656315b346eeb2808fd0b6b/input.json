@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "RecordTimeTagStream",
+      "sharedParams": {
+        "deviceId": "ExampleTimeTaggerId",
+        "channelRefs": [
+          1
+        ],
+        "durationSec": 1.0,
+        "recordingRef": "example-raw-stream",
+        "recordingSubdirectory": "examples",
+        "marker": "example",
+        "maxFileSizeBytes": null
+      }
+    }
+  ]
+}

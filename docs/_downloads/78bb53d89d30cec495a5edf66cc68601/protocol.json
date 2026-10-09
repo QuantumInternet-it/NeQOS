@@ -1,0 +1,66 @@
+{
+  "protocolId": "EstimateLinkPolarizationCompensationFromHDProbes",
+  "description": "Estimates per-link polarization compensation from source-prepared or entangled H/D H/D tomography counts and externally supplied calibrated analyzer axes, without acquiring data or touching hardware.",
+  "domain": "link",
+  "function": "polarizationCompensation",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30,
+  "resourceRequests": [],
+  "sharedParams": {
+    "linkTomographyInputs": null,
+    "minTotalCounts": 1
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "linkTomographyInputs": {
+        "type": "object",
+        "description": "Non-empty object indexed by target link ID. Each entry requires observationKind (singles or coincidences), explicit probeTraffic (classical or entangled), required without a default, countsByProbeState with complete H and D H/V/D/A/R/L counts, and calibrated finite 3x3 waveplateAxes supplied by the caller (normally from ReadPolarizationAnalyzerOpticalConfiguration). Entangled entries require coincidences, a different referenceLinkId, and explicit boolean referenceUseCompensatedTomoStates; classical entries must omit those reference fields. Counts must already have the chosen background treatment. The solver computes retardances for calibrated HDH-compatible variable retarders; it neither reads optical configuration nor applies a correction.",
+        "required": true
+      },
+      "minTotalCounts": {
+        "type": "number",
+        "description": "Minimum sum of the six logical tomography counts required independently for each H or D probe, regardless of preparation.",
+        "required": false,
+        "minimum": 0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.polarizationCompensation.estimate.hdProbeCompensationByLink": {
+        "type": "object",
+        "description": "Independent per-link H/D Stokes/Mueller compensation estimates, including explicit source/entangled H/D provenance, neutral countsByProbeState and Stokes fields, complete H/V/D/A/R/L retardances, and polarization-direction agreement (not state fidelity). Under the unitary Phi+ model, entangled correction is relative to the reference analyzer's selected basis and cannot separate target-link rotation from source-side rotation or a non-Phi+ state. No estimate is applied to hardware.",
+        "role": "estimate"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-EstimateLinkPolarizationCompensationFromHDProbes",
+      "handler": "EstimateLinkPolarizationCompensationFromHDProbesStage",
+      "params": {
+        "linkTomographyInputs": "$shared.linkTomographyInputs",
+        "minTotalCounts": "$shared.minTotalCounts"
+      }
+    },
+    {
+      "stageId": "01-EstimateLinkPolarizationCompensationFromHDProbes-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "linkPolarizationCompensationEstimate",
+            "as": "link.polarizationCompensation.estimate.hdProbeCompensationByLink"
+          }
+        ]
+      }
+    }
+  ]
+}

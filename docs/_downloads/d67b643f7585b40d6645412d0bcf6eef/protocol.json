@@ -1,0 +1,247 @@
+{
+  "protocolId": "CompensateSourcePolarizationFromSeparableHDProbes",
+  "description": "Compensates each of the two selected emitted links of one entangled-photon source once from factory tomography states and publishes their installed absolute compensation tables without post-installation verification, acceptance thresholds or automatic repetition; COMPLETED denotes operational completion, not certified polarization quality. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "domain": "link",
+  "function": "polarizationCompensation",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 7200,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "linkIds": null,
+    "resourceDeviceIds": null,
+    "probeAttenuation": null,
+    "measurementDurationSec": 2,
+    "settleSec": 1,
+    "minTotalCounts": 1,
+    "persist": true,
+    "latchGuard": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "Entangled-photon source whose two emitted links are compensated.",
+        "required": true,
+        "minLength": 1
+      },
+      "linkIds": {
+        "type": "array",
+        "description": "Exactly two distinct source-emitted analyzer-equipped links to compensate as one source campaign.",
+        "required": true,
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "string",
+          "description": "One emitted link identifier belonging to deviceId.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact source-campaign lease union: source, every source inline attenuator that carrier changes may write, each resolved analyzer, and each resolved TimeTagger.",
+        "required": true,
+        "minItems": 4,
+        "items": {
+          "type": "string",
+          "description": "One unique device identifier in the source-campaign lease union.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "probeAttenuation": {
+        "type": "object",
+        "description": "Total H/D probe attenuation request forwarded unchanged to each composed link campaign in ConfigureQuantumLinkCarrier form. Use perLink to specify the source's two emitted links independently.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Carrier attenuation mode for H/D probes.",
+            "required": true,
+            "enum": [
+              "common",
+              "perLink"
+            ]
+          },
+          "commonDb": {
+            "type": "number",
+            "description": "Total attenuation on every emitted source link when mode is common.",
+            "required": false,
+            "minimum": 0
+          },
+          "perLinkDb": {
+            "type": "object",
+            "description": "Total attenuation by emitted source link when mode is perLink.",
+            "required": false
+          }
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite duration of every singles window used by each link campaign, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after carrier and analyzer-state changes and before the following finite measurement window, in seconds. The default preserves a one-second physical settling interval for analyzer rotations.",
+        "required": false,
+        "minimum": 0
+      },
+      "minTotalCounts": {
+        "type": "number",
+        "description": "Minimum total background-corrected tomography counts required independently for every H and D probe observation.",
+        "required": false,
+        "minimum": 0
+      },
+      "persist": {
+        "type": "boolean",
+        "description": "Persist each installed analyzer compensation table on its owning DeviceOS host by default; set false for nonpersistent installations. Persistence does not imply a physical acceptance gate.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether per-window detector-latch validation is disabled or required.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries of an invalid window after a recovered latch.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.polarizationCompensation.plan.sourceCampaign": {
+        "type": "object",
+        "description": "Resolved source/link roles and resources with explicit probeTraffic.",
+        "role": "plan"
+      },
+      "link.polarizationCompensation.observation.hdProbesByLink": {
+        "type": "object",
+        "description": "Background, H/D counts, raw child observations and latch evidence indexed by estimated link; no invented reference observation.",
+        "role": "observation"
+      },
+      "link.polarizationCompensation.estimate.compensationByLink": {
+        "type": "object",
+        "description": "H/D compensation estimates indexed only by estimated link.",
+        "role": "estimate"
+      },
+      "link.polarizationCompensation.applied.linkCampaigns": {
+        "type": "array",
+        "description": "Confirmed table installations with link identity and target/reference role; partial successful writes are retained.",
+        "role": "applied"
+      },
+      "link.polarizationCompensation.applied.referenceFactoryCompensation": {
+        "type": "object",
+        "description": "Confirmed reference-only factory-equivalent table reset, or null when not performed.",
+        "role": "applied"
+      },
+      "link.polarizationCompensation.status.campaign": {
+        "type": "object",
+        "description": "Operational outcome, failures, child identities and final analyzer state; completion does not certify polarization quality.",
+        "role": "status"
+      },
+      "link.polarizationCompensation.status.carrierRestoration": {
+        "type": "object",
+        "description": "Exact source/ATT snapshot restoration evidence, including partial or unknown outcomes.",
+        "role": "status"
+      },
+      "link.polarizationCompensation.artifact.sourceCampaignReport": {
+        "type": "string",
+        "description": "Detailed common JSON campaign report, or null if writing failed.",
+        "role": "artifact"
+      },
+      "link.polarizationCompensation.artifact.sourceCampaignCompactReport": {
+        "type": "string",
+        "description": "Common Markdown summary, or null if writing failed.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-CompensateSourcePolarizationFromSeparableHDProbes",
+      "handler": "CompensateSourcePolarizationFromSeparableHDProbesStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "linkIds": "$shared.linkIds",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "probeAttenuation": "$shared.probeAttenuation",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "settleSec": "$shared.settleSec",
+        "minTotalCounts": "$shared.minTotalCounts",
+        "persist": "$shared.persist",
+        "latchGuard": "$shared.latchGuard"
+      }
+    },
+    {
+      "stageId": "01-CompensateSourcePolarizationFromSeparableHDProbes-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "sourcePolarizationCompensationFailureReason",
+        "exports": [
+          {
+            "from": "sourcePolarizationCompensationPlan",
+            "as": "link.polarizationCompensation.plan.sourceCampaign"
+          },
+          {
+            "from": "sourcePolarizationCompensationObservation",
+            "as": "link.polarizationCompensation.observation.hdProbesByLink"
+          },
+          {
+            "from": "sourcePolarizationCompensationEstimate",
+            "as": "link.polarizationCompensation.estimate.compensationByLink"
+          },
+          {
+            "from": "sourcePolarizationCompensationApplied",
+            "as": "link.polarizationCompensation.applied.linkCampaigns"
+          },
+          {
+            "from": "sourcePolarizationCompensationReferenceFactory",
+            "as": "link.polarizationCompensation.applied.referenceFactoryCompensation"
+          },
+          {
+            "from": "sourcePolarizationCompensationStatus",
+            "as": "link.polarizationCompensation.status.campaign"
+          },
+          {
+            "from": "sourcePolarizationCompensationRestoration",
+            "as": "link.polarizationCompensation.status.carrierRestoration"
+          },
+          {
+            "from": "sourcePolarizationCompensationReportPath",
+            "as": "link.polarizationCompensation.artifact.sourceCampaignReport"
+          },
+          {
+            "from": "sourcePolarizationCompensationCompactPath",
+            "as": "link.polarizationCompensation.artifact.sourceCampaignCompactReport"
+          }
+        ]
+      }
+    }
+  ]
+}

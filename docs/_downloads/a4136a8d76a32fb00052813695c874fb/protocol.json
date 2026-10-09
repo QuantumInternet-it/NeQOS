@@ -1,0 +1,207 @@
+{
+  "protocolId": "MeasureCoincidences",
+  "description": "Acquire finite count-rate observations for AND logical channels formed from two or more input channels.",
+  "domain": "acquisition",
+  "function": "coincidence",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 120.0,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "resourceDeviceIds": null,
+    "observations": null,
+    "durationSec": 1.0,
+    "clear": true,
+    "latchGuard": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "TimeTagger device that creates the logical channels and acquires their count-rate measurements.",
+        "required": true,
+        "minLength": 1
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device needed by this finite acquisition.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "observations": {
+        "type": "array",
+        "description": "Unique AND-logical coincidence observations acquired together in one finite window.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "description": "One named logical coincidence definition.",
+          "required": true,
+          "properties": {
+            "observationId": {
+              "type": "string",
+              "description": "Caller-stable identifier used as the output-map key.",
+              "required": true,
+              "minLength": 1
+            },
+            "inputRefs": {
+              "type": "array",
+              "description": "At least two physical TimeTagger channel references joined by AND.",
+              "required": true,
+              "minItems": 2,
+              "items": {
+                "type": "integer",
+                "description": "One physical TimeTagger channel reference.",
+                "required": true,
+                "minimum": 0
+              }
+            },
+            "logicalOperator": {
+              "type": "string",
+              "description": "Logical operation used to form the channel.",
+              "required": false,
+              "enum": [
+                "AND"
+              ]
+            },
+            "coincidenceWindowPs": {
+              "type": "integer",
+              "description": "Coincidence window applied by the AND logical channel, in picoseconds.",
+              "required": true,
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "durationSec": {
+        "type": "number",
+        "description": "Finite integration duration of the shared coincidence observation window, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether every selected coincidence measurement is cleared before the window.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window detector-latch policy; disabled permits an unguarded observation, while required validates network-declared detector-health guards and retries only the invalid window.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether detector-latch validation is disabled or required for this observation.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries after a recovered detector latch; use zero to reject the first invalid window.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "acquisition.coincidence.observation.window": {
+        "type": "object",
+        "description": "Verified context and raw device response for the completed shared acquisition window.",
+        "role": "observation"
+      },
+      "acquisition.coincidence.plan.definitionsByObservation": {
+        "type": "object",
+        "description": "Resolved stable logical-channel and measurement definitions indexed by observation identifier.",
+        "role": "plan"
+      },
+      "acquisition.coincidence.observation.observationsById": {
+        "type": "object",
+        "description": "Normalized coincidence observations indexed by observation identifier.",
+        "role": "observation"
+      },
+      "acquisition.coincidence.observation.countsByObservation": {
+        "type": "object",
+        "description": "Total coincidence counts indexed by observation identifier.",
+        "role": "observation"
+      },
+      "acquisition.coincidence.observation.countRatesHzByObservation": {
+        "type": "object",
+        "description": "Coincidence rates in hertz indexed by observation identifier.",
+        "role": "observation"
+      },
+      "acquisition.coincidence.status.latchGuard": {
+        "type": "object",
+        "description": "Explicit latch-guard policy, health samples, accepted-window attempt, discarded-window count, and any terminal guard failure.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureCoincidences",
+      "handler": "MeasureCoincidencesStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "observations": "$shared.observations",
+        "durationSec": "$shared.durationSec",
+        "clear": "$shared.clear",
+        "latchGuard": "$shared.latchGuard"
+      }
+    },
+    {
+      "stageId": "01-MeasureCoincidences-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "coincidenceLatchGuardFailure",
+        "exports": [
+          {
+            "from": "coincidenceObservation.window",
+            "as": "acquisition.coincidence.observation.window"
+          },
+          {
+            "from": "coincidenceObservation.definitionsByObservation",
+            "as": "acquisition.coincidence.plan.definitionsByObservation"
+          },
+          {
+            "from": "coincidenceObservation.observationsById",
+            "as": "acquisition.coincidence.observation.observationsById"
+          },
+          {
+            "from": "coincidenceObservation.countsByObservation",
+            "as": "acquisition.coincidence.observation.countsByObservation"
+          },
+          {
+            "from": "coincidenceObservation.countRatesHzByObservation",
+            "as": "acquisition.coincidence.observation.countRatesHzByObservation"
+          },
+          {
+            "from": "coincidenceObservation.latchGuard",
+            "as": "acquisition.coincidence.status.latchGuard"
+          }
+        ]
+      }
+    }
+  ]
+}

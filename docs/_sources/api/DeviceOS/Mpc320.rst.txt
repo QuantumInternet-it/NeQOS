@@ -31,8 +31,13 @@ Mpc320 Driver
         - No
         - ``C:\\Program Files\\Thorlabs\\Kinesis``
         - Kinesis installation root containing the DeviceManagerCLI, GenericMotorCLI, and PolarizerCLI assemblies.
+      * - ``NEQOS_CALIBRATION_DIR``
+        - No
+        - ``calibrations``
+        - DeviceOS-host directory for persisted MPC320 compensated tomography tables. Relative paths are resolved beside DeviceOS.
 
    The Python and Kinesis architectures must match.
+   MPC320 tomography uses logical channel 1. Define hardwareConfig.factoryTomographyStates for factory H/V/D/A/R/L states; installCompensatedTomographyStates stores calibrated states on the DeviceOS host.
 
    See :doc:`DeviceOS runtime setup <RuntimeSetup>` for local-config discovery and overrides.
 

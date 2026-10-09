@@ -1,0 +1,114 @@
+{
+  "protocolId": "ConfigureEntangledPhotonSources",
+  "description": "Applies the requested operating configuration to entangled-photon sources, associated attenuators, and optional clock settings, and returns the applied parameter values.",
+  "domain": "device",
+  "function": "configuration",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300.0,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "resourceDeviceIds": null,
+    "sources": [],
+    "attenuators": [],
+    "clock": {},
+    "settleSec": 1.0
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Identifiers of every source, attenuator, and clock device locked for this configuration.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device identifier reserved for this configuration.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "sources": {
+        "type": "array",
+        "description": "Entangled-photon source device configurations to apply.",
+        "required": false,
+        "items": {
+          "type": "object",
+          "description": "One source device and its requested operating parameters.",
+          "required": false
+        }
+      },
+      "attenuators": {
+        "type": "array",
+        "description": "Attenuator device configurations associated with the sources.",
+        "required": false,
+        "items": {
+          "type": "object",
+          "description": "One attenuator device and its requested parameter value.",
+          "required": false
+        }
+      },
+      "clock": {
+        "type": "object",
+        "description": "Optional pump and reference-clock configuration for the source devices.",
+        "required": false
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after applying the requested operating state, in seconds.",
+        "required": false,
+        "minimum": 0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.configuration.applied.sourceSetup": {
+        "type": "object",
+        "description": "Requested source settings and the corresponding device parameter read-backs.",
+        "role": "applied"
+      },
+      "device.configuration.applied.pumpFrequencyMHz": {
+        "type": "number",
+        "description": "Pump frequency applied during this configuration, when specified.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ConfigureEntangledPhotonSources",
+      "handler": "ConfigureEntangledPhotonSourcesStage",
+      "params": {
+        "sources": "$shared.sources",
+        "attenuators": "$shared.attenuators",
+        "clock": "$shared.clock",
+        "settleSec": "$shared.settleSec"
+      }
+    },
+    {
+      "stageId": "01-ConfigureEntangledPhotonSources-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "configureEntangledPhotonSources",
+            "as": "device.configuration.applied.sourceSetup"
+          },
+          {
+            "from": "configureEntangledPhotonSourcesPumpFrequencyMHz",
+            "as": "device.configuration.applied.pumpFrequencyMHz"
+          }
+        ]
+      }
+    }
+  ]
+}

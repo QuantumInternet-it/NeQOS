@@ -1,12 +1,20 @@
 NeQOS Developer API
 ===================
 
-Reference documentation generated from the NeQOS source tree.
+Operator guidance and API reference for the NeQOS source tree and matching
+executable distributions. Start with the User Guide to install, configure and
+run the software; use the API Reference to extend it.
 
 Source code, release archives, and project updates are available in the
 `NeQOS GitHub repository <https://github.com/QuantumInternet-it/NeQOS>`_.
 
 .. include:: _generated/driver-list.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+
+   user-guide/index
 
 .. toctree::
    :maxdepth: 2

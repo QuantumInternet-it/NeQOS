@@ -1,0 +1,139 @@
+2. Describe the bench
+=====================
+
+Start from the network shipped with the protocol you intend to run. Preserve
+its schema and replace anonymized identities, addresses and hardware settings
+with verified bench values. Documentation/example addresses such as
+``192.0.2.10`` are placeholders, not reachable laboratory hosts.
+
+Nodes, devices and addresses
+----------------------------
+
+``network.json`` must contain a top-level ``nodes`` list. Select an existing
+``nodeId`` when launching NodeEngine. Each enabled device has a unique
+``deviceId`` and a supported ``deviceType``. Its ``deviceEngine`` gives the
+DeviceOS host address and its synchronous-command, asynchronous-command and
+telemetry ports. Those three ports must match DeviceOS and be reachable across
+the relevant hosts; device processes sharing an IP must not bind conflicting
+ports.
+
+The ``nodeId`` passed to DeviceOS is an optional disambiguator when deriving
+the device from a shared network. NodeEngine's ``--nodeId`` is required.
+``127.0.0.1`` means the current host: it cannot address DeviceOS running on
+another PC. ``serialPort`` and vendor hardware identity/serial settings belong
+to the device configuration on the host that physically owns it.
+
+Check in this order:
+
+1. The intended node and device are enabled.
+2. NodeEngine and DeviceOS use the same edited network file.
+3. Device identity, physical serial/COM port and DeviceOS instance agree.
+4. The command/telemetry endpoints match and firewall rules permit access.
+5. DeviceOS reports connected, initialized and ready before a measurement.
+
+Link bindings are physical declarations
+---------------------------------------
+
+``quantumLinks`` identifies the links and relevant optical properties.
+``devices[].linkBindings`` maps each link to physical device channels and
+semantic roles. Roles are independent of the driver name:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Role
+     - Meaning
+   * - ``source``
+     - Carrier emitter for the link.
+   * - ``inlineAttenuator``
+     - Link-specific optical attenuator.
+   * - ``polarizationAnalyzer``
+     - Analyzer channel supplying tomography projections.
+   * - ``polarizationAligner``
+     - Controller aligned using detector feedback.
+   * - ``sink``
+     - Receiving endpoint, including a Time Tagger input.
+
+Retired ``inline``, ``inline-1`` and ``inline-2`` values are not substitutes for
+these roles. An MPC can be an analyzer or an aligner according to its optical
+function. A role does not magically implement missing driver tasks: for example,
+the optical-configuration reader must actually be supported by the device.
+
+For polarization acquisition, an analyzer binding also declares
+``measurementTopology`` (``polarizer`` or ``pbs``), its physical H/V
+``outputPort``, ``channel`` and ``detectorConnected``. A Time Tagger sink binds
+the corresponding ``inputPort`` and detector ``channel``. A polarizer can use
+the connected H or V output; a PBS topology requires the complementary outputs
+used by the requested observation to be declared consistently.
+
+.. code-block:: json
+
+   {
+     "linkId": "ExampleTargetLinkId",
+     "role": "polarizationAnalyzer",
+     "outputPort": "H",
+     "channel": 1,
+     "measurementTopology": "polarizer",
+     "detectorConnected": true
+   }
+
+This fragment is an analyzer binding, not an entire network. The cookbook
+provides complete network downloads, including source, sink and device entries.
+Do not infer an analyzer's output from a label such as upper/lower: check its
+declared physical channel and port.
+
+.. warning::
+
+   Resolve detector wiring experimentally before trusting tomography. A correct
+   looking matrix can still come from the wrong Time Tagger input. With low,
+   safe light, move one analyzer and verify which detector changes. The same
+   mapping must agree in the analyzer, Time Tagger and detector-health entries.
+
+Declare detector-health wiring
+------------------------------
+
+A Time Tagger's ``healthGuards`` identifies the detector-health device and maps
+its channels to the Time Tagger inputs. This is wiring, not the run's decision
+to enable protection. For example, a Time Tagger device entry may contain:
+
+.. code-block:: json
+
+   {
+     "healthGuards": [
+       {
+         "deviceId": "ExampleDetectorHealthId",
+         "channelMappings": [
+           {
+             "timeTaggerChannel": 1,
+             "detectorHealthChannel": 1
+           },
+           {
+             "timeTaggerChannel": 2,
+             "detectorHealthChannel": 2
+           }
+         ]
+       }
+     ]
+   }
+
+Enable or disable the guard explicitly in ``input.json``. For a finite primitive
+with ``required``, include the exact Time Tagger plus relevant health-device
+union in its ``resourceDeviceIds``. With ``disabled``, the primitive expects
+only its Time Tagger; a composed campaign may require a larger union for its
+other operations. The network can describe a Photek even when a specific run
+disables the guard. Protection enabled without a registered, ready health
+device or without channel mappings fails; it does not fall back silently.
+
+Hardware limits are not global attenuation requests
+---------------------------------------------------
+
+``hardwareConfig.parameterLimits`` describes what a parameter can physically
+accept. Keep source H/D settings within the source's actual limits and ATT
+settings within their own limits. Do not put a desired source-plus-ATT total
+into a single-device parameter merely because the number is the desired total.
+
+Use ``ConfigureQuantumLinkCarrier`` or the campaign's ``probeAttenuation`` input
+to request a supported aggregate/per-link attenuation. The carrier setup
+resolves and distributes it across the available hardware; check its plan and
+applied read-backs. A requested total that cannot be achieved should not be
+treated as detector protection.

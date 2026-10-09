@@ -18,6 +18,10 @@ SwabianTT Signals
         - ``list``
         - —
         - Measurement references selected for the next StartMeasurement window.
+      * - ``activeRawStreamRecording``
+        - ``object``
+        - —
+        - Explicit raw TimeTagger recording currently held by this driver, or null.
       * - ``deviceInfo``
         - ``object``
         - —
@@ -38,4 +42,8 @@ SwabianTT Signals
         - ``list``
         - —
         - Discovered physical channels with live trigger-level and input-delay state.
+      * - ``unclaimedRawStreamArtifacts``
+        - ``list``
+        - —
+        - Bounded recovery manifests for raw recordings closed by reset, initialization, or disconnect rather than their original workflow.
 

@@ -1,0 +1,101 @@
+{
+  "protocolId": "EstimateEntangledPairDistillableEntanglementRate",
+  "description": "Estimates detected pair throughput and a best-direction one-way hashing lower bound in ebit per pair and ebit per second from an existing two-qubit density matrix and background-corrected tomography, without acquisition or physical distillation.",
+  "domain": "entanglement",
+  "function": "distillation",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300,
+  "resourceRequests": [],
+  "sharedParams": {
+    "twoQubitDensityMatrix": null,
+    "entangledPairPolarizationTomography": null,
+    "densityTolerance": 1e-9
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "twoQubitDensityMatrix": {
+        "type": "object",
+        "description": "Declared output object from ReconstructTwoQubitDensityMatrix containing rho in |00>, |01>, |10>, |11> order.",
+        "required": true
+      },
+      "entangledPairPolarizationTomography": {
+        "type": "object",
+        "description": "The same source observation used for reconstruction: measurementDurationSec per projection and correctedCountsByProjection. Sum complete HV, DA and RL outcomes, divide each sum by the per-projection duration (not the whole scan duration) and average the three rates; works for polarizer and PBS readouts.",
+        "required": true
+      },
+      "densityTolerance": {
+        "type": "number",
+        "description": "Positive finite tolerance for physical 4x4 density-matrix validation; preserves 1e-9.",
+        "required": false,
+        "minimum": 1e-15
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "entanglement.distillation.estimate.distillableEntanglementRate": {
+        "type": "object",
+        "description": "Detected background-corrected pair rate, three complete-basis rates and dispersion, subsystem entropies, directional coherent informations, best direction, hashing lower bound and detected ebit/s lower bound. No path/detector efficiency correction; zero bound is not proof of separability.",
+        "role": "estimate"
+      },
+      "entanglement.distillation.artifact.distillableEntanglementRateReport": {
+        "type": "string",
+        "description": "Detailed JSON report.",
+        "role": "artifact"
+      },
+      "entanglement.distillation.artifact.distillableEntanglementRateCompactReport": {
+        "type": "string",
+        "description": "Markdown throughput summary and scientific caveat.",
+        "role": "artifact"
+      },
+      "entanglement.distillation.artifact.distillableEntanglementRatePlots": {
+        "type": "object",
+        "description": "Matching PNG/SVG detected-rate and directional hashing-bound plots.",
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-EstimateEntangledPairDistillableEntanglementRate",
+      "handler": "EstimateEntangledPairDistillableEntanglementRateStage",
+      "params": {
+        "twoQubitDensityMatrix": "$shared.twoQubitDensityMatrix",
+        "entangledPairPolarizationTomography": "$shared.entangledPairPolarizationTomography",
+        "densityTolerance": "$shared.densityTolerance"
+      }
+    },
+    {
+      "stageId": "01-EstimateEntangledPairDistillableEntanglementRate-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "distillableEntanglementRate",
+            "as": "entanglement.distillation.estimate.distillableEntanglementRate"
+          },
+          {
+            "from": "distillableEntanglementRate.artifactPath",
+            "as": "entanglement.distillation.artifact.distillableEntanglementRateReport"
+          },
+          {
+            "from": "distillableEntanglementRate.compactPath",
+            "as": "entanglement.distillation.artifact.distillableEntanglementRateCompactReport"
+          },
+          {
+            "from": "distillableEntanglementRate.plotPaths",
+            "as": "entanglement.distillation.artifact.distillableEntanglementRatePlots"
+          }
+        ]
+      }
+    }
+  ]
+}
+

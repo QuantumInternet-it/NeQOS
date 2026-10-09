@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ConfigureQuantumLinkCarrier",
+      "sharedParams": {
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId"
+        ],
+        "sourceDeviceId": "ExampleEntangledPhotonSourceId",
+        "outputMode": "ENTANGLED",
+        "attenuation": {
+          "mode": "common",
+          "commonDb": 20.0
+        },
+        "settleSec": 0.2
+      }
+    },
+    {
+      "protocolId": "HoldDuration",
+      "sharedParams": {
+        "durationSec": 5.0,
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId"
+        ]
+      }
+    },
+    {
+      "protocolId": "ConfigureQuantumLinkCarrier",
+      "sharedParams": {
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId"
+        ],
+        "sourceDeviceId": "ExampleEntangledPhotonSourceId",
+        "outputMode": "HH",
+        "attenuation": {
+          "mode": "perLink",
+          "perLinkDb": {
+            "ExampleQuantumLinkOneId": 50.0,
+            "ExampleQuantumLinkTwoId": 60.0
+          }
+        },
+        "settleSec": 0.2
+      }
+    },
+    {
+      "protocolId": "ConfigureQuantumLinkCarrier",
+      "sharedParams": {
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId"
+        ],
+        "sourceDeviceId": "ExampleEntangledPhotonSourceId",
+        "outputMode": "ENTANGLED",
+        "attenuation": {
+          "mode": "perLink",
+          "perLinkDb": {
+            "ExampleQuantumLinkOneId": 10.0,
+            "ExampleQuantumLinkTwoId": 20.0
+          }
+        },
+        "settleSec": 0.2
+      }
+    }
+  ]
+}

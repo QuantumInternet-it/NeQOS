@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "LoadPolarizationAnalyzerCompensation",
+      "sharedParams": {
+        "polarizationAnalyzerDeviceId": "ExampleMpc320Id",
+        "polarizationAnalyzerChannels": [
+          1
+        ],
+        "applyTomographyState": "H"
+      }
+    }
+  ]
+}

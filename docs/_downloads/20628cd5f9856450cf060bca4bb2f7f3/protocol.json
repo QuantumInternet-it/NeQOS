@@ -1,0 +1,188 @@
+{
+  "protocolId": "MeasureEntangledPairPolarizationCoincidences",
+  "description": "Measures a logical 6x6 coincidence matrix across two entangled-pair analyzer arms. Every physical acquisition uses the standard required detector-latch guard, so a recovered latch retries only its affected window while preserving previously accepted projections.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 7200,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "linkPairIds": null,
+    "polarizationAnalyzerDeviceIds": null,
+    "resourceDeviceIds": null,
+    "measurementDurationSec": 10,
+    "settleSec": 1,
+    "coincidenceWindowPs": 1000,
+    "useCompensatedTomoStates": false,
+    "backgroundCountRateHz": 0,
+    "clear": true,
+    "latchGuard": null,
+    "dwdmChannelByLink": {},
+    "defaultDwdmChannel": null,
+    "useCompensatedTomoStatesByLink": {}
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "linkPairIds": {
+        "type": "array",
+        "description": "Exactly two distinct entangled-pair link identifiers, defining row and column order in the returned matrix. They must resolve to two distinct analyzer channels, which may belong to one PA2000/MPC320 device or two separate devices.",
+        "required": true,
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "string",
+          "description": "One entangled-pair link identifier resolved from network.json.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "polarizationAnalyzerDeviceIds": {
+        "type": "array",
+        "description": "Unique analyzer device identifiers resolved from the selected link arms and leased for the whole matrix. Supports two PA1000 or two MPC320 devices, or one two-channel PA2000/MPC320; each resolved channel may use a polarizer or PBS topology declared in network.json.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One polarization-analyzer device identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact lease union of the resolved TimeTagger, every analyzer device, and every detector-health device selected by the TimeTagger healthGuards mappings.",
+        "required": true,
+        "minItems": 3,
+        "items": {
+          "type": "string",
+          "description": "One device retained for the complete tomography attempt.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite integration duration for each physical analyzer configuration, in seconds. network.json topology selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Non-blocking delay after each analyzer-state change and before its finite measurement window, in seconds. The default allows the polarization analyzers to settle physically.",
+        "required": false,
+        "minimum": 0
+      },
+      "coincidenceWindowPs": {
+        "type": "integer",
+        "description": "AND coincidence window for every projection, in picoseconds.",
+        "required": false,
+        "minimum": 1
+      },
+      "useCompensatedTomoStates": {
+        "type": "boolean",
+        "description": "Whether analyzer states are applied from installed or loaded compensation tables; false uses factory states and never requires a compensation table.",
+        "required": false
+      },
+      "backgroundCountRateHz": {
+        "type": "number",
+        "description": "Coincidence background rate subtracted from each finite projection before the corrected matrix is reported.",
+        "required": false,
+        "minimum": 0
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Must be true so an invalid latch-guarded child window can be retried as a fresh integration.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Required detector-latch policy for every physical child coincidence window. The TimeTagger healthGuards topology selects the health devices and channel mappings; only the affected window is retried after recovery.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "This finite tomography always requires detector-latch protection.",
+            "required": true,
+            "enum": [
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries of one recovered latch-invalid physical acquisition window.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      },
+      "dwdmChannelByLink": {
+        "type": "object",
+        "description": "Optional per-link DWDM channel overrides for analyzer wavelength preparation.",
+        "required": false
+      },
+      "defaultDwdmChannel": {
+        "type": "integer",
+        "description": "Optional fallback DWDM channel when a selected link omits one in network.json.",
+        "required": false,
+        "minimum": 1
+      },
+      "useCompensatedTomoStatesByLink": {
+        "type": "object",
+        "description": "Optional exact map of both linkIds to boolean table policies. A nonempty map overrides useCompensatedTomoStates, allowing a factory reference and compensated target without changing either policy implicitly.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.observation.entangledPairPolarizationCoincidences": {
+        "type": "object",
+        "description": "Accepted logical 6x6 raw and background-corrected coincidence matrices, including the topology-derived physical configuration count, projection provenance, and detector-health attempt history.",
+        "role": "observation"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureEntangledPairPolarizationCoincidences",
+      "handler": "MeasureEntangledPairPolarizationCoincidencesStage",
+      "params": {
+        "linkPairIds": "$shared.linkPairIds",
+        "polarizationAnalyzerDeviceIds": "$shared.polarizationAnalyzerDeviceIds",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "settleSec": "$shared.settleSec",
+        "coincidenceWindowPs": "$shared.coincidenceWindowPs",
+        "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
+        "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+        "clear": "$shared.clear",
+        "latchGuard": "$shared.latchGuard",
+        "dwdmChannelByLink": "$shared.dwdmChannelByLink",
+        "defaultDwdmChannel": "$shared.defaultDwdmChannel",
+        "useCompensatedTomoStatesByLink": "$shared.useCompensatedTomoStatesByLink"
+      }
+    },
+    {
+      "stageId": "01-MeasureEntangledPairPolarizationCoincidences-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "entangledPairPolarizationCoincidencesFailureReason",
+        "exports": [
+          {
+            "from": "entangledPairPolarizationCoincidencesObservation",
+            "as": "link.characterization.observation.entangledPairPolarizationCoincidences"
+          }
+        ]
+      }
+    }
+  ]
+}

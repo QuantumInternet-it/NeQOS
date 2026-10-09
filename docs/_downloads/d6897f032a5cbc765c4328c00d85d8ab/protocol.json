@@ -1,0 +1,83 @@
+{
+  "protocolId": "ValidateLinkPolarizationCompensation",
+  "description": "Validates an already applied link-polarization compensation from complete H and D separable source-probe H/V/D/A/R/L tomography counts. It derives measured Stokes vectors plus H, D, and average polarization-direction agreement; it does not calculate state fidelity, acquire data, read a device, write a device, or install a compensation table.",
+  "domain": "link",
+  "function": "polarizationCompensation",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "linkId": null,
+    "countsBySourceProbeState": null,
+    "minTotalCounts": 1.0
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "linkId": {
+        "type": "string",
+        "description": "Network-level identifier of the link whose already applied compensation is being validated.",
+        "required": true,
+        "minLength": 1
+      },
+      "countsBySourceProbeState": {
+        "type": "object",
+        "description": "Complete, background-treated H and D separable source-probe count sets. Each probe must contain exactly H/V/D/A/R/L logical tomography counts.",
+        "required": true
+      },
+      "minTotalCounts": {
+        "type": "number",
+        "description": "Minimum sum of the six logical tomography counts required independently for each H or D source probe.",
+        "required": false,
+        "minimum": 0.0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.polarizationCompensation.observation.separableHDValidation": {
+        "type": "object",
+        "description": "Normalized H/D validation counts, measured Stokes vectors, and S0 values after the caller's compensation installation.",
+        "role": "observation"
+      },
+      "link.polarizationCompensation.estimate.separableHDDirectionAgreement": {
+        "type": "object",
+        "description": "Derived H, D, and average normalized-Stokes direction agreements for the supplied post-compensation H/D validation observations; this is not a state-fidelity metric.",
+        "role": "estimate"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ValidateLinkPolarizationCompensation",
+      "handler": "ValidateLinkPolarizationCompensationStage",
+      "params": {
+        "linkId": "$shared.linkId",
+        "countsBySourceProbeState": "$shared.countsBySourceProbeState",
+        "minTotalCounts": "$shared.minTotalCounts"
+      }
+    },
+    {
+      "stageId": "01-ValidateLinkPolarizationCompensation-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "linkPolarizationCompensationValidation",
+            "as": "link.polarizationCompensation.observation.separableHDValidation"
+          },
+          {
+            "from": "linkPolarizationCompensationValidation.polarizationDirectionAgreementAfterCompensation",
+            "as": "link.polarizationCompensation.estimate.separableHDDirectionAgreement"
+          }
+        ]
+      }
+    }
+  ]
+}

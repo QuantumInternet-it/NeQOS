@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureCoincidences",
+      "sharedParams": {
+        "deviceId": "ExampleTimeTaggerId",
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId",
+          "ExampleDetectorHealthId"
+        ],
+        "observations": [
+          {
+            "observationId": "examplePair",
+            "inputRefs": [
+              1,
+              2
+            ],
+            "logicalOperator": "AND",
+            "coincidenceWindowPs": 1000
+          }
+        ],
+        "durationSec": 1.0,
+        "clear": true,
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        }
+      }
+    }
+  ]
+}

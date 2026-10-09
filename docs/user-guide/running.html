@@ -1,0 +1,581 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="5. Experimental recipes" href="recipes.html"><link rel="prev" title="3. First run without hardware" href="quickstart.html">
+
+    <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
+        <title>4. Run and customize a protocol - NeQOS Developer API</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=798a7bb0" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">NeQOS Developer API</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">NeQOS Developer API</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the bench</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">Public protocol cookbook</a><input aria-label="Toggle navigation of Public protocol cookbook" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureCountRates.html">MeasureCountRates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MonitorCountRates.html">MonitorCountRates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/RealignEntangledPhotonSourcePolarization.html">RealignEntangledPhotonSourcePolarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/HoldDuration.html">HoldDuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkCoincidences.html">MeasureLinkCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkPolarizationCoincidences.html">MeasureLinkPolarizationCoincidences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkPolarizationSingles.html">MeasureLinkPolarizationSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/MeasureLinkSingles.html">MeasureLinkSingles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/EstimateLinkPolarizationCompensationFromHDProbes.html">EstimateLinkPolarizationCompensationFromHDProbes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ValidateLinkPolarizationCompensation.html">ValidateLinkPolarizationCompensation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/AlignChannels.html">AlignChannels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="documentation-maintenance.html">Build and publish this guide</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Photek.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photek/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photek/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photek/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/tasks.html">Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/ProtectedMicroprotocols.html">Protected Microprotocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open Meta-protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/user-guide/running.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="run-and-customize-a-protocol">
+<h1>4. Run and customize a protocol<a class="headerlink" href="#run-and-customize-a-protocol" title="Link to this heading">¶</a></h1>
+<section id="copy-the-input-and-network-together">
+<h2>Copy the input and network together<a class="headerlink" href="#copy-the-input-and-network-together" title="Link to this heading">¶</a></h2>
+<p>Open <a class="reference internal" href="protocols/index.html"><span class="doc">Public protocol cookbook</span></a> and choose the capability by the data or outcome
+you need. Download its input and network, or find them in:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NodeEnginePack/ReservedMetaProtocols/&lt;domain&gt;/&lt;function&gt;/&lt;ProtocolId&gt;/RunExample/
+</pre></div>
+</div>
+<p>Copy them to your working directory. Edit the network as described in
+<a class="reference internal" href="network.html"><span class="doc">2. Describe the bench</span></a>, then make the input’s device/link identities match. Inspect
+<strong>all</strong> <code class="docutils literal notranslate"><span class="pre">steps</span></code>: some shipped inputs demonstrate multiple modes and will
+execute more than once. Keep only the intended step for a single-protocol test.</p>
+<p>Do not edit the Reserved <code class="docutils literal notranslate"><span class="pre">protocol.json</span></code> merely to change measurement duration
+or device identity. Override its declared inputs through the run plan instead.
+The definitions/implementations belong to the compiled catalog; edited external
+JSON is not a substitute for recompiling changed compiled behavior.</p>
+</section>
+<section id="a-minimal-run-plan-shape">
+<h2>A minimal run-plan shape<a class="headerlink" href="#a-minimal-run-plan-shape" title="Link to this heading">¶</a></h2>
+<p>For a direct count-rate measurement of Time Tagger channels 1 and 2:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;schemaVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.4&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;metaProtocolLibrary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;libraryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;neqos-protected&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;protocolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MeasureCountRates&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExampleTimeTaggerId&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;ExampleTimeTaggerId&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;channelRefs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="mi">2</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;durationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latchGuard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;maxWindowRetries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This explicitly chooses an unguarded measurement. To enable protection, change
+<code class="docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">required</span></code>, supply a retry budget and add the network-resolved
+health-device union to <code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code>. Do not copy the unguarded choice
+into a protected experiment by omission or accident.</p>
+<p>For an Open pack, the library additionally declares <code class="docutils literal notranslate"><span class="pre">folder</span></code>. Use the pack’s
+own run example: relative library folders resolve against the run input’s
+location. Reserved runs declare <code class="docutils literal notranslate"><span class="pre">neqos-protected</span></code> and do not need an Open
+folder.</p>
+</section>
+<section id="launch-deviceos-then-nodeengine">
+<h2>Launch DeviceOS, then NodeEngine<a class="headerlink" href="#launch-deviceos-then-nodeengine" title="Link to this heading">¶</a></h2>
+<p>Start one DeviceOS per required device, using its host and hardware runtime.
+For a Windows launcher:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\NeQOS\DeviceOS.dist\DeviceOS.exe</span><span class="c1"> ^</span>
+  --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --deviceId ExampleTimeTaggerId
+</pre></div>
+</div>
+<p>Wait for readiness, then launch NodeEngine on its host:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\NeQOS\NodeEngine.dist\NodeEngine.exe</span><span class="c1"> ^</span>
+  --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --nodeId ExampleNodeId <span class="se">^</span>
+<span class="se"> </span> --metaProtocolRun <span class="s2">&quot;C:\NeQOSConfig\input.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --waitProtocol <span class="se">^</span>
+<span class="se"> </span> --verboseRunFolders
+</pre></div>
+</div>
+<p>In a source checkout, use the Python prefix shown in <a class="reference internal" href="quickstart.html"><span class="doc">3. First run without hardware</span></a>.
+There is no <code class="docutils literal notranslate"><span class="pre">--protocolId</span></code> selector: select protocols inside the run input.
+The network is <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>; the list of operations is <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code>.
+Keep hardware processes alive through terminal cleanup.</p>
+</section>
+<section id="understand-defaults-and-constraints">
+<h2>Understand defaults and constraints<a class="headerlink" href="#understand-defaults-and-constraints" title="Link to this heading">¶</a></h2>
+<p>Each cookbook sheet lists all top-level and nested input fields. It distinguishes
+an explicit JSON null default from a field with no catalog default, and shows
+whether a field occurs in a shipped direct example. Use that list to discover
+optional behavior instead of assuming the example exhausts the contract.</p>
+<p>The engine validates effective inputs against types, allowed values, numeric
+ranges, required object properties and other declared constraints. It also
+performs runtime checks that a flat schema cannot express: exact device unions,
+network wiring, installed-table availability and cross-field compatibility.
+Passing schema validation does not establish physical validity.</p>
+<p>In particular:</p>
+<ul class="simple">
+<li><p>A finite <code class="docutils literal notranslate"><span class="pre">latchGuard</span></code> is explicit: <code class="docutils literal notranslate"><span class="pre">disabled</span></code> or <code class="docutils literal notranslate"><span class="pre">required</span></code>. With
+<code class="docutils literal notranslate"><span class="pre">required</span></code>, <code class="docutils literal notranslate"><span class="pre">clear=false</span></code> is invalid. A latch-invalid integration is
+discarded and, when recovery permits, a fresh window is acquired in the same
+analyzer state. <code class="docutils literal notranslate"><span class="pre">maxWindowRetries=2</span></code> permits at most three attempts;
+<code class="docutils literal notranslate"><span class="pre">0</span></code> rejects the first contaminated window. Failed recovery and exhausted
+retries are distinct outcomes.</p></li>
+<li><p>A monitor uses <code class="docutils literal notranslate"><span class="pre">disabled</span></code> or <code class="docutils literal notranslate"><span class="pre">annotate</span></code>, not finite-window <code class="docutils literal notranslate"><span class="pre">required</span></code>.
+Annotation preserves invalid-window evidence and excludes it from accepted
+aggregate statistics; it does not retry the time-series window.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">useCompensatedTomoStates=true</span></code> needs the relevant installed/loaded table;
+<code class="docutils literal notranslate"><span class="pre">false</span></code> uses factory states. The table can remain stored even when a run
+chooses not to use it. A per-link map, when available, specifies this choice
+separately for each analyzer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">persist</span></code> controls writing calibration on the <strong>DeviceOS host</strong>. Campaign
+defaults currently include <code class="docutils literal notranslate"><span class="pre">persist=true</span></code>: inspect the specific sheet and
+override it to <code class="docutils literal notranslate"><span class="pre">false</span></code> for a non-persistent trial. Persistence is not a
+scientific acceptance gate and does not imply automatic rollback of an
+installed table after a later error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">settleSec</span></code> is an intentional delay after a physical change, before
+acquisition. Scheduling/communication overhead is additional, variable time,
+not a settling guarantee. Check the protocol-specific default and increase it
+when the hardware requires more time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">subtractBackground</span></code> controls whether acquired background is subtracted,
+not necessarily whether the background child is executed. Read the campaign
+description; do not confuse raw and corrected counts.</p></li>
+</ul>
+</section>
+<section id="sequence-several-protocols-without-another-wrapper">
+<h2>Sequence several protocols without another wrapper<a class="headerlink" href="#sequence-several-protocols-without-another-wrapper" title="Link to this heading">¶</a></h2>
+<p>Add steps to the same <code class="docutils literal notranslate"><span class="pre">steps</span></code> list in the order you want. A practical sequence
+is source compensation, explicit carrier setup to <code class="docutils literal notranslate"><span class="pre">ENTANGLED</span></code>, timing
+alignment, then pair-fidelity measurement. Keep each step’s complete, current
+<code class="docutils literal notranslate"><span class="pre">sharedParams</span></code> from its cookbook example and use one coherent network.</p>
+<p>Steps run sequentially; a failure stops the plan. Their independent leases do
+not protect the interval between top-level steps. If uninterrupted exclusivity
+is scientifically necessary, use a composed parent that owns the full device
+union for the operation rather than treating a run-plan sequence as one lease.
+Do not assume a previous step’s output automatically becomes the next one’s
+input: explicit composition/import wiring belongs to a declared parent.</p>
+</section>
+<section id="extend-a-raw-recording-bracket">
+<h2>Extend a raw-recording bracket<a class="headerlink" href="#extend-a-raw-recording-bracket" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">CaptureRawTimeTagStream</span></code> is the safe built-in example of a declared
+start/hold/stop/transfer bracket. Its input changes duration and capture options;
+it does not accept an arbitrary list of replacement tasks. To replace the hold
+with analyzer movement or another workflow, create an Open parent that composes
+the exported recording primitives, waits for each child and owns all affected
+devices.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RecordTimeTagStream</span></code> start/stop are lifecycle primitives, not independent
+unrelated runs. The parent must keep the Time Tagger lease, supply the same
+<code class="docutils literal notranslate"><span class="pre">recordingRef</span></code> and register terminal stop cleanup. NodeEngine stamps the
+lease-root identity; start and stop can be different child instances under the
+same root. A bare start without a responsible parent can leave a recorder open.
+See <a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html"><span class="doc">Meta-protocol Handlers</span></a> for submission, waiting and
+cleanup stage contracts when developing such a pack.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="recipes.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">5. Experimental recipes</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="quickstart.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">3. First run without hardware</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Quantum Internet Research Group, University of Naples Federico II
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">4. Run and customize a protocol</a><ul>
+<li><a class="reference internal" href="#copy-the-input-and-network-together">Copy the input and network together</a></li>
+<li><a class="reference internal" href="#a-minimal-run-plan-shape">A minimal run-plan shape</a></li>
+<li><a class="reference internal" href="#launch-deviceos-then-nodeengine">Launch DeviceOS, then NodeEngine</a></li>
+<li><a class="reference internal" href="#understand-defaults-and-constraints">Understand defaults and constraints</a></li>
+<li><a class="reference internal" href="#sequence-several-protocols-without-another-wrapper">Sequence several protocols without another wrapper</a></li>
+<li><a class="reference internal" href="#extend-a-raw-recording-bracket">Extend a raw-recording bracket</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

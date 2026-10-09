@@ -1,0 +1,100 @@
+{
+  "protocolId": "ConfigureMPC320",
+  "description": "Applies optional velocity, home-position, and jog-size settings to one MPC320 polarization controller and returns the applied configuration.",
+  "domain": "device",
+  "function": "configuration",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 60.0,
+  "resourceRequests": [
+    "$shared.mpcDeviceId"
+  ],
+  "sharedParams": {
+    "mpcDeviceId": null,
+    "velocity": null,
+    "homePosition": null,
+    "jogSize1": null,
+    "jogSize2": null,
+    "jogSize3": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "mpcDeviceId": {
+        "type": "string",
+        "description": "MPC320 device identifier to configure.",
+        "required": true,
+        "minLength": 1
+      },
+      "velocity": {
+        "type": "number",
+        "description": "Optional controller velocity in degrees per second.",
+        "required": false
+      },
+      "homePosition": {
+        "type": "number",
+        "description": "Optional home position in degrees.",
+        "required": false
+      },
+      "jogSize1": {
+        "type": "number",
+        "description": "Optional jog distance for paddle 1 in degrees.",
+        "required": false
+      },
+      "jogSize2": {
+        "type": "number",
+        "description": "Optional jog distance for paddle 2 in degrees.",
+        "required": false
+      },
+      "jogSize3": {
+        "type": "number",
+        "description": "Optional jog distance for paddle 3 in degrees.",
+        "required": false
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "device.configuration.applied.mpc320": {
+        "type": "object",
+        "description": "Device identifier and applied MPC320 velocity, home-position, and jog-size settings.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ConfigureMPC320",
+      "handler": "RunSingleTaskStage",
+      "params": {
+        "deviceId": "$shared.mpcDeviceId",
+        "taskName": "SetParameters",
+        "taskParams": {
+          "velocity": "$shared.velocity",
+          "home_position": "$shared.homePosition",
+          "jog_size1": "$shared.jogSize1",
+          "jog_size2": "$shared.jogSize2",
+          "jog_size3": "$shared.jogSize3"
+        },
+        "resultKey": "configureMpc320"
+      }
+    },
+    {
+      "stageId": "01-ConfigureMPC320-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "configureMpc320",
+            "as": "device.configuration.applied.mpc320"
+          }
+        ]
+      }
+    }
+  ]
+}

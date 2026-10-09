@@ -1,0 +1,194 @@
+{
+  "protocolId": "MeasureLinkPolarizationSingles",
+  "description": "Measures finite singles counts and rates across logical analyzer states for one or more analyzer-equipped target links. network.json declares each channel as polarizer or PBS: complementary PBS outputs are acquired together, reducing physical settings without changing the reported logical states. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 1800,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "targetLinkIds": null,
+    "polarizationAnalyzerDeviceIds": null,
+    "tomographyStates": [
+      "H",
+      "V",
+      "D",
+      "A",
+      "R",
+      "L"
+    ],
+    "measurementDurationSec": 3,
+    "settleSec": 1,
+    "clear": true,
+    "useCompensatedTomoStates": false,
+    "dwdmChannelByLink": {},
+    "defaultDwdmChannel": null,
+    "finalTomographyState": null,
+    "latchGuard": null,
+    "resourceDeviceIds": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "targetLinkIds": {
+        "type": "array",
+        "description": "Analyzer-equipped target quantum-link identifiers measured at each state.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One target quantum-link identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "polarizationAnalyzerDeviceIds": {
+        "type": "array",
+        "description": "Analyzer devices leased while their target channels are configured and scanned.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One polarization-analyzer device identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "tomographyStates": {
+        "type": "array",
+        "description": "Logical H/V/D/A/R/L projections to report. A PBS acquires complementary pairs from one physical H/D/R setting; a polarizer requires one setting per requested logical projection.",
+        "required": false,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One analyzer state accepted by the polarization analyzer.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite singles acquisition duration for each analyzer state, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Non-blocking delay after each analyzer-state change and before its finite measurement window, in seconds. The default allows the polarization analyzer to settle physically.",
+        "required": false,
+        "minimum": 0
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether every finite acquisition window starts from cleared measurements.",
+        "required": false
+      },
+      "useCompensatedTomoStates": {
+        "type": "boolean",
+        "description": "Whether named analyzer states are resolved from an installed or loaded compensation table instead of the factory tomography table.",
+        "required": false
+      },
+      "dwdmChannelByLink": {
+        "type": "object",
+        "description": "Optional per-target DWDM channel overrides for analyzer wavelength configuration.",
+        "required": false
+      },
+      "defaultDwdmChannel": {
+        "type": "integer",
+        "description": "Optional fallback DWDM channel when a target link does not declare one in network.json.",
+        "required": false,
+        "minimum": 1
+      },
+      "finalTomographyState": {
+        "type": "string",
+        "description": "Optional state applied to every target analyzer after the scan, including best-effort terminal cleanup after a failed or aborted scan.",
+        "required": false,
+        "minLength": 1
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether per-window detector-latch validation is disabled or required.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries of an invalid window after a recovered latch.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exact scan lease union: resolved analyzers and TimeTagger, plus every network-resolved health guard when required.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device needed by this acquisition or scan.",
+          "required": true,
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.observation.linkPolarizationSingles": {
+        "type": "object",
+        "description": "Singles counts and rates indexed by target link and analyzer state, with resolved topology and acquisition provenance.",
+        "role": "observation"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureLinkPolarizationSingles",
+      "handler": "MeasureLinkPolarizationSinglesStage",
+      "params": {
+        "targetLinkIds": "$shared.targetLinkIds",
+        "polarizationAnalyzerDeviceIds": "$shared.polarizationAnalyzerDeviceIds",
+        "tomographyStates": "$shared.tomographyStates",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "settleSec": "$shared.settleSec",
+        "clear": "$shared.clear",
+        "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
+        "dwdmChannelByLink": "$shared.dwdmChannelByLink",
+        "defaultDwdmChannel": "$shared.defaultDwdmChannel",
+        "finalTomographyState": "$shared.finalTomographyState",
+        "latchGuard": "$shared.latchGuard",
+        "resourceDeviceIds": "$shared.resourceDeviceIds"
+      }
+    },
+    {
+      "stageId": "01-MeasureLinkPolarizationSingles-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "linkPolarizationFailureReason",
+        "exports": [
+          {
+            "from": "linkPolarizationSinglesObservation",
+            "as": "link.characterization.observation.linkPolarizationSingles"
+          }
+        ]
+      }
+    }
+  ]
+}

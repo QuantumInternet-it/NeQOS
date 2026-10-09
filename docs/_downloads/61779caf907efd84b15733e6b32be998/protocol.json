@@ -1,0 +1,156 @@
+{
+  "protocolId": "RecordTimeTagStream",
+  "description": "Record a finite raw stream from selected physical channels, or provide start/stop lifecycle primitives to a composition that owns the TimeTagger lease-root and guarantees closure.",
+  "domain": "acquisition",
+  "function": "rawStream",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 120.0,
+  "resourceRequests": [
+    "$shared.deviceId"
+  ],
+  "sharedParams": {
+    "deviceId": null,
+    "operation": "record",
+    "channelRefs": null,
+    "durationSec": null,
+    "recordingRef": null,
+    "recordingSubdirectory": null,
+    "marker": null,
+    "maxFileSizeBytes": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "deviceId": {
+        "type": "string",
+        "description": "TimeTagger device that records the raw stream.",
+        "required": true,
+        "minLength": 1
+      },
+      "operation": {
+        "type": "string",
+        "description": "record completes one finite acquisition. start and stop are lifecycle primitives only for a composition that owns the TimeTagger lease-root: immediately after start it must register terminal cleanup, then stop the same recordingRef on every normal path.",
+        "required": false,
+        "enum": [
+          "record",
+          "start",
+          "stop"
+        ]
+      },
+      "channelRefs": {
+        "type": "array",
+        "description": "Physical TimeTagger channels written into the stream; required for record and start, ignored by stop.",
+        "required": false,
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "description": "One physical TimeTagger channel reference.",
+          "required": true,
+          "minimum": 0
+        }
+      },
+      "durationSec": {
+        "type": "number",
+        "description": "Finite recording duration in seconds; required only for operation record.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "recordingRef": {
+        "type": "string",
+        "description": "Caller-stable label retained in the device-side artifact metadata.",
+        "required": true,
+        "minLength": 1
+      },
+      "recordingSubdirectory": {
+        "type": "string",
+        "description": "Optional device-side directory below the driver's recording root.",
+        "required": false,
+        "minLength": 1
+      },
+      "marker": {
+        "type": "string",
+        "description": "Optional marker recorded by the device with the raw stream.",
+        "required": false,
+        "minLength": 1
+      },
+      "maxFileSizeBytes": {
+        "type": "integer",
+        "description": "Optional maximum raw-stream file size accepted by the device.",
+        "required": false,
+        "minimum": 1
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "acquisition.rawStream.plan.recording": {
+        "type": "object",
+        "description": "Requested operation, resolved device/channels when applicable, duration, and caller recording label.",
+        "role": "plan"
+      },
+      "acquisition.rawStream.status.recording": {
+        "type": "object",
+        "description": "Active-stream descriptor returned by operation start; null after record or stop.",
+        "required": false,
+        "role": "status"
+      },
+      "acquisition.rawStream.observation.recording": {
+        "type": "object",
+        "description": "Raw successful device recording response, including writer statistics when provided.",
+        "role": "observation"
+      },
+      "acquisition.rawStream.artifact.deviceFile": {
+        "type": "object",
+        "description": "Manifest for the completed device-side raw-stream file set, including the entry file and every numbered data segment; null after start.",
+        "required": false,
+        "role": "artifact"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-RecordTimeTagStream",
+      "handler": "RecordTimeTagStreamStage",
+      "params": {
+        "deviceId": "$shared.deviceId",
+        "operation": "$shared.operation",
+        "channelRefs": "$shared.channelRefs",
+        "durationSec": "$shared.durationSec",
+        "recordingRef": "$shared.recordingRef",
+        "recordingSubdirectory": "$shared.recordingSubdirectory",
+        "marker": "$shared.marker",
+        "maxFileSizeBytes": "$shared.maxFileSizeBytes"
+      }
+    },
+    {
+      "stageId": "01-RecordTimeTagStream-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "rawStreamRecording.plan",
+            "as": "acquisition.rawStream.plan.recording"
+          },
+          {
+            "from": "rawStreamRecording.status",
+            "as": "acquisition.rawStream.status.recording"
+          },
+          {
+            "from": "rawStreamRecording.observation",
+            "as": "acquisition.rawStream.observation.recording"
+          },
+          {
+            "from": "rawStreamRecording.artifact",
+            "as": "acquisition.rawStream.artifact.deviceFile"
+          }
+        ]
+      }
+    }
+  ]
+}

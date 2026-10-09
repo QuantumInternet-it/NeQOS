@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureCorrelations",
+      "sharedParams": {
+        "deviceId": "ExampleTimeTaggerId",
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId"
+        ],
+        "correlations": [
+          {
+            "correlationId": "examplePair",
+            "channelRefA": 1,
+            "channelRefB": 2,
+            "binWidthPs": 100,
+            "binCount": 1024
+          }
+        ],
+        "durationSec": 1.0,
+        "clear": true,
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        }
+      }
+    }
+  ]
+}

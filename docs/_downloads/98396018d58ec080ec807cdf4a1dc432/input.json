@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ReadChannelDelays",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "channels": [
+          1,
+          2
+        ]
+      }
+    }
+  ]
+}

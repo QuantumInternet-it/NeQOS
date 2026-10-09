@@ -34,6 +34,10 @@ SwabianTT Driver
         - Yes
         - —
         - Directory containing the native Time Tagger runtime libraries.
+      * - ``NEQOS_DEVICE_ARTIFACT_DIR``
+        - No
+        - —
+        - Local root for device-produced artifacts; when omitted, DeviceOS uses DeviceArtifacts below its working directory.
 
    DeviceOS configures both directories before importing this driver.
 
@@ -49,7 +53,8 @@ expose runtime parameters named ``channel.<id>.triggerLevelVolt`` and
 
 Measurement definitions remain registered until ResetMeasurementEngine.
 ActivateMeasurements selects the subset used by the next StartMeasurement
-window. RecordTimeTagStream writes raw selected-channel events as .ttbin.
+window. RecordTimeTagStream writes raw selected-channel events as .ttbin,
+either for a finite duration or between explicit start and stop calls.
 
 .. toctree::
    :maxdepth: 1

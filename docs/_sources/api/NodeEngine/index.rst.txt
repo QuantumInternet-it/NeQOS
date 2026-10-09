@@ -5,5 +5,5 @@ NodeEngine API
    :maxdepth: 2
 
    ProtectedMicroprotocols
-   OpenMetaProtocolPacks
+   OpenMetaProtocols
    MetaProtocolHandlers

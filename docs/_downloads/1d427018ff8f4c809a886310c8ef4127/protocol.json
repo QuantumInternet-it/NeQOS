@@ -1,0 +1,129 @@
+{
+  "protocolId": "ConfigureQuantumLinkCarrier",
+  "description": "Selects a source output mode and applies the requested total attenuation on every link emitted by that source.",
+  "domain": "link",
+  "function": "configuration",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 60.0,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "resourceDeviceIds": null,
+    "sourceDeviceId": null,
+    "outputMode": null,
+    "attenuation": {
+      "mode": "preserve"
+    },
+    "settleSec": 0.2
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Identifiers of the source and every inline attenuator that can be configured by this run.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One device identifier reserved for this configuration.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "sourceDeviceId": {
+        "type": "string",
+        "description": "Entangled-photon source whose emitted links are configured.",
+        "required": true,
+        "minLength": 1
+      },
+      "outputMode": {
+        "type": "string",
+        "description": "Requested source output mode.",
+        "required": true,
+        "enum": [
+          "HH",
+          "DD",
+          "ENTANGLED"
+        ]
+      },
+      "attenuation": {
+        "type": "object",
+        "description": "Total attenuation requested on each emitted link. The runtime applies the largest common source contribution possible and uses inline attenuators only for link-specific residual attenuation; every bound inline attenuator declares its supported attenuation grid in network.json.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "preserve changes only output mode; networkConfigured uses the nominal HH or DD targets in network.json; maximumSource sets source attenuation to its maximum and inline attenuators to zero; maximumAvailable sets every available source and inline attenuation component to its maximum; common applies commonDb to every link; perLink applies perLinkDb to every link.",
+            "required": true,
+            "enum": [
+              "preserve",
+              "networkConfigured",
+              "maximumSource",
+              "maximumAvailable",
+              "common",
+              "perLink"
+            ]
+          },
+          "commonDb": {
+            "type": "number",
+            "description": "Total attenuation requested on every emitted link when mode is common.",
+            "required": false,
+            "minimum": 0
+          },
+          "perLinkDb": {
+            "type": "object",
+            "description": "Total attenuation requested for each source link when mode is perLink; it must contain every source link exactly once.",
+            "required": false
+          }
+        }
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after applying the carrier configuration, in seconds.",
+        "required": false,
+        "minimum": 0
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.configuration.applied.quantumCarrier": {
+        "type": "object",
+        "description": "Applied output mode, requested total attenuation by link, source contribution, inline residuals, and device parameter read-backs.",
+        "role": "applied"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-ConfigureQuantumLinkCarrier",
+      "handler": "ConfigureQuantumLinkCarrierStage",
+      "params": {
+        "sourceDeviceId": "$shared.sourceDeviceId",
+        "outputMode": "$shared.outputMode",
+        "attenuation": "$shared.attenuation",
+        "settleSec": "$shared.settleSec"
+      }
+    },
+    {
+      "stageId": "01-ConfigureQuantumLinkCarrier-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "configureQuantumLinkCarrier",
+            "as": "link.configuration.applied.quantumCarrier"
+          }
+        ]
+      }
+    }
+  ]
+}

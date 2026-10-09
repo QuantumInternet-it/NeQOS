@@ -1,0 +1,165 @@
+{
+  "protocolId": "MeasureLinkBackgroundSingles",
+  "description": "Measures the finite singles background on one or more semantic quantum links. The protocol snapshots both live EPS attenuation paths, output mode, and every bound inline attenuator of each resolved source. Any traffic-mode change is first protected at declared source/attenuator maxima; it then parks each source at maximum entangled attenuation, composes MeasureLinkSingles, and restores the exact live state. The source and TimeTagger leases remain owned for the complete park/acquire/restore bracket, including failure cleanup. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.",
+  "domain": "link",
+  "function": "characterization",
+  "status": "production",
+  "exported": true,
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 300,
+  "resourceRequests": [
+    "$shared.resourceDeviceIds"
+  ],
+  "sharedParams": {
+    "targetLinkIds": null,
+    "resourceDeviceIds": null,
+    "measurementDurationSec": 1,
+    "settleSec": 0.2,
+    "restoreSettleSec": 0.2,
+    "clear": true,
+    "latchGuard": null
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "targetLinkIds": {
+        "type": "array",
+        "description": "Quantum links whose H TimeTagger sink channels are measured after their resolved sources are parked.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "description": "One target quantum-link identifier resolved from network.json.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "resourceDeviceIds": {
+        "type": "array",
+        "description": "Exactly the sources resolved from targetLinkIds, every inline attenuator on their source-emitted links, and their one TimeTagger; this reserves the complete safe park/measurement/restore bracket.",
+        "required": true,
+        "minItems": 2,
+        "items": {
+          "type": "string",
+          "description": "One resolved source, its bound inline attenuator, or TimeTagger device identifier.",
+          "required": true,
+          "minLength": 1
+        }
+      },
+      "measurementDurationSec": {
+        "type": "number",
+        "description": "Finite integration duration of the background singles acquisition, in seconds.",
+        "required": false,
+        "minimum": 0.000001
+      },
+      "settleSec": {
+        "type": "number",
+        "description": "Delay after parking the source carriers and before the finite acquisition, in seconds.",
+        "required": false,
+        "minimum": 0
+      },
+      "restoreSettleSec": {
+        "type": "number",
+        "description": "Delay after verified carrier restoration before the protocol completes, in seconds.",
+        "required": false,
+        "minimum": 0
+      },
+      "clear": {
+        "type": "boolean",
+        "description": "Whether the finite singles acquisition clears its stable count-rate measurements first.",
+        "required": false
+      },
+      "latchGuard": {
+        "type": "object",
+        "description": "Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.",
+        "required": true,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Whether per-window detector-latch validation is disabled or required.",
+            "required": true,
+            "enum": [
+              "disabled",
+              "required"
+            ]
+          },
+          "maxWindowRetries": {
+            "type": "integer",
+            "description": "Maximum immediate retries of an invalid window after a recovered latch.",
+            "required": true,
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "link.characterization.plan.background": {
+        "type": "object",
+        "description": "Resolved links, sources, TimeTagger, resource bracket, and finite acquisition settings.",
+        "role": "plan"
+      },
+      "link.characterization.applied.sourceParking": {
+        "type": "object",
+        "description": "Source parking values applied before the background acquisition and subsequently restored.",
+        "role": "applied"
+      },
+      "link.characterization.observation.background": {
+        "type": "object",
+        "description": "Finite singles background observation imported from MeasureLinkSingles with source-parking provenance.",
+        "role": "observation"
+      },
+      "link.characterization.status.restoration": {
+        "type": "object",
+        "description": "Verified source-state restoration status and read-backs after the background observation.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-MeasureLinkBackgroundSingles",
+      "handler": "MeasureLinkBackgroundSinglesStage",
+      "params": {
+        "targetLinkIds": "$shared.targetLinkIds",
+        "resourceDeviceIds": "$shared.resourceDeviceIds",
+        "measurementDurationSec": "$shared.measurementDurationSec",
+        "settleSec": "$shared.settleSec",
+        "restoreSettleSec": "$shared.restoreSettleSec",
+        "clear": "$shared.clear",
+        "latchGuard": "$shared.latchGuard"
+      }
+    },
+    {
+      "stageId": "01-MeasureLinkBackgroundSingles-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "failIfScratchPath": "linkBackgroundFailureReason",
+        "writeSummary": true,
+        "exports": [
+          {
+            "from": "linkBackgroundPlan",
+            "as": "link.characterization.plan.background"
+          },
+          {
+            "from": "linkBackgroundSourceParking",
+            "as": "link.characterization.applied.sourceParking"
+          },
+          {
+            "from": "linkBackgroundObservation",
+            "as": "link.characterization.observation.background"
+          },
+          {
+            "from": "linkBackgroundRestoration",
+            "as": "link.characterization.status.restoration"
+          }
+        ]
+      }
+    }
+  ]
+}

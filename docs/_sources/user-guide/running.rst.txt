@@ -1,0 +1,172 @@
+4. Run and customize a protocol
+===============================
+
+Copy the input and network together
+-----------------------------------
+
+Open :doc:`protocols/index` and choose the capability by the data or outcome
+you need. Download its input and network, or find them in:
+
+.. code-block:: text
+
+   NodeEnginePack/ReservedMetaProtocols/<domain>/<function>/<ProtocolId>/RunExample/
+
+Copy them to your working directory. Edit the network as described in
+:doc:`network`, then make the input's device/link identities match. Inspect
+**all** ``steps``: some shipped inputs demonstrate multiple modes and will
+execute more than once. Keep only the intended step for a single-protocol test.
+
+Do not edit the Reserved ``protocol.json`` merely to change measurement duration
+or device identity. Override its declared inputs through the run plan instead.
+The definitions/implementations belong to the compiled catalog; edited external
+JSON is not a substitute for recompiling changed compiled behavior.
+
+A minimal run-plan shape
+------------------------
+
+For a direct count-rate measurement of Time Tagger channels 1 and 2:
+
+.. code-block:: json
+
+   {
+     "schemaVersion": "0.4",
+     "metaProtocolLibrary": {
+       "libraryId": "neqos-protected"
+     },
+     "steps": [
+       {
+         "protocolId": "MeasureCountRates",
+         "sharedParams": {
+           "deviceId": "ExampleTimeTaggerId",
+           "resourceDeviceIds": [
+             "ExampleTimeTaggerId"
+           ],
+           "channelRefs": [
+             1,
+             2
+           ],
+           "durationSec": 1.0,
+           "clear": true,
+           "latchGuard": {
+             "mode": "disabled",
+             "maxWindowRetries": 0
+           }
+         }
+       }
+     ]
+   }
+
+This explicitly chooses an unguarded measurement. To enable protection, change
+``mode`` to ``required``, supply a retry budget and add the network-resolved
+health-device union to ``resourceDeviceIds``. Do not copy the unguarded choice
+into a protected experiment by omission or accident.
+
+For an Open pack, the library additionally declares ``folder``. Use the pack's
+own run example: relative library folders resolve against the run input's
+location. Reserved runs declare ``neqos-protected`` and do not need an Open
+folder.
+
+Launch DeviceOS, then NodeEngine
+--------------------------------
+
+Start one DeviceOS per required device, using its host and hardware runtime.
+For a Windows launcher:
+
+.. code-block:: bat
+
+   C:\NeQOS\DeviceOS.dist\DeviceOS.exe ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --configFile "C:\NeQOSConfig\network.json" ^
+     --deviceId ExampleTimeTaggerId
+
+Wait for readiness, then launch NodeEngine on its host:
+
+.. code-block:: bat
+
+   C:\NeQOS\NodeEngine.dist\NodeEngine.exe ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --configFile "C:\NeQOSConfig\network.json" ^
+     --nodeId ExampleNodeId ^
+     --metaProtocolRun "C:\NeQOSConfig\input.json" ^
+     --waitProtocol ^
+     --verboseRunFolders
+
+In a source checkout, use the Python prefix shown in :doc:`quickstart`.
+There is no ``--protocolId`` selector: select protocols inside the run input.
+The network is ``--configFile``; the list of operations is ``--metaProtocolRun``.
+Keep hardware processes alive through terminal cleanup.
+
+Understand defaults and constraints
+-----------------------------------
+
+Each cookbook sheet lists all top-level and nested input fields. It distinguishes
+an explicit JSON null default from a field with no catalog default, and shows
+whether a field occurs in a shipped direct example. Use that list to discover
+optional behavior instead of assuming the example exhausts the contract.
+
+The engine validates effective inputs against types, allowed values, numeric
+ranges, required object properties and other declared constraints. It also
+performs runtime checks that a flat schema cannot express: exact device unions,
+network wiring, installed-table availability and cross-field compatibility.
+Passing schema validation does not establish physical validity.
+
+In particular:
+
+* A finite ``latchGuard`` is explicit: ``disabled`` or ``required``. With
+  ``required``, ``clear=false`` is invalid. A latch-invalid integration is
+  discarded and, when recovery permits, a fresh window is acquired in the same
+  analyzer state. ``maxWindowRetries=2`` permits at most three attempts;
+  ``0`` rejects the first contaminated window. Failed recovery and exhausted
+  retries are distinct outcomes.
+* A monitor uses ``disabled`` or ``annotate``, not finite-window ``required``.
+  Annotation preserves invalid-window evidence and excludes it from accepted
+  aggregate statistics; it does not retry the time-series window.
+* ``useCompensatedTomoStates=true`` needs the relevant installed/loaded table;
+  ``false`` uses factory states. The table can remain stored even when a run
+  chooses not to use it. A per-link map, when available, specifies this choice
+  separately for each analyzer.
+* ``persist`` controls writing calibration on the **DeviceOS host**. Campaign
+  defaults currently include ``persist=true``: inspect the specific sheet and
+  override it to ``false`` for a non-persistent trial. Persistence is not a
+  scientific acceptance gate and does not imply automatic rollback of an
+  installed table after a later error.
+* ``settleSec`` is an intentional delay after a physical change, before
+  acquisition. Scheduling/communication overhead is additional, variable time,
+  not a settling guarantee. Check the protocol-specific default and increase it
+  when the hardware requires more time.
+* ``subtractBackground`` controls whether acquired background is subtracted,
+  not necessarily whether the background child is executed. Read the campaign
+  description; do not confuse raw and corrected counts.
+
+Sequence several protocols without another wrapper
+--------------------------------------------------
+
+Add steps to the same ``steps`` list in the order you want. A practical sequence
+is source compensation, explicit carrier setup to ``ENTANGLED``, timing
+alignment, then pair-fidelity measurement. Keep each step's complete, current
+``sharedParams`` from its cookbook example and use one coherent network.
+
+Steps run sequentially; a failure stops the plan. Their independent leases do
+not protect the interval between top-level steps. If uninterrupted exclusivity
+is scientifically necessary, use a composed parent that owns the full device
+union for the operation rather than treating a run-plan sequence as one lease.
+Do not assume a previous step's output automatically becomes the next one's
+input: explicit composition/import wiring belongs to a declared parent.
+
+Extend a raw-recording bracket
+------------------------------
+
+``CaptureRawTimeTagStream`` is the safe built-in example of a declared
+start/hold/stop/transfer bracket. Its input changes duration and capture options;
+it does not accept an arbitrary list of replacement tasks. To replace the hold
+with analyzer movement or another workflow, create an Open parent that composes
+the exported recording primitives, waits for each child and owns all affected
+devices.
+
+``RecordTimeTagStream`` start/stop are lifecycle primitives, not independent
+unrelated runs. The parent must keep the Time Tagger lease, supply the same
+``recordingRef`` and register terminal stop cleanup. NodeEngine stamps the
+lease-root identity; start and stop can be different child instances under the
+same root. A bare start without a responsible parent can leave a recorder open.
+See :doc:`../api/NodeEngine/MetaProtocolHandlers` for submission, waiting and
+cleanup stage contracts when developing such a pack.

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CaptureRawTimeTagStream",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "linkId": "ExampleLinkId",
+        "detectorPorts": [
+          "H"
+        ],
+        "operation": "record",
+        "durationSec": 5.0,
+        "recordingRef": "example-finite-raw-stream",
+        "recordingSubdirectory": "examples",
+        "marker": "example",
+        "maxFileSizeBytes": null,
+        "nodeDestinationDirectory": null
+      }
+    },
+    {
+      "protocolId": "CaptureRawTimeTagStream",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "linkId": "ExampleLinkId",
+        "detectorPorts": [
+          "H"
+        ],
+        "operation": "stream",
+        "durationSec": 5.0,
+        "recordingRef": "example-explicit-raw-stream",
+        "recordingSubdirectory": "examples",
+        "marker": "example",
+        "maxFileSizeBytes": null,
+        "nodeDestinationDirectory": null
+      }
+    }
+  ]
+}
