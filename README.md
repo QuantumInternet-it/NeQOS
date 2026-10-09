@@ -42,13 +42,13 @@ Additional hardware can be integrated through the public Device Driver API.
 Pre-built executable distributions are available from the
 [NeQOS Releases page](https://github.com/QuantumInternet-it/NeQOS/releases).
 
-The current release, [v0.4.0](https://github.com/QuantumInternet-it/NeQOS/releases),
+The current release, [v0.5.0](https://github.com/QuantumInternet-it/NeQOS/releases/tag/v0.5.0),
 provides standalone NodeEngine for Windows 11 (`x86_64`) and macOS Apple Silicon (`arm64`),
 and DeviceOS for Windows 11 (`x86_64`). It also includes configurations and
 example protocol material for software evaluation.
 
 Download the software from
-the [v0.4.0 release page](https://github.com/QuantumInternet-it/NeQOS/releases) and see the [v0.4.0 README](Releases/v0.4.0/README.md)
+the [v0.5.0 release page](https://github.com/QuantumInternet-it/NeQOS/releases/tag/v0.5.0) and see the [v0.5.0 README](Releases/v0.5.0/README.md)
 for installation and usage details.
 
 The [release history](Releases/README.md) records version-specific additions, fixes and
@@ -60,13 +60,22 @@ Running NodeEngine or DeviceOS requires a valid NeQOS license. Evaluation
 licenses and access information can be requested at
 [info@quantuminternet.it](mailto:info@quantuminternet.it).
 
-## Developer documentation
+## Documentation
+
+The [NeQOS User Guide](https://quantuminternet-it.github.io/NeQOS/user-guide/index.html)
+covers installation, network configuration, protocol execution, experimental
+examples and results. Its
+[public protocol cookbook](https://quantuminternet-it.github.io/NeQOS/user-guide/protocols/index.html)
+lists required and optional inputs, defaults and outputs.
 
 The [NeQOS Developer API](https://quantuminternet-it.github.io/NeQOS/) documents
 DeviceOS driver parameters, readable signals, and exported tasks, together with
 NodeEngine exported microprotocols, open meta-protocol packs, and meta-protocol
 handler contracts. It is intended for developers extending NeQOS with drivers,
 microprotocols, or meta-protocols.
+
+Direct references: [NodeEngine API](https://quantuminternet-it.github.io/NeQOS/api/NodeEngine/index.html)
+and [DeviceOS API](https://quantuminternet-it.github.io/NeQOS/api/DeviceOS/index.html).
 
 ## References
 

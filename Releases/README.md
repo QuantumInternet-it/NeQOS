@@ -6,8 +6,20 @@ release.
 
 ## Current release
 
-[v0.4.0](v0.4.0/) is the current NeQOS release. Pre-built executable
-distributions are available from the [latest NeQOS release](https://github.com/QuantumInternet-it/NeQOS/releases/latest).
+[v0.5.0](v0.5.0/README.md) is the current NeQOS release. Pre-built executable
+distributions are available from the [v0.5.0 release](https://github.com/QuantumInternet-it/NeQOS/releases/tag/v0.5.0).
+
+## v0.5.0
+
+### Changes from v0.4.0
+
+- Operator User Guide and public protocol cookbook integrated with the API site.
+- Delegated device leases for nested foreground workflows.
+- Reusable acquisition, timing, raw-stream, polarization compensation and
+  tomography/fidelity building blocks.
+
+See the [v0.5.0 release README](v0.5.0/README.md) for distribution details,
+license requirements, launch commands and documentation links.
 
 ## v0.4.0
 
