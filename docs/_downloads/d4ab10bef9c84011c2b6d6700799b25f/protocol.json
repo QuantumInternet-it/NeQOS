@@ -5,12 +5,11 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 3600.0,
+  "timeoutSec": 3600,
   "resourceRequests": [],
   "sharedParams": {
     "linkId": null,
-    "resourceDeviceIds": null,
-    "measurementDurationSec": 2.0,
+    "measurementDurationSec": 2,
     "optimizationMode": "maximize",
     "paddles": [
       0,
@@ -18,18 +17,19 @@
       2
     ],
     "initialAnglesDeg": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "finalAnglesDeg": [
-      160.0,
-      160.0,
-      160.0
+      160,
+      160,
+      160
     ],
-    "stepDeg": 20.0,
+    "stepDeg": 20,
     "settleAfterMoveSec": 0.2,
-    "moveTimeoutSec": 30.0
+    "moveTimeoutSec": 30,
+    "resourceMpcDeviceIds": null
   },
   "inputSchema": {
     "schemaVersion": "0.1",
@@ -39,12 +39,6 @@
         "description": "Quantum link whose SNSPD input polarization is aligned.",
         "required": true,
         "minLength": 1
-      },
-      "resourceDeviceIds": {
-        "type": "array",
-        "description": "MPC320 and TimeTagger identifiers reserved by the protected child.",
-        "required": true,
-        "minItems": 2
       },
       "measurementDurationSec": {
         "type": "number",
@@ -96,6 +90,18 @@
         "description": "Timeout per controller movement, in seconds.",
         "required": false,
         "minimum": 0
+      },
+      "resourceMpcDeviceIds": {
+        "type": "array",
+        "description": "MPC320 controller identifiers leased by the child alignment.",
+        "required": true,
+        "minItems": 1,
+        "items": {
+        "type": "string",
+        "description": "One MPC320 controller to lease for the alignment.",
+        "required": true,
+        "minLength": 1
+        }
       }
     }
   },
@@ -128,16 +134,15 @@
         "protocolKey": "alignment",
         "sharedParamOverrides": {
           "linkId": "$shared.linkId",
-          "resourceDeviceIds": "$shared.resourceDeviceIds",
           "measurementDurationSec": "$shared.measurementDurationSec",
-          "clear": true,
           "optimizationMode": "$shared.optimizationMode",
           "paddles": "$shared.paddles",
           "initialAnglesDeg": "$shared.initialAnglesDeg",
           "finalAnglesDeg": "$shared.finalAnglesDeg",
           "stepDeg": "$shared.stepDeg",
           "settleAfterMoveSec": "$shared.settleAfterMoveSec",
-          "moveTimeoutSec": "$shared.moveTimeoutSec"
+          "moveTimeoutSec": "$shared.moveTimeoutSec",
+          "resourceMpcDeviceIds": "$shared.resourceMpcDeviceIds"
         }
       }
     },

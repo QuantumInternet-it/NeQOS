@@ -195,6 +195,8 @@ These overrides are added to the minimal run. Changed required values are includ
 
 Implemented directly by the bound stages.
 
+**Typically run after** (shipped multi-step plans): :doc:`CompensateSourcePolarizationFromEntangledPairProbes </user-guide/protocols/CompensateSourcePolarizationFromEntangledPairProbes>`.
+
 .. dropdown:: Technical details
    :class-container: protocol-technical
 

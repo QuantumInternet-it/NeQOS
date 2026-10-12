@@ -11,7 +11,9 @@
         "recordingRef": "example-raw-stream",
         "channelRefs": [
           1
-        ]
+        ],
+        "durationSec": 1.0,
+        "operation": "record"
       }
     }
   ]

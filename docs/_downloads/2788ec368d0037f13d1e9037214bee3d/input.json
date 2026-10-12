@@ -9,11 +9,7 @@
       "protocolId": "MPC320CountsMaximization",
       "sharedParams": {
         "linkId": "QLINK-DETECTOR-1",
-        "resourceDeviceIds": [
-          "MPC-1",
-          "TT-1"
-        ],
-        "measurementDurationSec": 2.0,
+        "measurementDurationSec": 2,
         "optimizationMode": "maximize",
         "paddles": [
           0,
@@ -21,18 +17,21 @@
           2
         ],
         "initialAnglesDeg": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "finalAnglesDeg": [
-          160.0,
-          160.0,
-          160.0
+          160,
+          160,
+          160
         ],
-        "stepDeg": 20.0,
+        "stepDeg": 20,
         "settleAfterMoveSec": 0.2,
-        "moveTimeoutSec": 30.0
+        "moveTimeoutSec": 30,
+        "resourceMpcDeviceIds": [
+          "MPC-1"
+        ]
       }
     }
   ]

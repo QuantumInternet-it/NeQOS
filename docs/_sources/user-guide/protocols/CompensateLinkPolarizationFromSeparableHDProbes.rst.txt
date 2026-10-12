@@ -76,7 +76,11 @@ Compensates one analyzer-equipped link from factory-state H/D singles tomography
              "ExampleDetectorHealthId"
            ],
            "probeAttenuation": {
-             "mode": "perLink"
+             "mode": "perLink",
+             "perLinkDb": {
+               "ExampleSourceLinkOneId": 50,
+               "ExampleSourceLinkTwoId": 60
+             }
            },
            "latchGuard": {
              "mode": "required",
@@ -88,6 +92,8 @@ Compensates one analyzer-equipped link from factory-state H/D singles tomography
    }
 
 :download:`Download minimal input.json <CompensateLinkPolarizationFromSeparableHDProbes.minimal.json>`
+
+Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/network.json>`.
 
@@ -174,15 +180,9 @@ These overrides are added to the minimal run. Changed required values are includ
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/input.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-11
+         :emphasize-lines: 2-5
 
          {
-           "probeAttenuation": {
-             "perLinkDb": {
-               "ExampleSourceLinkOneId": 50,
-               "ExampleSourceLinkTwoId": 60
-             }
-           },
            "measurementDurationSec": 2,
            "settleSec": 1,
            "minTotalCounts": 1,

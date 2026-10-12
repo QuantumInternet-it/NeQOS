@@ -92,6 +92,8 @@ No standalone option examples are shipped.
 
 Implemented directly by the bound stages.
 
+**Typically run after** (shipped multi-step plans): :doc:`ReconstructTwoQubitDensityMatrix </user-guide/protocols/ReconstructTwoQubitDensityMatrix>`.
+
 .. dropdown:: Technical details
    :class-container: protocol-technical
 

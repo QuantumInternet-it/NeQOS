@@ -44,9 +44,10 @@ async def FakeComposedSweepWaitStage(ctx, params):
         return StageResult(decision="requeue", delaySec=float(params.get("pollDelaySec", 0.01)))
     values = []
     for runtimeId in childRuns:
-        child = ctx.nodeEngine.microProtocolInstances.get(runtimeId)
-        exports = dict(getattr(child, "metadata", {}).get("exports") or {})
-        leaf = dict(dict(exports.get("test") or {}).get("leaf") or {})
+        try:
+            leaf = dict(ctx.child_output(runtimeId, "test.leaf"))
+        except (TypeError, ValueError) as exc:
+            return StageResult(decision="fail", reason=f"Cannot read leaf child {runtimeId!r}: {exc}")
         if "iteration" not in leaf or "value" not in leaf:
             return StageResult(decision="fail", reason=f"Leaf child {runtimeId!r} did not export test.leaf.")
         values.append(leaf)

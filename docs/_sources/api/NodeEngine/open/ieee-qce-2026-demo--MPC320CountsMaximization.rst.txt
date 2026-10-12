@@ -25,9 +25,12 @@ Open IEEE QCE demonstration wrapper for aligning the polarization incident on th
    * - ``linkId``
      - string length >= 1
      - Quantum link whose SNSPD input polarization is aligned.
-   * - ``resourceDeviceIds``
-     - value[] (items >= 2)
-     - MPC320 and TimeTagger identifiers reserved by the protected child.
+   * - ``resourceMpcDeviceIds``
+     - string[] (items >= 1)
+     - MPC320 controller identifiers leased by the child alignment.
+   * - ``resourceMpcDeviceIds[]``
+     - string length >= 1
+     - One MPC320 controller to lease for the alignment.
 
 :doc:`Input defaults and launching </user-guide/running>`.
 
@@ -63,7 +66,7 @@ Declared keys are present after successful completion; values may be null or emp
      - Allowed
      - Meaning
    * - ``measurementDurationSec``
-     - 2.0
+     - 2
      - >= 0
      - Integration duration of each count sample, in seconds.
    * - ``optimizationMode``
@@ -75,15 +78,15 @@ Declared keys are present after successful completion; values may be null or emp
      - items >= 1
      - MPC320 paddle indices to scan.
    * - ``initialAnglesDeg``
-     - [0.0, 0.0, 0.0]
+     - [0, 0, 0]
      - items >= 1
      - Initial angle per paddle, in degrees.
    * - ``finalAnglesDeg``
-     - [160.0, 160.0, 160.0]
+     - [160, 160, 160]
      - items >= 1
      - Final angle per paddle, in degrees.
    * - ``stepDeg``
-     - 20.0
+     - 20
      - >= 1e-06
      - Coarse angular scan increment in degrees.
    * - ``settleAfterMoveSec``
@@ -91,7 +94,7 @@ Declared keys are present after successful completion; values may be null or emp
      - >= 0
      - Settling delay after each movement, in seconds.
    * - ``moveTimeoutSec``
-     - 30.0
+     - 30
      - >= 0
      - Timeout per controller movement, in seconds.
 
@@ -121,11 +124,7 @@ Library folders resolve relative to the run input. Keep the pack's directory lay
                "protocolId": "MPC320CountsMaximization",
                "sharedParams": {
                  "linkId": "QLINK-DETECTOR-1",
-                 "resourceDeviceIds": [
-                   "MPC-1",
-                   "TT-1"
-                 ],
-                 "measurementDurationSec": 2.0,
+                 "measurementDurationSec": 2,
                  "optimizationMode": "maximize",
                  "paddles": [
                    0,
@@ -133,18 +132,21 @@ Library folders resolve relative to the run input. Keep the pack's directory lay
                    2
                  ],
                  "initialAnglesDeg": [
-                   0.0,
-                   0.0,
-                   0.0
+                   0,
+                   0,
+                   0
                  ],
                  "finalAnglesDeg": [
-                   160.0,
-                   160.0,
-                   160.0
+                   160,
+                   160,
+                   160
                  ],
-                 "stepDeg": 20.0,
+                 "stepDeg": 20,
                  "settleAfterMoveSec": 0.2,
-                 "moveTimeoutSec": 30.0
+                 "moveTimeoutSec": 30,
+                 "resourceMpcDeviceIds": [
+                   "MPC-1"
+                 ]
                }
              }
            ]
@@ -170,8 +172,7 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
 
       {
         "linkId": null,
-        "resourceDeviceIds": null,
-        "measurementDurationSec": 2.0,
+        "measurementDurationSec": 2,
         "optimizationMode": "maximize",
         "paddles": [
           0,
@@ -179,18 +180,19 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
           2
         ],
         "initialAnglesDeg": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "finalAnglesDeg": [
-          160.0,
-          160.0,
-          160.0
+          160,
+          160,
+          160
         ],
-        "stepDeg": 20.0,
+        "stepDeg": 20,
         "settleAfterMoveSec": 0.2,
-        "moveTimeoutSec": 30.0
+        "moveTimeoutSec": 30,
+        "resourceMpcDeviceIds": null
       }
 
    Stages, in declared order:
@@ -206,16 +208,15 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
             "protocolKey": "alignment",
             "sharedParamOverrides": {
               "linkId": "$shared.linkId",
-              "resourceDeviceIds": "$shared.resourceDeviceIds",
               "measurementDurationSec": "$shared.measurementDurationSec",
-              "clear": true,
               "optimizationMode": "$shared.optimizationMode",
               "paddles": "$shared.paddles",
               "initialAnglesDeg": "$shared.initialAnglesDeg",
               "finalAnglesDeg": "$shared.finalAnglesDeg",
               "stepDeg": "$shared.stepDeg",
               "settleAfterMoveSec": "$shared.settleAfterMoveSec",
-              "moveTimeoutSec": "$shared.moveTimeoutSec"
+              "moveTimeoutSec": "$shared.moveTimeoutSec",
+              "resourceMpcDeviceIds": "$shared.resourceMpcDeviceIds"
             }
           }
         },
@@ -274,12 +275,11 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
         "dependencies": [],
         "executionMode": "foreground",
         "preemptive": false,
-        "timeoutSec": 3600.0,
+        "timeoutSec": 3600,
         "resourceRequests": [],
         "sharedParams": {
           "linkId": null,
-          "resourceDeviceIds": null,
-          "measurementDurationSec": 2.0,
+          "measurementDurationSec": 2,
           "optimizationMode": "maximize",
           "paddles": [
             0,
@@ -287,18 +287,19 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
             2
           ],
           "initialAnglesDeg": [
-            0.0,
-            0.0,
-            0.0
+            0,
+            0,
+            0
           ],
           "finalAnglesDeg": [
-            160.0,
-            160.0,
-            160.0
+            160,
+            160,
+            160
           ],
-          "stepDeg": 20.0,
+          "stepDeg": 20,
           "settleAfterMoveSec": 0.2,
-          "moveTimeoutSec": 30.0
+          "moveTimeoutSec": 30,
+          "resourceMpcDeviceIds": null
         },
         "inputSchema": {
           "schemaVersion": "0.1",
@@ -308,12 +309,6 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
               "description": "Quantum link whose SNSPD input polarization is aligned.",
               "required": true,
               "minLength": 1
-            },
-            "resourceDeviceIds": {
-              "type": "array",
-              "description": "MPC320 and TimeTagger identifiers reserved by the protected child.",
-              "required": true,
-              "minItems": 2
             },
             "measurementDurationSec": {
               "type": "number",
@@ -365,6 +360,18 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
               "description": "Timeout per controller movement, in seconds.",
               "required": false,
               "minimum": 0
+            },
+            "resourceMpcDeviceIds": {
+              "type": "array",
+              "description": "MPC320 controller identifiers leased by the child alignment.",
+              "required": true,
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "description": "One MPC320 controller to lease for the alignment.",
+                "required": true,
+                "minLength": 1
+              }
             }
           }
         },
@@ -397,16 +404,15 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
               "protocolKey": "alignment",
               "sharedParamOverrides": {
                 "linkId": "$shared.linkId",
-                "resourceDeviceIds": "$shared.resourceDeviceIds",
                 "measurementDurationSec": "$shared.measurementDurationSec",
-                "clear": true,
                 "optimizationMode": "$shared.optimizationMode",
                 "paddles": "$shared.paddles",
                 "initialAnglesDeg": "$shared.initialAnglesDeg",
                 "finalAnglesDeg": "$shared.finalAnglesDeg",
                 "stepDeg": "$shared.stepDeg",
                 "settleAfterMoveSec": "$shared.settleAfterMoveSec",
-                "moveTimeoutSec": "$shared.moveTimeoutSec"
+                "moveTimeoutSec": "$shared.moveTimeoutSec",
+                "resourceMpcDeviceIds": "$shared.resourceMpcDeviceIds"
               }
             }
           },

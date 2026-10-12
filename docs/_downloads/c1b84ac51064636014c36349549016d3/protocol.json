@@ -23,6 +23,8 @@
     "coincidenceWindowPs": 1000,
     "useCompensatedTomoStates": true,
     "backgroundCountRateHz": 0,
+    "backgroundObservation": null,
+    "pbsReadout": "simultaneous",
     "clear": true,
     "latchGuard": null,
     "qualityGate": null,
@@ -98,9 +100,23 @@
       },
       "backgroundCountRateHz": {
         "type": "number",
-        "description": "Coincidence background rate subtracted from every projection before reconstruction.",
+        "description": "Uniform coincidence background rate applied to every physical pair when backgroundObservation is null; must be zero when a per-pair background observation is supplied.",
         "required": true,
         "minimum": 0
+      },
+      "backgroundObservation": {
+        "type": "object",
+        "description": "Optional separately acquired MeasureLinkBackgroundCoincidences observation.background export, containing measurementKind=coincidences and observation with timeTaggerDeviceId, coincidenceWindowPs, measurementDurationSec and countsByPair. Must cover every topology-resolved detector pair with finite non-negative counts on the same TimeTagger and coincidence window. Each physical reading is corrected before symmetrized aggregation. Null selects the uniform backgroundCountRateHz; compensation backgrounds are not imported automatically.",
+        "required": false
+      },
+      "pbsReadout": {
+        "type": "string",
+        "description": "Independent tomography readout choice: simultaneous acquires H/D/R on each PBS; symmetrized acquires H/V/D/A/R/L and averages repeated logical projections after detector-pair background correction. Polarizers always acquire six settings. The result is always a 6x6 matrix with counts normalized to one measurementDurationSec window, plus all physical readings and integration times.",
+        "required": true,
+        "enum": [
+          "simultaneous",
+          "symmetrized"
+        ]
       },
       "clear": {
         "type": "boolean",
@@ -185,6 +201,16 @@
   "outputSchema": {
     "schemaVersion": "0.1",
     "exports": {
+      "link.characterization.observation.entangledPairPolarizationCoincidences": {
+        "type": "object",
+        "description": "Unchanged declared 6x6 observation imported from MeasureEntangledPairPolarizationCoincidences, retaining the producer namespace for downstream detected-throughput analysis. Includes corrected counts, integration duration and acquisition provenance; no new acquisition is performed.",
+        "role": "observation"
+      },
+      "tomography.state.estimate.twoQubitDensityMatrix": {
+        "type": "object",
+        "description": "Unchanged declared physical reconstruction imported from ReconstructTwoQubitDensityMatrix, retaining its producer namespace for downstream state analysis and summaries. Null on quality rejection because no reconstruction was performed.",
+        "role": "estimate"
+      },
       "entanglement.fidelity.estimate.entangledPairFidelity": {
         "type": "object",
         "description": "Report from EstimateEntangledPairFidelity: labFrameFidelity is Phi+ fidelity in the current laboratory frame; fullyEntangledFraction is the SVD optimum over local unitary frames; frameMisalignmentFidelityLoss is their dimensionless difference, ideally recoverable by local unitary compensation. Independent numerical optimization appears only under crossCheck, with no delta field. These metrics do not imply any physical correction or identify whether a deficit originates in source, channel, or measurement. Null when quality assessment is rejected or malformed and no fidelity is computed.",
@@ -217,7 +243,9 @@
           "settleSec": "$shared.settleSec",
           "coincidenceWindowPs": "$shared.coincidenceWindowPs",
           "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
-          "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+         "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+          "backgroundObservation": "$shared.backgroundObservation",
+          "pbsReadout": "$shared.pbsReadout",
           "clear": "$shared.clear",
           "latchGuard": "$shared.latchGuard",
           "dwdmChannelByLink": "$shared.dwdmChannelByLink",
@@ -339,6 +367,14 @@
       "handler": "PublishResultStage",
       "params": {
         "exports": [
+          {
+            "from": "entangledPairPolarizationTomography",
+            "as": "link.characterization.observation.entangledPairPolarizationCoincidences"
+          },
+          {
+            "from": "twoQubitDensityMatrix",
+            "as": "tomography.state.estimate.twoQubitDensityMatrix"
+          },
           {
             "from": "entangledPairFidelity",
             "as": "entanglement.fidelity.estimate.entangledPairFidelity"

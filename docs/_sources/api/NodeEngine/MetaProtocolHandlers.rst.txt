@@ -59,7 +59,7 @@ Results
 
       .. _exportscratchstage:
 
-      Copy selected scratchpad values into the parent protocol exports.
+      Copy selected scratchpad values into this protocol's exports.
 
 Device tasks and cleanup
 ------------------------

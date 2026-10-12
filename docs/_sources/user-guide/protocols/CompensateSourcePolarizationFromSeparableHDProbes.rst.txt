@@ -83,7 +83,11 @@ Compensates each of the two selected emitted links of one entangled-photon sourc
              "ExampleDetectorHealthId"
            ],
            "probeAttenuation": {
-             "mode": "perLink"
+             "mode": "perLink",
+             "perLinkDb": {
+               "ExampleSourceLinkOneId": 50,
+               "ExampleSourceLinkTwoId": 60
+             }
            },
            "latchGuard": {
              "mode": "required",
@@ -95,6 +99,8 @@ Compensates each of the two selected emitted links of one entangled-photon sourc
    }
 
 :download:`Download minimal input.json <CompensateSourcePolarizationFromSeparableHDProbes.minimal.json>`
+
+Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
 
@@ -189,15 +195,9 @@ These overrides are added to the minimal run. Changed required values are includ
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-11
+         :emphasize-lines: 2-5
 
          {
-           "probeAttenuation": {
-             "perLinkDb": {
-               "ExampleSourceLinkOneId": 50,
-               "ExampleSourceLinkTwoId": 60
-             }
-           },
            "measurementDurationSec": 2,
            "settleSec": 1,
            "minTotalCounts": 1,
@@ -209,15 +209,9 @@ These overrides are added to the minimal run. Changed required values are includ
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input-compensate-then-measure-entangled-fidelity.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-11
+         :emphasize-lines: 2-5
 
          {
-           "probeAttenuation": {
-             "perLinkDb": {
-               "ExampleSourceLinkOneId": 50,
-               "ExampleSourceLinkTwoId": 60
-             }
-           },
            "measurementDurationSec": 2,
            "settleSec": 1,
            "minTotalCounts": 1,

@@ -78,7 +78,7 @@ Acquire a declared number of complete count-rate windows and return the ordered 
 
 :download:`Download minimal input.json <MonitorCountRates.minimal.json>`
 
-The minimal example also retains the runtime-required channel selection or finite window count from the shipped example.
+Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
 

@@ -26,6 +26,7 @@
         "coincidenceWindowPs": 1000,
         "useCompensatedTomoStates": false,
         "backgroundCountRateHz": 0.0,
+        "pbsReadout": "simultaneous",
         "clear": true,
         "latchGuard": {
           "mode": "required",

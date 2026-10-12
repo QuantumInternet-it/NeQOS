@@ -594,7 +594,7 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">measurementDurationSec</span></code></p></td>
 <td><p>10</p></td>
 <td><p>—</p></td>
-<td><p>Finite integration duration for each physical analyzer configuration, in seconds. network.json topology selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers.</p></td>
+<td><p>Finite integration duration for each physical analyzer configuration, in seconds. Simultaneous readout selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers. Symmetrized readout uses six settings on each arm and therefore 36 configurations, preserving effective single-window counts in the aggregated matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">settleSec</span></code></p></td>
 <td><p>1</p></td>
@@ -614,7 +614,17 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">backgroundCountRateHz</span></code></p></td>
 <td><p>0</p></td>
 <td><p>&gt;= 0</p></td>
-<td><p>Coincidence background rate subtracted from each finite projection before the corrected matrix is reported.</p></td>
+<td><p>Uniform coincidence background rate applied to every physical pair when backgroundObservation is null; must be zero when a per-pair background observation is supplied.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">backgroundObservation</span></code></p></td>
+<td><p>null</p></td>
+<td><p>—</p></td>
+<td><p>Optional separately acquired MeasureLinkBackgroundCoincidences observation.background export, containing measurementKind=coincidences and observation with timeTaggerDeviceId, coincidenceWindowPs, measurementDurationSec and countsByPair. Must cover every topology-resolved detector pair with finite non-negative counts on the same TimeTagger and coincidence window. Each physical reading is corrected before symmetrized aggregation. Null selects the uniform backgroundCountRateHz; compensation backgrounds are not imported automatically.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pbsReadout</span></code></p></td>
+<td><p>“simultaneous”</p></td>
+<td><p>“simultaneous” | “symmetrized”</p></td>
+<td><p>Independent tomography readout choice: simultaneous acquires H/D/R on each PBS; symmetrized acquires H/V/D/A/R/L and averages repeated logical projections after detector-pair background correction. Polarizers always acquire six settings. The result is always a 6x6 matrix with counts normalized to one measurementDurationSec window, plus all physical readings and integration times.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clear</span></code></p></td>
 <td><p>true</p></td>
@@ -654,6 +664,23 @@ input</label><div class="sd-tab-content docutils">
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simultaneous&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+input</label><div class="sd-tab-content docutils">
+<p><a class="reference download internal" download="" href="../../_downloads/0703905f9c517c6bf7dd7b16426070e0/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;settleSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;symmetrized&quot;</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 </span><span class="p">}</span>
 </pre></div>
@@ -684,6 +711,8 @@ input</label><div class="sd-tab-content docutils">
 <span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;backgroundObservation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simultaneous&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;latchGuard&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;dwdmChannelByLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
@@ -706,6 +735,8 @@ input</label><div class="sd-tab-content docutils">
 <span class="w">      </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.coincidenceWindowPs&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.useCompensatedTomoStates&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.backgroundCountRateHz&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;backgroundObservation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.backgroundObservation&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.pbsReadout&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.clear&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;latchGuard&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.latchGuard&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;dwdmChannelByLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.dwdmChannelByLink&quot;</span><span class="p">,</span>

@@ -307,6 +307,8 @@ Handler-submitted children (may be conditional or repeated):
 * :doc:`MeasureCorrelations </user-guide/protocols/MeasureCorrelations>`
 * :doc:`ApplyChannelDelays </user-guide/protocols/ApplyChannelDelays>`
 
+**Typically run after** (shipped multi-step plans): :doc:`ConfigureQuantumLinkCarrier </user-guide/protocols/ConfigureQuantumLinkCarrier>`.
+
 .. dropdown:: Technical details
    :class-container: protocol-technical
 

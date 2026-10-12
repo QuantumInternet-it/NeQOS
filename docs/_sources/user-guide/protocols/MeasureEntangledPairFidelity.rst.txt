@@ -103,7 +103,7 @@ Measures Phi+ lab-frame fidelity, the fully entangled fraction, and their fideli
 
 :download:`Download minimal input.json <MeasureEntangledPairFidelity.minimal.json>`
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/network.json>`.
+Network: :download:`experiment-network-EntanglementDistribution.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`.
 
 .. code-block:: bash
 
@@ -126,6 +126,10 @@ See :doc:`How to run a protocol </user-guide/running>` for launch setup, default
 
    * - Export key
      - Content
+   * - link.characterization.\ **observation**\ .entangledPairPolarizationCoincidences
+     - Unchanged declared 6x6 observation imported from MeasureEntangledPairPolarizationCoincidences, retaining the producer namespace for downstream detected-throughput analysis.
+   * - tomography.state.\ **estimate**\ .twoQubitDensityMatrix
+     - Unchanged declared physical reconstruction imported from ReconstructTwoQubitDensityMatrix, retaining its producer namespace for downstream state analysis and summaries.
    * - entanglement.fidelity.\ **estimate**\ .entangledPairFidelity
      - Report from EstimateEntangledPairFidelity: labFrameFidelity is Phi+ fidelity in the current laboratory frame; fullyEntangledFraction is the SVD optimum over local unitary frames; frameMisalignmentFidelityLoss is their dimensionless difference, ideally recoverable by local unitary compensation.
    * - entanglement.fidelity.\ **status**\ .tomographyAcceptance
@@ -166,7 +170,15 @@ Every declared key is present after successful completion; its value may be null
    * - ``backgroundCountRateHz``
      - 0
      - >= 0
-     - Coincidence background rate subtracted from every projection before reconstruction.
+     - Uniform coincidence background rate applied to every physical pair when backgroundObservation is null; must be zero when a per-pair background observation is supplied.
+   * - ``backgroundObservation``
+     - null
+     - —
+     - Optional separately acquired MeasureLinkBackgroundCoincidences observation.background export, containing measurementKind=coincidences and observation with timeTaggerDeviceId, coincidenceWindowPs, measurementDurationSec and countsByPair. Must cover every topology-resolved detector pair with finite non-negative counts on the same TimeTagger and coincidence window. Each physical reading is corrected before symmetrized aggregation. Null selects the uniform backgroundCountRateHz; compensation backgrounds are not imported automatically.
+   * - ``pbsReadout``
+     - "simultaneous"
+     - "simultaneous" \| "symmetrized"
+     - Independent tomography readout choice: simultaneous acquires H/D/R on each PBS; symmetrized acquires H/V/D/A/R/L and averages repeated logical projections after detector-pair background correction. Polarizers always acquire six settings. The result is always a 6x6 matrix with counts normalized to one measurementDurationSec window, plus all physical readings and integration times.
    * - ``clear``
      - true
      - —
@@ -208,7 +220,7 @@ These overrides are added to the minimal run. Changed required values are includ
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/input.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-10
+         :emphasize-lines: 2-11
 
          {
            "measurementDurationSec": 1.0,
@@ -216,10 +228,56 @@ These overrides are added to the minimal run. Changed required values are includ
            "coincidenceWindowPs": 1000,
            "useCompensatedTomoStates": false,
            "backgroundCountRateHz": 0.0,
+           "pbsReadout": "simultaneous",
            "clear": true,
            "maxReconstructionIterations": 5000,
            "numericLocalUnitaryRestarts": 20,
            "numericLocalUnitarySeed": 42
+         }
+
+   .. tab-item:: input
+
+      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/pbsSymmetrized/input.json>`
+
+      .. code-block:: json
+         :emphasize-lines: 2-11
+
+         {
+           "measurementDurationSec": 1.0,
+           "settleSec": 1.0,
+           "coincidenceWindowPs": 1000,
+           "useCompensatedTomoStates": false,
+           "backgroundCountRateHz": 0.0,
+           "pbsReadout": "symmetrized",
+           "clear": true,
+           "maxReconstructionIterations": 5000,
+           "numericLocalUnitaryRestarts": 20,
+           "numericLocalUnitarySeed": 42
+         }
+
+   .. tab-item:: experiment-input-EntanglementDistribution
+
+      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-input-EntanglementDistribution.json>`
+
+      .. code-block:: json
+         :emphasize-lines: 2-16
+
+         {
+           "measurementDurationSec": 10,
+           "settleSec": 1,
+           "coincidenceWindowPs": 1000,
+           "useCompensatedTomoStates": true,
+           "backgroundCountRateHz": 0,
+           "clear": true,
+           "maxReconstructionIterations": 5000,
+           "numericLocalUnitaryRestarts": 20,
+           "numericLocalUnitarySeed": 42,
+           "useCompensatedTomoStatesByLink": {
+             "ExampleEntangledArmA": true,
+             "ExampleEntangledArmB": true
+           },
+           "pbsReadout": "simultaneous",
+           "backgroundObservation": "$steps.background.link.characterization.observation.background"
          }
 
 5 How it is built
@@ -227,7 +285,7 @@ These overrides are added to the minimal run. Changed required values are includ
 
 Declared submit sequence: :doc:`MeasureEntangledPairPolarizationCoincidences </user-guide/protocols/MeasureEntangledPairPolarizationCoincidences>` -> :doc:`ValidateEntangledPairPolarizationTomography </user-guide/protocols/ValidateEntangledPairPolarizationTomography>` -> :doc:`ReconstructTwoQubitDensityMatrix </user-guide/protocols/ReconstructTwoQubitDensityMatrix>` -> :doc:`EstimateEntangledPairFidelity </user-guide/protocols/EstimateEntangledPairFidelity>`.
 
-**Typically run after** (shipped multi-step plans): :doc:`CompensateSourcePolarizationFromSeparableHDProbes </user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes>`.
+**Typically run after** (shipped multi-step plans): :doc:`CompensateSourcePolarizationFromSeparableHDProbes </user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes>`, :doc:`MeasureLinkBackgroundCoincidences </user-guide/protocols/MeasureLinkBackgroundCoincidences>`.
 
 .. dropdown:: Technical details
    :class-container: protocol-technical
@@ -253,6 +311,8 @@ Declared submit sequence: :doc:`MeasureEntangledPairPolarizationCoincidences </u
         "coincidenceWindowPs": 1000,
         "useCompensatedTomoStates": true,
         "backgroundCountRateHz": 0,
+        "backgroundObservation": null,
+        "pbsReadout": "simultaneous",
         "clear": true,
         "latchGuard": null,
         "qualityGate": null,
@@ -284,6 +344,8 @@ Declared submit sequence: :doc:`MeasureEntangledPairPolarizationCoincidences </u
               "coincidenceWindowPs": "$shared.coincidenceWindowPs",
               "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
               "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+              "backgroundObservation": "$shared.backgroundObservation",
+              "pbsReadout": "$shared.pbsReadout",
               "clear": "$shared.clear",
               "latchGuard": "$shared.latchGuard",
               "dwdmChannelByLink": "$shared.dwdmChannelByLink",
@@ -405,6 +467,14 @@ Declared submit sequence: :doc:`MeasureEntangledPairPolarizationCoincidences </u
           "handler": "PublishResultStage",
           "params": {
             "exports": [
+              {
+                "from": "entangledPairPolarizationTomography",
+                "as": "link.characterization.observation.entangledPairPolarizationCoincidences"
+              },
+              {
+                "from": "twoQubitDensityMatrix",
+                "as": "tomography.state.estimate.twoQubitDensityMatrix"
+              },
               {
                 "from": "entangledPairFidelity",
                 "as": "entanglement.fidelity.estimate.entangledPairFidelity"

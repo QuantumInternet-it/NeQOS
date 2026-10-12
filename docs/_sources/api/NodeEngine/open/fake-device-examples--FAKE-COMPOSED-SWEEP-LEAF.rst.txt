@@ -50,8 +50,8 @@ Declared keys are present after successful completion; values may be null or emp
      - —
      - Deterministic value exported by this leaf.
    * - ``iteration``
-     - 0
-     - >= 0
+     - 1
+     - >= 1
      - One-based position inside the parent sweep.
    * - ``fakeDeviceId``
      - "FakeDeviceId"
@@ -89,7 +89,7 @@ No child submissions are declared in the stage list. Runtime submissions, if any
 
       {
         "value": 0,
-        "iteration": 0,
+        "iteration": 1,
         "fakeDeviceId": "FakeDeviceId",
         "fakeTaskDurationSec": 0.05
       }
@@ -145,13 +145,13 @@ No child submissions are declared in the stage list. Runtime submissions, if any
         "dependencies": [],
         "executionMode": "foreground",
         "preemptive": false,
-        "timeoutSec": 10.0,
+        "timeoutSec": 10,
         "resourceRequests": [
           "FakeDeviceId"
         ],
         "sharedParams": {
           "value": 0,
-          "iteration": 0,
+          "iteration": 1,
           "fakeDeviceId": "FakeDeviceId",
           "fakeTaskDurationSec": 0.05
         },
@@ -165,7 +165,7 @@ No child submissions are declared in the stage list. Runtime submissions, if any
             "iteration": {
               "type": "integer",
               "description": "One-based position inside the parent sweep.",
-              "minimum": 0
+              "minimum": 1
             },
             "fakeDeviceId": {
               "type": "string",

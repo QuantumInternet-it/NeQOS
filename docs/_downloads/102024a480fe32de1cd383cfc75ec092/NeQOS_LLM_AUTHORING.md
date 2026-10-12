@@ -76,6 +76,8 @@ The run input has a different schema version: `"0.4"`. It declares `metaProtocol
 
 Format JSON with indentation and one object property per line. Register all included Open children, use unique protocol and handler identifiers, and provide a minimal run input with explicitly documented unresolved values. Do not fabricate a bench configuration if the user's network file already supplies it.
 
+Sequential run inputs may assign an optional unique `stepId` (letter first, then letters/digits/underscore/hyphen). Use `$steps.<stepId>.<declaredExportPath>` as an entire JSON value to import a declared export from a preceding successfully completed step. Dictionary fields inside declared object exports are also accessible; no scratchpad access, array indexing, interpolation, self/forward references or automatic wiring. References work recursively in shared/common/stage overrides and resource list entries. Preflight validates literal fields and source declarations; destination input types and constraints are validated again after resolution and before submission. Missing exports stop the plan, not a default fallback. Keep network/resource/physical-background compatibility explicit; top-level steps still have independent leases. Older runtimes may not support this additive run-input 0.4 extension.
+
 ## 7. Work in This Order
 
 1. Confirm available sources and identify missing experiment information.

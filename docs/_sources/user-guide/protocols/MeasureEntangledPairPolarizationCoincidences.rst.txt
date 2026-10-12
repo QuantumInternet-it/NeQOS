@@ -133,7 +133,7 @@ Every declared key is present after successful completion; its value may be null
    * - ``measurementDurationSec``
      - 10
      - —
-     - Finite integration duration for each physical analyzer configuration, in seconds. network.json topology selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers.
+     - Finite integration duration for each physical analyzer configuration, in seconds. Simultaneous readout selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers. Symmetrized readout uses six settings on each arm and therefore 36 configurations, preserving effective single-window counts in the aggregated matrix.
    * - ``settleSec``
      - 1
      - >= 0
@@ -149,7 +149,15 @@ Every declared key is present after successful completion; its value may be null
    * - ``backgroundCountRateHz``
      - 0
      - >= 0
-     - Coincidence background rate subtracted from each finite projection before the corrected matrix is reported.
+     - Uniform coincidence background rate applied to every physical pair when backgroundObservation is null; must be zero when a per-pair background observation is supplied.
+   * - ``backgroundObservation``
+     - null
+     - —
+     - Optional separately acquired MeasureLinkBackgroundCoincidences observation.background export, containing measurementKind=coincidences and observation with timeTaggerDeviceId, coincidenceWindowPs, measurementDurationSec and countsByPair. Must cover every topology-resolved detector pair with finite non-negative counts on the same TimeTagger and coincidence window. Each physical reading is corrected before symmetrized aggregation. Null selects the uniform backgroundCountRateHz; compensation backgrounds are not imported automatically.
+   * - ``pbsReadout``
+     - "simultaneous"
+     - "simultaneous" \| "symmetrized"
+     - Independent tomography readout choice: simultaneous acquires H/D/R on each PBS; symmetrized acquires H/V/D/A/R/L and averages repeated logical projections after detector-pair background correction. Polarizers always acquire six settings. The result is always a 6x6 matrix with counts normalized to one measurementDurationSec window, plus all physical readings and integration times.
    * - ``clear``
      - true
      - —
@@ -179,7 +187,7 @@ These overrides are added to the minimal run. Changed required values are includ
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/input.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-7
+         :emphasize-lines: 2-8
 
          {
            "measurementDurationSec": 1.0,
@@ -187,6 +195,24 @@ These overrides are added to the minimal run. Changed required values are includ
            "coincidenceWindowPs": 1000,
            "useCompensatedTomoStates": false,
            "backgroundCountRateHz": 0.0,
+           "pbsReadout": "simultaneous",
+           "clear": true
+         }
+
+   .. tab-item:: input
+
+      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/pbsSymmetrized/input.json>`
+
+      .. code-block:: json
+         :emphasize-lines: 2-8
+
+         {
+           "measurementDurationSec": 1.0,
+           "settleSec": 1.0,
+           "coincidenceWindowPs": 1000,
+           "useCompensatedTomoStates": false,
+           "backgroundCountRateHz": 0.0,
+           "pbsReadout": "symmetrized",
            "clear": true
          }
 
@@ -221,6 +247,8 @@ Handler-submitted children (may be conditional or repeated):
         "coincidenceWindowPs": 1000,
         "useCompensatedTomoStates": false,
         "backgroundCountRateHz": 0,
+        "backgroundObservation": null,
+        "pbsReadout": "simultaneous",
         "clear": true,
         "latchGuard": null,
         "dwdmChannelByLink": {},
@@ -245,6 +273,8 @@ Handler-submitted children (may be conditional or repeated):
             "coincidenceWindowPs": "$shared.coincidenceWindowPs",
             "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
             "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+            "backgroundObservation": "$shared.backgroundObservation",
+            "pbsReadout": "$shared.pbsReadout",
             "clear": "$shared.clear",
             "latchGuard": "$shared.latchGuard",
             "dwdmChannelByLink": "$shared.dwdmChannelByLink",

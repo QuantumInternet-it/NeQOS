@@ -461,13 +461,15 @@
         <article role="main" id="furo-main-content">
           <section id="exportscratchstage">
 <h1>ExportScratchStage<a class="headerlink" href="#exportscratchstage" title="Link to this heading">¶</a></h1>
-<p>Copy selected scratchpad values into the parent protocol exports.</p>
+<p>Copy selected scratchpad values into this protocol’s exports.</p>
 <section id="behavior">
 <h2>Behavior<a class="headerlink" href="#behavior" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">exports</span></code> is a non-empty list of <code class="docutils literal notranslate"><span class="pre">from</span></code>/<code class="docutils literal notranslate"><span class="pre">as</span></code> mappings. Each source
-must exist in the current scratchpad. Successful mappings are stored in the
-current microprotocol metadata and recorded as an <code class="docutils literal notranslate"><span class="pre">ExportScratch</span></code> task
-result before the stage advances.</p>
+must exist in the current scratchpad. The values are validated against this
+protocol’s output schema and stored as its exports, where a parent can
+import them. No <code class="docutils literal notranslate"><span class="pre">result.json</span></code> is written; use <code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code> for
+the final published result. Successful mappings are recorded as an
+<code class="docutils literal notranslate"><span class="pre">ExportScratch</span></code> task result before the stage advances.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 protocol-technical">
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Implementation and signature</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
@@ -476,12 +478,14 @@ result before the stage advances.</p>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ExportScratchStage</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">StageContext</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">StageResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy selected scratchpad values into the parent protocol exports.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy selected scratchpad values into this protocol&#39;s exports.</span>
 
 <span class="sd">    ``exports`` is a non-empty list of ``from``/``as`` mappings. Each source</span>
-<span class="sd">    must exist in the current scratchpad. Successful mappings are stored in the</span>
-<span class="sd">    current microprotocol metadata and recorded as an ``ExportScratch`` task</span>
-<span class="sd">    result before the stage advances.</span>
+<span class="sd">    must exist in the current scratchpad. The values are validated against this</span>
+<span class="sd">    protocol&#39;s output schema and stored as its exports, where a parent can</span>
+<span class="sd">    import them. No ``result.json`` is written; use ``PublishResultStage`` for</span>
+<span class="sd">    the final published result. Successful mappings are recorded as an</span>
+<span class="sd">    ``ExportScratch`` task result before the stage advances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>

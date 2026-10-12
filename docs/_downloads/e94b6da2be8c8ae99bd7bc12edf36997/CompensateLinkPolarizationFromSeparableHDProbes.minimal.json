@@ -18,7 +18,11 @@
           "ExampleDetectorHealthId"
         ],
         "probeAttenuation": {
-          "mode": "perLink"
+          "mode": "perLink",
+          "perLinkDb": {
+            "ExampleSourceLinkOneId": 50,
+            "ExampleSourceLinkTwoId": 60
+          }
         },
         "latchGuard": {
           "mode": "required",

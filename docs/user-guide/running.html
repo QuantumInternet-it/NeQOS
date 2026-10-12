@@ -543,6 +543,32 @@ There is no <code class="docutils literal notranslate"><span class="pre">--proto
 The network is <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>; the list of operations is <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code>.
 Keep hardware processes alive through terminal cleanup.</p>
 </section>
+<section id="complete-entanglement-distribution-sequence">
+<h2>Complete entanglement-distribution sequence<a class="headerlink" href="#complete-entanglement-distribution-sequence" title="Link to this heading">¶</a></h2>
+<p>The paired
+<a class="reference download internal" download="" href="../_downloads/c1eb05aa31a1542af1658ba38218063f/experiment-input-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment</span> <span class="pre">input</span></code></a>
+and
+<a class="reference download internal" download="" href="../_downloads/db71d977551c962035c83e6cebca5e81/experiment-network-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment</span> <span class="pre">network</span></code></a>
+demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
+compensation, independent coincidence background, fidelity, detected distillable
+rate and the common summary. Replace the distributed network placeholders before
+use. The shared laboratory counterpart uses EPS-2, PA-1A/PA-1B, ATT-1/ATT-2,
+TT-2 channels 1/2 and Photek-2.</p>
+<p>Fidelity imports the separately acquired background through <code class="docutils literal notranslate"><span class="pre">$steps.background</span></code>.
+Rate and summary import the unchanged declared observation, reconstruction and
+fidelity exports; no second tomography or optimization is performed. A failed
+quality gate stops the plan before those consumers. This is an operator sequence,
+not a new protocol or an atomic experiment lease: no competing workflow should
+change the physical state between top-level steps.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The fixture preserves the previous experiment’s explicit ENTANGLED setup at
+<strong>0 dB global attenuation</strong>, reference factory reset and persistent
+compensation installation. Review optical power and detector protection
+before execution. Installation/persistence does not certify acceptance.
+Offline validation is complete; hardware validation remains pending.</p>
+</div>
+</section>
 <section id="understand-defaults-and-constraints">
 <h2>Understand defaults and constraints<a class="headerlink" href="#understand-defaults-and-constraints" title="Link to this heading">¶</a></h2>
 <p>Each cookbook sheet lists all top-level and nested input fields. It distinguishes
@@ -606,8 +632,42 @@ alignment, then pair-fidelity measurement. Keep each step’s complete, current
 not protect the interval between top-level steps. If uninterrupted exclusivity
 is scientifically necessary, use a composed parent that owns the full device
 union for the operation rather than treating a run-plan sequence as one lease.
-Do not assume a previous step’s output automatically becomes the next one’s
-input: explicit composition/import wiring belongs to a declared parent.</p>
+Pass an earlier result explicitly by giving its step a unique <code class="docutils literal notranslate"><span class="pre">stepId</span></code> and
+using a whole-value reference in a later step. For example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;stepId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fidelity&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;protocolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MeasureEntangledPairFidelity&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;backgroundObservation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$steps.background.link.characterization.observation.background&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is a fragment: keep the fidelity step’s other required inputs. The earlier
+step named <code class="docutils literal notranslate"><span class="pre">background</span></code> must select <code class="docutils literal notranslate"><span class="pre">MeasureLinkBackgroundCoincidences</span></code> and
+measure every physical detector pair required by tomography, with the same
+TimeTagger and coincidence window. Set <code class="docutils literal notranslate"><span class="pre">backgroundCountRateHz</span></code> to zero when
+importing a measured background object. Choose <code class="docutils literal notranslate"><span class="pre">pbsReadout</span></code> independently for
+the fidelity scan; a reference does not change its acquisition strategy.</p>
+<p><code class="docutils literal notranslate"><span class="pre">stepId</span></code> starts with a letter and contains only letters, digits, underscores
+or hyphens. It is optional for existing inputs. The syntax is
+<code class="docutils literal notranslate"><span class="pre">$steps.&lt;stepId&gt;.&lt;declaredExportPath&gt;</span></code>; references can occur in nested
+<code class="docutils literal notranslate"><span class="pre">sharedParams</span></code>, <code class="docutils literal notranslate"><span class="pre">commonStageParams</span></code>, <code class="docutils literal notranslate"><span class="pre">stageParamOverrides</span></code> and individual
+<code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code> entries. A declared object export also permits importing
+its dictionary fields. Array indexing, string interpolation, expressions,
+forward/self references and scratchpad access are not supported.</p>
+<p>Preflight checks source order, declared export paths and literal input fields.
+After the source completes successfully, NodeEngine copies its exported value,
+preserves its JSON type and validates the destination’s effective inputs before
+submission. Missing fields, incompatible types and required null values stop
+the plan without submitting that step. There is no default fallback for a
+missing export. Imported values are data, not recursively evaluated references.
+The manifests record input bindings, source runtime IDs/directories, and the
+original and resolved step input. This wiring does not rerun a measurement.</p>
+<p>For an offline, synthetic reconstruction-to-fidelity example, use
+<code class="docutils literal notranslate"><span class="pre">tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json</span></code>
+with that folder’s existing <code class="docutils literal notranslate"><span class="pre">network.json</span></code>. Its counts are illustrative,
+not acquired data, and neither analysis step operates hardware.</p>
 </section>
 <section id="extend-a-raw-recording-bracket">
 <h2>Extend a raw-recording bracket<a class="headerlink" href="#extend-a-raw-recording-bracket" title="Link to this heading">¶</a></h2>

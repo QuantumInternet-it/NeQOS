@@ -566,7 +566,7 @@
 </pre></div>
 </div>
 <p><a class="reference download internal" download="" href="../../_downloads/c1ede2c737c81cbc31e378e0aa489ad8/MeasureEntangledPairFidelity.minimal.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">minimal</span> <span class="pre">input.json</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/c590a20e630c52428ebf03002a670e1f/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Network: <a class="reference download internal" download="" href="../../_downloads/db71d977551c962035c83e6cebca5e81/experiment-network-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment-network-EntanglementDistribution.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -587,6 +587,12 @@
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p>link.characterization.<strong>observation</strong>.entangledPairPolarizationCoincidences</p></td>
+<td><p>Unchanged declared 6x6 observation imported from MeasureEntangledPairPolarizationCoincidences, retaining the producer namespace for downstream detected-throughput analysis.</p></td>
+</tr>
+<tr class="row-odd"><td><p>tomography.state.<strong>estimate</strong>.twoQubitDensityMatrix</p></td>
+<td><p>Unchanged declared physical reconstruction imported from ReconstructTwoQubitDensityMatrix, retaining its producer namespace for downstream state analysis and summaries.</p></td>
+</tr>
 <tr class="row-even"><td><p>entanglement.fidelity.<strong>estimate</strong>.entangledPairFidelity</p></td>
 <td><p>Report from EstimateEntangledPairFidelity: labFrameFidelity is Phi+ fidelity in the current laboratory frame; fullyEntangledFraction is the SVD optimum over local unitary frames; frameMisalignmentFidelityLoss is their dimensionless difference, ideally recoverable by local unitary compensation.</p></td>
 </tr>
@@ -636,7 +642,17 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">backgroundCountRateHz</span></code></p></td>
 <td><p>0</p></td>
 <td><p>&gt;= 0</p></td>
-<td><p>Coincidence background rate subtracted from every projection before reconstruction.</p></td>
+<td><p>Uniform coincidence background rate applied to every physical pair when backgroundObservation is null; must be zero when a per-pair background observation is supplied.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">backgroundObservation</span></code></p></td>
+<td><p>null</p></td>
+<td><p>—</p></td>
+<td><p>Optional separately acquired MeasureLinkBackgroundCoincidences observation.background export, containing measurementKind=coincidences and observation with timeTaggerDeviceId, coincidenceWindowPs, measurementDurationSec and countsByPair. Must cover every topology-resolved detector pair with finite non-negative counts on the same TimeTagger and coincidence window. Each physical reading is corrected before symmetrized aggregation. Null selects the uniform backgroundCountRateHz; compensation backgrounds are not imported automatically.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pbsReadout</span></code></p></td>
+<td><p>“simultaneous”</p></td>
+<td><p>“simultaneous” | “symmetrized”</p></td>
+<td><p>Independent tomography readout choice: simultaneous acquires H/D/R on each PBS; symmetrized acquires H/V/D/A/R/L and averages repeated logical projections after detector-pair background correction. Polarizers always acquire six settings. The result is always a 6x6 matrix with counts normalized to one measurementDurationSec window, plus all physical readings and integration times.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clear</span></code></p></td>
 <td><p>true</p></td>
@@ -691,10 +707,54 @@ input</label><div class="sd-tab-content docutils">
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simultaneous&quot;</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;maxReconstructionIterations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;numericLocalUnitaryRestarts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;numericLocalUnitarySeed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+input</label><div class="sd-tab-content docutils">
+<p><a class="reference download internal" download="" href="../../_downloads/b2bbd4f90f89fab00c8a43ee64f5eaf1/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;settleSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;symmetrized&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;maxReconstructionIterations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;numericLocalUnitaryRestarts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;numericLocalUnitarySeed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+experiment-input-EntanglementDistribution</label><div class="sd-tab-content docutils">
+<p><a class="reference download internal" download="" href="../../_downloads/c1eb05aa31a1542af1658ba38218063f/experiment-input-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;settleSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;maxReconstructionIterations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;numericLocalUnitaryRestarts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;numericLocalUnitarySeed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;useCompensatedTomoStatesByLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">&quot;ExampleEntangledArmA&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">&quot;ExampleEntangledArmB&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span class="hll"><span class="w">  </span><span class="p">},</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simultaneous&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">&quot;backgroundObservation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$steps.background.link.characterization.observation.background&quot;</span>
 </span><span class="p">}</span>
 </pre></div>
 </div>
@@ -704,7 +764,7 @@ input</label><div class="sd-tab-content docutils">
 <section id="how-it-is-built">
 <h2>5 How it is built<a class="headerlink" href="#how-it-is-built" title="Link to this heading">¶</a></h2>
 <p>Declared submit sequence: <a class="reference internal" href="MeasureEntangledPairPolarizationCoincidences.html"><span class="doc">MeasureEntangledPairPolarizationCoincidences</span></a> -&gt; <a class="reference internal" href="ValidateEntangledPairPolarizationTomography.html"><span class="doc">ValidateEntangledPairPolarizationTomography</span></a> -&gt; <a class="reference internal" href="ReconstructTwoQubitDensityMatrix.html"><span class="doc">ReconstructTwoQubitDensityMatrix</span></a> -&gt; <a class="reference internal" href="EstimateEntangledPairFidelity.html"><span class="doc">EstimateEntangledPairFidelity</span></a>.</p>
-<p><strong>Typically run after</strong> (shipped multi-step plans): <a class="reference internal" href="CompensateSourcePolarizationFromSeparableHDProbes.html"><span class="doc">CompensateSourcePolarizationFromSeparableHDProbes</span></a>.</p>
+<p><strong>Typically run after</strong> (shipped multi-step plans): <a class="reference internal" href="CompensateSourcePolarizationFromSeparableHDProbes.html"><span class="doc">CompensateSourcePolarizationFromSeparableHDProbes</span></a>, <a class="reference internal" href="MeasureLinkBackgroundCoincidences.html"><span class="doc">MeasureLinkBackgroundCoincidences</span></a>.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 protocol-technical">
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Technical details</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
@@ -722,6 +782,8 @@ input</label><div class="sd-tab-content docutils">
 <span class="w">  </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;backgroundObservation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simultaneous&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;latchGuard&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;qualityGate&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
@@ -751,6 +813,8 @@ input</label><div class="sd-tab-content docutils">
 <span class="w">        </span><span class="nt">&quot;coincidenceWindowPs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.coincidenceWindowPs&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;useCompensatedTomoStates&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.useCompensatedTomoStates&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;backgroundCountRateHz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.backgroundCountRateHz&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;backgroundObservation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.backgroundObservation&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;pbsReadout&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.pbsReadout&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.clear&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;latchGuard&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.latchGuard&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;dwdmChannelByLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.dwdmChannelByLink&quot;</span><span class="p">,</span>
@@ -872,6 +936,14 @@ input</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PublishResultStage&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;exports&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;entangledPairPolarizationTomography&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;as&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;link.characterization.observation.entangledPairPolarizationCoincidences&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;twoQubitDensityMatrix&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;as&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tomography.state.estimate.twoQubitDensityMatrix&quot;</span>
+<span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
 <span class="w">          </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;entangledPairFidelity&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;as&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;entanglement.fidelity.estimate.entangledPairFidelity&quot;</span>

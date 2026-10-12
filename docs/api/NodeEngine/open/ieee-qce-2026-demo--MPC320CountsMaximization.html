@@ -480,9 +480,13 @@
 <td><p>string length &gt;= 1</p></td>
 <td><p>Quantum link whose SNSPD input polarization is aligned.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code></p></td>
-<td><p>value[] (items &gt;= 2)</p></td>
-<td><p>MPC320 and TimeTagger identifiers reserved by the protected child.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">resourceMpcDeviceIds</span></code></p></td>
+<td><p>string[] (items &gt;= 1)</p></td>
+<td><p>MPC320 controller identifiers leased by the child alignment.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">resourceMpcDeviceIds[]</span></code></p></td>
+<td><p>string length &gt;= 1</p></td>
+<td><p>One MPC320 controller to lease for the alignment.</p></td>
 </tr>
 </tbody>
 </table>
@@ -526,7 +530,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">measurementDurationSec</span></code></p></td>
-<td><p>2.0</p></td>
+<td><p>2</p></td>
 <td><p>&gt;= 0</p></td>
 <td><p>Integration duration of each count sample, in seconds.</p></td>
 </tr>
@@ -541,17 +545,17 @@
 <td><p>MPC320 paddle indices to scan.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">initialAnglesDeg</span></code></p></td>
-<td><p>[0.0, 0.0, 0.0]</p></td>
+<td><p>[0, 0, 0]</p></td>
 <td><p>items &gt;= 1</p></td>
 <td><p>Initial angle per paddle, in degrees.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">finalAnglesDeg</span></code></p></td>
-<td><p>[160.0, 160.0, 160.0]</p></td>
+<td><p>[160, 160, 160]</p></td>
 <td><p>items &gt;= 1</p></td>
 <td><p>Final angle per paddle, in degrees.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stepDeg</span></code></p></td>
-<td><p>20.0</p></td>
+<td><p>20</p></td>
 <td><p>&gt;= 1e-06</p></td>
 <td><p>Coarse angular scan increment in degrees.</p></td>
 </tr>
@@ -561,7 +565,7 @@
 <td><p>Settling delay after each movement, in seconds.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">moveTimeoutSec</span></code></p></td>
-<td><p>30.0</p></td>
+<td><p>30</p></td>
 <td><p>&gt;= 0</p></td>
 <td><p>Timeout per controller movement, in seconds.</p></td>
 </tr>
@@ -589,11 +593,7 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">      </span><span class="nt">&quot;protocolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPC320CountsMaximization&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;linkId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;QLINK-DETECTOR-1&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="s2">&quot;MPC-1&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="s2">&quot;TT-1&quot;</span>
-<span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;optimizationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;paddles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">          </span><span class="mi">0</span><span class="p">,</span>
@@ -601,18 +601,21 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">          </span><span class="mi">2</span>
 <span class="w">        </span><span class="p">],</span>
 <span class="w">        </span><span class="nt">&quot;initialAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">          </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">          </span><span class="mf">0.0</span>
+<span class="w">          </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="mi">0</span>
 <span class="w">        </span><span class="p">],</span>
 <span class="w">        </span><span class="nt">&quot;finalAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="mf">160.0</span><span class="p">,</span>
-<span class="w">          </span><span class="mf">160.0</span><span class="p">,</span>
-<span class="w">          </span><span class="mf">160.0</span>
+<span class="w">          </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">          </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">          </span><span class="mi">160</span>
 <span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;settleAfterMoveSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.0</span>
+<span class="w">        </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resourceMpcDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;MPC-1&quot;</span>
+<span class="w">        </span><span class="p">]</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
@@ -634,8 +637,7 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <p class="sd-card-text">Catalog defaults:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;linkId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;optimizationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;paddles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="mi">0</span><span class="p">,</span>
@@ -643,18 +645,19 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">    </span><span class="mi">2</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;initialAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">0.0</span>
+<span class="w">    </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;finalAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="mf">160.0</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">160.0</span><span class="p">,</span>
-<span class="w">    </span><span class="mf">160.0</span>
+<span class="w">    </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">160</span>
 <span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;settleAfterMoveSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.0</span>
+<span class="w">  </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resourceMpcDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -668,16 +671,15 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">      </span><span class="nt">&quot;protocolKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alignment&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;sharedParamOverrides&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;linkId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.linkId&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.resourceDeviceIds&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.measurementDurationSec&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;optimizationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.optimizationMode&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;paddles&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.paddles&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;initialAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.initialAnglesDeg&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;finalAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.finalAnglesDeg&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.stepDeg&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;settleAfterMoveSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.settleAfterMoveSec&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.moveTimeoutSec&quot;</span>
+<span class="w">        </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.moveTimeoutSec&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;resourceMpcDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.resourceMpcDeviceIds&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -734,12 +736,11 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">  </span><span class="nt">&quot;dependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">  </span><span class="nt">&quot;executionMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foreground&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;preemptive&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;timeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3600.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3600</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;resourceRequests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">  </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;linkId&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;optimizationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maximize&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;paddles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">      </span><span class="mi">0</span><span class="p">,</span>
@@ -747,18 +748,19 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">      </span><span class="mi">2</span>
 <span class="w">    </span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;initialAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">      </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">      </span><span class="mf">0.0</span>
+<span class="w">      </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="mi">0</span>
 <span class="w">    </span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;finalAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="mf">160.0</span><span class="p">,</span>
-<span class="w">      </span><span class="mf">160.0</span><span class="p">,</span>
-<span class="w">      </span><span class="mf">160.0</span>
+<span class="w">      </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">      </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">      </span><span class="mi">160</span>
 <span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;settleAfterMoveSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">30.0</span>
+<span class="w">    </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resourceMpcDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;inputSchema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;schemaVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1&quot;</span><span class="p">,</span>
@@ -768,12 +770,6 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Quantum link whose SNSPD input polarization is aligned.&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;minLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPC320 and TimeTagger identifiers reserved by the protected child.&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;minItems&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
@@ -825,6 +821,18 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timeout per controller movement, in seconds.&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;resourceMpcDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPC320 controller identifiers leased by the child alignment.&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;minItems&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;One MPC320 controller to lease for the alignment.&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;minLength&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -857,16 +865,15 @@ countsMaximization</label><div class="sd-tab-content docutils">
 <span class="w">        </span><span class="nt">&quot;protocolKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alignment&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;sharedParamOverrides&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">          </span><span class="nt">&quot;linkId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.linkId&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.resourceDeviceIds&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.measurementDurationSec&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;optimizationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.optimizationMode&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;paddles&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.paddles&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;initialAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.initialAnglesDeg&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;finalAnglesDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.finalAnglesDeg&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;stepDeg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.stepDeg&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;settleAfterMoveSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.settleAfterMoveSec&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.moveTimeoutSec&quot;</span>
+<span class="w">          </span><span class="nt">&quot;moveTimeoutSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.moveTimeoutSec&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;resourceMpcDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$shared.resourceMpcDeviceIds&quot;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>

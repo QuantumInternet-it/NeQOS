@@ -160,6 +160,17 @@ These overrides are added to the minimal run. Changed required values are includ
            "maxIterations": 5000
          }
 
+   .. tab-item:: input-fidelity-sequence
+
+      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json>`
+
+      .. code-block:: json
+         :emphasize-lines: 2-2
+
+         {
+           "maxIterations": 5000
+         }
+
 5 How it is built
 -----------------
 

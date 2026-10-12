@@ -48,7 +48,9 @@ Record a finite raw stream from selected physical channels, or provide start/sto
            "recordingRef": "example-raw-stream",
            "channelRefs": [
              1
-           ]
+           ],
+           "durationSec": 1.0,
+           "operation": "record"
          }
        }
      ]
@@ -56,7 +58,7 @@ Record a finite raw stream from selected physical channels, or provide start/sto
 
 :download:`Download minimal input.json <RecordTimeTagStream.minimal.json>`
 
-The minimal example also retains the runtime-required channel selection or finite window count from the shipped example.
+Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/RecordTimeTagStream/RunExample/network.json>`.
 
@@ -145,10 +147,9 @@ These overrides are added to the minimal run. Changed required values are includ
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/RecordTimeTagStream/RunExample/input.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-5
+         :emphasize-lines: 2-4
 
          {
-           "durationSec": 1.0,
            "recordingSubdirectory": "examples",
            "marker": "example",
            "maxFileSizeBytes": null

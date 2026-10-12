@@ -96,6 +96,34 @@ There is no ``--protocolId`` selector: select protocols inside the run input.
 The network is ``--configFile``; the list of operations is ``--metaProtocolRun``.
 Keep hardware processes alive through terminal cleanup.
 
+Complete entanglement-distribution sequence
+-------------------------------------------
+
+The paired
+:download:`experiment input <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-input-EntanglementDistribution.json>`
+and
+:download:`experiment network <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`
+demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
+compensation, independent coincidence background, fidelity, detected distillable
+rate and the common summary. Replace the distributed network placeholders before
+use. The shared laboratory counterpart uses EPS-2, PA-1A/PA-1B, ATT-1/ATT-2,
+TT-2 channels 1/2 and Photek-2.
+
+Fidelity imports the separately acquired background through ``$steps.background``.
+Rate and summary import the unchanged declared observation, reconstruction and
+fidelity exports; no second tomography or optimization is performed. A failed
+quality gate stops the plan before those consumers. This is an operator sequence,
+not a new protocol or an atomic experiment lease: no competing workflow should
+change the physical state between top-level steps.
+
+.. warning::
+
+   The fixture preserves the previous experiment's explicit ENTANGLED setup at
+   **0 dB global attenuation**, reference factory reset and persistent
+   compensation installation. Review optical power and detector protection
+   before execution. Installation/persistence does not certify acceptance.
+   Offline validation is complete; hardware validation remains pending.
+
 Understand defaults and constraints
 -----------------------------------
 
@@ -165,8 +193,47 @@ Steps run sequentially; a failure stops the plan. Their independent leases do
 not protect the interval between top-level steps. If uninterrupted exclusivity
 is scientifically necessary, use a composed parent that owns the full device
 union for the operation rather than treating a run-plan sequence as one lease.
-Do not assume a previous step's output automatically becomes the next one's
-input: explicit composition/import wiring belongs to a declared parent.
+Pass an earlier result explicitly by giving its step a unique ``stepId`` and
+using a whole-value reference in a later step. For example:
+
+.. code-block:: json
+
+   {
+     "stepId": "fidelity",
+     "protocolId": "MeasureEntangledPairFidelity",
+     "sharedParams": {
+       "backgroundObservation": "$steps.background.link.characterization.observation.background"
+     }
+   }
+
+This is a fragment: keep the fidelity step's other required inputs. The earlier
+step named ``background`` must select ``MeasureLinkBackgroundCoincidences`` and
+measure every physical detector pair required by tomography, with the same
+TimeTagger and coincidence window. Set ``backgroundCountRateHz`` to zero when
+importing a measured background object. Choose ``pbsReadout`` independently for
+the fidelity scan; a reference does not change its acquisition strategy.
+
+``stepId`` starts with a letter and contains only letters, digits, underscores
+or hyphens. It is optional for existing inputs. The syntax is
+``$steps.<stepId>.<declaredExportPath>``; references can occur in nested
+``sharedParams``, ``commonStageParams``, ``stageParamOverrides`` and individual
+``resourceRequests`` entries. A declared object export also permits importing
+its dictionary fields. Array indexing, string interpolation, expressions,
+forward/self references and scratchpad access are not supported.
+
+Preflight checks source order, declared export paths and literal input fields.
+After the source completes successfully, NodeEngine copies its exported value,
+preserves its JSON type and validates the destination's effective inputs before
+submission. Missing fields, incompatible types and required null values stop
+the plan without submitting that step. There is no default fallback for a
+missing export. Imported values are data, not recursively evaluated references.
+The manifests record input bindings, source runtime IDs/directories, and the
+original and resolved step input. This wiring does not rerun a measurement.
+
+For an offline, synthetic reconstruction-to-fidelity example, use
+``tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json``
+with that folder's existing ``network.json``. Its counts are illustrative,
+not acquired data, and neither analysis step operates hardware.
 
 Extend a raw-recording bracket
 ------------------------------

@@ -544,7 +544,11 @@
 <span class="w">          </span><span class="s2">&quot;ExampleDetectorHealthId&quot;</span>
 <span class="w">        </span><span class="p">],</span>
 <span class="w">        </span><span class="nt">&quot;probeAttenuation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;perLink&quot;</span>
+<span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;perLink&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;perLinkDb&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;ExampleSourceLinkOneId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;ExampleSourceLinkTwoId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="nt">&quot;latchGuard&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">          </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;required&quot;</span><span class="p">,</span>
@@ -557,6 +561,7 @@
 </pre></div>
 </div>
 <p><a class="reference download internal" download="" href="../../_downloads/b4bc8864258b4cb5a1ff17bbe1cf1d8d/CompensateSourcePolarizationFromSeparableHDProbes.minimal.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">minimal</span> <span class="pre">input.json</span></code></a></p>
+<p>Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.</p>
 <p>Network: <a class="reference download internal" download="" href="../../_downloads/f1fdbbab87318d7e67881c60cca9d561/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -665,13 +670,7 @@
 input</label><div class="sd-tab-content docutils">
 <p><a class="reference download internal" download="" href="../../_downloads/de6a2faba3610cf65a1d4e5c4fa55692/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="hll"><span class="w">  </span><span class="nt">&quot;probeAttenuation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span class="hll"><span class="w">    </span><span class="nt">&quot;perLinkDb&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span class="hll"><span class="w">      </span><span class="nt">&quot;ExampleSourceLinkOneId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-</span><span class="hll"><span class="w">      </span><span class="nt">&quot;ExampleSourceLinkTwoId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
-</span><span class="hll"><span class="w">    </span><span class="p">}</span>
-</span><span class="hll"><span class="w">  </span><span class="p">},</span>
-</span><span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;settleSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;minTotalCounts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;persist&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
@@ -684,13 +683,7 @@ input</label><div class="sd-tab-content docutils">
 input-compensate-then-measure-entangled-fidelity</label><div class="sd-tab-content docutils">
 <p><a class="reference download internal" download="" href="../../_downloads/e4e1e84d019ad07f93cdb7f36fbd3fc0/input-compensate-then-measure-entangled-fidelity.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="hll"><span class="w">  </span><span class="nt">&quot;probeAttenuation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span class="hll"><span class="w">    </span><span class="nt">&quot;perLinkDb&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span class="hll"><span class="w">      </span><span class="nt">&quot;ExampleSourceLinkOneId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-</span><span class="hll"><span class="w">      </span><span class="nt">&quot;ExampleSourceLinkTwoId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
-</span><span class="hll"><span class="w">    </span><span class="p">}</span>
-</span><span class="hll"><span class="w">  </span><span class="p">},</span>
-</span><span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="hll"><span class="w">  </span><span class="nt">&quot;measurementDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;settleSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;minTotalCounts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">&quot;persist&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>

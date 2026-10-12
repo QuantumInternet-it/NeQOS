@@ -23,6 +23,8 @@
     "coincidenceWindowPs": 1000,
     "useCompensatedTomoStates": false,
     "backgroundCountRateHz": 0,
+    "backgroundObservation": null,
+    "pbsReadout": "simultaneous",
     "clear": true,
     "latchGuard": null,
     "dwdmChannelByLink": {},
@@ -71,7 +73,7 @@
       },
       "measurementDurationSec": {
         "type": "number",
-        "description": "Finite integration duration for each physical analyzer configuration, in seconds. network.json topology selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers.",
+        "description": "Finite integration duration for each physical analyzer configuration, in seconds. Simultaneous readout selects 36 configurations for two polarizers, 18 for PBS/polarizer, or 9 for two PBS analyzers. Symmetrized readout uses six settings on each arm and therefore 36 configurations, preserving effective single-window counts in the aggregated matrix.",
         "required": true,
         "exclusiveMinimum": 0
       },
@@ -94,9 +96,23 @@
       },
       "backgroundCountRateHz": {
         "type": "number",
-        "description": "Coincidence background rate subtracted from each finite projection before the corrected matrix is reported.",
+        "description": "Uniform coincidence background rate applied to every physical pair when backgroundObservation is null; must be zero when a per-pair background observation is supplied.",
         "required": true,
         "minimum": 0
+      },
+      "backgroundObservation": {
+        "type": "object",
+        "description": "Optional separately acquired MeasureLinkBackgroundCoincidences observation.background export, containing measurementKind=coincidences and observation with timeTaggerDeviceId, coincidenceWindowPs, measurementDurationSec and countsByPair. Must cover every topology-resolved detector pair with finite non-negative counts on the same TimeTagger and coincidence window. Each physical reading is corrected before symmetrized aggregation. Null selects the uniform backgroundCountRateHz; compensation backgrounds are not imported automatically.",
+        "required": false
+      },
+      "pbsReadout": {
+        "type": "string",
+        "description": "Independent tomography readout choice: simultaneous acquires H/D/R on each PBS; symmetrized acquires H/V/D/A/R/L and averages repeated logical projections after detector-pair background correction. Polarizers always acquire six settings. The result is always a 6x6 matrix with counts normalized to one measurementDurationSec window, plus all physical readings and integration times.",
+        "required": true,
+        "enum": [
+          "simultaneous",
+          "symmetrized"
+        ]
       },
       "clear": {
         "type": "boolean",
@@ -164,7 +180,9 @@
         "settleSec": "$shared.settleSec",
         "coincidenceWindowPs": "$shared.coincidenceWindowPs",
         "useCompensatedTomoStates": "$shared.useCompensatedTomoStates",
-        "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+       "backgroundCountRateHz": "$shared.backgroundCountRateHz",
+        "backgroundObservation": "$shared.backgroundObservation",
+        "pbsReadout": "$shared.pbsReadout",
         "clear": "$shared.clear",
         "latchGuard": "$shared.latchGuard",
         "dwdmChannelByLink": "$shared.dwdmChannelByLink",

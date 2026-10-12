@@ -1,6 +1,7 @@
 """Open handler used only to test an external Python-package import."""
 
 import humanize
+from NodeEnginePack.NodeEngineAuxiliary import StageResult
 
 
 async def ExternalPythonPackageDependencyHumanizeStage(ctx, params):
@@ -12,7 +13,7 @@ async def ExternalPythonPackageDependencyHumanizeStage(ctx, params):
         f"[ExternalPythonPackageDependency] humanize import succeeded: {formatted_value}",
         flush=True,
     )
-    return "advance"
+    return StageResult(decision="advance")
 
 
 HANDLERS = {
