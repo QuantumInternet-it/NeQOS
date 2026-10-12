@@ -202,9 +202,11 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../user-guide/index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../user-guide/writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -483,18 +485,24 @@
 <p>DeviceOS searches for <code class="docutils literal notranslate"><span class="pre">config/DeviceOS.local.json</span></code> and <code class="docutils literal notranslate"><span class="pre">DeviceOSPack/config/DeviceOS.local.json</span></code> under the executable, launcher, module and working directories, in that order, before loading the selected driver. It does not search for a bare DeviceOS.local.json beside the executable. Use <code class="docutils literal notranslate"><span class="pre">--localConfigFile</span> <span class="pre">&lt;path&gt;</span></code> to select another local-runtime JSON file.</p>
 <p>Local settings belong to the host machine. Do not place them in <code class="docutils literal notranslate"><span class="pre">network.json</span></code>.</p>
 <p class="invocation-heading rubric">Local runtime configuration</p>
-<p>Copy <code class="docutils literal notranslate"><span class="pre">DeviceOS.local.json.example</span></code> to <code class="docutils literal notranslate"><span class="pre">DeviceOS.local.json</span></code> and adapt paths to the installed vendor software:</p>
+<p>Create or adapt <code class="docutils literal notranslate"><span class="pre">config/DeviceOS.local.json</span></code> below DeviceOS.dist, or select a host-local file with <code class="docutils literal notranslate"><span class="pre">--localConfigFile</span></code>. An older archive’s <code class="docutils literal notranslate"><span class="pre">.example</span></code> file must first be copied to the active filename. Verify the directories against the vendor installation:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;SWABIAN_TIMETAGGER_PYTHON_PATH&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\python&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;SWABIAN_TIMETAGGER_NATIVE_PATH&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\x64&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;NEQOS_DEVICE_ARTIFACT_DIR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\NeQOSData\\DeviceArtifacts&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;THORLABS_KINESIS_PATH&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\Program Files\\Thorlabs\\Kinesis&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;NEQOS_CALIBRATION_DIR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\NeQOS\\DeviceCalibrations&quot;</span>
+<span class="w">    </span><span class="nt">&quot;THORLABS_KINESIS_PATH&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\Program Files\\Thorlabs\\Kinesis&quot;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>Only the SDK settings shown above are applied from this JSON. For Swabian, both paths must be present in the loaded JSON and refer to existing directories; shell variables alone do not satisfy the startup check. Correct a missing file/key before considering recompilation.</p>
+<p>Set <code class="docutils literal notranslate"><span class="pre">NEQOS_LOG_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">NEQOS_DEVICE_ARTIFACT_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">NEQOS_CALIBRATION_DIR</span></code> in the process environment before launching DeviceOS, not in this JSON. For example, in a Windows Command Prompt launcher:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="s2">&quot;NEQOS_LOG_DIR=C:\NeQOSData\logs&quot;</span>
+<span class="k">set</span> <span class="s2">&quot;NEQOS_DEVICE_ARTIFACT_DIR=C:\NeQOSData\DeviceArtifacts&quot;</span>
+<span class="k">set</span> <span class="s2">&quot;NEQOS_CALIBRATION_DIR=G:\NeQOS-shared\calibration&quot;</span>
+</pre></div>
+</div>
+<p>Paths are examples. Check write access and preserve existing calibration tables; changing a directory variable does not migrate files. See <a class="reference internal" href="../../user-guide/installation.html"><span class="doc">installation</span></a> and <a class="reference internal" href="../../user-guide/upgrading-0.6.0.html"><span class="doc">the 0.6.0 upgrade checklist</span></a>.</p>
 <p class="invocation-heading rubric">Driver requirements</p>
 <div class="table-wrapper colwidths-given api-table api-runtime-driver-table docutils container">
 <table class="api-table api-runtime-driver-table docutils align-default" style="width: 100%">
@@ -508,7 +516,7 @@
 <tr class="row-odd"><th class="head"><p>Driver</p></th>
 <th class="head"><p>Vendor software</p></th>
 <th class="head"><p>Python dependency</p></th>
-<th class="head"><p>Local settings</p></th>
+<th class="head"><p>SDK JSON / process environment settings</p></th>
 </tr>
 </thead>
 <tbody>

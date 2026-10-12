@@ -502,6 +502,25 @@ layout supplied for your host. Windows Command Prompt continues lines with
 <code class="docutils literal notranslate"><span class="pre">^</span></code>; PowerShell uses a backtick; Bash/Zsh use <code class="docutils literal notranslate"><span class="pre">\</span></code>. Do not paste one shell’s
 continuation characters into another.</p>
 </section>
+<section id="standalone-directory-layout">
+<h2>Standalone directory layout<a class="headerlink" href="#standalone-directory-layout" title="Link to this heading">¶</a></h2>
+<p>DeviceOS distributes its editable driver registry and Python drivers in
+<code class="docutils literal notranslate"><span class="pre">DeviceOS.dist/OpenDrivers/</span></code>. The source-checkout location
+<code class="docutils literal notranslate"><span class="pre">DeviceOSPack/OpenDrivers/</span></code> is not the path to pass from a standalone
+terminal. If the registry was included in the archive, DeviceOS finds it
+automatically; an explicit override is <code class="docutils literal notranslate"><span class="pre">--openDriversFile</span>
+<span class="pre">&quot;./OpenDrivers/OpenDrivers.json&quot;</span></code> from inside <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>.</p>
+<p>Open meta-protocol libraries belong to
+<code class="docutils literal notranslate"><span class="pre">NodeEngine.dist/NodeEnginePack/OpenMetaProtocols/</span></code>. DeviceOS needs the
+network JSON selected by <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>, not the NodeEngine library folder.
+Point both executables to the same network, or use matching copies on separate
+hosts. See <a class="reference internal" href="quickstart.html"><span class="doc">3. First run without hardware</span></a> for exact Windows commands that use the network
+in a sibling NodeEngine distribution without copying any directory.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> or <code class="docutils literal notranslate"><span class="pre">FakeDriver.py</span></code> is missing, check that
+you extracted the full DeviceOS archive. If those files are absent from the
+archive itself, the release packaging is incomplete; obtain a corrected
+archive from the maintainer.</p>
+</section>
 <section id="windows-unsigned-builds-and-smart-app-control">
 <span id="windows-unsigned-builds"></span><h2>Windows: unsigned builds and Smart App Control<a class="headerlink" href="#windows-unsigned-builds-and-smart-app-control" title="Link to this heading">¶</a></h2>
 <p>A digital signature is not a universal NeQOS requirement. An unsigned

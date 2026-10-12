@@ -1,0 +1,248 @@
+Use the browser interface
+=========================
+
+The operator interface is served by the same NodeEngine process that schedules
+the experiment. Closing a browser tab does not stop its run. The standalone
+viewer is a separate, hardware-read-only entrypoint: importing a network or
+state snapshot into that viewer does not connect to a running engine.
+
+Connect to the operator
+-----------------------
+
+Follow :doc:`running` for ``--serve``, the startup token and a same-port SSH
+tunnel when the browser is on another computer. Start one NodeEngine operator
+for the intended network, with matching DeviceOS processes and a valid license.
+An operator cannot attach itself to another already-running NodeEngine.
+
+For stable equipment inventories and experiment activation, use :doc:`network`.
+The active experiment network supplies the operator's devices and selectors;
+the operator does not import arbitrary local network snapshots as live state.
+
+.. warning::
+
+   Starting the production operator boots the real engine and may initialize
+   configured devices. Review wiring, serial numbers, source powers and detector
+   settings before launch. The offline viewer below does not execute hardware.
+
+Configure trusted Open libraries at NodeEngine startup with repeatable
+``--openLibrary /absolute/path/library`` arguments. The browser can select these
+libraries, but cannot upload Python handlers or choose arbitrary server folders.
+The operator requires its optional runtime and browser assets in the installed
+distribution; see :doc:`installation`.
+
+Catalog paths describe taxonomy without renaming runtime IDs. Open entries
+without declared taxonomy appear as unclassified. The offline viewer displays
+the supplied source catalog; it does not prove which library a compiled running
+engine contains.
+
+Inspect the network and devices
+-------------------------------
+
+**Network & devices** shows the declared optical paths, splitter ports,
+polarization analyzers, detectors and Time Tagger electrical readout. Select a
+device, link or port to inspect its bindings, channels and current observations.
+Optical edges and electrical readout edges are schematic; verify the actual
+laboratory cabling independently.
+
+Absent sources and unmodelled detectors are annotations, not fabricated devices
+or telemetry. Unbound resources remain separate; disabled links are marked as
+disabled. Very large imports can use a labelled membership layout rather than
+the detailed schematic. Diagram fit/zoom do not establish physical cable order.
+
+Each physical device appears once. Passive splitters have no driver, readiness,
+telemetry or lease. Disabled devices show **Off**. A missing detector declaration
+is not an invented health observation: required detector protection needs the
+exact enabled detector/readout pairing. A **G** annotation means a latch guard
+is available, not that the current run enabled it.
+
+Live telemetry older than ten seconds is stale, not proof of disconnection.
+Unknown or stale health does not establish **Ready**. A healthy device can be
+**Leased**: inspect both its lease root and active executor, separately from
+whether a task is running. The stale threshold is not a lease-expiry rule.
+
+Use **Fit network** or **Actual size** for presentation. Selecting ports
+highlights the declared path. On narrow screens the inspector is a dismissible
+drawer; closing it does not change the network or experiment.
+
+Compose and validate a run
+--------------------------
+
+1. Open **Library**, select a configured library and inspect **Catalog**.
+   Search uses the protocol's catalog path and description. Inspect its inputs,
+   defaults and declared outputs before adding it.
+2. In **Compose run**, add protocols with the add control or drag them into
+   insertion gaps. Reorder steps with the handle or arrow controls. Repeated
+   occurrences retain independent inputs; top-level steps have independent
+   leases, as described in :doc:`running`.
+3. Supply required inputs and review **Options**, including default values,
+   calibration effects and detector-health policy. **Advanced JSON** edits the
+   overrides directly. **Reset defaults** clears overrides and restores fixed
+   choices. A field with a usable default need not be supplied, but explicit
+   null still fails a non-null requirement.
+4. Use **Validate with NodeEngine**. Inspect the per-step resource plan, export
+   references, physical-change warnings and structured step/field errors. An
+   edit invalidates previous validation results; correct errors and validate
+   again before starting.
+5. Save a named experiment when appropriate, or export its JSON for review.
+   Use the start/enqueue action when the operator is idle and the network is
+   active. Starting validates again, and queued runs are revalidated before
+   execution against the catalog and network they were submitted for.
+
+Validation does not run handlers, submit device tasks, initialize drivers or
+acquire leases. Topology planners can derive supported resource declarations
+and reject explicitly wrong ones. A valid plan does not reserve resources,
+promise immediate execution or provide an estimated completion time.
+Future ``$steps`` results are checked as references during preflight; their
+resolved scientific values are checked before the consuming step is submitted.
+
+.. include:: ../_generated/operator-protocols.rst
+
+Configured Open compositions must be covered by audited static stages and
+statically resolved children. Dynamic template selection and arbitrary custom
+Python handlers do not become operator-runnable simply by declaring resources.
+This operator boundary is separate from what a trusted library can execute
+through the command-line runtime.
+
+What is available during execution
+----------------------------------
+
+While a run, network activation or cleanup is active, the interface permits
+observation of the current run and its network/devices, plus the current run's
+abort action where applicable. The UI and API block draft/library editing,
+new plan validation/submission, network import/save/validation/activation,
+queue changes and historical browsing. Conflicting API requests return 409.
+
+Previously queued work, planned run steps and runtime child protocols continue
+according to their execution and lease rules. The busy lock does not cancel
+them. One operator run is active at a time; its internal child concurrency is
+still controlled by NodeEngine. Pending runs can be reordered or removed when
+idle, but their submitted inputs cannot be edited in place.
+
+Observe and abort
+-----------------
+
+**Execution** follows actual runtime identities. Repeated protocol definitions
+produce distinct instances. Requeue attempts belong to the same stage;
+unstarted stages after failure or abort are **Skipped**, not fabricated children.
+Missing historical evidence remains unknown. **Follow execution** controls
+branch expansion; it does not allow selecting a historical run while busy.
+
+The graph can group an adjacent submit/wait pair and collapse iteration or
+operation branches. The original stages and requeues remain in the evidence.
+Open a group to inspect it; many operations inside one iteration are not many
+independent iterations. Archived completed branches normally start collapsed.
+
+Select stages, iterations and child operations to inspect recorded timing,
+task results and leases. Handler-time totals exclude waits between invocations;
+missing device start events remain unknown. A partial live timing window is not
+an all-time total, and no percentage or ETA is inferred from dynamic stages.
+An interval between submission and an update is not a recorded stage duration.
+
+**Abort** stops the whole operator run, prevents later plan steps, invokes the
+runtime's descendant and terminal cleanup, and pauses the queue. The run remains
+**ABORTING** until cleanup evidence is collected. Repeated abort requests do not
+repeat cleanup. Controls unlock only after execution/cleanup has finished.
+
+.. warning::
+
+   Abort is not a whole-experiment undo. Completed persistent calibration
+   writes and completed prior steps are not rolled back. Read the applied
+   outputs, abort report and restoration replies. An acknowledgement or a
+   requested persistence flag is not confirmation that restoration succeeded.
+
+When idle, **Resume queue** allows queued runs to proceed. It is not mid-stage
+protocol resume and does not force-clear leases. After an operator restart,
+its previously active records become **INTERRUPTED**; queued runs remain stored
+and the queue stays paused. Re-activate an experiment network as required by
+:doc:`network`, review the evidence and decide explicitly how to proceed.
+
+History, revisions and parameter reuse
+--------------------------------------
+
+When idle, use the timeline/run picker to select archived runs, filter by
+experiment and load older records. The execution graph, grouped published files
+and expandable parameter sections follow the selected run. Compare original,
+planned and executed inputs; abbreviated scientific arrays are previews, not
+the full data. Read :doc:`results` for complete evidence files and backup.
+
+The picker initially selects the newest recorded archive. When an update
+timestamp is missing/invalid, a visibly labelled file-time fallback may be used;
+unreadable metadata stays unknown. Search matches identity, label, state and
+date, grouped by archive month. A selected run outside a filter stays selected.
+An archived **RUNNING** label is historical, not proof of a currently live run.
+
+Use a previous run as a new draft to repeat or modify an experiment. Starting
+changed inputs for a named experiment creates a new revision; **Save as new
+experiment** creates a distinct identity. Revision checks detect conflicting
+edits from another tab. Reuse retains source-run provenance; it does not rewrite
+history, replay a measurement's outputs or resume a previous run mid-step.
+
+PNG plots can be previewed and published files downloaded within the selected
+run. CLI archives have no invented operator experiment identity; inspect them
+through the standalone viewer or folder import.
+
+Reconnect and authentication
+----------------------------
+
+The browser receives authenticated full state replacements. A reconnect does
+not authorize a new run or terminate one. Expired sessions require the startup
+token again; a server restart also reloads configuration. Tokens stay out of
+URLs, browser storage and archived run inputs. Treat them as credentials.
+
+The service binds to loopback and checks Host/Origin, sessions and command
+requests. For another computer, use the SSH tunnel in :doc:`running`; direct
+remote exposure, multiuser roles and force-lease recovery are not available.
+Same-host endpoint locks do not prevent older binaries or another computer
+from operating the same hardware: coordinate laboratory ownership separately.
+
+Configure external Grafana dashboards
+-------------------------------------
+
+**Configure Grafana** accepts dashboard titles, network/run scope, URLs and
+variable names. **Save** stores the configuration in this browser's local
+storage; closing without saving discards edits. Imported JSON is a draft until
+saved. Export JSON to retain the configuration outside that browser.
+
+Only HTTP(S) URLs without embedded credentials are accepted. Run dashboards
+need a run-ID variable; demo/imported runs cannot open an unfiltered run
+dashboard. Current context provides network ID and archived run ID; device and
+protocol mappings do not supply runtime context yet.
+
+Cards open external dashboards, not embedded metrics. Requests occur when a
+dashboard link is opened. Monitoring placeholders are not actual count-rate or
+health measurements, and the example configuration contains placeholder URLs:
+:download:`grafana.example.json <../../NodeEnginePack/BrowserUI/grafana.example.json>`.
+
+Use the offline viewer
+----------------------
+
+From a source checkout with Python 3.10 or newer:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.BrowserUI.server \
+     --network /absolute/path/network.json \
+     --results /absolute/path/MetaProtocolResults \
+     --port 8765
+
+Open ``http://127.0.0.1:8765``. The viewer uses Python's standard library and
+browser modules; it starts neither engine and executes no Python handler.
+The network/results arguments are optional: they supply files to offer in the
+viewer, not a request to connect to those devices.
+Load networks, saved run folders or exported state snapshots to inspect recorded
+topology and execution. Snapshots are historical observations, not live device
+connections; copied run folders remain inspectable without using their archived
+absolute paths to read arbitrary files.
+
+Local run drafts can be composed, validated against available schemas and
+exported as schema-0.4 JSON. They remain in memory, separate per library, and
+should be exported before reloading. These local checks do not replace operator
+preflight or the runtime's exact resource validation. Imported files are not
+uploaded to a NodeEngine. The viewer exposes no hardware commands, license
+files or arbitrary server paths.
+Its server has no artifact-download API; read complete artifact files from
+their original directories.
+
+Demonstration playback is explicitly simulated: play, pause and manual steps
+illustrate nested execution, not historical durations or laboratory results.
+Browser-local Grafana configuration is separate from run files and drafts.

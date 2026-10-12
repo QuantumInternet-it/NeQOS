@@ -238,6 +238,7 @@
         "llm/authoring-instructions.html",
         "llm-authoring.html",
         "search.html",
+        "user-guide/browser-interface.html",
         "user-guide/how-neqos-works.html",
         "user-guide/index.html",
         "user-guide/installation.html",
@@ -313,6 +314,7 @@
         "user-guide/recipes.html",
         "user-guide/results.html",
         "user-guide/running.html",
+        "user-guide/upgrading-0.6.0.html",
         "user-guide/writing-hardware-driver.html",
         "user-guide/writing-meta-protocols.html"
       ]

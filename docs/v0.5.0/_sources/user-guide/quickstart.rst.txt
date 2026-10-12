@@ -1,21 +1,101 @@
 3. First run without hardware
 =============================
 
-The FakeDeviceExamples pack exercises DeviceOS, NodeEngine, child submission
+The FakeDeviceExamples Open library exercises DeviceOS, NodeEngine, child submission
 and result publication without optical hardware. It still requires a valid
 license. Use it before diagnosing vendor SDKs or laboratory wiring.
 
 Prepare two terminals
 ---------------------
 
-Work from the distribution/source root so the relative paths below resolve.
-Do not add a leading slash to ``NodeEnginePack``: on macOS/Linux that would
-refer to a directory at the filesystem root.
+Use the instructions for your installation below. Source-checkout paths and
+standalone paths differ; changing only ``python`` to the executable name is
+not sufficient.
 
-The pack's network uses ``FakeNodeId`` and ``FakeDeviceId`` with localhost
+The library's network uses ``FakeNodeId`` and ``FakeDeviceId`` with localhost
 endpoints. Leave those identities consistent across the network and input.
 
-In terminal A, start DeviceOS (source-checkout form):
+Windows standalone distributions
+---------------------------------
+
+Extract the entire DeviceOS and NodeEngine distributions into sibling folders,
+for example:
+
+.. code-block:: text
+
+   C:\NeQOS\
+     DeviceOS.dist\
+       DeviceOS.exe
+       OpenDrivers\
+         OpenDrivers.json
+         FakeDriver.py
+     NodeEngine.dist\
+       NodeEngine.exe
+       NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\
+         network.json
+         MetaProtocolsRun\composedSweep\input.json
+
+Replace ``C:\NeQOS`` and the license paths with your own locations. The commands
+below are single lines and work in both Command Prompt and PowerShell.
+
+In terminal A, enter ``DeviceOS.dist`` and start the fake device. DeviceOS reads
+the network directly from the sibling NodeEngine distribution:
+
+.. code-block:: bat
+
+   cd "C:\NeQOS\DeviceOS.dist"
+   .\DeviceOS.exe --licenseFile "C:\NeQOSConfig\license-DeviceOS.json" --configFile "..\NodeEngine.dist\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json" --nodeId FakeNodeId --deviceId FakeDeviceId --openDriversFile ".\OpenDrivers\OpenDrivers.json"
+
+After DeviceOS reaches connected, initialized and ready state (``111``), enter
+``NodeEngine.dist`` in terminal B and start the run:
+
+.. code-block:: bat
+
+   cd "C:\NeQOS\NodeEngine.dist"
+   .\NodeEngine.exe --licenseFile "C:\NeQOSConfig\license-NodeEngine.json" --configFile ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json" --nodeId FakeNodeId --metaProtocolRun ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\MetaProtocolsRun\composedSweep\input.json" --waitProtocol --verboseRunFolders
+
+Both processes read the same network. ``NodeEnginePack`` belongs to NodeEngine;
+there is no need to copy it into DeviceOS. In ``DeviceOS.dist``, the shipped
+driver registry is ``OpenDrivers/OpenDrivers.json``. DeviceOS also finds that
+registry automatically when ``--openDriversFile`` is omitted.
+
+An alternative is to download
+:download:`the example network <../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`
+to a shared working directory and pass its full path to both processes. If your
+DeviceOS archive includes ``config/network-Fake.json``, it is another copy of
+this network; use it only while its identities and endpoints agree with the
+network supplied to NodeEngine. A relative ``--configFile`` or
+``--openDriversFile`` always resolves from the terminal's current directory.
+
+macOS NodeEngine with a remote DeviceOS
+----------------------------------------
+
+Use the matching Windows DeviceOS distribution on its host. Download or copy
+only the network JSON to that host, and change ``deviceEngine.ip`` from
+``127.0.0.1`` to the DeviceOS host's reachable IP in both network copies.
+Keep ``FakeNodeId``, ``FakeDeviceId`` and the ports consistent. The unedited
+localhost example assumes both processes run on one computer.
+
+On the Mac, enter the extracted ``NodeEngine.dist`` directory and run:
+
+.. code-block:: bash
+
+   ./NodeEngine.bin \
+     --licenseFile "/path/to/license-NodeEngine.json" \
+     --configFile "/path/to/network-Fake.json" \
+     --nodeId FakeNodeId \
+     --metaProtocolRun "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json" \
+     --waitProtocol \
+     --verboseRunFolders
+
+On the Windows host, start ``DeviceOS.exe`` with its copy of the same edited
+network, its license and ``--deviceId FakeDeviceId``. Use
+``OpenDrivers/OpenDrivers.json`` from that DeviceOS distribution.
+
+Source checkout
+----------------
+
+From the repository root, start DeviceOS in terminal A:
 
 .. code-block:: bash
 
@@ -38,11 +118,9 @@ In terminal B, start NodeEngine:
      --waitProtocol \
      --verboseRunFolders
 
-For standalone distributions, keep the flags and substitute the matching
-executables. Use the pack and Open-driver registry paths supplied by that
-distribution; extracted layouts may differ. See :doc:`installation` for shell
-syntax. Do not mix a newer pack with an older executable without checking its
-schema compatibility.
+Here ``DeviceOSPack/OpenDrivers`` is the source directory. See
+:doc:`installation` for shell syntax. Keep the executable, library and driver
+contracts from the same release.
 
 What to look for
 ----------------

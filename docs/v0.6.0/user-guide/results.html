@@ -202,9 +202,11 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -532,10 +534,70 @@ the result. It can abbreviate arrays/detail; it does not replace JSON.</p></li>
 histograms, density-matrix plots, PNG and SVG. Use the exported artifact paths
 rather than predicting a filename from the protocol’s name.</p></li>
 </ul>
+<section id="manifest-0-2-and-complete-evidence">
+<h3>Manifest 0.2 and complete evidence<a class="headerlink" href="#manifest-0-2-and-complete-evidence" title="Link to this heading">¶</a></h3>
+<p>Protocol manifests use <code class="docutils literal notranslate"><span class="pre">schemaVersion:</span> <span class="pre">&quot;0.2&quot;</span></code>. Their input/export mappings
+and browser projections can be abbreviated: long arrays may appear as
+<code class="docutils literal notranslate"><span class="pre">itemCount</span></code> plus <code class="docutils literal notranslate"><span class="pre">preview</span></code>; deep objects may show keys/counts instead of
+values. These are display/provenance previews, not lossless scientific inputs.
+Use the referenced evidence files when reproducing an analysis.</p>
+<div class="table-wrapper colwidths-given api-table protocol-input-table docutils container">
+<table class="api-table protocol-input-table docutils align-default">
+<colgroup>
+<col style="width: 28.0%" />
+<col style="width: 72.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File or reference</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run-inputs.json</span></code></p></td>
+<td><p>Full protocol inputs and run-step provenance. Resolve <code class="docutils literal notranslate"><span class="pre">inputs.fullInputsFile</span></code> relative to this protocol’s manifest directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run-stages.jsonl</span></code></p></td>
+<td><p>Append-only JSON Lines stage outcomes, including returned requeue results. Read one JSON object per line; follow <code class="docutils literal notranslate"><span class="pre">execution.stageResultsFile</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run-exports.json</span></code></p></td>
+<td><p>Complete export mapping finalized at protocol termination. Follow <code class="docutils literal notranslate"><span class="pre">outputs.exportsFile</span></code>; it is null before terminal export evidence is available.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run-lifecycle.json</span></code></p></td>
+<td><p>Complete <code class="docutils literal notranslate"><span class="pre">deviceTasks</span></code> and <code class="docutils literal notranslate"><span class="pre">stageAttempts</span></code> evidence finalized at termination, beyond the bounded manifest timing window.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run-summary.json</span></code></p></td>
+<td><p>Small run state/update-time summary used for archive listing; not scientific data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The manifest retains only the last 50 device-task/stage-attempt entries and
+their total counts. Its stage-result summary/count is not the complete stage
+journal. Terminal cleanup registrations and their last attempt remain under
+<code class="docutils literal notranslate"><span class="pre">execution.terminalCleanup</span></code> in the manifest. A failure before a stage returns
+need not have a journal outcome; inspect lifecycle and failure evidence too.</p>
+<p>The plan’s own manifest also uses schema 0.2. Each executed step can reference
+<code class="docutils literal notranslate"><span class="pre">steps[].exportsFile</span></code> relative to the plan directory instead of embedding
+scientific exports. A never-submitted step can have no run directory or export
+file. In-memory <code class="docutils literal notranslate"><span class="pre">$steps</span></code> dataflow still consumes complete declared exports;
+browser previews are not its input.</p>
+<p>Keep <code class="docutils literal notranslate"><span class="pre">result.json</span></code> as the canonical scientific publication. Terminal export
+evidence can exist for a failed/aborted protocol and does not make it an
+eligible successful child or run-plan input. Old manifests remain readable in
+the viewer; do not assume every archive has schema 0.2 evidence files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Metadata writes are coalesced off the event loop. Terminal completion and
+orderly shutdown wait for pending writes, and failed/pending persistence
+prevents runtime evidence retirement. This is not a power-loss/fsync
+guarantee. During a live run, referenced evidence can still be pending;
+preserve the complete terminal directory for reproducibility.</p>
+</div>
 <p>Parents aggregate observations appropriate to their output contract. The logical
 6-by-6 matrix belongs to the pair-polarization observation. A fidelity parent
 can refer to that child rather than duplicate the raw matrix under another
 namespace; retain the child evidence for reproducibility.</p>
+</section>
 </section>
 <section id="check-execution-and-scientific-meaning-separately">
 <h2>Check execution and scientific meaning separately<a class="headerlink" href="#check-execution-and-scientific-meaning-separately" title="Link to this heading">¶</a></h2>
@@ -647,6 +709,29 @@ plan/protocol manifests, canonical result files, child matrices/window evidence,
 plots, device-side file manifests and the relevant host logs. Record whether
 the guard was disabled, whether calibration was persisted and which analyzer
 tables were used. Never include the license activation file in a public issue.</p>
+</section>
+<section id="operator-storage-and-backup">
+<h2>Operator storage and backup<a class="headerlink" href="#operator-storage-and-backup" title="Link to this heading">¶</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">--serve</span></code>, <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> selects the operator data directory
+(default <code class="docutils literal notranslate"><span class="pre">OperatorData</span></code>). Its <code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> records named experiment
+and network revisions, immutable submissions, effective-input provenance,
+queue state and run history. Scientific evidence is stored separately under
+<code class="docutils literal notranslate"><span class="pre">runs/&lt;UUID&gt;/</span></code> with its stage/iteration/operation directories. CLI results
+normally remain under <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code>; a browser-local draft or Grafana
+configuration is not part of the operator database.</p>
+<p>To back up the complete operator record, stop NodeEngine deliberately and copy
+the whole operator data directory, including <code class="docutils literal notranslate"><span class="pre">runs/</span></code>. A live copy of only
+<code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> can omit its write-ahead log and be inconsistent. An
+administrator using SQLite’s backup API must also arrange a coherent copy of
+the artifact/evidence directories; a database backup alone is not a scientific
+archive. Do not stop an active experiment merely to obtain a backup without
+coordinating its termination and cleanup.</p>
+<p>After restart, stored active runs are <strong>INTERRUPTED</strong>, queued runs remain and
+the queue is paused. History is bound to inventory identity/endpoints, not an
+invented experiment identity for old CLI runs. Restore a complete backup into a
+compatible installation and inspect its state before resuming queued work.
+See <a class="reference internal" href="browser-interface.html"><span class="doc">Use the browser interface</span></a> for timeline, revisions, grouped downloads and
+parameter reuse.</p>
 </section>
 </section>
 

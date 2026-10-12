@@ -202,9 +202,11 @@
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -484,6 +486,8 @@ follow the installation, configuration and execution chapters for a first run.
 Use <a class="reference internal" href="protocols/index.html"><span class="doc">Built-in protocol catalog</span></a> to select an operation and inspect its declared
 inputs, defaults and outputs. The API Reference covers driver task surfaces
 and protocol implementation stages.</p>
+<p>Already using 0.5.0? Start with <a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a>. For current launch
+commands, choose <a class="reference internal" href="running.html#headless-inventory-run"><span class="std std-ref">Run without a browser</span></a> or <a class="reference internal" href="running.html#browser-inventory-run"><span class="std std-ref">Operate from a browser</span></a>.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Use matching NodeEngine, DeviceOS, contracts and examples for this release.
@@ -508,10 +512,20 @@ serial numbers and detector wiring against your network.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">1. Install the software</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#choose-a-matching-distribution">Choose a matching distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standalone-directory-layout">Standalone directory layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#windows-unsigned-builds-and-smart-app-control">Windows: unsigned builds and Smart App Control</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-hardware-runtime-on-the-deviceos-host">Install the hardware runtime on the DeviceOS host</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#choose-writable-per-pc-data-directories">Choose writable per-PC data directories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#source-checkout-alternative">Source-checkout alternative</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#what-changes-in-everyday-use">What changes in everyday use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#preserve-the-existing-installation-and-data">1 Preserve the existing installation and data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#separate-equipment-experiment-and-host-local-settings">2 Separate equipment, experiment and host-local settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#update-each-deviceos-launcher">3 Update each DeviceOS launcher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#choose-the-nodeengine-workflow">4 Choose the NodeEngine workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#review-wiring-and-retained-data">5 Review wiring and retained data</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network.html">2. Describe the network</a><ul>
@@ -524,6 +538,9 @@ serial numbers and detector wiring against your network.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. First run without hardware</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#prepare-two-terminals">Prepare two terminals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#windows-standalone-distributions">Windows standalone distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#macos-nodeengine-with-a-remote-deviceos">macOS NodeEngine with a remote DeviceOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#source-checkout">Source checkout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#what-to-look-for">What to look for</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#if-it-fails">If it fails</a></li>
 </ul>
@@ -540,9 +557,23 @@ serial numbers and detector wiring against your network.</p>
 <li class="toctree-l2"><a class="reference internal" href="running.html#extend-a-raw-recording-bracket">Extend a raw-recording bracket</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="browser-interface.html">Use the browser interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#connect-to-the-operator">Connect to the operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#inspect-the-network-and-devices">Inspect the network and devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#compose-and-validate-a-run">Compose and validate a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#protocols-accepted-by-the-operator">Protocols accepted by the operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#what-is-available-during-execution">What is available during execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#observe-and-abort">Observe and abort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#history-revisions-and-parameter-reuse">History, revisions and parameter reuse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#reconnect-and-authentication">Reconnect and authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#configure-external-grafana-dashboards">Configure external Grafana dashboards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#use-the-offline-viewer">Use the offline viewer</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="recipes.html">5. Experimental recipes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#finite-detector-observations">Finite detector observations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#align-detector-timing-before-narrow-window-coincidences">Align detector timing before narrow-window coincidences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#ieee-qce-2026-align-snspd-input-polarization">IEEE QCE 2026: align SNSPD input polarization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#capture-and-transfer-raw-time-tags">Capture and transfer raw time tags</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#measure-background-without-leaving-the-source-parked">Measure background without leaving the source parked</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#single-link-and-two-link-polarization-acquisition">Single-link and two-link polarization acquisition</a></li>
@@ -558,6 +589,7 @@ serial numbers and detector wiring against your network.</p>
 <li class="toctree-l2"><a class="reference internal" href="results.html#check-execution-and-scientific-meaning-separately">Check execution and scientific meaning separately</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html#troubleshooting-in-order">Troubleshooting in order</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html#what-to-retain-for-a-reproducible-report">What to retain for a reproducible report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html#operator-storage-and-backup">Operator storage and backup</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a><ul>
@@ -597,10 +629,13 @@ serial numbers and detector wiring against your network.</p>
 <strong>DeviceEngine</strong> and hardware driver. The driver declares the device’s task
 surface; the DeviceEngine exposes it, admits and schedules device tasks,
 and reports their lifecycle.</p></li>
-<li><p><strong>NodeEngine</strong> coordinates the devices of one selected network node,
+<li><p><strong>NodeEngine</strong> coordinates the configured devices (across inventory nodes
+in inventory mode),
 schedules protocols, manages device leases and writes the execution record.</p></li>
 <li><p>The <strong>network description</strong> (<code class="docutils literal notranslate"><span class="pre">network.json</span></code>) declares device identities,
-endpoints, channels, link roles and physical limits.</p></li>
+endpoints, channels, link roles and physical limits.
+Inventory mode separates stable equipment from the experiment’s topology
+and operating settings; see <a class="reference internal" href="network.html"><span class="doc">2. Describe the network</span></a>.</p></li>
 <li><p>The <strong>run plan</strong> (<code class="docutils literal notranslate"><span class="pre">input.json</span></code>) selects a library and an ordered list of
 protocols with their input overrides. It does not replace the network
 description.</p></li>

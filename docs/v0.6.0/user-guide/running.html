@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="5. Experimental recipes" href="recipes.html"><link rel="prev" title="3. First run without hardware" href="quickstart.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Use the browser interface" href="browser-interface.html"><link rel="prev" title="3. First run without hardware" href="quickstart.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>4. Run and customize a protocol - NeQOS documentation</title>
@@ -202,9 +202,11 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -538,28 +540,14 @@ folder.</p>
 </section>
 <section id="launch-deviceos-then-nodeengine">
 <h2>Launch DeviceOS, then NodeEngine<a class="headerlink" href="#launch-deviceos-then-nodeengine" title="Link to this heading">¶</a></h2>
-<p>Start one DeviceOS per required device, using its host and hardware runtime.
-For a Windows launcher:</p>
-<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\NeQOS\DeviceOS.dist\DeviceOS.exe</span><span class="c1"> ^</span>
-  --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --deviceId ExampleTimeTaggerId
-</pre></div>
-</div>
-<p>Wait for readiness, then launch NodeEngine on its host:</p>
-<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>C<span class="p">:</span><span class="nl">\NeQOS\NodeEngine.dist\NodeEngine.exe</span><span class="c1"> ^</span>
-  --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --nodeId ExampleNodeId <span class="se">^</span>
-<span class="se"> </span> --metaProtocolRun <span class="s2">&quot;C:\NeQOSConfig\input.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --waitProtocol <span class="se">^</span>
-<span class="se"> </span> --verboseRunFolders
-</pre></div>
-</div>
-<p>In a source checkout, use the Python prefix shown in <a class="reference internal" href="quickstart.html"><span class="doc">3. First run without hardware</span></a>.
-There is no <code class="docutils literal notranslate"><span class="pre">--protocolId</span></code> selector: select protocols inside the run input.
-The network is <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>; the list of operations is <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code>.
-Keep hardware processes alive through terminal cleanup.</p>
+<p>Start one DeviceOS per enabled active inventory device on its hardware host,
+then start one NodeEngine in the mode described in
+<a class="reference internal" href="#choose-nodeengine-operation"><span class="std std-ref">Choose command-line or browser operation</span></a> below. For the single-file examples shipped
+with protocols, use <a class="reference internal" href="#single-file-operation"><span class="std std-ref">Continue using a single-file network</span></a> instead. Do not pass an
+<code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> file directly to DeviceOS.</p>
+<p>There is no <code class="docutils literal notranslate"><span class="pre">--protocolId</span></code> selector: select protocols inside the run input.
+Keep DeviceOS processes alive through terminal cleanup. If upgrading existing
+launchers, first read <a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a>.</p>
 </section>
 <section id="declared-timeouts-and-async-completion-waits">
 <span id="protocol-timeouts"></span><h2>Declared timeouts and async completion waits<a class="headerlink" href="#declared-timeouts-and-async-completion-waits" title="Link to this heading">¶</a></h2>
@@ -592,49 +580,170 @@ completion waits. Treat an active or unclaimed device artifact as recovery
 evidence, not a successfully published recording.</p>
 </section>
 <section id="choose-command-line-or-browser-operation">
-<h2>Choose command-line or browser operation<a class="headerlink" href="#choose-command-line-or-browser-operation" title="Link to this heading">¶</a></h2>
+<span id="choose-nodeengine-operation"></span><h2>Choose command-line or browser operation<a class="headerlink" href="#choose-command-line-or-browser-operation" title="Link to this heading">¶</a></h2>
 <p>NodeEngine can execute a meta-protocol without a graphical interface. In
 operator mode the same NodeEngine process also serves a browser interface;
 the browser can run on a different computer through an SSH tunnel.</p>
+<div class="table-wrapper colwidths-given docutils container" id="id3">
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Choose the execution mode</span><a class="headerlink" href="#id3" title="Link to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 38.0%" />
+<col style="width: 37.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>NodeEngine arguments with an inventory</p></th>
+<th class="head"><p>Where the run is selected</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Command line</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> + <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> + <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code> + <code class="docutils literal notranslate"><span class="pre">--waitProtocol</span></code></p></td>
+<td><p>In the run-plan JSON; one protocol or ordered steps.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Browser operator</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> + <code class="docutils literal notranslate"><span class="pre">--serve</span></code>; optional <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> for boot activation.</p></td>
+<td><p>In the browser after experiment activation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Both NodeEngine launch commands below boot the real engine and can
-initialize configured devices. Start the required DeviceOS processes and
-check the active network before using either command. These are not
-hardware-free preview commands.</p>
+<p>These launch commands start real engines and can initialize or configure
+hardware. Review optical powers, detector protection and calibration
+effects before execution. Use <a class="reference internal" href="quickstart.html"><span class="doc">3. First run without hardware</span></a> for a software-only test.</p>
 </div>
-<p>The examples use a source checkout. For an executable distribution, replace
-<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">NodeEnginePack.NodeEngine</span></code> with its NodeEngine launcher, keeping
-the same arguments. Browser operation requires the operator runtime and
-browser assets to be included in that distribution.</p>
+<section id="prepare-the-files-and-start-deviceos">
+<h3>Prepare the files and start DeviceOS<a class="headerlink" href="#prepare-the-files-and-start-deviceos" title="Link to this heading">¶</a></h3>
+<p>Prepare the following files; filenames are examples, not fixed names:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lab-inventory.json</span></code>: stable devices, endpoints, driver and boot settings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">experiment.json</span></code>: experiment topology and operating settings referencing
+that inventory’s <code class="docutils literal notranslate"><span class="pre">inventoryId</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input.json</span></code>: the run plan, used directly by CLI or composed in the browser.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DeviceOS.local.json</span></code>: per-host vendor SDK paths, not optical topology.</p></li>
+</ul>
+<p>Use the same inventory content on all hosts. Its path may differ between PCs.
+Choose a real <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> from it and a valid NodeEngine <code class="docutils literal notranslate"><span class="pre">nodeId</span></code>. Paths and
+IDs below are placeholders. A shared file path does not configure networking:
+device endpoints must be reachable from NodeEngine.</p>
+<p>On Windows, from <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>, start one process per enabled active device:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\DeviceOS.exe <span class="se">^</span>
+<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --localConfigFile <span class="s2">&quot;C:\NeQOSConfig\DeviceOS.local.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --deviceId YOUR_DEVICE_ID <span class="se">^</span>
+<span class="se"> </span> --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span>
+</pre></div>
+</div>
+<p>DeviceOS still uses <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> for the inventory; it does not use
+NodeEngine’s <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> or <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> options. Prepare the SDK
+paths and calibration environment as described in <a class="reference internal" href="installation.html"><span class="doc">1. Install the software</span></a>.
+Wait for connected, initialized and ready state before starting the experiment.
+Passive splitters have no DeviceOS process.</p>
+<p>Windows examples below run from <code class="docutils literal notranslate"><span class="pre">NodeEngine.dist</span></code> in <strong>Command Prompt</strong>;
+<code class="docutils literal notranslate"><span class="pre">^</span></code> is not PowerShell line continuation. macOS examples run from
+<code class="docutils literal notranslate"><span class="pre">NodeEngine.dist</span></code> with the supplied launcher, shown here as <code class="docutils literal notranslate"><span class="pre">NodeEngine.bin</span></code>.
+Replace that filename if your archive uses another name. Before hardware use,
+check each executable with <code class="docutils literal notranslate"><span class="pre">--version</span></code> and <code class="docutils literal notranslate"><span class="pre">--help</span></code>; use matching 0.6.0 builds.</p>
+</section>
 <section id="run-without-a-browser">
-<h3>Run without a browser<a class="headerlink" href="#run-without-a-browser" title="Link to this heading">¶</a></h3>
-<p>Pass the run plan JSON, containing one protocol or an ordered sequence:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.NodeEngine<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;/path/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span id="headless-inventory-run"></span><h3>Run without a browser<a class="headerlink" href="#run-without-a-browser" title="Link to this heading">¶</a></h3>
+<p>With DeviceOS running, start NodeEngine with both the inventory and experiment,
+then the run plan. Windows:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\NodeEngine.exe <span class="se">^</span>
+<span class="se"> </span> --inventoryFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --networkFile <span class="s2">&quot;C:\NeQOSConfig\experiment.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --nodeId YOUR_NODE_ID <span class="se">^</span>
+<span class="se"> </span> --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --metaProtocolRun <span class="s2">&quot;C:\NeQOSConfig\input.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --waitProtocol --dashboard
+</pre></div>
+</div>
+<p>macOS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./NodeEngine.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;/path/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;/path/experiment.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>YOUR_NODE_ID<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;/path/input.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--waitProtocol
+<span class="w">  </span>--waitProtocol<span class="w"> </span>--dashboard
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">--waitProtocol</span></code> keeps the process waiting for the plan’s terminal outcome.
-Add <code class="docutils literal notranslate"><span class="pre">--dashboard</span></code> for periodic state output in the terminal. Neither a
-browser nor the optional operator web runtime is needed for this mode.</p>
+<p>NodeEngine validates and activates the experiment before executing the plan.
+Supplying <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> authorizes that startup activation, including its
+recorded warnings and hardware settings. It is not an offline dry-run.
+The inventory CLI run requires <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code>; the experiment cannot be
+selected later through a browser in this mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--waitProtocol</span></code> waits for the plan’s terminal outcome before shutdown.
+<code class="docutils literal notranslate"><span class="pre">--dashboard</span></code> adds periodic terminal state output; it is optional and does
+not start a web server. Read the final <code class="docutils literal notranslate"><span class="pre">[PLAN]</span> <span class="pre">terminal</span> <span class="pre">state=...</span> <span class="pre">reason=...</span></code>
+message and the result files, not only the process closing. Use <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> for
+an orderly stop and allow cleanup to finish; avoid killing DeviceOS first.
+Add <code class="docutils literal notranslate"><span class="pre">--verboseRunFolders</span></code> if desired for descriptive child directory names.</p>
+<p>CLI runs write below <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code> in NodeEngine’s working directory.
+They do not become operator timeline entries automatically. See <a class="reference internal" href="results.html"><span class="doc">6. Read results and diagnose failures</span></a>
+for provenance, cleanup and scientific outputs. No browser or optional
+<code class="docutils literal notranslate"><span class="pre">aiohttp</span></code> operator dependency is required for this mode. The Open-library
+folder is selected in the run plan; <code class="docutils literal notranslate"><span class="pre">--openLibrary</span></code> is operator-only.</p>
 </section>
 <section id="operate-from-a-browser">
-<h3>Operate from a browser<a class="headerlink" href="#operate-from-a-browser" title="Link to this heading">¶</a></h3>
-<p>Start one NodeEngine process in operator mode:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.NodeEngine<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;/path/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--nodeId<span class="w"> </span>YOUR_NODE_ID<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--serve<span class="w"> </span>--operatorPort<span class="w"> </span><span class="m">8766</span>
+<span id="browser-inventory-run"></span><h3>Operate from a browser<a class="headerlink" href="#operate-from-a-browser" title="Link to this heading">¶</a></h3>
+<p>With DeviceOS running, start one NodeEngine operator without selecting an
+experiment yet. Windows:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\NodeEngine.exe <span class="se">^</span>
+<span class="se"> </span> --inventoryFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --nodeId YOUR_NODE_ID <span class="se">^</span>
+<span class="se"> </span> --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --serve --operatorPort 8766 <span class="se">^</span>
+<span class="se"> </span> --operatorData <span class="s2">&quot;C:\NeQOSData\OperatorData&quot;</span>
 </pre></div>
 </div>
-<p>Open <a class="reference external" href="http://127.0.0.1:8766">http://127.0.0.1:8766</a> and enter the startup
-token printed in that terminal. The interface lets you compose, validate,
-submit and follow runs. Do not put the token in a URL.</p>
+<p>macOS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./NodeEngine.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;/path/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nodeId<span class="w"> </span>YOUR_NODE_ID<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--serve<span class="w"> </span>--operatorPort<span class="w"> </span><span class="m">8766</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--operatorData<span class="w"> </span><span class="s2">&quot;/path/OperatorData&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Open <a class="reference external" href="http://127.0.0.1:8766">http://127.0.0.1:8766</a> on the NodeEngine PC
+and enter the token printed in its terminal. Do not put the token in a URL.</p></li>
+<li><p>In <strong>Network &amp; devices</strong>, load the experiment file, validate the live diff
+and review warnings, then activate it. Wait for activation to complete;
+an inventory alone is not an active experiment.</p></li>
+<li><p>In <strong>Library</strong>, compose or import a run, supply its parameters and use
+<strong>Validate with NodeEngine</strong>. Inspect exact resources and any errors.</p></li>
+<li><p>Start the run and follow its children, tasks and leases in <strong>Execution</strong>.
+While busy, observe or abort; do not submit another plan, change networks
+or browse historical runs. Already planned children continue normally.</p></li>
+<li><p>After completion, inspect results or reuse parameters from the timeline.
+After abort, wait for cleanup; the queue remains paused until you resume it.</p></li>
+</ol>
+<p>For composition, planner coverage, saved experiments, abort and history, see
+<a class="reference internal" href="browser-interface.html"><span class="doc">Use the browser interface</span></a>. Unsupported browser plans are rejected before
+submission; CLI availability does not imply operator-planner coverage.</p>
+<p>Keep <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> stable across restarts to retain the SQLite registry,
+saved experiments and run artifacts. On restart, interrupted active records
+remain evidence and the queue is paused. Re-activate the intended network;
+there is no automatic mid-run resume. You may add <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> to the
+startup command to authorize boot activation explicitly instead of selecting
+it in the UI. Use <a class="reference internal" href="results.html"><span class="doc">6. Read results and diagnose failures</span></a> for backup instructions.</p>
+<p>For a source checkout, replace the executable with
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">NodeEnginePack.NodeEngine</span></code> (or <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">DeviceOSPack.DeviceOS</span></code>)
+from the repository root. Before source-mode browser use, install its optional
+dependency in that Python environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>NodeEnginePack/BrowserUI/Operator/requirements.txt
+</pre></div>
+</div>
+<p>Compiled browser operation requires the operator dependencies and
+<code class="docutils literal notranslate"><span class="pre">NodeEnginePack/BrowserUI/static</span></code> assets in the distribution. It does not
+require a separate frontend build or a second browser server. Configure
+trusted Open libraries at startup with repeatable <code class="docutils literal notranslate"><span class="pre">--openLibrary</span></code> paths.</p>
 <p>Do not start <code class="docutils literal notranslate"><span class="pre">NodeEnginePack.BrowserUI.server</span></code> separately for live operation:
 that is the standalone read-only viewer, not the operator service.
 <code class="docutils literal notranslate"><span class="pre">--serve</span></code> and <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code> cannot be combined. Operator mode
@@ -644,8 +753,26 @@ NodeEngine process, which must remain running. Operator mode does not attach
 to an existing NodeEngine process; stop that process deliberately before
 changing modes instead of launching a second engine for the same devices.</p>
 </section>
+<section id="continue-using-a-single-file-network">
+<span id="single-file-operation"></span><h3>Continue using a single-file network<a class="headerlink" href="#continue-using-a-single-file-network" title="Link to this heading">¶</a></h3>
+<p>The existing single-file workflow remains supported for current-format
+networks and shipped RunExamples. DeviceOS uses <code class="docutils literal notranslate"><span class="pre">--configFile</span> <span class="pre">network.json</span></code>.
+On NodeEngine, replace the inventory/experiment pair with <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\NodeEngine.exe --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> --nodeId YOUR_NODE_ID --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> --metaProtocolRun <span class="s2">&quot;C:\NeQOSConfig\input.json&quot;</span> --waitProtocol
+</pre></div>
+</div>
+<p>For browser operation on that fixed network:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\NodeEngine.exe --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> --nodeId YOUR_NODE_ID --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> --serve --operatorPort 8766 --operatorData <span class="s2">&quot;C:\NeQOSData\OperatorData&quot;</span>
+</pre></div>
+</div>
+<p>Do not combine <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> with <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>. <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code>
+requires <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>. An <code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> document is not a complete
+single-file network. Use inventory mode for changing experiments while
+keeping the stable equipment inventory connected. See <a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a>
+for renamed detector fields and the files to review before upgrading.</p>
+</section>
 <section id="use-a-browser-on-another-computer">
-<h3>Use a browser on another computer<a class="headerlink" href="#use-a-browser-on-another-computer" title="Link to this heading">¶</a></h3>
+<span id="id1"></span><h3>Use a browser on another computer<a class="headerlink" href="#use-a-browser-on-another-computer" title="Link to this heading">¶</a></h3>
 <p>The operator service listens only on the NodeEngine host’s loopback address.
 Opening <code class="docutils literal notranslate"><span class="pre">http://LAB_HOST_IP:8766</span></code> from another computer does not connect to
 it. Direct remote access is not implemented.</p>
@@ -817,12 +944,12 @@ cleanup stage contracts when developing such a library.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="recipes.html">
+          <a class="next-page" href="browser-interface.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">5. Experimental recipes</div>
+                <div class="title">Use the browser interface</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

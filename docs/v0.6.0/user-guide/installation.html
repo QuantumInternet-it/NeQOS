@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="2. Describe the network" href="network.html"><link rel="prev" title="How NeQOS works" href="how-neqos-works.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Move from 0.5.0 to 0.6.0" href="upgrading-0.6.0.html"><link rel="prev" title="How NeQOS works" href="how-neqos-works.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>1. Install the software - NeQOS documentation</title>
@@ -202,9 +202,11 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -516,6 +518,25 @@ layout supplied for your host. Windows Command Prompt continues lines with
 <code class="docutils literal notranslate"><span class="pre">^</span></code>; PowerShell uses a backtick; Bash/Zsh use <code class="docutils literal notranslate"><span class="pre">\</span></code>. Do not paste one shell’s
 continuation characters into another.</p>
 </section>
+<section id="standalone-directory-layout">
+<h2>Standalone directory layout<a class="headerlink" href="#standalone-directory-layout" title="Link to this heading">¶</a></h2>
+<p>DeviceOS distributes its editable driver registry and Python drivers in
+<code class="docutils literal notranslate"><span class="pre">DeviceOS.dist/OpenDrivers/</span></code>. The source-checkout location
+<code class="docutils literal notranslate"><span class="pre">DeviceOSPack/OpenDrivers/</span></code> is not the path to pass from a standalone
+terminal. If the registry was included in the archive, DeviceOS finds it
+automatically; an explicit override is <code class="docutils literal notranslate"><span class="pre">--openDriversFile</span>
+<span class="pre">&quot;./OpenDrivers/OpenDrivers.json&quot;</span></code> from inside <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>.</p>
+<p>Open meta-protocol libraries belong to
+<code class="docutils literal notranslate"><span class="pre">NodeEngine.dist/NodeEnginePack/OpenMetaProtocols/</span></code>. DeviceOS needs the
+network JSON selected by <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>, not the NodeEngine library folder.
+Point both executables to the same network, or use matching copies on separate
+hosts. See <a class="reference internal" href="quickstart.html"><span class="doc">3. First run without hardware</span></a> for exact Windows commands that use the network
+in a sibling NodeEngine distribution without copying any directory.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> or <code class="docutils literal notranslate"><span class="pre">FakeDriver.py</span></code> is missing, check that
+you extracted the full DeviceOS archive. If those files are absent from the
+archive itself, the release packaging is incomplete; obtain a corrected
+archive from the maintainer.</p>
+</section>
 <section id="windows-unsigned-builds-and-smart-app-control">
 <span id="windows-unsigned-builds"></span><h2>Windows: unsigned builds and Smart App Control<a class="headerlink" href="#windows-unsigned-builds-and-smart-app-control" title="Link to this heading">¶</a></h2>
 <p>A digital signature is not a universal NeQOS requirement. An unsigned
@@ -557,9 +578,10 @@ Swabian Instruments Time Tagger Python/native driver and Thorlabs Kinesis for MP
 Serial devices need a working serial interface and the correct COM/TTY path.
 The NodeEngine host does not need another device’s vendor SDK merely to
 orchestrate it over the network.</p>
-<p>Start from the shipped <code class="docutils literal notranslate"><span class="pre">config/DeviceOS.local.json.example</span></code> and save your
-machine-specific copy as <code class="docutils literal notranslate"><span class="pre">config/DeviceOS.local.json</span></code> beside DeviceOS, or
-select a different file with <code class="docutils literal notranslate"><span class="pre">--localConfigFile</span></code>. Follow
+<p>Create or adapt <code class="docutils literal notranslate"><span class="pre">config/DeviceOS.local.json</span></code> below <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>, or
+select a host-local file elsewhere with <code class="docutils literal notranslate"><span class="pre">--localConfigFile</span></code>. If an older
+archive supplies only a <code class="docutils literal notranslate"><span class="pre">.example</span></code> file, copy it to that active filename;
+the <code class="docutils literal notranslate"><span class="pre">.example</span></code> name is not loaded automatically. Follow
 <a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html"><span class="doc">DeviceOS Runtime Setup</span></a> for the exact supported environment keys
 and driver-specific search paths. Keep vendor paths out of portable
 <code class="docutils literal notranslate"><span class="pre">network.json</span></code> files.</p>
@@ -572,7 +594,12 @@ and driver-specific search paths. Keep vendor paths out of portable
 </pre></div>
 </div>
 <p>Check the installed vendor directory before using these illustrative paths.
-An SDK load error and a NodeEngine connectivity error are different problems.</p>
+An SDK load error and a NodeEngine connectivity error are different problems.
+For Swabian, both settings must be read from the JSON file; setting only shell
+variables with these names does not satisfy DeviceOS’s local configuration
+check. A missing-key error means the settings were not loaded, while a
+path-does-not-exist error means the loaded directory is invalid. Correct the
+file/path before considering recompilation.</p>
 </section>
 <section id="choose-writable-per-pc-data-directories">
 <h2>Choose writable per-PC data directories<a class="headerlink" href="#choose-writable-per-pc-data-directories" title="Link to this heading">¶</a></h2>
@@ -588,7 +615,8 @@ For a Windows Command Prompt <code class="docutils literal notranslate"><span cl
 <span class="k">if</span> <span class="k">not</span> <span class="k">exist</span> <span class="s2">&quot;</span><span class="nv">%NEQOS_CALIBRATION_DIR%</span><span class="s2">&quot;</span> <span class="k">mkdir</span> <span class="s2">&quot;</span><span class="nv">%NEQOS_CALIBRATION_DIR%</span><span class="s2">&quot;</span>
 C<span class="p">:</span><span class="nl">\NeQOS\DeviceOS.dist\DeviceOS.exe</span><span class="c1"> ^</span>
   --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --localConfigFile <span class="s2">&quot;C:\NeQOSConfig\DeviceOS.local.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --deviceId ExampleTimeTaggerId
 <span class="k">pause</span>
 </pre></div>
@@ -596,17 +624,25 @@ C<span class="p">:</span><span class="nl">\NeQOS\DeviceOS.dist\DeviceOS.exe</spa
 <p>If directory creation fails, correct permissions or the path before launching.
 Use a separate launcher per device or pass its identifier explicitly.
 Environment variables set with <code class="docutils literal notranslate"><span class="pre">setlocal</span></code> apply to the launched process, not
-to other terminals. A machine-local runtime configuration may also supply
-environment settings: avoid conflicting values for the same key.</p>
+to other terminals. <code class="docutils literal notranslate"><span class="pre">DeviceOS.local.json</span></code> applies only the two Swabian SDK
+paths and <code class="docutils literal notranslate"><span class="pre">THORLABS_KINESIS_PATH</span></code>; it does not apply the three <code class="docutils literal notranslate"><span class="pre">NEQOS_*</span></code>
+directory variables shown above. Set those in the launcher/process environment.</p>
 <p><code class="docutils literal notranslate"><span class="pre">NEQOS_LOG_DIR</span></code> selects log files, not the NodeEngine execution-record directory.
 <code class="docutils literal notranslate"><span class="pre">NEQOS_DEVICE_ARTIFACT_DIR</span></code> selects device-created artifacts such as raw
 Time Tagger files. <code class="docutils literal notranslate"><span class="pre">NEQOS_CALIBRATION_DIR</span></code> selects compensation storage on
-the DeviceOS host. NodeEngine runs currently write under
-<code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code> in its working directory. See <a class="reference internal" href="results.html"><span class="doc">6. Read results and diagnose failures</span></a> before
+the DeviceOS host. CLI NodeEngine runs write under <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code> in
+its working directory; operator runs use <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code>. See <a class="reference internal" href="results.html"><span class="doc">6. Read results and diagnose failures</span></a> before
 looking for a file on the wrong computer.</p>
 <p>A local writable data directory is a useful troubleshooting baseline. You may
 choose a shared/synchronized directory, but a console logging error is not
 proof that synchronization caused a failure.</p>
+<p>For shared calibration storage, set an absolute path such as
+<code class="docutils literal notranslate"><span class="pre">NEQOS_CALIBRATION_DIR=G:\NeQOS-shared\calibration</span></code> before DeviceOS starts.
+Retain or explicitly copy the existing tables; changing the variable does not
+move them. An absolute compensation-file path configured for a device overrides
+this default directory for that file. Avoid concurrent writes to the same file:
+cloud synchronization does not coordinate device ownership. See
+<a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a> for the complete launcher migration checklist.</p>
 </section>
 <section id="source-checkout-alternative">
 <h2>Source-checkout alternative<a class="headerlink" href="#source-checkout-alternative" title="Link to this heading">¶</a></h2>
@@ -628,12 +664,12 @@ setup page for the specific driver you need.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="network.html">
+          <a class="next-page" href="upgrading-0.6.0.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">2. Describe the network</div>
+                <div class="title">Move from 0.5.0 to 0.6.0</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

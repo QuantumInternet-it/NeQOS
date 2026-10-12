@@ -7,6 +7,8 @@ Open meta-protocol example that invokes NeQOS's exported protected MPC optimizat
 
 Library ID: ``ieee-qce-2026-demo``
 
+For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+
 .. toctree::
    :hidden:
    :maxdepth: 1

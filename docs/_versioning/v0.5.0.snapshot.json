@@ -251,23 +251,23 @@
     "_sources/api/NodeEngine/handlers/device-lifecycle.rst.txt": "e6181833b61521b569bc0b2661ce5728285e11b36ee5d730b3fd3516291f17e6",
     "_sources/api/NodeEngine/handlers/results.rst.txt": "b7c6bf23ddff4e25488095783bc5825fd3706ff5be40200ca6f69a2751eebc9e",
     "_sources/api/NodeEngine/index.rst.txt": "6d084dbb0d25b1126f01233f27f3de5d8acb55de01798044b852575822fe6cbc",
-    "_sources/api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.rst.txt": "aefeecc29f9edae49e03a800ba0db369e43c629431d446e987b59cf37fd6b10f",
-    "_sources/api/NodeEngine/open/external-python-package-dependency.rst.txt": "29c85c5f7f185b994d75251e97516a1c798ddfe427fc23d6ef40efef94317791",
+    "_sources/api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.rst.txt": "989dc0bf49f8de73a79c23fb22a10c255cd07d94fe43de755b65ab4343660284",
+    "_sources/api/NodeEngine/open/external-python-package-dependency.rst.txt": "7d547ac8839cd45aa152cf220bed23d820dea67a75518fe0087b058d49ec2d7e",
     "_sources/api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH.rst.txt": "f20cb25517a5f03d1324808adad00f146303d85056406cefb5a34add613fdb35",
     "_sources/api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF.rst.txt": "2f7a9fd7a98cea05ebac21c07a29ffb8d68484e83c203dd115f2f3c7e5546f3b",
-    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.rst.txt": "ff304b0a6bad7b54f6dab26f8d2647349baa8a7b7521db68037cce95d89d4904",
-    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.rst.txt": "3df6824385e22c74d682fa1f0e165e4350f309042a95d3a81af513b1b1db51d6",
-    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.rst.txt": "f88f69509917d417856403fd6be28c3089267cc0d2c6b3688debedeb12bfcbe7",
-    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-STAGED.rst.txt": "e53e61dd946bd8b5bb6c4114d79d54beea92a5c718be66ef1e440740b929b5eb",
-    "_sources/api/NodeEngine/open/fake-device-examples.rst.txt": "5b75469baeaedaf33ee392ff134a5530526738789cc2c2e63d7301018f62a6a1",
-    "_sources/api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.rst.txt": "4d7f5720d4b5d8f70fdec7a8866aad228b6da4f757f0f8eb7fd68adc9f4c304d",
-    "_sources/api/NodeEngine/open/ieee-qce-2026-demo.rst.txt": "336490707631ed709ccccc119afbf1e93bd1dd02d4cbea8076313ed923c3d662",
+    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.rst.txt": "3c6c2db4cb26cf1660bcb477a5d3e6bcda8a6de0e3959404dd401f8946003a41",
+    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.rst.txt": "7c9a627cbb5a81e3b907549d7b3ce8b6f42d02ab7a7639563be7351407c86716",
+    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.rst.txt": "3f64c8151b083fb2852bd02e68e09258fbd80244c79e8a0e15bc298b6fa77f4d",
+    "_sources/api/NodeEngine/open/fake-device-examples--FAKE-STAGED.rst.txt": "772d57605469867a91ff9cfa67b69a0c3ef29e92b06c8bb832b9649919ba147a",
+    "_sources/api/NodeEngine/open/fake-device-examples.rst.txt": "e3b56281cb0f203aa1d85712f0dbbcae468d155ff42e9497ce56549ef1da957f",
+    "_sources/api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.rst.txt": "f6ffade0334a0de5103081e073dc4ca861af0efbd0aae25a57739e655e2f3a61",
+    "_sources/api/NodeEngine/open/ieee-qce-2026-demo.rst.txt": "8230fce572608ba271118e5508b4eb30ec2aa8e21635d0009a37efbd549fd1c3",
     "_sources/index.rst.txt": "ad9c7ece8fec447772046cfe3026eb3706109c6876aa395fbb422944154bd829",
     "_sources/llm/authoring-instructions.rst.txt": "c5b08bb800344f064374a387a9485c1c13169516254352a2b1acb1e13d66315a",
     "_sources/llm-authoring.rst.txt": "cec08e20d9ac4be419f950f7c170ba41a64c3b75afc5604fc9811014c0f25e66",
     "_sources/user-guide/how-neqos-works.rst.txt": "106314f7f9d7a810d10897c90725846114f7c24e8c38d3412592fa922efde685",
     "_sources/user-guide/index.rst.txt": "c85fb23a734e5b42e67793c75666caa37f9701d412f025e0cc8d0ebc37bd5ca9",
-    "_sources/user-guide/installation.rst.txt": "0fb93530c630f43f5a38d965e65c5773386381939495ccc6eba0a4993cd63007",
+    "_sources/user-guide/installation.rst.txt": "485406ec680acb170b81af8d41fb3461de098b435935199fd5e60cfff170502c",
     "_sources/user-guide/network.rst.txt": "22565bfe42aa9f6c7efae18090ce105f52555b3c49c0f9114525e601bd5df3ae",
     "_sources/user-guide/protocols/AlignChannels.rst.txt": "00817e21c3f93fd6d9dcd54ed51d8f6d1c5cd7b6ffaabe752d4de5fd13f1d0b8",
     "_sources/user-guide/protocols/AlignMultipleSNSPDInputPolarizations.rst.txt": "d15704d1c5570c8e52a4d3c4e7fb628b6061acc13b0ba8fbb65ad3a9215b693f",
@@ -336,7 +336,7 @@
     "_sources/user-guide/protocols/timing/index.rst.txt": "6a816b538bb4c74e9c74ef69ae7b3a721a284b6fc26e39f99875126a2f3664e6",
     "_sources/user-guide/protocols/tomography/index.rst.txt": "fe65bf95d6e29bb10f085a09d943f3b6a619a041771bce9744c78e8894a8892a",
     "_sources/user-guide/protocols/tomography/state/index.rst.txt": "9eebf472fd9bee21e42e797d68f69fee15f3725bef87e4d76d664d90424e7aca",
-    "_sources/user-guide/quickstart.rst.txt": "27286ee144db190963c276aff9862bf964e4a54ee7817dde64af02b381074f6d",
+    "_sources/user-guide/quickstart.rst.txt": "32434124eea1ff208769da08099450d6d859c4e8a744a5d595ce9db72723c9a9",
     "_sources/user-guide/recipes.rst.txt": "fdac8a2f75ba1d1bac52e557f7b84c1562342e18b5a99feda8262160e2e511ec",
     "_sources/user-guide/results.rst.txt": "53e69ada31949825f38b2939b6541311fb0f8573b18413395b1942c5373ffb78",
     "_sources/user-guide/running.rst.txt": "ad72938673b39ccba3b32dded57e307f57f7b461e2d81199a2911d167fb63e61",
@@ -431,27 +431,27 @@
     "api/NodeEngine/handlers/device-lifecycle.html": "c253d65d9eeb9307e227b2afb5fea8e619f7a9d7099101aef465352c6fcfcd38",
     "api/NodeEngine/handlers/results.html": "f0fd85b4c03803a642dc150ee5489fd138f907c729aaf92f43f15e830b7f283c",
     "api/NodeEngine/index.html": "edec557e0906633c62f01560729d46295831c54577a5c55ed75cd1e5e2a5542f",
-    "api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html": "c49eba2145c60f246ec3914a9a80752b40a5d226d615e96420ec7d4db56c2dd0",
-    "api/NodeEngine/open/external-python-package-dependency.html": "a69fc772982f8d78e9ae1fb0dd6d725fee039630cf3c2779a53192d62bdd7a13",
+    "api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html": "6d7c0298185ab34506fc29ff039b9c7e8e15dc1b7093db71beda0e9db0b8932c",
+    "api/NodeEngine/open/external-python-package-dependency.html": "d95e1a236e014e0c3a63d7022b2c6a7bb5386518043c83ee58d5e0ce2be08fca",
     "api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH.html": "0ce5d07f6284e873cb1f1e955da5955a88c90578c1a3bb7b96e0421db7b2d15b",
     "api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF.html": "488c79586b7fe2598f32b4d52e5f7fc6a389d460548207a993b996ae631dfbf7",
-    "api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.html": "a89919a6b7d67573a9ca48e28e217d8e46560661adc380450140216977221abb",
-    "api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.html": "b84ec8b41ed6b9e4f66e100c19c4b4cbcddacc54f84b1e75e3ea838af5507bd8",
-    "api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.html": "d6e67b1b0c7a2dc5b6e38ab8ea4321f61149b39d4a847a7e636a38e22fbd630c",
-    "api/NodeEngine/open/fake-device-examples--FAKE-STAGED.html": "ccd82f6329be2b252661ece6f54dad19d8380dc20f89ead2affbe40c800147ae",
-    "api/NodeEngine/open/fake-device-examples.html": "898708bcff78c7ba033d1739836b7560b94836f3496b20b5b5365cf9cbeea8fb",
-    "api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.html": "0062ac4421c098d47d8813774c2a545f2b0903659c93de1ff94ed13a6c613fb7",
-    "api/NodeEngine/open/ieee-qce-2026-demo.html": "1ab24b0eabdb27506afa434fd81103b492f292cccd992a6d938899394908d7b5",
+    "api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.html": "c8c5984cad2c267259afd9fec1922ec85c0afaeda92a60c91d4287761244f465",
+    "api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.html": "7decb1f705c50de22f845dcfaaf0f415f45f1d8ed1329497629b2006e53e914b",
+    "api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.html": "20b0f415b2098d91043e42adf88b54fac528c8c2fb3acacc090952086dcfbb23",
+    "api/NodeEngine/open/fake-device-examples--FAKE-STAGED.html": "395e8505946b13e94f4b977e2f917707e0fe16addb32877c62d637f957c1a9ea",
+    "api/NodeEngine/open/fake-device-examples.html": "521358989164f42dc76823d2b741fc29e73fa7e0a494570877fbfd4520029358",
+    "api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.html": "f5fb56627f8a63183630b4f56ffdf67df6a16ae99e74e6ab6127de39a5c11ef1",
+    "api/NodeEngine/open/ieee-qce-2026-demo.html": "efc1c660f50e4e5266a33aeb72d7008f8bc53efadb8e50be3f25b90eed38268c",
     "genindex.html": "1b77f25d26546f84ee71df7cc308753e82ad95f3a809b51e36e3077e568da03e",
     "index.html": "4cbcac9eebb31ddb52cd283489a3cc55bcddad7ef34a2af34dabf027d874bc14",
     "llm/authoring-instructions.html": "3f899f288442401aec5aa030f7292f1236447f3bba9145d4c5e10f9b16462f21",
     "llm-authoring.html": "be010e8c9dcc49869822f77a52dc6145e6636b94b5a9277a3b6c067b1bbfd018",
     "objects.inv": "37ee7a9476fefba6d26ea722304d0eb0c6c32abd208494555a52c4694b6582d0",
     "search.html": "144c1b6792b986fe6004d635db95a1c85759938d7393083dbf293d6a678d62a4",
-    "searchindex.js": "88fb29a142b93d184206361291bbb87342225d7a9163dee3bbc0ba48314f8fca",
+    "searchindex.js": "bd17dc3c46d189c5433129367b9ed3e681baea6cdce554e88a96c649f103c501",
     "user-guide/how-neqos-works.html": "361a7b21b9dcd95e12dbb735f5dbe37452e923a8c78bfcb6b945c8a624359c5a",
     "user-guide/index.html": "702aa69ac6b7f9d7aeabde7eff94e81750ac4ac5a4d10cbac9205306f2e0c2d2",
-    "user-guide/installation.html": "c5c097a1682a7bb69fa1d9c2f4a5715d6fb3d35ad3e59caedb9bb329ed63515c",
+    "user-guide/installation.html": "ac4167951547dac6e8c23a39b7b041578bf6c30147762296747e993c285d3f97",
     "user-guide/network.html": "a42cd3c1928d273f8ff7272916ee9ebc45017ebdbb19a10e502b2e3ce88578a3",
     "user-guide/protocols/AlignChannels.html": "f35f03d3d170c5a1566afadcd7b67319d4396b59594200bd075e9fe46411576a",
     "user-guide/protocols/AlignMultipleSNSPDInputPolarizations.html": "31eb5e1aa3426c400026c746d212365c5d71426126576e60fa96d09c99adfed7",
@@ -520,9 +520,132 @@
     "user-guide/protocols/timing/index.html": "2fa89c172c4a635be53a30cdeb98458c1739e964ff2efa5648214e4acb98d8cc",
     "user-guide/protocols/tomography/index.html": "0b2d8d3f1344e7aad16ff54003f86129069e0410b117035a471dfd6495bbbb0c",
     "user-guide/protocols/tomography/state/index.html": "182425da9b0ffdc8a4e6d273988326e2e283e1fe8bb4978fba26d69b496f2f38",
-    "user-guide/quickstart.html": "9a9badca675ee06af0c6b5dd75ac577fbaf2ff363661d2eee65bbc485d9323af",
+    "user-guide/quickstart.html": "857ffeb77b56642aab2a3a1ec7c55583c75821f4ccd43b3b4a78c731040b0704",
     "user-guide/recipes.html": "08872141b825c720ad4a50411676cebf3da0cc4b43aa5f67e105410037c88c1f",
     "user-guide/results.html": "e5a3bbcf8123342764956a4d3897c6af6f094928fe6b31310cf7deee81959df8",
     "user-guide/running.html": "1fcf2bf7558c07acd955c7acde63ce6ce90897c9d8119eb5e386c87cd92284c3"
-  }
+  },
+  "documentationCorrections": [
+    {
+      "date": "2026-10-12",
+      "reason": "Correct standalone fake-device paths; retain release contracts and downloads.",
+      "files": [
+        {
+          "file": "user-guide/quickstart.html",
+          "before": "9a9badca675ee06af0c6b5dd75ac577fbaf2ff363661d2eee65bbc485d9323af",
+          "after": "857ffeb77b56642aab2a3a1ec7c55583c75821f4ccd43b3b4a78c731040b0704"
+        },
+        {
+          "file": "_sources/user-guide/quickstart.rst.txt",
+          "before": "27286ee144db190963c276aff9862bf964e4a54ee7817dde64af02b381074f6d",
+          "after": "32434124eea1ff208769da08099450d6d859c4e8a744a5d595ce9db72723c9a9"
+        },
+        {
+          "file": "user-guide/installation.html",
+          "before": "c5c097a1682a7bb69fa1d9c2f4a5715d6fb3d35ad3e59caedb9bb329ed63515c",
+          "after": "ac4167951547dac6e8c23a39b7b041578bf6c30147762296747e993c285d3f97"
+        },
+        {
+          "file": "_sources/user-guide/installation.rst.txt",
+          "before": "0fb93530c630f43f5a38d965e65c5773386381939495ccc6eba0a4993cd63007",
+          "after": "485406ec680acb170b81af8d41fb3461de098b435935199fd5e60cfff170502c"
+        },
+        {
+          "file": "api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html",
+          "before": "c49eba2145c60f246ec3914a9a80752b40a5d226d615e96420ec7d4db56c2dd0",
+          "after": "6d7c0298185ab34506fc29ff039b9c7e8e15dc1b7093db71beda0e9db0b8932c"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.rst.txt",
+          "before": "aefeecc29f9edae49e03a800ba0db369e43c629431d446e987b59cf37fd6b10f",
+          "after": "989dc0bf49f8de73a79c23fb22a10c255cd07d94fe43de755b65ab4343660284"
+        },
+        {
+          "file": "api/NodeEngine/open/external-python-package-dependency.html",
+          "before": "a69fc772982f8d78e9ae1fb0dd6d725fee039630cf3c2779a53192d62bdd7a13",
+          "after": "d95e1a236e014e0c3a63d7022b2c6a7bb5386518043c83ee58d5e0ce2be08fca"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/external-python-package-dependency.rst.txt",
+          "before": "29c85c5f7f185b994d75251e97516a1c798ddfe427fc23d6ef40efef94317791",
+          "after": "7d547ac8839cd45aa152cf220bed23d820dea67a75518fe0087b058d49ec2d7e"
+        },
+        {
+          "file": "api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.html",
+          "before": "a89919a6b7d67573a9ca48e28e217d8e46560661adc380450140216977221abb",
+          "after": "c8c5984cad2c267259afd9fec1922ec85c0afaeda92a60c91d4287761244f465"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.rst.txt",
+          "before": "ff304b0a6bad7b54f6dab26f8d2647349baa8a7b7521db68037cce95d89d4904",
+          "after": "3c6c2db4cb26cf1660bcb477a5d3e6bcda8a6de0e3959404dd401f8946003a41"
+        },
+        {
+          "file": "api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.html",
+          "before": "b84ec8b41ed6b9e4f66e100c19c4b4cbcddacc54f84b1e75e3ea838af5507bd8",
+          "after": "7decb1f705c50de22f845dcfaaf0f415f45f1d8ed1329497629b2006e53e914b"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.rst.txt",
+          "before": "3df6824385e22c74d682fa1f0e165e4350f309042a95d3a81af513b1b1db51d6",
+          "after": "7c9a627cbb5a81e3b907549d7b3ce8b6f42d02ab7a7639563be7351407c86716"
+        },
+        {
+          "file": "api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.html",
+          "before": "d6e67b1b0c7a2dc5b6e38ab8ea4321f61149b39d4a847a7e636a38e22fbd630c",
+          "after": "20b0f415b2098d91043e42adf88b54fac528c8c2fb3acacc090952086dcfbb23"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.rst.txt",
+          "before": "f88f69509917d417856403fd6be28c3089267cc0d2c6b3688debedeb12bfcbe7",
+          "after": "3f64c8151b083fb2852bd02e68e09258fbd80244c79e8a0e15bc298b6fa77f4d"
+        },
+        {
+          "file": "api/NodeEngine/open/fake-device-examples--FAKE-STAGED.html",
+          "before": "ccd82f6329be2b252661ece6f54dad19d8380dc20f89ead2affbe40c800147ae",
+          "after": "395e8505946b13e94f4b977e2f917707e0fe16addb32877c62d637f957c1a9ea"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/fake-device-examples--FAKE-STAGED.rst.txt",
+          "before": "e53e61dd946bd8b5bb6c4114d79d54beea92a5c718be66ef1e440740b929b5eb",
+          "after": "772d57605469867a91ff9cfa67b69a0c3ef29e92b06c8bb832b9649919ba147a"
+        },
+        {
+          "file": "api/NodeEngine/open/fake-device-examples.html",
+          "before": "898708bcff78c7ba033d1739836b7560b94836f3496b20b5b5365cf9cbeea8fb",
+          "after": "521358989164f42dc76823d2b741fc29e73fa7e0a494570877fbfd4520029358"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/fake-device-examples.rst.txt",
+          "before": "5b75469baeaedaf33ee392ff134a5530526738789cc2c2e63d7301018f62a6a1",
+          "after": "e3b56281cb0f203aa1d85712f0dbbcae468d155ff42e9497ce56549ef1da957f"
+        },
+        {
+          "file": "api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.html",
+          "before": "0062ac4421c098d47d8813774c2a545f2b0903659c93de1ff94ed13a6c613fb7",
+          "after": "f5fb56627f8a63183630b4f56ffdf67df6a16ae99e74e6ab6127de39a5c11ef1"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.rst.txt",
+          "before": "4d7f5720d4b5d8f70fdec7a8866aad228b6da4f757f0f8eb7fd68adc9f4c304d",
+          "after": "f6ffade0334a0de5103081e073dc4ca861af0efbd0aae25a57739e655e2f3a61"
+        },
+        {
+          "file": "api/NodeEngine/open/ieee-qce-2026-demo.html",
+          "before": "1ab24b0eabdb27506afa434fd81103b492f292cccd992a6d938899394908d7b5",
+          "after": "efc1c660f50e4e5266a33aeb72d7008f8bc53efadb8e50be3f25b90eed38268c"
+        },
+        {
+          "file": "_sources/api/NodeEngine/open/ieee-qce-2026-demo.rst.txt",
+          "before": "336490707631ed709ccccc119afbf1e93bd1dd02d4cbea8076313ed923c3d662",
+          "after": "8230fce572608ba271118e5508b4eb30ec2aa8e21635d0009a37efbd549fd1c3"
+        },
+        {
+          "file": "searchindex.js",
+          "before": "88fb29a142b93d184206361291bbb87342225d7a9163dee3bbc0ba48314f8fca",
+          "after": "bd17dc3c46d189c5433129367b9ed3e681baea6cdce554e88a96c649f103c501"
+        }
+      ]
+    }
+  ]
 }

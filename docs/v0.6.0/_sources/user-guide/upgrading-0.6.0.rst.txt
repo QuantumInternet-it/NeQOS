@@ -1,0 +1,199 @@
+Move from 0.5.0 to 0.6.0
+========================
+
+Use this checklist when replacing existing DeviceOS/NodeEngine launchers.
+The browser is optional: a run plan can still execute entirely from the
+command line. The inventory split is also optional for current-format
+single-file examples; it is the workflow for a persistent laboratory setup.
+See :ref:`choose-nodeengine-operation` for complete Windows and macOS commands.
+
+What changes in everyday use
+----------------------------
+
+.. list-table:: Launcher and configuration changes
+   :header-rows: 1
+   :widths: 22 34 44
+
+   * - Task
+     - Existing single-file workflow
+     - 0.6.0 inventory workflow
+   * - Start DeviceOS
+     - ``--configFile network.json --deviceId ...``
+     - ``--configFile lab-inventory.json --deviceId ...``. The option name stays the same.
+   * - Select the NodeEngine configuration
+     - ``--configFile network.json``
+     - ``--inventoryFile lab-inventory.json`` plus experiment activation.
+   * - Run from CLI
+     - ``--metaProtocolRun input.json --waitProtocol``
+     - The same run arguments, plus ``--networkFile experiment.json`` to activate the experiment first.
+   * - Run from a browser
+     - No browser is needed for the existing CLI workflow.
+     - Start NodeEngine with ``--serve``; select/activate the network and submit a run in the UI.
+   * - Change experimental wiring/settings
+     - The single file contains both equipment and experiment configuration.
+     - Keep DeviceOS on the stable inventory; validate and activate another experiment while idle.
+   * - Select results
+     - CLI execution records under ``MetaProtocolResults``.
+     - CLI keeps that location; operator history and artifacts use ``--operatorData``.
+
+The software version ``0.6.0`` is not the version of every JSON format. The
+inventory uses ``inventory-1``, an experiment uses ``experiment-1``, run plans
+remain schema ``0.4``, and new operational manifests use schema ``0.2``.
+Do not replace all ``schemaVersion`` values with the software release number.
+
+1 Preserve the existing installation and data
+---------------------------------------------
+
+Finish or abort the active experiment and let cleanup finish before stopping
+the engines. Back up configuration, inputs, licenses, calibration tables and
+scientific results. Extract 0.6.0 into a separate directory and retain the
+whole standalone distribution, including contracts, browser assets and libraries.
+
+Run ``DeviceOS.exe --version`` and ``NodeEngine.exe --version`` (or the supplied
+macOS launcher) before connecting hardware. Deploy matching 0.6.0 builds,
+contracts and examples on all relevant hosts. A directory named 0.6.0 is not
+proof that its executable contains that version.
+
+Standalone execution does not require rebuilding on each device PC if a
+matching verified executable distribution is supplied. Vendor SDKs and native
+libraries still need to be installed on the relevant DeviceOS host. Software
+simulation does not replace packaged-build and hardware regression.
+
+2 Separate equipment, experiment and host-local settings
+--------------------------------------------------------
+
+Prepare a validated inventory and experiment as described in :doc:`network`.
+Renaming a previous ``network.json`` to ``lab-inventory.json`` does not perform
+the conversion. Both new documents must follow their respective schemas and
+share the same ``inventoryId``.
+
+* **Inventory:** device IDs, endpoints, driver constructor configuration,
+  boot-only hardware settings and limits. Use the same content on each host.
+* **Experiment:** active device selection, optical links and passive splitters,
+  link bindings and supported operating ``settings``. It references the
+  inventory; it does not duplicate device endpoint configuration.
+* **DeviceOS.local.json:** paths to vendor SDKs on that particular PC.
+* **Run input:** library and ordered protocol steps with parameter overrides.
+  It is neither an inventory nor an experiment network.
+
+Folder names are deployment choices, not runtime constants. If a shared
+directory contains ``networks\lab-inventory.json``, a Windows launcher may use:
+
+.. code-block:: bat
+
+   set "SHARED_DIR=G:\NeQOS-shared"
+   set "DEFAULT_FILE=networks\lab-inventory.json"
+   set "CONFIG_FILE=%SHARED_DIR%\%DEFAULT_FILE%"
+
+Replace the drive/path with the actual mounted directory on that PC. Do not
+append ``networks`` twice. No migration report or README is needed to load
+the inventory or run an experiment.
+
+3 Update each DeviceOS launcher
+-------------------------------
+
+DeviceOS still takes the inventory through ``--configFile``. Keep the same
+``--deviceId`` only if it exists in the new inventory. Do not give DeviceOS
+``--inventoryFile``, ``--networkFile`` or the experiment file.
+
+Pass the host-local SDK configuration explicitly with ``--localConfigFile``
+to avoid accidentally loading a file from another working directory:
+
+.. code-block:: bat
+
+   "C:\NeQOSv0.6.0\DeviceOS.dist\DeviceOS.exe" ^
+     --configFile "G:\NeQOS-shared\networks\lab-inventory.json" ^
+     --localConfigFile "C:\NeQOSConfig\DeviceOS.local.json" ^
+     --deviceId YOUR_DEVICE_ID ^
+     --licenseFile "C:\NeQOSConfig\license.json"
+
+For a Swabian Time Tagger, the JSON's ``environment`` object must contain
+``SWABIAN_TIMETAGGER_PYTHON_PATH`` and ``SWABIAN_TIMETAGGER_NATIVE_PATH``.
+Both directories must exist and match the installed SDK/runtime architecture.
+The error stating that these keys are required in ``DeviceOS.local.json``
+means that they were not loaded; it is not a license failure or evidence that
+the executable needs rebuilding. See :doc:`installation` for the JSON example.
+
+Only the two Swabian paths and ``THORLABS_KINESIS_PATH`` are applied from this
+JSON. Set ``NEQOS_LOG_DIR``, ``NEQOS_DEVICE_ARTIFACT_DIR`` and
+``NEQOS_CALIBRATION_DIR`` in the process environment, for example in a launcher
+before its DeviceOS command:
+
+.. code-block:: bat
+
+   set "NEQOS_LOG_DIR=C:\NeQOSData\logs"
+   set "NEQOS_DEVICE_ARTIFACT_DIR=C:\NeQOSData\DeviceArtifacts"
+   set "NEQOS_CALIBRATION_DIR=G:\NeQOS-shared\calibration"
+   if not exist "%NEQOS_CALIBRATION_DIR%" mkdir "%NEQOS_CALIBRATION_DIR%"
+
+Check directory availability and write permissions before startup. Keep existing
+tables or copy them deliberately: changing the directory does not migrate them.
+Use an absolute path outside the versioned distribution so the next upgrade
+does not change it. An explicit absolute compensation-file path in the inventory
+overrides the default calibration directory for that file. Do not let two PCs
+write the same calibration file concurrently; synchronized storage is not a lock.
+
+The PaX000 driver no longer reads a working-directory ``config/network.json``
+to discover wavelength. NodeEngine applies wavelength from the activated
+link topology after device readiness. Review the activation warning about
+wavelength-dependent default compensation rather than copying a hidden network
+file onto the device PC.
+
+The Open Device Driver API is now ``0.6.0``. Update an external driver's API
+declaration and registry together, and verify its implementation against
+:doc:`the contract </api/DeviceOS/DriverContract>`; changing the version string
+alone is not a compatibility test. Built-in drivers require the matching binary.
+
+4 Choose the NodeEngine workflow
+--------------------------------
+
+**Without a GUI:** follow :ref:`headless-inventory-run`. Provide inventory,
+experiment and run input; startup activates the experiment, then runs its
+steps. Use ``--waitProtocol`` for completion and optional ``--dashboard`` for
+terminal observations. There is no browser token, web server or operator
+SQLite timeline in this mode.
+
+**With a GUI:** follow :ref:`browser-inventory-run`. Start one NodeEngine with
+``--inventoryFile`` and ``--serve``. Open its printed address, authenticate with
+the startup token, activate an experiment and compose/validate/start a run.
+Do not start the read-only viewer as a second live server. Do not combine
+``--serve`` and ``--metaProtocolRun`` or start a competing CLI engine.
+
+Keep an absolute, stable ``--operatorData`` directory for history. Closing the
+browser does not stop the experiment. During execution/cleanup, new plans,
+network changes and historical browsing are blocked; observing or aborting
+the current run remains available. An abort leaves the queue paused after
+cleanup. Restart does not resume an interrupted experiment or automatically
+activate the last network; activate it explicitly (or supply ``--networkFile``
+at startup). See :doc:`browser-interface` for supported planner coverage.
+
+DeviceOS, NodeEngine and the browser need not share one PC. Device endpoints
+must be reachable; the browser operator binds to loopback and uses the
+:ref:`remote SSH procedure <use-a-browser-on-another-computer>` when accessed
+from another computer. No separate GUI executable is needed.
+
+5 Review wiring and retained data
+---------------------------------
+
+* Replace detector type ``Photek`` or ``DetectorHealth`` with ``Photec`` and
+  the explicit guard field ``detectorHealthChannel`` with ``snspdChannel``.
+  There are no aliases. If a device ID changes, update launchers, bindings,
+  guard references and run inputs together.
+* An unambiguous link/port chain can resolve detector-to-TimeTagger pairing
+  without ``healthGuards``. Explicit guards must agree with that chain.
+  A ``required`` latch guard still needs a declared, enabled detector; a
+  missing detector is acceptable only for operations not requiring that guard.
+* Declare a present ``FiberSplitter`` with its parent/child links and ports.
+  It is passive: no DeviceOS, telemetry or device lease. Do not guess a
+  detector mapping from matching channel numbers alone.
+* Back up operator data coherently, including scientific files, not just the
+  SQLite database. New manifests contain previews and references to full
+  evidence; tools reading them must follow those references. Existing archives
+  are readable without rewriting. See :doc:`results`.
+
+After the upgrade, verify device readiness and the activation diff before a
+short, deliberately selected hardware test. Check task/lease evidence,
+published results and cleanup, not just green status indicators. Abort is not
+rollback: persisted analyzer tables or completed previous steps can remain
+applied. This guide does not introduce additional confirmation requirements
+for the experiment's chosen calibration defaults.

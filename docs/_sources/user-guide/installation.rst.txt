@@ -42,6 +42,28 @@ layout supplied for your host. Windows Command Prompt continues lines with
 ``^``; PowerShell uses a backtick; Bash/Zsh use ``\``. Do not paste one shell's
 continuation characters into another.
 
+Standalone directory layout
+---------------------------
+
+DeviceOS distributes its editable driver registry and Python drivers in
+``DeviceOS.dist/OpenDrivers/``. The source-checkout location
+``DeviceOSPack/OpenDrivers/`` is not the path to pass from a standalone
+terminal. If the registry was included in the archive, DeviceOS finds it
+automatically; an explicit override is ``--openDriversFile
+"./OpenDrivers/OpenDrivers.json"`` from inside ``DeviceOS.dist``.
+
+Open meta-protocol libraries belong to
+``NodeEngine.dist/NodeEnginePack/OpenMetaProtocols/``. DeviceOS needs the
+network JSON selected by ``--configFile``, not the NodeEngine library folder.
+Point both executables to the same network, or use matching copies on separate
+hosts. See :doc:`quickstart` for exact Windows commands that use the network
+in a sibling NodeEngine distribution without copying any directory.
+
+If ``OpenDrivers/OpenDrivers.json`` or ``FakeDriver.py`` is missing, check that
+you extracted the full DeviceOS archive. If those files are absent from the
+archive itself, the release packaging is incomplete; obtain a corrected
+archive from the maintainer.
+
 .. _windows-unsigned-builds:
 
 Windows: unsigned builds and Smart App Control

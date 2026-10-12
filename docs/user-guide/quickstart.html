@@ -465,17 +465,84 @@
         <article role="main" id="furo-main-content">
           <section id="first-run-without-hardware">
 <h1>3. First run without hardware<a class="headerlink" href="#first-run-without-hardware" title="Link to this heading">¶</a></h1>
-<p>The FakeDeviceExamples pack exercises DeviceOS, NodeEngine, child submission
+<p>The FakeDeviceExamples Open library exercises DeviceOS, NodeEngine, child submission
 and result publication without optical hardware. It still requires a valid
 license. Use it before diagnosing vendor SDKs or laboratory wiring.</p>
 <section id="prepare-two-terminals">
 <h2>Prepare two terminals<a class="headerlink" href="#prepare-two-terminals" title="Link to this heading">¶</a></h2>
-<p>Work from the distribution/source root so the relative paths below resolve.
-Do not add a leading slash to <code class="docutils literal notranslate"><span class="pre">NodeEnginePack</span></code>: on macOS/Linux that would
-refer to a directory at the filesystem root.</p>
-<p>The pack’s network uses <code class="docutils literal notranslate"><span class="pre">FakeNodeId</span></code> and <code class="docutils literal notranslate"><span class="pre">FakeDeviceId</span></code> with localhost
+<p>Use the instructions for your installation below. Source-checkout paths and
+standalone paths differ; changing only <code class="docutils literal notranslate"><span class="pre">python</span></code> to the executable name is
+not sufficient.</p>
+<p>The library’s network uses <code class="docutils literal notranslate"><span class="pre">FakeNodeId</span></code> and <code class="docutils literal notranslate"><span class="pre">FakeDeviceId</span></code> with localhost
 endpoints. Leave those identities consistent across the network and input.</p>
-<p>In terminal A, start DeviceOS (source-checkout form):</p>
+</section>
+<section id="windows-standalone-distributions">
+<h2>Windows standalone distributions<a class="headerlink" href="#windows-standalone-distributions" title="Link to this heading">¶</a></h2>
+<p>Extract the entire DeviceOS and NodeEngine distributions into sibling folders,
+for example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>C:\NeQOS\
+  DeviceOS.dist\
+    DeviceOS.exe
+    OpenDrivers\
+      OpenDrivers.json
+      FakeDriver.py
+  NodeEngine.dist\
+    NodeEngine.exe
+    NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\
+      network.json
+      MetaProtocolsRun\composedSweep\input.json
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">C:\NeQOS</span></code> and the license paths with your own locations. The commands
+below are single lines and work in both Command Prompt and PowerShell.</p>
+<p>In terminal A, enter <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code> and start the fake device. DeviceOS reads
+the network directly from the sibling NodeEngine distribution:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">cd</span> <span class="s2">&quot;C:\NeQOS\DeviceOS.dist&quot;</span>
+.\DeviceOS.exe --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license-DeviceOS.json&quot;</span> --configFile <span class="s2">&quot;..\NodeEngine.dist\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json&quot;</span> --nodeId FakeNodeId --deviceId FakeDeviceId --openDriversFile <span class="s2">&quot;.\OpenDrivers\OpenDrivers.json&quot;</span>
+</pre></div>
+</div>
+<p>After DeviceOS reaches connected, initialized and ready state (<code class="docutils literal notranslate"><span class="pre">111</span></code>), enter
+<code class="docutils literal notranslate"><span class="pre">NodeEngine.dist</span></code> in terminal B and start the run:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">cd</span> <span class="s2">&quot;C:\NeQOS\NodeEngine.dist&quot;</span>
+.\NodeEngine.exe --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license-NodeEngine.json&quot;</span> --configFile <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json&quot;</span> --nodeId FakeNodeId --metaProtocolRun <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\MetaProtocolsRun\composedSweep\input.json&quot;</span> --waitProtocol --verboseRunFolders
+</pre></div>
+</div>
+<p>Both processes read the same network. <code class="docutils literal notranslate"><span class="pre">NodeEnginePack</span></code> belongs to NodeEngine;
+there is no need to copy it into DeviceOS. In <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>, the shipped
+driver registry is <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code>. DeviceOS also finds that
+registry automatically when <code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code> is omitted.</p>
+<p>An alternative is to download
+<a class="reference download internal" download="" href="../_downloads/8b04646deb0d8da97f825f79ade0a3e2/network.json"><code class="xref download docutils literal notranslate"><span class="pre">the</span> <span class="pre">example</span> <span class="pre">network</span></code></a>
+to a shared working directory and pass its full path to both processes. If your
+DeviceOS archive includes <code class="docutils literal notranslate"><span class="pre">config/network-Fake.json</span></code>, it is another copy of
+this network; use it only while its identities and endpoints agree with the
+network supplied to NodeEngine. A relative <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> or
+<code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code> always resolves from the terminal’s current directory.</p>
+</section>
+<section id="macos-nodeengine-with-a-remote-deviceos">
+<h2>macOS NodeEngine with a remote DeviceOS<a class="headerlink" href="#macos-nodeengine-with-a-remote-deviceos" title="Link to this heading">¶</a></h2>
+<p>Use the matching Windows DeviceOS distribution on its host. Download or copy
+only the network JSON to that host, and change <code class="docutils literal notranslate"><span class="pre">deviceEngine.ip</span></code> from
+<code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> to the DeviceOS host’s reachable IP in both network copies.
+Keep <code class="docutils literal notranslate"><span class="pre">FakeNodeId</span></code>, <code class="docutils literal notranslate"><span class="pre">FakeDeviceId</span></code> and the ports consistent. The unedited
+localhost example assumes both processes run on one computer.</p>
+<p>On the Mac, enter the extracted <code class="docutils literal notranslate"><span class="pre">NodeEngine.dist</span></code> directory and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./NodeEngine.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/to/license-NodeEngine.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;/path/to/network-Fake.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nodeId<span class="w"> </span>FakeNodeId<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--waitProtocol<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verboseRunFolders
+</pre></div>
+</div>
+<p>On the Windows host, start <code class="docutils literal notranslate"><span class="pre">DeviceOS.exe</span></code> with its copy of the same edited
+network, its license and <code class="docutils literal notranslate"><span class="pre">--deviceId</span> <span class="pre">FakeDeviceId</span></code>. Use
+<code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> from that DeviceOS distribution.</p>
+</section>
+<section id="source-checkout">
+<h2>Source checkout<a class="headerlink" href="#source-checkout" title="Link to this heading">¶</a></h2>
+<p>From the repository root, start DeviceOS in terminal A:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>DeviceOSPack/DeviceOS.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -494,11 +561,9 @@ endpoints. Leave those identities consistent across the network and input.</p>
 <span class="w">  </span>--verboseRunFolders
 </pre></div>
 </div>
-<p>For standalone distributions, keep the flags and substitute the matching
-executables. Use the pack and Open-driver registry paths supplied by that
-distribution; extracted layouts may differ. See <a class="reference internal" href="installation.html"><span class="doc">1. Install the software</span></a> for shell
-syntax. Do not mix a newer pack with an older executable without checking its
-schema compatibility.</p>
+<p>Here <code class="docutils literal notranslate"><span class="pre">DeviceOSPack/OpenDrivers</span></code> is the source directory. See
+<a class="reference internal" href="installation.html"><span class="doc">1. Install the software</span></a> for shell syntax. Keep the executable, library and driver
+contracts from the same release.</p>
 </section>
 <section id="what-to-look-for">
 <h2>What to look for<a class="headerlink" href="#what-to-look-for" title="Link to this heading">¶</a></h2>

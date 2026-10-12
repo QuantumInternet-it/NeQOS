@@ -74,6 +74,8 @@ cd DeviceOS.dist
 .\DeviceOS.exe --help
 ```
 
+For the fake-device run, follow the [Windows standalone quickstart](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/quickstart.html#windows-standalone-distributions). Keep `DeviceOS.dist` and `NodeEngine.dist` as sibling directories. DeviceOS reads the example network by its path in NodeEngine's distribution; its own driver registry is `OpenDrivers/OpenDrivers.json`. You do not need to copy `NodeEnginePack` into DeviceOS. The guide includes commands for both Windows shells and macOS NodeEngine with a remote DeviceOS.
+
 An unsigned executable can be blocked before startup by Smart App Control or another App Control policy. See the [Windows startup guidance](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/installation.html#windows-unsigned-builds) for the confirmed Smart App Control procedure and its security implications.
 
 ## macOS

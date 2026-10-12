@@ -1,0 +1,20 @@
+{
+  "panels": [
+    {
+      "title": "Count rate and detector health",
+      "scope": "network",
+      "url": "http://127.0.0.1:3000/d/REPLACE-network",
+      "variables": {
+        "networkId": "networkId"
+      }
+    },
+    {
+      "title": "Coincidences, fidelity and Stokes",
+      "scope": "run",
+      "url": "http://127.0.0.1:3000/d/REPLACE-run",
+      "variables": {
+        "runId": "runId"
+      }
+    }
+  ]
+}

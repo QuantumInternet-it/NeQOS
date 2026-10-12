@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="3. First run without hardware" href="quickstart.html"><link rel="prev" title="1. Install the software" href="installation.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="3. First run without hardware" href="quickstart.html"><link rel="prev" title="Move from 0.5.0 to 0.6.0" href="upgrading-0.6.0.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>2. Describe the network - NeQOS documentation</title>
@@ -202,9 +202,11 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -542,14 +544,14 @@ wavelengths are now applied by NodeEngine after device readiness too.</p>
 <p>The legacy-network conversion utility is temporarily archived in
 <code class="docutils literal notranslate"><span class="pre">NodeEnginePack.BrowserUI.ToDelete</span></code> pending completion of hardware regression;
 it is not part of the normal operator workflow. The current shared network distribution is
-<code class="docutils literal notranslate"><span class="pre">networksv0.6.0</span></code>. <code class="docutils literal notranslate"><span class="pre">MIGRATION_REPORT.json</span></code> records the selected
-endpoint/driver variants, confirmed capability limits, excluded invalid files
-and documented round-trip differences. Pump minimum 23 MHz for both EPS units
+<code class="docutils literal notranslate"><span class="pre">networksv0.6.0</span></code>. Pump minimum 23 MHz for both EPS units
 is operator-indicated and still requires laboratory confirmation.</p>
 </section>
 <section id="nodes-devices-and-addresses">
 <h2>Nodes, devices and addresses<a class="headerlink" href="#nodes-devices-and-addresses" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">network.json</span></code> must contain a top-level <code class="docutils literal notranslate"><span class="pre">nodes</span></code> list. Select an existing
+<p>In the single-file format, <code class="docutils literal notranslate"><span class="pre">network.json</span></code> must contain a top-level <code class="docutils literal notranslate"><span class="pre">nodes</span></code>
+list. In inventory mode this list belongs to the inventory, not the experiment.
+Select an existing
 <code class="docutils literal notranslate"><span class="pre">nodeId</span></code> when launching NodeEngine. Each declared device has a globally unique
 <code class="docutils literal notranslate"><span class="pre">deviceId</span></code> and a supported <code class="docutils literal notranslate"><span class="pre">deviceType</span></code>. For an enabled active device, <code class="docutils literal notranslate"><span class="pre">deviceEngine</span></code> gives the
 DeviceOS host address and its synchronous-command, asynchronous-command and
@@ -564,7 +566,8 @@ to the device configuration on the host that physically owns it.</p>
 <p>Check in this order:</p>
 <ol class="arabic simple">
 <li><p>The intended node and device are enabled.</p></li>
-<li><p>NodeEngine and DeviceOS use the same edited network file.</p></li>
+<li><p>NodeEngine and DeviceOS use the same inventory content (or the same edited
+single-file network when not using inventory mode).</p></li>
 <li><p>Device identity, physical serial/COM port and DeviceOS instance agree.</p></li>
 <li><p>The command/telemetry endpoints match and firewall rules permit access.</p></li>
 <li><p>DeviceOS reports connected, initialized and ready before a measurement.</p></li>
@@ -899,14 +902,14 @@ treated as detector protection.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="installation.html">
+          <a class="prev-page" href="upgrading-0.6.0.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">1. Install the software</div>
+                <div class="title">Move from 0.5.0 to 0.6.0</div>
                 
               </div>
             </a>

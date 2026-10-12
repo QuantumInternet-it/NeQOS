@@ -78,7 +78,7 @@ Every declared key is present after successful completion; its value may be null
 4 Run examples
 --------------
 
-Library folders resolve relative to the run input. Keep the library's directory layout when using its shipped input and network. Commands below use the source-checkout form from the repository root; for a standalone release, substitute the matching executable and its distributed paths. These commands execute the run, not an offline validation.
+Library folders resolve relative to the run input. Keep the library's directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow :doc:`/user-guide/quickstart`: DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary. These commands execute the run, not an offline validation.
 
 :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/handler/input.json>`
 

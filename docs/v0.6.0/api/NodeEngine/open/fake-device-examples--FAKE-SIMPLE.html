@@ -202,9 +202,11 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../user-guide/index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/recipes.html">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../user-guide/writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -559,7 +561,7 @@
 </section>
 <section id="run-examples">
 <h2>4 Run examples<a class="headerlink" href="#run-examples" title="Link to this heading">¶</a></h2>
-<p>Library folders resolve relative to the run input. Keep the library’s directory layout when using its shipped input and network. Commands below use the source-checkout form from the repository root; for a standalone release, substitute the matching executable and its distributed paths. These commands execute the run, not an offline validation.</p>
+<p>Library folders resolve relative to the run input. Keep the library’s directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow <a class="reference internal" href="../../../user-guide/quickstart.html"><span class="doc">3. First run without hardware</span></a>: DeviceOS uses <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying <code class="docutils literal notranslate"><span class="pre">NodeEnginePack</span></code> into DeviceOS is unnecessary. These commands execute the run, not an offline validation.</p>
 <p><a class="reference download internal" download="" href="../../../_downloads/be485f3ba9ac4052947d9080f7850c3b/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">shipped</span> <span class="pre">input.json</span></code></a></p>
 <p>Network: <a class="reference download internal" download="" href="../../../_downloads/8b04646deb0d8da97f825f79ade0a3e2/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <p>Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.</p>

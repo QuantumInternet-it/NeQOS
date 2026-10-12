@@ -73,15 +73,15 @@ Offline validation does not start drivers or contact equipment::
 The legacy-network conversion utility is temporarily archived in
 ``NodeEnginePack.BrowserUI.ToDelete`` pending completion of hardware regression;
 it is not part of the normal operator workflow. The current shared network distribution is
-``networksv0.6.0``. ``MIGRATION_REPORT.json`` records the selected
-endpoint/driver variants, confirmed capability limits, excluded invalid files
-and documented round-trip differences. Pump minimum 23 MHz for both EPS units
+``networksv0.6.0``. Pump minimum 23 MHz for both EPS units
 is operator-indicated and still requires laboratory confirmation.
 
 Nodes, devices and addresses
 ----------------------------
 
-``network.json`` must contain a top-level ``nodes`` list. Select an existing
+In the single-file format, ``network.json`` must contain a top-level ``nodes``
+list. In inventory mode this list belongs to the inventory, not the experiment.
+Select an existing
 ``nodeId`` when launching NodeEngine. Each declared device has a globally unique
 ``deviceId`` and a supported ``deviceType``. For an enabled active device, ``deviceEngine`` gives the
 DeviceOS host address and its synchronous-command, asynchronous-command and
@@ -98,7 +98,8 @@ to the device configuration on the host that physically owns it.
 Check in this order:
 
 1. The intended node and device are enabled.
-2. NodeEngine and DeviceOS use the same edited network file.
+2. NodeEngine and DeviceOS use the same inventory content (or the same edited
+   single-file network when not using inventory mode).
 3. Device identity, physical serial/COM port and DeviceOS instance agree.
 4. The command/telemetry endpoints match and firewall rules permit access.
 5. DeviceOS reports connected, initialized and ready before a measurement.

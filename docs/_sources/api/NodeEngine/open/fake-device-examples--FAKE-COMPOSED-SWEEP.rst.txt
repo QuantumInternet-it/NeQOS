@@ -71,6 +71,8 @@ Declared keys are present after successful completion; values may be null or emp
 
 Library folders resolve relative to the run input. Keep the pack's directory layout when using its shipped input and network.
 
+For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+
 .. tab-set::
 
    .. tab-item:: composedSweep

@@ -7,6 +7,8 @@ Self-contained demonstration of a pure-Python dependency loaded by an open NeQOS
 
 Library ID: ``external-python-package-dependency``
 
+For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+
 .. toctree::
    :hidden:
    :maxdepth: 1

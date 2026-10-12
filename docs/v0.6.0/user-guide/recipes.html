@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="6. Read results and diagnose failures" href="results.html"><link rel="prev" title="4. Run and customize a protocol" href="running.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="6. Read results and diagnose failures" href="results.html"><link rel="prev" title="Use the browser interface" href="browser-interface.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>5. Experimental recipes - NeQOS documentation</title>
@@ -202,9 +202,11 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">5. Experimental recipes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
@@ -526,6 +528,59 @@ is an analysis-only timing trial. Use <a class="reference internal" href="protoc
 Do not diagnose a wide coincidence background before checking timing and
 physical input mapping.</p>
 </section>
+<section id="ieee-qce-2026-align-snspd-input-polarization">
+<span id="ieee-qce-2026-demo"></span><h2>IEEE QCE 2026: align SNSPD input polarization<a class="headerlink" href="#ieee-qce-2026-align-snspd-input-polarization" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">IEEEQCE2026Demo</span></code> Open library wraps the public built-in protocol
+<a class="reference internal" href="protocols/AlignSNSPDInputPolarization.html"><span class="doc">AlignSNSPDInputPolarization</span></a> in <code class="docutils literal notranslate"><span class="pre">MPC320CountsMaximization</span></code>.
+It moves MPC320 paddles and observes Time Tagger count rates to align the
+polarization entering the SNSPD on one selected quantum link. Despite the
+wrapper’s existing name, <code class="docutils literal notranslate"><span class="pre">optimizationMode</span></code> selects maximization or
+minimization.</p>
+<section id="prepare-the-shipped-example">
+<h3>Prepare the shipped example<a class="headerlink" href="#prepare-the-shipped-example" title="Link to this heading">¶</a></h3>
+<p>The library root is <code class="docutils literal notranslate"><span class="pre">NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">manifest.json</span></code> registers the wrapper in library <code class="docutils literal notranslate"><span class="pre">ieee-qce-2026-demo</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MetaProtocolsDef/MPC320CountsMaximization/protocol.json</span></code> defines its
+declared inputs, outputs and stage sequence.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MetaProtocolsRun/countsMaximization/input.json</span></code> selects the library and
+supplies input overrides, including <code class="docutils literal notranslate"><span class="pre">resourceMpcDeviceIds</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MetaProtocolsRun/countsMaximization/network.json</span></code> declares <code class="docutils literal notranslate"><span class="pre">NODE-MPC</span></code>,
+MPC320 <code class="docutils literal notranslate"><span class="pre">MPC-1</span></code>, Time Tagger <code class="docutils literal notranslate"><span class="pre">TT-1</span></code> and the link/readout bindings.</p></li>
+</ul>
+<p>Keep this layout: the run plan’s <code class="docutils literal notranslate"><span class="pre">folder:</span> <span class="pre">&quot;../..&quot;</span></code> resolves relative to
+<code class="docutils literal notranslate"><span class="pre">input.json</span></code>, and its library ID must match the manifest. Moving a downloaded
+input elsewhere requires updating that library path. Adapt serial numbers,
+detector mapping and physical values to the testbed before execution. Install
+the matching Kinesis and Time Tagger vendor runtimes on their DeviceOS hosts.</p>
+<p>Use the source-derived launch commands and downloadable inputs in
+<a class="reference internal" href="../api/NodeEngine/open/ieee-qce-2026-demo.html"><span class="doc">the IEEE QCE library sheet</span></a>. Start one DeviceOS process for
+each device on its configured host. Wait for both to report connected,
+initialized and ready state, then launch NodeEngine with the example run plan.
+These are real engines that can initialize and control hardware, not a
+simulation. With a standalone release, substitute the matching executables
+and distributed paths. Keep DeviceOS running through completion and cleanup.</p>
+</section>
+<section id="follow-the-composition-and-read-the-evidence">
+<h3>Follow the composition and read the evidence<a class="headerlink" href="#follow-the-composition-and-read-the-evidence" title="Link to this heading">¶</a></h3>
+<p>The wrapper submits its alignment child with <code class="docutils literal notranslate"><span class="pre">SubmitMicroProtocolStage</span></code>,
+waits and imports declared child outputs with <code class="docutils literal notranslate"><span class="pre">WaitMicroProtocolStage</span></code>, then
+publishes them with <code class="docutils literal notranslate"><span class="pre">PublishResultStage</span></code>. The wrapper requests no direct
+device lease: the alignment child leases the selected MPC320 controllers and
+its acquisition children lease the Time Tagger. An Open library may invoke
+only its own registered protocols and built-in protocols marked
+<code class="docutils literal notranslate"><span class="pre">exported:</span> <span class="pre">true</span></code>.</p>
+<p>The wrapper’s <code class="docutils literal notranslate"><span class="pre">result.json</span></code> publishes three paths under
+<code class="docutils literal notranslate"><span class="pre">link.polarizationAlignment</span></code>: <code class="docutils literal notranslate"><span class="pre">status.alignment</span></code> for the terminal status
+and resolved target, <code class="docutils literal notranslate"><span class="pre">applied.selectedControllerAnglesDeg</span></code> for the selected
+paddle angles, and <code class="docutils literal notranslate"><span class="pre">observation.countSamples</span></code> for the acquired count samples.
+See <a class="reference internal" href="../api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.html"><span class="doc">the wrapper’s generated contract</span></a> for exact
+inputs, defaults and outputs. Read child artifacts and <code class="docutils literal notranslate"><span class="pre">run-manifest.json</span></code>
+for detailed acquisition, iteration and lease provenance; see <a class="reference internal" href="results.html"><span class="doc">6. Read results and diagnose failures</span></a>
+for the complete evidence files. Successful execution alone does not certify
+optimal physical coupling.</p>
+</section>
+</section>
 <section id="capture-and-transfer-raw-time-tags">
 <h2>Capture and transfer raw time tags<a class="headerlink" href="#capture-and-transfer-raw-time-tags" title="Link to this heading">¶</a></h2>
 <p><a class="reference internal" href="protocols/CaptureRawTimeTagStream.html"><span class="doc">CaptureRawTimeTagStream</span></a> resolves link sink channels and closes
@@ -692,14 +747,14 @@ infer its safety sequence from the command name.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="running.html">
+          <a class="prev-page" href="browser-interface.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">4. Run and customize a protocol</div>
+                <div class="title">Use the browser interface</div>
                 
               </div>
             </a>

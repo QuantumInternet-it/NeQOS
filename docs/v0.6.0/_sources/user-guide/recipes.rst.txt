@@ -52,6 +52,68 @@ is an analysis-only timing trial. Use :doc:`protocols/ReadChannelDelays` and
 Do not diagnose a wide coincidence background before checking timing and
 physical input mapping.
 
+.. _ieee-qce-2026-demo:
+
+IEEE QCE 2026: align SNSPD input polarization
+---------------------------------------------
+
+The ``IEEEQCE2026Demo`` Open library wraps the public built-in protocol
+:doc:`protocols/AlignSNSPDInputPolarization` in ``MPC320CountsMaximization``.
+It moves MPC320 paddles and observes Time Tagger count rates to align the
+polarization entering the SNSPD on one selected quantum link. Despite the
+wrapper's existing name, ``optimizationMode`` selects maximization or
+minimization.
+
+Prepare the shipped example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The library root is ``NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo``:
+
+* ``manifest.json`` registers the wrapper in library ``ieee-qce-2026-demo``.
+* ``MetaProtocolsDef/MPC320CountsMaximization/protocol.json`` defines its
+  declared inputs, outputs and stage sequence.
+* ``MetaProtocolsRun/countsMaximization/input.json`` selects the library and
+  supplies input overrides, including ``resourceMpcDeviceIds``.
+* ``MetaProtocolsRun/countsMaximization/network.json`` declares ``NODE-MPC``,
+  MPC320 ``MPC-1``, Time Tagger ``TT-1`` and the link/readout bindings.
+
+Keep this layout: the run plan's ``folder: "../.."`` resolves relative to
+``input.json``, and its library ID must match the manifest. Moving a downloaded
+input elsewhere requires updating that library path. Adapt serial numbers,
+detector mapping and physical values to the testbed before execution. Install
+the matching Kinesis and Time Tagger vendor runtimes on their DeviceOS hosts.
+
+Use the source-derived launch commands and downloadable inputs in
+:doc:`the IEEE QCE library sheet
+<../api/NodeEngine/open/ieee-qce-2026-demo>`. Start one DeviceOS process for
+each device on its configured host. Wait for both to report connected,
+initialized and ready state, then launch NodeEngine with the example run plan.
+These are real engines that can initialize and control hardware, not a
+simulation. With a standalone release, substitute the matching executables
+and distributed paths. Keep DeviceOS running through completion and cleanup.
+
+Follow the composition and read the evidence
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The wrapper submits its alignment child with ``SubmitMicroProtocolStage``,
+waits and imports declared child outputs with ``WaitMicroProtocolStage``, then
+publishes them with ``PublishResultStage``. The wrapper requests no direct
+device lease: the alignment child leases the selected MPC320 controllers and
+its acquisition children lease the Time Tagger. An Open library may invoke
+only its own registered protocols and built-in protocols marked
+``exported: true``.
+
+The wrapper's ``result.json`` publishes three paths under
+``link.polarizationAlignment``: ``status.alignment`` for the terminal status
+and resolved target, ``applied.selectedControllerAnglesDeg`` for the selected
+paddle angles, and ``observation.countSamples`` for the acquired count samples.
+See :doc:`the wrapper's generated contract
+<../api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization>` for exact
+inputs, defaults and outputs. Read child artifacts and ``run-manifest.json``
+for detailed acquisition, iteration and lease provenance; see :doc:`results`
+for the complete evidence files. Successful execution alone does not certify
+optimal physical coupling.
+
 Capture and transfer raw time tags
 ----------------------------------
 

@@ -49,6 +49,58 @@ At a protocol publication point:
   histograms, density-matrix plots, PNG and SVG. Use the exported artifact paths
   rather than predicting a filename from the protocol's name.
 
+Manifest 0.2 and complete evidence
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Protocol manifests use ``schemaVersion: "0.2"``. Their input/export mappings
+and browser projections can be abbreviated: long arrays may appear as
+``itemCount`` plus ``preview``; deep objects may show keys/counts instead of
+values. These are display/provenance previews, not lossless scientific inputs.
+Use the referenced evidence files when reproducing an analysis.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 72
+   :class: api-table protocol-input-table
+
+   * - File or reference
+     - Meaning
+   * - ``run-inputs.json``
+     - Full protocol inputs and run-step provenance. Resolve ``inputs.fullInputsFile`` relative to this protocol's manifest directory.
+   * - ``run-stages.jsonl``
+     - Append-only JSON Lines stage outcomes, including returned requeue results. Read one JSON object per line; follow ``execution.stageResultsFile``.
+   * - ``run-exports.json``
+     - Complete export mapping finalized at protocol termination. Follow ``outputs.exportsFile``; it is null before terminal export evidence is available.
+   * - ``run-lifecycle.json``
+     - Complete ``deviceTasks`` and ``stageAttempts`` evidence finalized at termination, beyond the bounded manifest timing window.
+   * - ``run-summary.json``
+     - Small run state/update-time summary used for archive listing; not scientific data.
+
+The manifest retains only the last 50 device-task/stage-attempt entries and
+their total counts. Its stage-result summary/count is not the complete stage
+journal. Terminal cleanup registrations and their last attempt remain under
+``execution.terminalCleanup`` in the manifest. A failure before a stage returns
+need not have a journal outcome; inspect lifecycle and failure evidence too.
+
+The plan's own manifest also uses schema 0.2. Each executed step can reference
+``steps[].exportsFile`` relative to the plan directory instead of embedding
+scientific exports. A never-submitted step can have no run directory or export
+file. In-memory ``$steps`` dataflow still consumes complete declared exports;
+browser previews are not its input.
+
+Keep ``result.json`` as the canonical scientific publication. Terminal export
+evidence can exist for a failed/aborted protocol and does not make it an
+eligible successful child or run-plan input. Old manifests remain readable in
+the viewer; do not assume every archive has schema 0.2 evidence files.
+
+.. note::
+
+   Metadata writes are coalesced off the event loop. Terminal completion and
+   orderly shutdown wait for pending writes, and failed/pending persistence
+   prevents runtime evidence retirement. This is not a power-loss/fsync
+   guarantee. During a live run, referenced evidence can still be pending;
+   preserve the complete terminal directory for reproducibility.
+
 Parents aggregate observations appropriate to their output contract. The logical
 6-by-6 matrix belongs to the pair-polarization observation. A fidelity parent
 can refer to that child rather than duplicate the raw matrix under another
@@ -176,3 +228,29 @@ plan/protocol manifests, canonical result files, child matrices/window evidence,
 plots, device-side file manifests and the relevant host logs. Record whether
 the guard was disabled, whether calibration was persisted and which analyzer
 tables were used. Never include the license activation file in a public issue.
+
+Operator storage and backup
+---------------------------
+
+With ``--serve``, ``--operatorData`` selects the operator data directory
+(default ``OperatorData``). Its ``operator.sqlite3`` records named experiment
+and network revisions, immutable submissions, effective-input provenance,
+queue state and run history. Scientific evidence is stored separately under
+``runs/<UUID>/`` with its stage/iteration/operation directories. CLI results
+normally remain under ``MetaProtocolResults``; a browser-local draft or Grafana
+configuration is not part of the operator database.
+
+To back up the complete operator record, stop NodeEngine deliberately and copy
+the whole operator data directory, including ``runs/``. A live copy of only
+``operator.sqlite3`` can omit its write-ahead log and be inconsistent. An
+administrator using SQLite's backup API must also arrange a coherent copy of
+the artifact/evidence directories; a database backup alone is not a scientific
+archive. Do not stop an active experiment merely to obtain a backup without
+coordinating its termination and cleanup.
+
+After restart, stored active runs are **INTERRUPTED**, queued runs remain and
+the queue is paused. History is bound to inventory identity/endpoints, not an
+invented experiment identity for old CLI runs. Restore a complete backup into a
+compatible installation and inspect its state before resuming queued work.
+See :doc:`browser-interface` for timeline, revisions, grouped downloads and
+parameter reuse.
