@@ -192,7 +192,7 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Handler-submitted children (may be conditional or repeated):
+May call, depending on the inputs:
 
 * :doc:`MeasureLinkBackgroundSingles </user-guide/protocols/MeasureLinkBackgroundSingles>`
 * :doc:`ConfigureQuantumLinkCarrier </user-guide/protocols/ConfigureQuantumLinkCarrier>`
@@ -211,6 +211,8 @@ Handler-submitted children (may be conditional or repeated):
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

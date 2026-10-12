@@ -98,15 +98,15 @@
               "channelMappings": [
                 {
                   "timeTaggerChannel": 1,
-                  "detectorHealthChannel": 1
+                  "snspdChannel": 1
                 },
                 {
                   "timeTaggerChannel": 2,
-                  "detectorHealthChannel": 2
+                  "snspdChannel": 2
                 },
                 {
                   "timeTaggerChannel": 3,
-                  "detectorHealthChannel": 3
+                  "snspdChannel": 3
                 }
               ]
             }
@@ -121,7 +121,7 @@
         },
         {
           "deviceId": "ExampleDetectorHealthId",
-          "deviceType": "DetectorHealth",
+          "deviceType": "Photec",
           "enabled": true,
           "deviceEngine": {
             "ip": "192.0.2.14",

@@ -56,9 +56,10 @@ Capture and transfer raw time tags
 ----------------------------------
 
 :doc:`protocols/CaptureRawTimeTagStream` resolves link sink channels and closes
-the recording before transfer. Supply a stable ``recordingRef`` and choose
-``operation=stream`` for the canonical lifecycle. ``record`` is currently a
-compatibility alias in this composed protocol, not an unbounded recorder.
+the recording before transfer. Supply a stable ``recordingRef`` and set
+``durationSec`` for its hold interval. The protocol always runs the declared
+start/hold/stop/transfer lifecycle. The lower-level ``RecordTimeTagStream``
+task still supports a finite ``record`` operation.
 
 The source files are created on the Time Tagger's DeviceOS host; transferred
 files appear on the NodeEngine host. Inspect both artifact manifests, file-set

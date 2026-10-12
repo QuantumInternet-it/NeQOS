@@ -90,7 +90,7 @@ No standalone option examples are shipped.
 5 How it is built
 -----------------
 
-Implemented directly by the bound stages.
+Runs directly on supplied data or device tasks.
 
 **Typically run after** (shipped multi-step plans): :doc:`ReconstructTwoQubitDensityMatrix </user-guide/protocols/ReconstructTwoQubitDensityMatrix>`.
 
@@ -104,6 +104,8 @@ Implemented directly by the bound stages.
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/EstimateEntangledPairFidelity/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

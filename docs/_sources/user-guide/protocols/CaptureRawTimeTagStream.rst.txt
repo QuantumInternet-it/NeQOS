@@ -49,7 +49,7 @@ Resolve a link's TimeTagger channels from the active network, then declaratively
          "sharedParams": {
            "timeTaggerDeviceId": "ExampleTimeTaggerId",
            "linkId": "ExampleLinkId",
-           "recordingRef": "example-finite-raw-stream"
+           "recordingRef": "example-explicit-raw-stream"
          }
        }
      ]
@@ -85,9 +85,9 @@ See :doc:`How to run a protocol </user-guide/running>` for launch setup, default
    * - acquisition.rawStream.\ **observation**\ .capture
      - Paired raw device responses from the declared start and stop children of the closed capture lifecycle.
    * - acquisition.rawStream.\ **artifact**\ .deviceFile
-     - Device-side raw-stream file-set artifact produced by the closed record or stream.
+     - Device-side raw-stream file-set artifact produced by the closed stream lifecycle.
    * - acquisition.rawStream.\ **artifact**\ .nodeFile
-     - Verified NodeEngine-host raw-stream file-set artifact produced after the closed record or stream.
+     - Verified NodeEngine-host raw-stream file-set artifact produced after the closed stream lifecycle.
 
 Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
@@ -103,10 +103,6 @@ Every declared key is present after successful completion; its value may be null
      - Default
      - Allowed
      - Meaning
-   * - ``operation``
-     - "record"
-     - "record" \| "stream"
-     - Use stream for the canonical lifecycle-safe semantic capture. record is a compatibility alias and may be retired in a future major release; both values execute the declared start, hold, stop, and transfer lifecycle within this lease-root instance.
    * - ``detectorPorts``
      - []
      - —
@@ -143,39 +139,18 @@ These overrides are added to the minimal run. Changed required values are includ
 
 .. tab-set::
 
-   .. tab-item:: input / step 1
+   .. tab-item:: input
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/input.json>`
 
       .. code-block:: json
-         :emphasize-lines: 2-10
+         :emphasize-lines: 2-9
 
          {
            "detectorPorts": [
              "H"
            ],
-           "operation": "record",
            "durationSec": 5.0,
-           "recordingSubdirectory": "examples",
-           "marker": "example",
-           "maxFileSizeBytes": null,
-           "nodeDestinationDirectory": null
-         }
-
-   .. tab-item:: input / step 2
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-11
-
-         {
-           "detectorPorts": [
-             "H"
-           ],
-           "operation": "stream",
-           "durationSec": 5.0,
-           "recordingRef": "example-explicit-raw-stream",
            "recordingSubdirectory": "examples",
            "marker": "example",
            "maxFileSizeBytes": null,
@@ -185,9 +160,7 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Declared submit sequence: :doc:`RecordTimeTagStream </user-guide/protocols/RecordTimeTagStream>` -> :doc:`HoldDuration </user-guide/protocols/HoldDuration>` -> :doc:`RecordTimeTagStream </user-guide/protocols/RecordTimeTagStream>` -> :doc:`TransferDeviceFileToNode </user-guide/protocols/TransferDeviceFileToNode>`.
-
-**Typically run after** (shipped multi-step plans): :doc:`CaptureRawTimeTagStream </user-guide/protocols/CaptureRawTimeTagStream>`.
+Calls, in order: :doc:`RecordTimeTagStream </user-guide/protocols/RecordTimeTagStream>` -> :doc:`HoldDuration </user-guide/protocols/HoldDuration>` -> :doc:`RecordTimeTagStream </user-guide/protocols/RecordTimeTagStream>` -> :doc:`TransferDeviceFileToNode </user-guide/protocols/TransferDeviceFileToNode>`.
 
 .. dropdown:: Technical details
    :class-container: protocol-technical
@@ -200,6 +173,8 @@ Declared submit sequence: :doc:`RecordTimeTagStream </user-guide/protocols/Recor
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
 
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
+
    Catalog defaults:
 
    .. code-block:: json
@@ -207,7 +182,6 @@ Declared submit sequence: :doc:`RecordTimeTagStream </user-guide/protocols/Recor
       {
         "timeTaggerDeviceId": null,
         "linkId": null,
-        "operation": "record",
         "detectorPorts": [],
         "durationSec": 30,
         "recordingRef": null,
@@ -229,7 +203,6 @@ Declared submit sequence: :doc:`RecordTimeTagStream </user-guide/protocols/Recor
             "timeTaggerDeviceId": "$shared.timeTaggerDeviceId",
             "linkId": "$shared.linkId",
             "detectorPorts": "$shared.detectorPorts",
-            "operation": "$shared.operation",
             "durationSec": "$shared.durationSec",
             "recordingRef": "$shared.recordingRef"
           }

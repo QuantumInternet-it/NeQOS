@@ -11,7 +11,7 @@ Measure relative channel timing offsets and optionally apply the derived input d
 
 :bdg:`foreground` :bdg:`timeout 30 min`
 
-**Lease:** no device resources.
+**Lease:** none of its own; child protocols lease the devices they use.
 
 Measure correlations from a reference channel to target channels, estimate their relative timing offsets, and optionally apply the derived input delays.
 
@@ -300,9 +300,9 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Declared submit sequence: :doc:`ReadChannelDelays </user-guide/protocols/ReadChannelDelays>`.
+Calls, in order: :doc:`ReadChannelDelays </user-guide/protocols/ReadChannelDelays>`.
 
-Handler-submitted children (may be conditional or repeated):
+May call, depending on the inputs:
 
 * :doc:`MeasureCorrelations </user-guide/protocols/MeasureCorrelations>`
 * :doc:`ApplyChannelDelays </user-guide/protocols/ApplyChannelDelays>`
@@ -319,6 +319,8 @@ Handler-submitted children (may be conditional or repeated):
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

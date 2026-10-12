@@ -1,9 +1,10 @@
 NodeEngine API
 ==============
 
+For built-in protocols, see the :doc:`protocol catalog </user-guide/protocols/index>` in the User Guide.
+
 .. toctree::
    :maxdepth: 2
 
-   ProtectedMicroprotocols
    OpenMetaProtocols
    MetaProtocolHandlers

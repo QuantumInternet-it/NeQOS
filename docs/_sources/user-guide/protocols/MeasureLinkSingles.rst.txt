@@ -11,7 +11,7 @@ Measure guarded singles counts and rates on resolved quantum links.
 
 :bdg:`foreground` :bdg:`timeout 3 min`
 
-**Lease:** no device resources.
+**Lease:** none of its own; child protocols lease the devices they use.
 
 Measures finite singles counts and rates for resolved quantum links and returns their acquisition provenance. An explicit latchGuard policy is applied to every acquired window; required includes the network-resolved detector-health devices in the declared resource union.
 
@@ -147,7 +147,7 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Handler-submitted children (may be conditional or repeated):
+May call, depending on the inputs:
 
 * :doc:`MeasureCountRates </user-guide/protocols/MeasureCountRates>`
 
@@ -161,6 +161,8 @@ Handler-submitted children (may be conditional or repeated):
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkSingles/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

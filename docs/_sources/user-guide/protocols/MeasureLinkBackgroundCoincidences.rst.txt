@@ -193,7 +193,10 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Implemented directly by the bound stages.
+May call, depending on the inputs:
+
+* :doc:`MeasureCoincidences </user-guide/protocols/MeasureCoincidences>`
+* :doc:`MeasureLinkCoincidences </user-guide/protocols/MeasureLinkCoincidences>`
 
 **Typically run after** (shipped multi-step plans): :doc:`CompensateSourcePolarizationFromEntangledPairProbes </user-guide/protocols/CompensateSourcePolarizationFromEntangledPairProbes>`.
 
@@ -207,6 +210,8 @@ Implemented directly by the bound stages.
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkBackgroundCoincidences/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

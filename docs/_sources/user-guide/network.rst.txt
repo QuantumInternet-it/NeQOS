@@ -120,7 +120,7 @@ Enable or disable the guard explicitly in ``input.json``. For a finite primitive
 with ``required``, include the exact Time Tagger plus relevant health-device
 union in its ``resourceDeviceIds``. With ``disabled``, the primitive expects
 only its Time Tagger; a composed campaign may require a larger union for its
-other operations. The network can describe a Photek even when a specific run
+other operations. The network can describe a Photec even when a specific run
 disables the guard. Protection enabled without a registered, ready health
 device or without channel mappings fails; it does not fall back silently.
 

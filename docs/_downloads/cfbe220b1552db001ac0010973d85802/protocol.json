@@ -17,7 +17,6 @@
   "sharedParams": {
     "timeTaggerDeviceId": null,
     "linkId": null,
-    "operation": "record",
     "detectorPorts": [],
     "durationSec": 30,
     "recordingRef": null,
@@ -40,15 +39,6 @@
         "description": "Quantum link whose sink-channel bindings are recorded.",
         "required": true,
         "minLength": 1
-      },
-      "operation": {
-        "type": "string",
-        "description": "Use stream for the canonical lifecycle-safe semantic capture. record is a compatibility alias and may be retired in a future major release; both values execute the declared start, hold, stop, and transfer lifecycle within this lease-root instance.",
-        "required": false,
-        "enum": [
-          "record",
-          "stream"
-        ]
       },
       "detectorPorts": {
         "type": "array",
@@ -114,12 +104,12 @@
       },
       "acquisition.rawStream.artifact.deviceFile": {
         "type": "object",
-        "description": "Device-side raw-stream file-set artifact produced by the closed record or stream.",
+        "description": "Device-side raw-stream file-set artifact produced by the closed stream lifecycle.",
         "role": "artifact"
       },
       "acquisition.rawStream.artifact.nodeFile": {
         "type": "object",
-        "description": "Verified NodeEngine-host raw-stream file-set artifact produced after the closed record or stream.",
+        "description": "Verified NodeEngine-host raw-stream file-set artifact produced after the closed stream lifecycle.",
         "role": "artifact"
       }
     }
@@ -132,7 +122,6 @@
         "timeTaggerDeviceId": "$shared.timeTaggerDeviceId",
         "linkId": "$shared.linkId",
         "detectorPorts": "$shared.detectorPorts",
-        "operation": "$shared.operation",
         "durationSec": "$shared.durationSec",
         "recordingRef": "$shared.recordingRef"
       }

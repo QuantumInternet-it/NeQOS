@@ -9,7 +9,7 @@
       "sharedParams": {
         "timeTaggerDeviceId": "ExampleTimeTaggerId",
         "linkId": "ExampleLinkId",
-        "recordingRef": "example-finite-raw-stream"
+        "recordingRef": "example-explicit-raw-stream"
       }
     }
   ]

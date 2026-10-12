@@ -283,7 +283,7 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Declared submit sequence: :doc:`MeasureEntangledPairPolarizationCoincidences </user-guide/protocols/MeasureEntangledPairPolarizationCoincidences>` -> :doc:`ValidateEntangledPairPolarizationTomography </user-guide/protocols/ValidateEntangledPairPolarizationTomography>` -> :doc:`ReconstructTwoQubitDensityMatrix </user-guide/protocols/ReconstructTwoQubitDensityMatrix>` -> :doc:`EstimateEntangledPairFidelity </user-guide/protocols/EstimateEntangledPairFidelity>`.
+Calls, in order: :doc:`MeasureEntangledPairPolarizationCoincidences </user-guide/protocols/MeasureEntangledPairPolarizationCoincidences>` -> :doc:`ValidateEntangledPairPolarizationTomography </user-guide/protocols/ValidateEntangledPairPolarizationTomography>` -> :doc:`ReconstructTwoQubitDensityMatrix </user-guide/protocols/ReconstructTwoQubitDensityMatrix>` -> :doc:`EstimateEntangledPairFidelity </user-guide/protocols/EstimateEntangledPairFidelity>`.
 
 **Typically run after** (shipped multi-step plans): :doc:`CompensateSourcePolarizationFromSeparableHDProbes </user-guide/protocols/CompensateSourcePolarizationFromSeparableHDProbes>`, :doc:`MeasureLinkBackgroundCoincidences </user-guide/protocols/MeasureLinkBackgroundCoincidences>`.
 
@@ -297,6 +297,8 @@ Declared submit sequence: :doc:`MeasureEntangledPairPolarizationCoincidences </u
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

@@ -1,0 +1,516 @@
+Photec Foreground Tasks
+=======================
+
+.. _deviceos-photec-initializebiascurrents:
+
+.. admonition:: ``InitializeBiasCurrents``
+   :class: driver-overview task-reference
+
+   Apply the full configured detector setup.
+
+   Writes integrationTimeMs, all 16 triggerLevels, and the active bias
+   vector, then resets latch tracking. The normal INITIALIZE lifecycle
+   operation already performs this same setup.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``integrationTimeMs``
+        - ``int``
+        - Yes
+        - ``ms``
+        - Applied integration time.
+      * - ``autoRecoverOnLatch``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether automatic latch recovery is enabled.
+      * - ``maxRecoveryAttempts``
+        - ``int``
+        - Yes
+        - ``—``
+        - Maximum automatic recovery attempts.
+      * - ``zeroConsecutiveLimit``
+        - ``int``
+        - Yes
+        - ``—``
+        - Consecutive zero-count threshold used to detect a latch.
+      * - ``healthLogEnabled``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether periodic detector-health logging is enabled.
+      * - ``healthLogFrequencyHz``
+        - ``float``
+        - Yes
+        - ``Hz``
+        - Configured detector-health logging frequency.
+      * - ``biasChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Configured one-based bias channels.
+      * - ``latchGuardChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Configured one-based latch-guard channels.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Configured bias currents keyed by one-based channel.
+      * - ``triggerLevels``
+        - ``object``
+        - Yes
+        - ``—``
+        - Configured trigger levels keyed by one-based channel.
+
+
+.. _deviceos-photec-stopdetectors:
+
+.. admonition:: ``StopDetectors``
+   :class: driver-overview task-reference
+
+   Set all 16 hardware bias-current outputs to zero.
+
+   This does not alter the stored bias configuration. CLEAR_READY and
+   DISCONNECT also perform this hardware-safe operation.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Readback bias currents keyed by one-based channel.
+
+
+.. _deviceos-photec-startdetectors:
+
+.. admonition:: ``StartDetectors``
+   :class: driver-overview task-reference
+
+   Write the configured active bias vector to the controller.
+
+   Only configured biasChannels receive their configured current; every
+   other controller channel is written as zero. SET_READY already applies
+   the same vector as part of the normal lifecycle.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Readback bias currents keyed by one-based channel.
+
+
+.. _deviceos-photec-setbiascurrents:
+
+.. admonition:: ``SetBiasCurrents``
+   :class: driver-overview task-reference
+
+   Replace the configured bias-current vector and apply it immediately.
+
+   biasCurrentsUa accepts a 16-element list, a map from 1-based channel to
+   current in microamperes, or one scalar applied to all 16 channels. The
+   existing biasChannels selection is retained, so values outside that
+   selection are stored but written as zero until the selection changes.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``biasCurrentsUa``
+        - ``List[float] \| Dict[int, float] \| float \| None``
+        - No
+        - ``None``
+        - A 16-value current vector, a map from one-based channel to microamperes, or one current for every channel.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``uA``
+        - Readback bias currents keyed by one-based channel.
+
+
+.. _deviceos-photec-settriggerlevels:
+
+.. admonition:: ``SetTriggerLevels``
+   :class: driver-overview task-reference
+
+   Replace all 16 configured trigger levels and apply them immediately.
+
+   triggerLevels accepts a 16-element list, a map from 1-based channel to
+   level, or one scalar applied to every channel. Values are rounded to
+   integers and the controller accepts values from 0 through 65535.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``triggerLevels``
+        - ``List[int] \| Dict[int, int] \| int \| None``
+        - No
+        - ``None``
+        - A 16-value level vector, a map from one-based channel to level, or one level for every channel.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``triggerLevels``
+        - ``object``
+        - Yes
+        - ``—``
+        - Readback trigger levels keyed by one-based channel.
+
+
+.. _deviceos-photec-readdetectorhealth:
+
+.. admonition:: ``ReadDetectorHealth``
+   :class: driver-overview task-reference
+
+   Read guarded and all-channel counts, then evaluate latch health.
+
+   A latch is a guarded count at or below zeroCountThreshold for
+   zeroConsecutiveLimit consecutive reads. If autoRecoverOnLatch is true,
+   invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
+   The returned payload includes readingValid, invalidatesMeasurements,
+   latchEventCount, recoveryStatus, counts, and any alert details.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, ERROR``
+        - Detector-health outcome.
+      * - ``timestampEpoch``
+        - ``float``
+        - Yes
+        - ``s``
+        - Health-read timestamp.
+      * - ``timestamp``
+        - ``str``
+        - Yes
+        - ``—``
+        - Local formatted health-read timestamp.
+      * - ``readingValid``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether guarded detector counts passed the latch check.
+      * - ``readingCorrupted``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the reading is considered corrupted by a latch.
+      * - ``invalidatesMeasurements``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether concurrent measurements must be discarded.
+      * - ``counts``
+        - ``object``
+        - Yes
+        - ``—``
+        - Guarded count values keyed by channel.
+      * - ``allCounts``
+        - ``object``
+        - Yes
+        - ``—``
+        - All detector count values keyed by channel.
+      * - ``latchedChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Channels currently considered latched.
+      * - ``latchGuardChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Channels included in the latch check.
+      * - ``discardedReadings``
+        - ``list[object]``
+        - Yes
+        - ``—``
+        - Readings discarded while recovery was attempted.
+      * - ``recoveryStatus``
+        - ``str``
+        - Yes
+        - ``—``
+        - Automatic recovery state.
+      * - ``lastValidCounts``
+        - ``object``
+        - Yes
+        - ``—``
+        - Most recent valid guarded counts keyed by channel.
+      * - ``alert``
+        - ``object \| None``
+        - Yes
+        - ``—``
+        - Alert produced by the current health read, when any.
+      * - ``lastAlert``
+        - ``object \| None``
+        - Yes
+        - ``—``
+        - Most recent latch alert, when any.
+      * - ``latchEventCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Cumulative detected latch-event count.
+      * - ``lastRecovery``
+        - ``object``
+        - No
+        - ``—``
+        - Last automatic recovery report.
+      * - ``errorType``
+        - ``str``
+        - No
+        - ``—``
+        - Error type when recovery failed.
+      * - ``errorMessage``
+        - ``str``
+        - No
+        - ``—``
+        - Error message when recovery failed.
+
+
+.. _deviceos-photec-recoverlatcheddetectors:
+
+.. admonition:: ``RecoverLatchedDetectors``
+   :class: driver-overview task-reference
+
+   Run one manual stop/start recovery cycle.
+
+   channels defaults to latchGuardChannels and is returned in the recovery
+   report. Recovery itself disables all 16 outputs, waits recoveryOffSec,
+   restores the configured active bias vector, then waits recoverySettleSec;
+   it does not selectively power-cycle only the supplied channels.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channels``
+        - ``List[int] \| None``
+        - No
+        - ``None``
+        - Optional one-based channels reported as the recovery target; omitting it uses ``latchGuardChannels``.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``recovery``
+        - ``object``
+        - Yes
+        - ``—``
+        - Manual recovery report containing attempt, target channels, and off/settle durations.
+

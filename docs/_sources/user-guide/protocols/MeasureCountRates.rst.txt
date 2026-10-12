@@ -158,7 +158,7 @@ These overrides are added to the minimal run. Changed required values are includ
 5 How it is built
 -----------------
 
-Implemented directly by the bound stages.
+Runs directly on supplied data or device tasks.
 
 .. dropdown:: Technical details
    :class-container: protocol-technical
@@ -170,6 +170,8 @@ Implemented directly by the bound stages.
    Handler source: ``NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MeasureCountRates/Handlers.py``.
 
    :doc:`Submission and waiting API </api/NodeEngine/MetaProtocolHandlers>`.
+
+   Child links come from declared submissions and statically resolved Python helpers; runtime-selected targets may not be enumerable.
 
    Catalog defaults:
 

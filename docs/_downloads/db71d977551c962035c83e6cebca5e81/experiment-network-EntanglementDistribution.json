@@ -213,11 +213,11 @@
               "channelMappings": [
                 {
                   "timeTaggerChannel": 1,
-                  "detectorHealthChannel": 1
+                  "snspdChannel": 1
                 },
                 {
                   "timeTaggerChannel": 2,
-                  "detectorHealthChannel": 2
+                  "snspdChannel": 2
                 }
               ]
             }
@@ -246,7 +246,7 @@
         },
         {
           "deviceId": "ExampleDetectorHealthId",
-          "deviceType": "Photek",
+          "deviceType": "Photec",
           "enabled": true,
           "linkBindings": [
             {
