@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ConfigureQuantumLinkCarrier",
+      "sharedParams": {
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleAttenuatorA",
+          "ExampleAttenuatorB"
+        ],
+        "sourceDeviceId": "ExampleEntangledPhotonSourceId",
+        "outputMode": "ENTANGLED",
+        "attenuation": {
+          "mode": "common",
+          "commonDb": 0
+        },
+        "settleSec": 1
+      },
+      "stepId": "carrier"
+    },
+    {
+      "protocolId": "AlignChannels",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "referenceChannel": 1,
+        "targetChannels": [
+          2
+        ],
+        "acquisition": {
+          "mode": "coarseFine",
+          "clear": true,
+          "single": {
+            "durationSec": 5,
+            "binWidthPs": 10,
+            "binCount": 1000
+          },
+          "coarse": {
+            "durationSec": 10,
+            "binWidthPs": 100,
+            "binCount": 500000
+          },
+          "fine": {
+            "durationSec": 30,
+            "binWidthPs": 10,
+            "binCount": 1000
+          },
+          "pumpFrequencyMHz": null
+        },
+        "delayCorrection": {
+          "apply": true,
+          "sign": 1,
+          "basePs": null,
+          "settleSec": 0
+        },
+        "peakSelection": {
+          "mode": "dominant",
+          "rank": 1,
+          "targetDelayPs": null,
+          "rejectCenterPs": null,
+          "rejectHalfWidthPs": null,
+          "gaussianFitMinRelativeHeight": 0.2,
+          "gaussianFitMaxHalfWidthPs": null,
+          "diagnosticMaxPeaks": 20,
+          "minSeparationPs": 100,
+          "minCoincidences": 1
+        }
+      },
+      "stepId": "timing"
+    },
+    {
+      "protocolId": "CompensateSourcePolarizationFromEntangledPairProbes",
+      "sharedParams": {
+        "referenceLinkId": "ExampleEntangledArmA",
+        "compensationTargetLinkId": "ExampleEntangledArmB",
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleAttenuatorA",
+          "ExampleAttenuatorB",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleTimeTaggerId",
+          "ExampleDetectorHealthId"
+        ],
+        "referenceUseCompensatedTomoStates": false,
+        "referenceResetCompensatedTomoStates": true,
+        "targetUseCompensatedTomoStates": false,
+        "referenceDetectorChannel": 1,
+        "referenceProjectionSetMode": "compact2x6",
+        "measurementDurationSec": 2,
+        "coincidenceWindowPs": 1000,
+        "settleSec": 1,
+        "clear": true,
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        },
+        "pbsReadout": "simultaneous",
+        "targetBranchMode": "both",
+        "subtractBackground": false,
+        "sourceSetup": {
+          "sources": [
+            {
+              "deviceId": "ExampleEntangledPhotonSourceId",
+              "outputMode": "ENTANGLED"
+            }
+          ]
+        },
+        "applyCompensation": true,
+        "persist": true,
+        "setFinalHAfterApply": true,
+        "hardCheckStokesAngle": false,
+        "minTotalCounts": 1
+      },
+      "stepId": "compensation"
+    },
+    {
+      "stepId": "background",
+      "protocolId": "MeasureLinkBackgroundCoincidences",
+      "sharedParams": {
+        "referenceLinkId": "ExampleEntangledArmA",
+        "targetLinkIds": [
+          "ExampleEntangledArmB"
+        ],
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleAttenuatorA",
+          "ExampleAttenuatorB",
+          "ExampleTimeTaggerId",
+          "ExampleDetectorHealthId"
+        ],
+        "measurementDurationSec": 10,
+        "coincidenceWindowPs": 1000,
+        "settleSec": 1,
+        "restoreSettleSec": 1,
+        "clear": true,
+        "detectorPairs": [
+          {
+            "referenceChannel": 1,
+            "targetChannel": 2
+          }
+        ],
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        }
+      }
+    },
+    {
+      "protocolId": "MeasureEntangledPairFidelity",
+      "sharedParams": {
+        "linkPairIds": [
+          "ExampleEntangledArmA",
+          "ExampleEntangledArmB"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB"
+        ],
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleDetectorHealthId"
+        ],
+        "measurementDurationSec": 10,
+        "settleSec": 1,
+        "coincidenceWindowPs": 1000,
+        "useCompensatedTomoStates": true,
+        "backgroundCountRateHz": 0,
+        "clear": true,
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        },
+        "qualityGate": {
+          "minimumCompleteBasisCounts": 100,
+          "maximumBasisRateRelativeStandardDeviation": 0.5
+        },
+        "maxReconstructionIterations": 5000,
+        "numericLocalUnitaryRestarts": 20,
+        "numericLocalUnitarySeed": 42,
+        "useCompensatedTomoStatesByLink": {
+          "ExampleEntangledArmA": true,
+          "ExampleEntangledArmB": true
+        },
+        "pbsReadout": "simultaneous",
+        "backgroundObservation": "$steps.background.link.characterization.observation.background"
+      },
+      "stepId": "fidelity"
+    },
+    {
+      "stepId": "distillation",
+      "protocolId": "EstimateEntangledPairDistillableEntanglementRate",
+      "sharedParams": {
+        "twoQubitDensityMatrix": "$steps.fidelity.tomography.state.estimate.twoQubitDensityMatrix",
+        "entangledPairPolarizationTomography": "$steps.fidelity.link.characterization.observation.entangledPairPolarizationCoincidences"
+      }
+    },
+    {
+      "stepId": "summary",
+      "protocolId": "DeriveEntangledPairFidelitySummary",
+      "sharedParams": {
+        "twoQubitDensityMatrix": "$steps.fidelity.tomography.state.estimate.twoQubitDensityMatrix",
+        "entangledPairFidelity": "$steps.fidelity.entanglement.fidelity.estimate.entangledPairFidelity",
+        "distillableEntanglementRate": "$steps.distillation.entanglement.distillation.estimate.distillableEntanglementRate"
+      }
+    }
+  ]
+}

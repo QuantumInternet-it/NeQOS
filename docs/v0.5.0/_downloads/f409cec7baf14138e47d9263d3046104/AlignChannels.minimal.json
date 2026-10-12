@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "AlignChannels",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "referenceChannel": 8,
+        "targetChannels": [
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    }
+  ]
+}

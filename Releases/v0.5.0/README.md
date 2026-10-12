@@ -1,20 +1,20 @@
 # NeQOS — Neapolitan / Networked Quantum Operating System v0.5.0
 
-NeQOS coordinates quantum-network devices through reusable micro-protocols and composed experimental workflows. **NodeEngine** orchestrates the network; **DeviceOS** runs beside each device and executes its driver tasks.
+NeQOS coordinates quantum-network devices through meta-protocols composed from reusable micro-protocols. **NodeEngine** orchestrates the network; **DeviceOS** hosts a DeviceEngine and a hardware driver beside each device.
 
 ## Changes from v0.4.0
 
-### Guided setup and protocol cookbook
+### Guided setup and protocol catalog
 
-The operator manual now covers installation, network configuration, first runs and experimental recipes alongside the API reference. A public protocol cookbook lists required and optional inputs, defaults, outputs and examples.
+The operator manual now covers installation, network configuration, first runs and experimental recipes alongside the API reference. The protocol catalog lists required and optional inputs, defaults, outputs and examples.
 
-### Nested workflows with delegated device leases
+### Nested protocols with delegated device leases
 
-Foreground child protocols can use devices held by their parent workflow without releasing its exclusive lease between operations. Run manifests record lease ownership, active executors and cleanup/recovery evidence.
+Foreground child protocols can use devices leased by their parent protocol without releasing its exclusive lease between operations. Run manifests record lease ownership, active executors and cleanup/recovery evidence.
 
-### Reusable measurement and polarization workflows
+### Reusable measurement and polarization protocols
 
-The Reserved catalog includes finite acquisitions with explicit latch-guard policies, raw-stream recording and transfer, timing alignment, polarization compensation, tomography reconstruction and fidelity estimation.
+The built-in catalog includes finite acquisitions with explicit latch-guard policies, raw-stream recording and transfer, timing alignment, polarization compensation, tomography reconstruction and fidelity estimation.
 
 ## Download
 
@@ -38,21 +38,21 @@ NodeEngine and DeviceOS require a valid NeQOS license at startup. Supply its pat
 
 ## Start here: User Guide
 
-The [NeQOS User Guide](https://quantuminternet-it.github.io/NeQOS/user-guide/index.html) provides step-by-step instructions:
+The [NeQOS 0.5.0 User Guide](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/index.html) provides step-by-step instructions:
 
-1. [Install the software](https://quantuminternet-it.github.io/NeQOS/user-guide/installation.html): distributions, licenses, vendor runtimes and per-PC data directories.
-2. [Describe your bench](https://quantuminternet-it.github.io/NeQOS/user-guide/network.html): device identities, endpoints, link roles, detector channels and health guards.
-3. [Run a hardware-free example](https://quantuminternet-it.github.io/NeQOS/user-guide/quickstart.html).
-4. [Run and customize a protocol](https://quantuminternet-it.github.io/NeQOS/user-guide/running.html).
-5. [Use experimental recipes](https://quantuminternet-it.github.io/NeQOS/user-guide/recipes.html) and the [public protocol cookbook](https://quantuminternet-it.github.io/NeQOS/user-guide/protocols/index.html), including required and optional inputs, defaults, outputs and available examples.
-6. [Find results and troubleshoot failures](https://quantuminternet-it.github.io/NeQOS/user-guide/results.html).
+1. [Install the software](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/installation.html): distributions, licenses, vendor runtimes and per-PC data directories.
+2. [Describe your network](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/network.html): device identities, endpoints, link roles, detector channels and detector-health associations.
+3. [Run a hardware-free example](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/quickstart.html).
+4. [Run and customize a protocol](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/running.html).
+5. [Use experimental recipes](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/recipes.html) and the [protocol catalog](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/protocols/index.html), including required and optional inputs, defaults, outputs and available examples.
+6. [Find results and troubleshoot failures](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/results.html).
 
 ## Developer API
 
-- [NodeEngine API](https://quantuminternet-it.github.io/NeQOS/api/NodeEngine/index.html): protocol contracts, composition, Open packs and handler interfaces.
-- [DeviceOS API](https://quantuminternet-it.github.io/NeQOS/api/DeviceOS/index.html): drivers, exported tasks, parameters, signals and runtime setup.
+- [NodeEngine API](https://quantuminternet-it.github.io/NeQOS/v0.5.0/api/NodeEngine/index.html): protocol contracts, composition, Open libraries and stage handlers.
+- [DeviceOS API](https://quantuminternet-it.github.io/NeQOS/v0.5.0/api/DeviceOS/index.html): drivers, device tasks, parameters, signals and runtime setup.
 
-The online manual and API are updated independently of executable archives. Check the documentation version and use matching binaries, contracts and examples. The documentation may describe capabilities not present in an older installed build; check that executable's `--version` and `--help`.
+These manual and API links point to the 0.5.0 documentation archive. The site root follows the latest stable release, while `/v0.6.0/` currently describes the development version. Use documentation, binaries, contracts and examples from the same release; check the executable's `--version` and `--help`.
 
 ## Windows 11
 
@@ -74,7 +74,7 @@ cd DeviceOS.dist
 .\DeviceOS.exe --help
 ```
 
-An unsigned executable can be blocked before startup by Smart App Control or another App Control policy. See the [Windows startup guidance](https://quantuminternet-it.github.io/NeQOS/user-guide/installation.html#windows-unsigned-builds) for the confirmed Smart App Control procedure and its security implications.
+An unsigned executable can be blocked before startup by Smart App Control or another App Control policy. See the [Windows startup guidance](https://quantuminternet-it.github.io/NeQOS/v0.5.0/user-guide/installation.html#windows-unsigned-builds) for the confirmed Smart App Control procedure and its security implications.
 
 ## macOS
 

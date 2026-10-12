@@ -1,0 +1,59 @@
+Mpc320 Driver
+=============
+
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``Mpc320Driver``
+   :Source: ``DeviceOSPack/Mpc320Driver.py``
+   :Official product page: `Thorlabs MPC320 <https://www.thorlabs.com/thorproduct.cfm?partnumber=MPC320>`_
+
+.. admonition:: Runtime requirements
+   :class: api-reference runtime-requirements
+
+   :Vendor software: Thorlabs Kinesis
+   :Python packages: ``pythonnet``
+
+   .. rubric:: Local settings
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-runtime-settings-table
+      :widths: 28 12 25 35
+
+      * - Setting
+        - Required
+        - Default
+        - Description
+      * - ``THORLABS_KINESIS_PATH``
+        - No
+        - ``C:\\Program Files\\Thorlabs\\Kinesis``
+        - Kinesis installation root containing the DeviceManagerCLI, GenericMotorCLI, and PolarizerCLI assemblies.
+      * - ``NEQOS_CALIBRATION_DIR``
+        - No
+        - ``calibrations``
+        - DeviceOS-host directory for persisted MPC320 compensated tomography tables. Relative paths are resolved beside DeviceOS.
+
+   The Python and Kinesis architectures must match.
+   MPC320 tomography uses logical channel 1. Define hardwareConfig.factoryTomographyStates for factory H/V/D/A/R/L states; installCompensatedTomographyStates stores calibrated states on the DeviceOS host.
+
+   See :doc:`DeviceOS runtime setup <RuntimeSetup>` for local-config discovery and overrides.
+
+Control a Thorlabs MPC320 three-paddle polarization controller.
+
+This driver exposes absolute and relative paddle moves, polarizer
+configuration, and position or connection readback through DeviceOS.
+
+The runtime declarations are the source of truth for generated driver
+documentation: ``_PARAMETER_SPECS`` defines configurable parameters,
+``_SIGNAL_SPECS`` defines readable signals, and ``@foreground_task``
+declares the exported tasks together with their admission policy.
+
+.. toctree::
+   :maxdepth: 1
+
+   Parameters <Mpc320/parameters>
+   Signals <Mpc320/signals>
+   Foreground Tasks <Mpc320/foreground-tasks>

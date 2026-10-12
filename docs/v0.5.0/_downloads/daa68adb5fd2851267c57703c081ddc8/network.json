@@ -1,0 +1,60 @@
+{
+  "networkId": "example-measure-link-polarization-singles",
+  "quantumLinks": [
+    {
+      "linkId": "ExampleTargetLinkId",
+      "dwdmChannel": 44
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleTargetLinkId",
+              "role": "sink",
+              "inputPort": "H",
+              "channel": 1
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 19101,
+            "asyncCmdPort": 19102,
+            "telemetryPort": 19103
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExamplePolarizationAnalyzerId",
+          "deviceType": "PA1000",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleTargetLinkId",
+              "role": "polarizationAnalyzer",
+              "outputPort": "H",
+              "channel": 1,
+              "measurementTopology": "polarizer",
+              "detectorConnected": true
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 19201,
+            "asyncCmdPort": 19202,
+            "telemetryPort": 19203
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

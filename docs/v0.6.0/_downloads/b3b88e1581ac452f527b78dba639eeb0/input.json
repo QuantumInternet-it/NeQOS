@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ValidateLinkPolarizationCompensation",
+      "sharedParams": {
+        "linkId": "ExampleLinkId",
+        "countsBySourceProbeState": {
+          "H": {
+            "H": 1000.0,
+            "V": 0.0,
+            "D": 500.0,
+            "A": 500.0,
+            "R": 500.0,
+            "L": 500.0
+          },
+          "D": {
+            "H": 500.0,
+            "V": 500.0,
+            "D": 1000.0,
+            "A": 0.0,
+            "R": 500.0,
+            "L": 500.0
+          }
+        },
+        "minTotalCounts": 1.0
+      }
+    }
+  ]
+}

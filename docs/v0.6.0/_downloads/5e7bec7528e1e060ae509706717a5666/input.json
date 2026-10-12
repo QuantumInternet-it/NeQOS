@@ -1,0 +1,59 @@
+{
+    "schemaVersion": "0.4",
+    "metaProtocolLibrary": {
+        "libraryId": "neqos-protected"
+    },
+    "steps": [
+        {
+            "protocolId": "AlignChannels",
+            "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "referenceChannel": 8,
+        "targetChannels": [
+            2,
+            3,
+            4,
+            5
+        ],
+        "acquisition": {
+            "mode": "coarseFine",
+            "clear": true,
+            "single": {
+                "durationSec": 5.0,
+                "binWidthPs": 10,
+                "binCount": 2000
+            },
+            "coarse": {
+                "durationSec": 10.0,
+                "binWidthPs": 1000,
+                "binCount": 100000
+            },
+            "fine": {
+                "durationSec": 30.0,
+                "binWidthPs": 10,
+                "binCount": 1000
+            },
+            "pumpFrequencyMHz": null
+        },
+        "delayCorrection": {
+            "apply": true,
+            "sign": 1.0,
+            "basePs": null,
+            "settleSec": 0.0
+        },
+        "peakSelection": {
+            "mode": "dominant",
+            "rank": 1,
+            "targetDelayPs": null,
+            "rejectCenterPs": null,
+            "rejectHalfWidthPs": null,
+            "gaussianFitMinRelativeHeight": 0.2,
+            "gaussianFitMaxHalfWidthPs": null,
+            "diagnosticMaxPeaks": 20,
+            "minSeparationPs": 100.0,
+            "minCoincidences": 1.0
+            }
+        }
+      }
+    ]
+}

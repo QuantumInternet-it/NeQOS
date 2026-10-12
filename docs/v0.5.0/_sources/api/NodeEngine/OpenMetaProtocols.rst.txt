@@ -1,0 +1,108 @@
+Open Meta-protocols
+===================
+
+Editable protocol libraries loaded alongside NeQOS. Each library declares its templates and any local Python handlers.
+
+:doc:`Run an Open library </user-guide/quickstart>` | :doc:`Composition handlers <MetaProtocolHandlers>`
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+
+   open/external-python-package-dependency
+   open/fake-device-examples
+   open/ieee-qce-2026-demo
+
+External Python Package Dependency
+----------------------------------
+
+Self-contained demonstration of a pure-Python dependency loaded by an open NeQOS meta-protocol handler.
+
+``external-python-package-dependency``, 1 template
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST
+      :link: open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST
+      :link-type: doc
+
+      .. _external-python-package-dependency-test:
+
+      Verifies that an open handler can import a distribution-local pure-Python dependency.
+
+Fake Device Examples
+--------------------
+
+FakeDriver examples covering compiled stages, local handlers, staged execution, and contract-compliant parent-child result composition.
+
+``fake-device-examples``, 6 templates
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: FAKE-SIMPLE
+      :link: open/fake-device-examples--FAKE-SIMPLE
+      :link-type: doc
+
+      .. _fake-simple:
+
+      Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.
+
+   .. grid-item-card:: FAKE-STAGED
+      :link: open/fake-device-examples--FAKE-STAGED
+      :link-type: doc
+
+      .. _fake-staged:
+
+      Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.
+
+   .. grid-item-card:: FAKE-HANDLER
+      :link: open/fake-device-examples--FAKE-HANDLER
+      :link-type: doc
+
+      .. _fake-handler:
+
+      FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.
+
+   .. grid-item-card:: FAKE-COMPOSED-SWEEP
+      :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP
+      :link-type: doc
+
+      .. _fake-composed-sweep:
+
+      Hardware-free root meta-protocol.
+
+   .. grid-item-card:: FAKE-COMPOSED-SWEEP-BRANCH
+      :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH
+      :link-type: doc
+
+      .. _fake-composed-sweep-branch:
+
+      Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.
+
+   .. grid-item-card:: FAKE-COMPOSED-SWEEP-LEAF
+      :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF
+      :link-type: doc
+
+      .. _fake-composed-sweep-leaf:
+
+      Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.
+
+IEEE QCE 2026 Demo
+------------------
+
+Open meta-protocol example that invokes NeQOS's exported protected MPC optimization template.
+
+``ieee-qce-2026-demo``, 1 template
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: MPC320CountsMaximization
+      :link: open/ieee-qce-2026-demo--MPC320CountsMaximization
+      :link-type: doc
+
+      .. _mpc320countsmaximization:
+
+      Open IEEE QCE demonstration wrapper for aligning the polarization incident on the SNSPD of one selected quantum link.

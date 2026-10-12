@@ -1,0 +1,21 @@
+Fake Signals
+============
+
+.. admonition:: Signal reference
+   :class: api-reference
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-signal-table
+      :widths: 25 18 15 42
+
+      * - Name
+        - Type
+        - Unit
+        - Description
+      * - ``power``
+        - —
+        - —
+        - —
+

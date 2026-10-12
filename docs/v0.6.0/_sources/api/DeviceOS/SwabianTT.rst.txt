@@ -1,0 +1,69 @@
+SwabianTT Driver
+================
+
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``SwabianTTDriver``
+   :Source: ``DeviceOSPack/SwabianTTDriver.py``
+   :Official product page: `Swabian Time Tagger <https://www.swabianinstruments.com/time-tagger/>`_
+
+.. admonition:: Runtime requirements
+   :class: api-reference runtime-requirements
+
+   :Vendor software: Swabian Instruments Time Tagger software
+
+   .. rubric:: Local settings
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-runtime-settings-table
+      :widths: 28 12 25 35
+
+      * - Setting
+        - Required
+        - Default
+        - Description
+      * - ``SWABIAN_TIMETAGGER_PYTHON_PATH``
+        - Yes
+        - —
+        - Directory containing the official TimeTagger Python API.
+      * - ``SWABIAN_TIMETAGGER_NATIVE_PATH``
+        - Yes
+        - —
+        - Directory containing the native Time Tagger runtime libraries.
+      * - ``NEQOS_DEVICE_ARTIFACT_DIR``
+        - No
+        - —
+        - Local root for device-produced artifacts; when omitted, DeviceOS uses DeviceArtifacts below its working directory.
+
+   DeviceOS configures both directories before importing this driver.
+
+   See :doc:`DeviceOS runtime setup <RuntimeSetup>` for local-config discovery and overrides.
+
+HardwareDriver for a single Swabian Time Tagger.
+
+The driver manages physical channels discovered from the device, logical
+channels created through Swabian virtual-channel primitives, and synchronized
+COUNTRATE or CORRELATION measurements. Configured physical channels also
+expose runtime parameters named ``channel.<id>.triggerLevelVolt`` and
+``channel.<id>.inputDelayPs``.
+
+Measurement definitions remain registered until ResetMeasurementEngine.
+ActivateMeasurements selects the subset used by the next StartMeasurement
+window. RecordTimeTagStream writes raw selected-channel events as .ttbin,
+either for a finite duration or between explicit start and stop calls.
+
+:ref:`Network hardware configuration <hardware-config-swabiantt>`.
+
+:doc:`Driver extension and lifecycle rules </user-guide/writing-hardware-driver>`.
+
+.. toctree::
+   :maxdepth: 1
+
+   Parameters <SwabianTT/parameters>
+   Signals <SwabianTT/signals>
+   Foreground Tasks <SwabianTT/foreground-tasks>
+   Background Tasks <SwabianTT/background-tasks>

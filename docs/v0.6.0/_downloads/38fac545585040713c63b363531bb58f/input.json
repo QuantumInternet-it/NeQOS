@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MonitorCountRates",
+      "sharedParams": {
+        "deviceId": "ExampleTimeTaggerId",
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId"
+        ],
+        "channelRefs": [
+          1,
+          2
+        ],
+        "measurementDurationSec": 2.0,
+        "windowCount": 10,
+        "interWindowDelaySec": 0.1,
+        "latchGuard": {
+          "mode": "disabled"
+        }
+      }
+    }
+  ]
+}

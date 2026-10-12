@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "RealignEntangledPhotonSourcePolarization",
+      "sharedParams": {
+        "deviceId": "ExampleEntangledPhotonSourceId",
+        "protectionSettleSec": 0.0,
+        "settleSec": 10.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+:orphan:
+
+Photec Foreground Tasks
+=======================
+
+See the :doc:`Photec Foreground Tasks </api/DeviceOS/Photec/foreground-tasks>` reference.
+
+.. _deviceos-photek-initializebiascurrents:
+
+:ref:`initializebiascurrents <deviceos-photec-initializebiascurrents>`
+
+.. _deviceos-photek-stopdetectors:
+
+:ref:`stopdetectors <deviceos-photec-stopdetectors>`
+
+.. _deviceos-photek-startdetectors:
+
+:ref:`startdetectors <deviceos-photec-startdetectors>`
+
+.. _deviceos-photek-setbiascurrents:
+
+:ref:`setbiascurrents <deviceos-photec-setbiascurrents>`
+
+.. _deviceos-photek-settriggerlevels:
+
+:ref:`settriggerlevels <deviceos-photec-settriggerlevels>`
+
+.. _deviceos-photek-readdetectorhealth:
+
+:ref:`readdetectorhealth <deviceos-photec-readdetectorhealth>`
+
+.. _deviceos-photek-recoverlatcheddetectors:
+
+:ref:`recoverlatcheddetectors <deviceos-photec-recoverlatcheddetectors>`

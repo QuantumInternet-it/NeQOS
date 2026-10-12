@@ -1,0 +1,37 @@
+PaX000 Parameters
+=================
+
+.. admonition:: Parameter reference
+   :class: api-reference
+
+   Concrete names are created after the driver discovers its hardware.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-parameter-table
+      :widths: 20 15 10 15 12 28
+
+      * - Name
+        - Type
+        - Unit
+        - Range
+        - Default
+        - Description
+      * - ``channel<N>WavelengthNm``
+        - ``float``
+        - ``nm``
+        - —
+        - —
+        - Wavelength for a discovered channel; the allowed range follows that channel's calibration anchors when available.
+      * - ``channel<N>Waveplate<M>AngleDeg``
+        - ``float``
+        - ``deg``
+        - ``0.0 to 360.0``
+        - ``0.0``
+        - Angle of the numbered waveplate on a discovered channel.
+
+   .. note::
+
+      ``<N>`` is the index of a discovered hardware channel and ``<M>`` is the index of a waveplate within that channel. For example, the concrete advertised names are ``channel1WavelengthNm`` and ``channel1Waveplate1AngleDeg``.
+

@@ -1,0 +1,55 @@
+NeQOS User Guide
+================
+
+Start with :doc:`how-neqos-works` for the architecture and terminology, then
+follow the installation, configuration and execution chapters for a first run.
+Use :doc:`protocols/index` to select an operation and inspect its declared
+inputs, defaults and outputs. The API Reference covers driver task surfaces
+and protocol implementation stages.
+
+.. important::
+
+   Use matching NodeEngine, DeviceOS, contracts and examples for this release.
+   Before operating hardware, check example optical powers, attenuation,
+   serial numbers and detector wiring against your network.
+
+.. toctree::
+   :maxdepth: 2
+
+   how-neqos-works
+   installation
+   network
+   quickstart
+   running
+   recipes
+   results
+   protocols/index
+
+Which component does what?
+--------------------------
+
+* **DeviceOS** runs on the host connected to a device and hosts its
+  **DeviceEngine** and hardware driver. The driver declares the device's task
+  surface; the DeviceEngine exposes it, admits and schedules device tasks,
+  and reports their lifecycle.
+* **NodeEngine** coordinates the devices of one selected network node,
+  schedules protocols, manages device leases and writes the execution record.
+* The **network description** (``network.json``) declares device identities,
+  endpoints, channels, link roles and physical limits.
+* The **run plan** (``input.json``) selects a library and an ordered list of
+  protocols with their input overrides. It does not replace the network
+  description.
+* The **built-in catalog** ships with NodeEngine. An **Open library** adds
+  external protocol definitions and, when needed, Python handlers.
+
+Execution and scientific quality
+--------------------------------
+
+Successful execution means that the declared operations completed. It does not
+by itself certify acceptable optical alignment, detector health without an
+enabled guard, or useful quantum-state quality. Read the measured observations,
+guard evidence and scientific metrics, not only the terminal state.
+
+The :doc:`built-in protocol catalog <protocols/index>` lists callable protocols
+and their input and output contracts. For Open libraries and composition
+handlers, see :doc:`../api/NodeEngine/index`.

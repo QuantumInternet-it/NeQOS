@@ -1,0 +1,37 @@
+{
+  "networkId": "example-realign-entangled-photon-source-polarization",
+  "telemetryDefaults": {
+    "periodSec": 1.0,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleEntangledPhotonSourceId",
+          "deviceType": "Eps1000W",
+          "enabled": true,
+          "linkBindings": [],
+          "deviceEngine": {
+            "ip": "192.0.2.60",
+            "syncCmdPort": 19601,
+            "asyncCmdPort": 19602,
+            "telemetryPort": 19603
+          },
+          "driverConfig": {},
+          "hardwareConfig": {
+            "parameterLimits": {
+              "entangledOutputAttenuation": {
+                "min": 0.0,
+                "max": 83.3
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,342 @@
+PaX000 Foreground Tasks
+=======================
+
+.. _deviceos-pax000-settomographystate:
+
+.. admonition:: ``setTomographyState``
+   :class: driver-overview task-reference
+
+   Apply one H, V, D, A, R, or L tomography state to a channel.
+
+   ``state`` is case-insensitive; the canonical values are ``H``, ``V``,
+   ``D``, ``A``, ``R``, and ``L``. With useCompensated enabled, the driver
+   applies installed compensated waveplate angles when that state is
+   available for the channel; otherwise it falls back to the controller's
+   native tomography state. The result reports which mode was applied and
+   the resulting waveplate angles.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - Discovered controller channel that receives the state.
+      * - ``state``
+        - ``Literal['H', 'V', 'D', 'A', 'R', 'L']``
+        - Yes
+        - —
+        - Tomography state ``H``, ``V``, ``D``, ``A``, ``R``, or ``L``.
+      * - ``useCompensated``
+        - ``bool``
+        - No
+        - ``True``
+        - Prefer installed compensated waveplate angles when available; otherwise use the controller's native state.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Controller channel that received the state.
+      * - ``tomographyState``
+        - ``str``
+        - Yes
+        - ``H, V, D, A, R, L``
+        - Canonical tomography state.
+      * - ``appliedMode``
+        - ``str``
+        - Yes
+        - ``—``
+        - Whether controller-native or compensated angles were applied.
+      * - ``appliedWaveplateAnglesDeg``
+        - ``object``
+        - No
+        - ``deg``
+        - Applied waveplate angles by one-based waveplate number.
+
+
+.. _deviceos-pax000-installcompensatedtomographystates:
+
+.. admonition:: ``installCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Validate and install all compensated H/V/D/A/R/L states for one channel.
+
+   ``states`` must contain the canonical keys ``H``, ``V``, ``D``, ``A``,
+   ``R``, and ``L``. Each key maps one-based waveplate numbers to angles in
+   degrees. For each state, every available waveplate among the first three
+   must be present and each angle must be in the inclusive 0 to 360 degree
+   range.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - Controller channel that receives the compensated states.
+      * - ``states``
+        - ``Dict[str, Dict[int, float]]``
+        - Yes
+        - —
+        - Mapping from each canonical tomography state to one-based waveplate numbers and their angles in degrees.
+      * - ``persist``
+        - ``bool``
+        - No
+        - ``True``
+        - Write the validated states to the local persistence file.
+      * - ``sourceReport``
+        - ``Optional[Dict[str, Any]]``
+        - No
+        - ``None``
+        - Optional free-form provenance metadata persisted with the states when ``persist`` is enabled.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Controller channel whose compensated states were installed.
+      * - ``states``
+        - ``object``
+        - Yes
+        - ``deg``
+        - Validated compensated angles, keyed by tomography state and one-based waveplate number.
+      * - ``persisted``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the states were written to local persistence.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - Local compensated-state persistence-file path.
+
+
+.. _deviceos-pax000-loadpersistedcompensatedtomographystates:
+
+.. admonition:: ``loadPersistedCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Load persisted compensated states for selected channels or all channels.
+
+   This explicit task ignores the optional boot-load filter. The persisted
+   file must match the supported schema, device ID, and, when present, the
+   connected controller serial number. ``applyState`` is case-insensitive;
+   it may be ``H``, ``V``, ``D``, ``A``, ``R``, or ``L`` and applies that
+   loaded compensated state to every loaded channel.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channels``
+        - ``Optional[List[int]]``
+        - No
+        - ``None``
+        - Optional discovered channel IDs to load; omitting it loads persisted states for every channel in the file.
+      * - ``applyState``
+        - ``Optional[Literal['H', 'V', 'D', 'A', 'R', 'L']]``
+        - No
+        - ``None``
+        - Optional state to apply after loading on every selected channel; omit it to load without moving the controller.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Channels whose persisted states were loaded.
+      * - ``channelCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of channels whose persisted states were loaded.
+      * - ``applyState``
+        - ``str \| None``
+        - No
+        - ``H, V, D, A, R, L``
+        - State applied after loading, or null when no movement was requested.
+      * - ``appliedByChannel``
+        - ``object``
+        - No
+        - ``—``
+        - Applied-state report keyed by channel; empty when applyState was omitted.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - Local compensated-state persistence-file path.
+
+
+.. _deviceos-pax000-readopticalconfiguration:
+
+.. admonition:: ``readOpticalConfiguration``
+   :class: driver-overview task-reference
+
+   Return the cached optical and compensation configuration.
+
+   With channel omitted, the response covers every configured controller
+   channel; otherwise it covers one validated channel. This task serializes
+   cached identity, calibration, waveplate, wavelength, and compensated
+   tomography information without a new serial hardware read.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - Optional discovered channel ID; omit to return all channels.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``configuration``
+        - ``object``
+        - Yes
+        - ``—``
+        - Cached optical, calibration, wavelength, and tomography configuration.
+

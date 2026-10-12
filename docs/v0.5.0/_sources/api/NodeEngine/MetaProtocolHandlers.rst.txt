@@ -1,0 +1,92 @@
+Meta-protocol Handlers
+======================
+
+Stage handlers for child submission, result publication, DeviceOS tasks and terminal cleanup.
+
+All handlers receive ``ctx: StageContext`` and ``params: dict`` and return ``StageResult``. Parameters belong to the stage's ``params`` object, not directly to a run plan.
+
+**Declared composition:** use :doc:`SubmitMicroProtocolStage <handlers/SubmitMicroProtocolStage>` followed by :doc:`WaitMicroProtocolStage <handlers/WaitMicroProtocolStage>`.
+
+**Runtime composition:** an Open library can bind local Python handlers; see :doc:`FAKE-COMPOSED-SWEEP-BRANCH </api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH>`.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+
+   handlers/composition
+   handlers/results
+   handlers/device-lifecycle
+
+Child protocols
+---------------
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: SubmitMicroProtocolStage
+      :link: handlers/SubmitMicroProtocolStage
+      :link-type: doc
+
+      .. _submitmicroprotocolstage:
+
+      Submit a child microprotocol and retain its runtime ID in scratchpad.
+
+   .. grid-item-card:: WaitMicroProtocolStage
+      :link: handlers/WaitMicroProtocolStage
+      :link-type: doc
+
+      .. _waitmicroprotocolstage:
+
+      Wait for a child runtime submitted under a protocol key.
+
+Results
+-------
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: PublishResultStage
+      :link: handlers/PublishResultStage
+      :link-type: doc
+
+      .. _publishresultstage:
+
+      Atomically validate, persist, and publish the declared result contract.
+
+   .. grid-item-card:: ExportScratchStage
+      :link: handlers/ExportScratchStage
+      :link-type: doc
+
+      .. _exportscratchstage:
+
+      Copy selected scratchpad values into this protocol's exports.
+
+Device tasks and cleanup
+------------------------
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: RunSingleTaskStage
+      :link: handlers/RunSingleTaskStage
+      :link-type: doc
+
+      .. _runsingletaskstage:
+
+      Run one DeviceOS task and fail unless its reply is explicitly successful.
+
+   .. grid-item-card:: RegisterTerminalCleanupTaskStage
+      :link: handlers/RegisterTerminalCleanupTaskStage
+      :link-type: doc
+
+      .. _registerterminalcleanuptaskstage:
+
+      Register an idempotent device task for terminal protocol cleanup.
+
+   .. grid-item-card:: ClearTerminalCleanupTaskStage
+      :link: handlers/ClearTerminalCleanupTaskStage
+      :link-type: doc
+
+      .. _clearterminalcleanuptaskstage:
+
+      Remove a cleanup task once its normal compensating action completed.

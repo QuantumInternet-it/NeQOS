@@ -1,0 +1,29 @@
+{
+    "networkId": "example-align-channels",
+    "telemetryDefaults": {
+        "periodSec": 1.0,
+        "ttlMs": 2500
+    },
+    "nodes": [
+        {
+            "nodeId": "ExampleNodeId",
+            "enabled": true,
+            "host": "127.0.0.1",
+            "devices": [
+                {
+                    "deviceId": "ExampleTimeTaggerId",
+                    "deviceType": "SwabianTT",
+                    "enabled": true,
+                    "linkBindings": [],
+                    "deviceEngine": {
+                        "ip": "192.0.2.10",
+                        "syncCmdPort": 19001,
+                        "asyncCmdPort": 19002,
+                        "telemetryPort": 19003
+                    },
+                    "hardwareConfig": {}
+                }
+            ]
+        }
+    ]
+}

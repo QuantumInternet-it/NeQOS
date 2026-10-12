@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "SetPolarizationAnalyzerTomographyState",
+      "sharedParams": {
+        "polarizationAnalyzerDeviceId": "ExamplePolarizationAnalyzerId"
+      }
+    }
+  ]
+}

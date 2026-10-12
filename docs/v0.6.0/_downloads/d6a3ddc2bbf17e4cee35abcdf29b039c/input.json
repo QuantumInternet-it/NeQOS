@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "authoring-hold-examples",
+    "folder": ".."
+  },
+  "steps": [
+    {
+      "protocolId": "HOLD-STATIC",
+      "sharedParams": {
+        "durationSec": 0.1
+      }
+    },
+    {
+      "protocolId": "HOLD-DYNAMIC",
+      "sharedParams": {
+        "durationSec": 0.1
+      }
+    }
+  ]
+}

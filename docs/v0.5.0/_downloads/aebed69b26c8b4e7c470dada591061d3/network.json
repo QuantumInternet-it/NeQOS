@@ -1,0 +1,16 @@
+{
+  "networkId": "example-DeriveEntangledPairFidelitySummary",
+  "telemetryDefaults": {
+    "periodSec": 1,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "192.0.2.10",
+      "devices": []
+    }
+  ]
+}
+

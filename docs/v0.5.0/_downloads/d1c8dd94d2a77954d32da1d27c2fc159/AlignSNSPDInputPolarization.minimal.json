@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "AlignSNSPDInputPolarization",
+      "sharedParams": {
+        "linkId": "ExampleQuantumLinkId",
+        "resourceMpcDeviceIds": [
+          "ExamplePolarizationControllerId"
+        ]
+      }
+    }
+  ]
+}

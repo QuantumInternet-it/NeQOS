@@ -1,0 +1,6 @@
+:orphan:
+
+Photec Signals
+==============
+
+See the :doc:`Photec Signals </api/DeviceOS/Photec/signals>` reference.

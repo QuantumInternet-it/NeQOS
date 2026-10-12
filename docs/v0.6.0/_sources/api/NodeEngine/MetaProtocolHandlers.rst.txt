@@ -1,0 +1,94 @@
+Built-in stage handlers
+=======================
+
+Built-in stage handlers for submitting and waiting for child protocols, publishing results, running device tasks and registering terminal cleanup.
+
+Handlers receive ``ctx: StageContext`` and ``params: dict`` and normally return ``StageResult``. Decision strings are also accepted; StageResult supports a reason, delay and explicit lease policy. Parameters belong to the stage's ``params`` object, not directly to a run plan.
+
+:doc:`StageContext and StageResult <StageRuntime>` lists signatures, decisions and lease semantics. See :doc:`Writing a meta-protocol </user-guide/writing-meta-protocols>` for complete static and dynamic examples.
+
+**Declared composition:** use :doc:`SubmitMicroProtocolStage <handlers/SubmitMicroProtocolStage>` followed by :doc:`WaitMicroProtocolStage <handlers/WaitMicroProtocolStage>`.
+
+**Runtime composition:** an Open library can bind local Python handlers; see :doc:`FAKE-COMPOSED-SWEEP-BRANCH </api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH>`.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+
+   handlers/composition
+   handlers/results
+   handlers/device-lifecycle
+
+Child protocols
+---------------
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: SubmitMicroProtocolStage
+      :link: handlers/SubmitMicroProtocolStage
+      :link-type: doc
+
+      .. _submitmicroprotocolstage:
+
+      Submit a child protocol and store its runtime ID in the scratchpad.
+
+   .. grid-item-card:: WaitMicroProtocolStage
+      :link: handlers/WaitMicroProtocolStage
+      :link-type: doc
+
+      .. _waitmicroprotocolstage:
+
+      Wait for the child run submitted under the same protocolKey.
+
+Results
+-------
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: PublishResultStage
+      :link: handlers/PublishResultStage
+      :link-type: doc
+
+      .. _publishresultstage:
+
+      Validate, write and publish this protocol's declared result.
+
+   .. grid-item-card:: ExportScratchStage
+      :link: handlers/ExportScratchStage
+      :link-type: doc
+
+      .. _exportscratchstage:
+
+      Copy selected scratchpad values into this protocol's exports.
+
+Device tasks and cleanup
+------------------------
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: RunSingleTaskStage
+      :link: handlers/RunSingleTaskStage
+      :link-type: doc
+
+      .. _runsingletaskstage:
+
+      Run one device task; by default, fail unless its outer reply status is OK.
+
+   .. grid-item-card:: RegisterTerminalCleanupTaskStage
+      :link: handlers/RegisterTerminalCleanupTaskStage
+      :link-type: doc
+
+      .. _registerterminalcleanuptaskstage:
+
+      Register an idempotent device task for terminal cleanup.
+
+   .. grid-item-card:: ClearTerminalCleanupTaskStage
+      :link: handlers/ClearTerminalCleanupTaskStage
+      :link-type: doc
+
+      .. _clearterminalcleanuptaskstage:
+
+      Remove a cleanup registration after successful normal restoration.

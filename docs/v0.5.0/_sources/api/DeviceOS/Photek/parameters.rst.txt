@@ -1,0 +1,6 @@
+:orphan:
+
+Photec Parameters
+=================
+
+See the :doc:`Photec Parameters </api/DeviceOS/Photec/parameters>` reference.

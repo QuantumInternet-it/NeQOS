@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkSingles",
+      "sharedParams": {
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        },
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId"
+        ]
+      }
+    }
+  ]
+}

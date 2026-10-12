@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkPolarizationCoincidences",
+      "sharedParams": {
+        "referenceLinkId": "ExampleReferenceLinkId",
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExamplePolarizationAnalyzerId"
+        ],
+        "tomographyStates": [
+          "H",
+          "V"
+        ],
+        "measurementDurationSec": 1.0,
+        "coincidenceWindowPs": 1000,
+        "settleSec": 1.0,
+        "clear": true,
+        "defaultDwdmChannel": 44,
+        "dwdmChannelByLink": {},
+        "finalTomographyState": "H"
+      }
+    }
+  ]
+}

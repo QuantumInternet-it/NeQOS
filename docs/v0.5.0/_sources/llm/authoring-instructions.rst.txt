@@ -1,0 +1,12 @@
+NeQOS_LLM_AUTHORING.md
+================================================
+
+:download:`Download NeQOS_LLM_AUTHORING.md <NeQOS_LLM_AUTHORING.md>`
+
+The complete Markdown instructions are shown below. Attach the downloaded
+file to your LLM conversation, following the :doc:`LLM Authoring Guide
+</llm-authoring>`.
+
+.. literalinclude:: NeQOS_LLM_AUTHORING.md
+   :language: markdown
+   :class: llm-authoring-source

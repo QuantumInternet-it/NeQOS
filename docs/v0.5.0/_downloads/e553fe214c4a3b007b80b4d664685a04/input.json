@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "TransferDeviceFileToNode",
+      "sharedParams": {
+        "deviceId": "ExampleDeviceId",
+        "deviceArtifact": {
+          "localPath": "/device/path/example.bin",
+          "fileName": "example.bin",
+          "sizeBytes": 1,
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "nodeDestinationDirectory": null
+      }
+    }
+  ]
+}

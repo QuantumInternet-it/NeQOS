@@ -1,0 +1,30 @@
+PaX000 Driver
+=============
+
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``PaX000Driver``
+   :Source: ``DeviceOSPack/PaX000Driver.py``
+   :Official product page: `NuCrypt PA1000/PA2000 <https://nucrypt.net/PA-1000.html>`_
+
+Control a NuCrypt PA1000/PA2000 polarization controller.
+
+Hardware capabilities are discovered after connection. Each discovered
+channel exposes runtime parameters named ``channel<N>WavelengthNm`` and
+``channel<N>Waveplate<M>AngleDeg``. The driver has no ReadSignal surface;
+use parameters for live waveplate telemetry and
+:ref:`readOpticalConfiguration <deviceos-pax000-readopticalconfiguration>`
+for cached optical and compensation data.
+
+:ref:`Network hardware configuration <hardware-config-pax000>`.
+
+:doc:`Driver extension and lifecycle rules </user-guide/writing-hardware-driver>`.
+
+.. toctree::
+   :maxdepth: 1
+
+   Parameters <PaX000/parameters>
+   Signals <PaX000/signals>
+   Foreground Tasks <PaX000/foreground-tasks>
+   Background Tasks <PaX000/background-tasks>

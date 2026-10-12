@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkPolarizationSingles",
+      "sharedParams": {
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExamplePolarizationAnalyzerId"
+        ],
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        },
+        "resourceDeviceIds": [
+          "ExamplePolarizationAnalyzerId",
+          "ExampleTimeTaggerId"
+        ]
+      }
+    }
+  ]
+}

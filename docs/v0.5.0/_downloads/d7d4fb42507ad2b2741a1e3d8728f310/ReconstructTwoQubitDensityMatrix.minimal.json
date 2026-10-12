@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ReconstructTwoQubitDensityMatrix",
+      "sharedParams": {
+        "entangledPairPolarizationTomography": {
+          "artifactPath": "example-entangled-pair-observation.json",
+          "correctedCountsByProjection": {
+            "HH": 100.0,
+            "HV": 100.0,
+            "HD": 100.0,
+            "HA": 100.0,
+            "HR": 100.0,
+            "HL": 100.0,
+            "VH": 100.0,
+            "VV": 100.0,
+            "VD": 100.0,
+            "VA": 100.0,
+            "VR": 100.0,
+            "VL": 100.0,
+            "DH": 100.0,
+            "DV": 100.0,
+            "DD": 100.0,
+            "DA": 100.0,
+            "DR": 100.0,
+            "DL": 100.0,
+            "AH": 100.0,
+            "AV": 100.0,
+            "AD": 100.0,
+            "AA": 100.0,
+            "AR": 100.0,
+            "AL": 100.0,
+            "RH": 100.0,
+            "RV": 100.0,
+            "RD": 100.0,
+            "RA": 100.0,
+            "RR": 100.0,
+            "RL": 100.0,
+            "LH": 100.0,
+            "LV": 100.0,
+            "LD": 100.0,
+            "LA": 100.0,
+            "LR": 100.0,
+            "LL": 100.0
+          }
+        }
+      }
+    }
+  ]
+}

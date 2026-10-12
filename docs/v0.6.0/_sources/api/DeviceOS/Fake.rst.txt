@@ -1,0 +1,30 @@
+Fake Driver
+===========
+
+.. admonition:: Driver overview
+   :class: driver-overview
+
+   :Driver class: ``FakeDriver``
+   :Source: ``DeviceOSPack/OpenDrivers/FakeDriver.py``
+
+Hardware Driver Fake.
+
+Purpose:
+- Minimal HardwareDriver implementation used for NodeEngine/DeviceEngine integration testing.
+- Provides deterministic signals/parameters and a few long-running tasks.
+
+Notes:
+- This driver is intentionally simple and does not attempt to model real device I/O.
+- Connection probing is provided via `ProbeConnection()` for monitor-loop testing.
+
+:ref:`Network hardware configuration <hardware-config-fake>`.
+
+:doc:`Driver extension and lifecycle rules </user-guide/writing-hardware-driver>`.
+
+.. toctree::
+   :maxdepth: 1
+
+   Parameters <Fake/parameters>
+   Signals <Fake/signals>
+   Foreground Tasks <Fake/foreground-tasks>
+   Background Tasks <Fake/background-tasks>

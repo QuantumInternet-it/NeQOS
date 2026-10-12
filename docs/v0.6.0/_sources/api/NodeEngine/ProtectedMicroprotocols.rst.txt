@@ -1,0 +1,6 @@
+:orphan:
+
+Built-in protocol catalog
+=========================
+
+See the :doc:`built-in protocol catalog </user-guide/protocols/index>` in the User Guide.

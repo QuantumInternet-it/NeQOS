@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ReconstructTwoQubitDensityMatrix",
+      "sharedParams": {
+        "entangledPairPolarizationTomography": {
+          "artifactPath": "example-entangled-pair-observation.json",
+          "correctedCountsByProjection": {
+            "HH": 100,
+            "HV": 100,
+            "HD": 100,
+            "HA": 100,
+            "HR": 100,
+            "HL": 100,
+            "VH": 100,
+            "VV": 100,
+            "VD": 100,
+            "VA": 100,
+            "VR": 100,
+            "VL": 100,
+            "DH": 100,
+            "DV": 100,
+            "DD": 100,
+            "DA": 100,
+            "DR": 100,
+            "DL": 100,
+            "AH": 100,
+            "AV": 100,
+            "AD": 100,
+            "AA": 100,
+            "AR": 100,
+            "AL": 100,
+            "RH": 100,
+            "RV": 100,
+            "RD": 100,
+            "RA": 100,
+            "RR": 100,
+            "RL": 100,
+            "LH": 100,
+            "LV": 100,
+            "LD": 100,
+            "LA": 100,
+            "LR": 100,
+            "LL": 100
+          }
+        },
+        "maxIterations": 5000
+      },
+      "stepId": "reconstruction"
+    },
+    {
+      "stepId": "fidelity",
+      "protocolId": "EstimateEntangledPairFidelity",
+      "sharedParams": {
+        "twoQubitDensityMatrix": "$steps.reconstruction.tomography.state.estimate.twoQubitDensityMatrix",
+        "numericLocalUnitaryRestarts": 0,
+        "numericLocalUnitarySeed": 42
+      }
+    }
+  ]
+}

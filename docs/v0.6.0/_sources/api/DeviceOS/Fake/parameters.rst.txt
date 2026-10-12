@@ -1,0 +1,25 @@
+Fake Parameters
+===============
+
+.. admonition:: Parameter reference
+   :class: api-reference
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-parameter-table
+      :widths: 20 15 10 15 12 28
+
+      * - Name
+        - Type
+        - Unit
+        - Range
+        - Default
+        - Description
+      * - ``gain``
+        - ``float``
+        - —
+        - ``0.0 to 10.0``
+        - ``1.0``
+        - —
+

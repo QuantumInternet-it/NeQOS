@@ -1,0 +1,48 @@
+.documentation-version-selector {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-sidebar-background-border);
+}
+
+.documentation-version-selector label {
+  font-size: 0.8125rem;
+  color: var(--color-foreground-secondary);
+}
+
+.documentation-version-selector select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 2rem;
+  padding: 0 0.4rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--color-foreground-primary);
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-foreground-border);
+  border-radius: 4px;
+}
+
+.documentation-version-selector select:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+.documentation-version-indicator {
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: var(--color-foreground-secondary);
+}
+
+.documentation-development-notice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  padding: 0.65rem 0;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--color-foreground-border);
+}

@@ -1,0 +1,114 @@
+LLM Authoring Guide
+================================================
+
+Use an LLM to create an Open meta-protocol library by giving it the NeQOS
+contracts, executable examples and authoring instructions for your release.
+This page explains how to prepare that context; the downloadable Markdown
+contains the instructions to give to the model.
+
+:download:`Download NeQOS_LLM_AUTHORING.md <llm/NeQOS_LLM_AUTHORING.md>`
+
+:doc:`Read the Markdown instructions <llm/authoring-instructions>`.
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+
+   llm/authoring-instructions
+
+1. Provide the NeQOS Libraries
+------------------------------------------------
+
+In your NodeEngine distribution, locate these folders:
+
+.. code-block:: text
+
+   NodeEnginePack/
+     ReservedMetaProtocols/
+     OpenMetaProtocols/
+
+Give the model access to both folders. With an LLM coding assistant, point it
+to their local paths. With a chat interface, attach the folders as archives
+if that interface can read them, or attach the relevant files individually.
+
+``ReservedMetaProtocols`` supplies the Built-in contracts: their identifiers,
+inputs, outputs, resource declarations and constraints. ``OpenMetaProtocols``
+supplies editable examples of library manifests, protocol definitions,
+Python handlers and run inputs. Use both from the same release as the
+NodeEngine that will run the generated library.
+
+Start by asking the model to inspect the manifests and definitions and
+identify the contracts relevant to your goal. Then have it read those
+contracts completely and the relevant Open examples. For large libraries,
+work with the relevant subset while retaining access to the library for
+further searches.
+
+.. note::
+
+   An attachment or archive may not be fully read by an LLM interface. Ask
+   the model to list the files it actually inspected and report anything it
+   cannot access. A successful upload alone does not establish that the
+   contracts are in its context.
+
+The model may also need the matching :doc:`composition handler reference
+<api/NodeEngine/MetaProtocolHandlers>` or :doc:`DeviceOS API
+<api/DeviceOS/index>`. Supply the relevant pages when it cannot open them.
+Executable binaries and license files are not needed for this reading step.
+
+2. Load the Markdown Instructions
+------------------------------------------------
+
+Download :download:`NeQOS_LLM_AUTHORING.md <llm/NeQOS_LLM_AUTHORING.md>` and
+attach it to the conversation, or point your coding assistant to the local
+file. Ask it to read and apply the instructions before generating files.
+
+.. code-block:: text
+
+   Read NeQOS_LLM_AUTHORING.md and follow it when authoring this library.
+   Inspect ReservedMetaProtocols and OpenMetaProtocols from my NodeEngine
+   distribution. List the files you have actually read and any missing sources.
+   Before writing code, identify the existing protocols that can be composed
+   for my goal, their input/output contracts, and the necessary resources.
+
+These are instructions for the current task. They do not train the model
+or guarantee permanent memory; provide them again in a new conversation.
+
+3. Describe the Experiment
+------------------------------------------------
+
+Tell the model the outcome, available devices and topology, timing, required
+outputs and any limits. Provide the relevant parts of your ``network.json``
+when device identities or link roles are needed. Ask it to identify missing
+information before choosing bench-specific values.
+
+.. code-block:: text
+
+   NeQOS release: <version of my NodeEngine distribution>
+   Goal: <scientific or operational outcome>
+   Network: <path or attached network configuration>
+   Devices and link roles: <available resources>
+   Timing and limits: <integration times, deadlines, termination conditions>
+   Expected results: <values and artifacts needed by the caller>
+
+   First propose a composition using the existing contracts. Explain any
+   necessary local handler. Then generate a separate Open library with its
+   manifest, protocol definitions, necessary handlers and minimal run input.
+   Report the checks performed and any unresolved inputs. Provide the launch
+   command for review; do not execute the experiment during authoring.
+
+4. Review and Verify the Generated Library
+------------------------------------------------
+
+Review the selected child contracts, effective inputs, resources and output
+paths. Ask the model to check JSON syntax, manifest references, handler
+registration and consistency between declared child outputs and parent
+imports. Have it distinguish checks it performed from checks still pending.
+
+The runtime validates contracts when loading and executing a run. A launch
+command is an execution step and may issue hardware commands; it is not an
+offline validation command. Follow :doc:`the run procedure
+<user-guide/running>` when you are ready to exercise the reviewed library.
+
+Keep the Markdown instructions alongside your new library so they can be
+provided again when it is extended. The downloaded file is the single set
+of authoring rules; this page is the user workflow for applying them.

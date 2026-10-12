@@ -1,0 +1,37 @@
+Mpc320 Signals
+==============
+
+.. admonition:: Signal reference
+   :class: api-reference
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-signal-table
+      :widths: 25 18 15 42
+
+      * - Name
+        - Type
+        - Unit
+        - Description
+      * - ``connection_ok``
+        - ``bool``
+        - —
+        - Result of the driver connection probe.
+      * - ``paddle1_position``
+        - ``float``
+        - ``deg``
+        - Current reported position of paddle 1; unavailable when the position read fails.
+      * - ``paddle2_position``
+        - ``float``
+        - ``deg``
+        - Current reported position of paddle 2; unavailable when the position read fails.
+      * - ``paddle3_position``
+        - ``float``
+        - ``deg``
+        - Current reported position of paddle 3; unavailable when the position read fails.
+      * - ``serialNumber``
+        - ``str``
+        - —
+        - Serial number currently resolved by the driver.
+

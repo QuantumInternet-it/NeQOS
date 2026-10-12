@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CompensateSourcePolarizationFromSeparableHDProbes",
+      "sharedParams": {
+        "deviceId": "ExampleEntangledPhotonSourceId",
+        "linkIds": [
+          "ExampleSourceLinkOneId",
+          "ExampleSourceLinkTwoId"
+        ],
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId",
+          "ExamplePolarizationAnalyzerOneId",
+          "ExamplePolarizationAnalyzerTwoId",
+          "ExampleTimeTaggerId",
+          "ExampleDetectorHealthId"
+        ],
+        "probeAttenuation": {
+          "mode": "perLink",
+          "perLinkDb": {
+            "ExampleSourceLinkOneId": 50,
+            "ExampleSourceLinkTwoId": 60
+          }
+        },
+        "measurementDurationSec": 2,
+        "settleSec": 1,
+        "minTotalCounts": 1,
+        "persist": true,
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        }
+      }
+    },
+    {
+      "protocolId": "MeasureEntangledPairFidelity",
+      "sharedParams": {
+        "linkPairIds": [
+          "ExampleSourceLinkOneId",
+          "ExampleSourceLinkTwoId"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExamplePolarizationAnalyzerOneId",
+          "ExamplePolarizationAnalyzerTwoId"
+        ],
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId",
+          "ExamplePolarizationAnalyzerOneId",
+          "ExamplePolarizationAnalyzerTwoId",
+          "ExampleDetectorHealthId"
+        ],
+        "measurementDurationSec": 10,
+        "settleSec": 1,
+        "coincidenceWindowPs": 1000,
+        "useCompensatedTomoStates": true,
+        "backgroundCountRateHz": 0,
+        "clear": true,
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        },
+        "qualityGate": {
+          "minimumCompleteBasisCounts": 100,
+          "maximumBasisRateRelativeStandardDeviation": 0.5
+        },
+        "maxReconstructionIterations": 5000,
+        "numericLocalUnitaryRestarts": 20,
+        "numericLocalUnitarySeed": 42
+      }
+    }
+  ]
+}

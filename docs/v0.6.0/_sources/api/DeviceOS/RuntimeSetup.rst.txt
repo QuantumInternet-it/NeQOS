@@ -1,0 +1,71 @@
+DeviceOS Runtime Setup
+======================
+
+Vendor SDKs and native libraries are installed on the DeviceOS host and are not redistributed with NeQOS.
+
+DeviceOS searches for ``config/DeviceOS.local.json`` and ``DeviceOSPack/config/DeviceOS.local.json`` under the executable, launcher, module and working directories, in that order, before loading the selected driver. It does not search for a bare DeviceOS.local.json beside the executable. Use ``--localConfigFile <path>`` to select another local-runtime JSON file.
+
+Local settings belong to the host machine. Do not place them in ``network.json``.
+
+.. rubric:: Local runtime configuration
+   :class: invocation-heading
+
+Copy ``DeviceOS.local.json.example`` to ``DeviceOS.local.json`` and adapt paths to the installed vendor software:
+
+.. code-block:: json
+
+   {
+     "environment": {
+       "SWABIAN_TIMETAGGER_PYTHON_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\python",
+       "SWABIAN_TIMETAGGER_NATIVE_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\x64",
+       "NEQOS_DEVICE_ARTIFACT_DIR": "C:\\NeQOSData\\DeviceArtifacts",
+       "THORLABS_KINESIS_PATH": "C:\\Program Files\\Thorlabs\\Kinesis",
+       "NEQOS_CALIBRATION_DIR": "C:\\NeQOS\\DeviceCalibrations"
+     }
+   }
+
+.. rubric:: Driver requirements
+   :class: invocation-heading
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :class: api-table api-runtime-driver-table
+   :widths: 24 24 20 32
+
+   * - Driver
+     - Vendor software
+     - Python dependency
+     - Local settings
+   * - :doc:`NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
+   * - :doc:`NuCrypt PA1000/PA2000 Polarization Controller <PaX000>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
+   * - :doc:`Photec SNSPD Controller <Photec>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
+   * - :doc:`Swabian Instruments Time Tagger <SwabianTT>`
+     - Swabian Instruments Time Tagger software
+     - TimeTagger (vendor API)
+     - ``SWABIAN_TIMETAGGER_PYTHON_PATH``, ``SWABIAN_TIMETAGGER_NATIVE_PATH``, ``NEQOS_DEVICE_ARTIFACT_DIR``
+   * - :doc:`Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
+   * - :doc:`Thorlabs MPC320 Polarization Controller <Mpc320>`
+     - Thorlabs Kinesis
+     - pythonnet
+     - ``THORLABS_KINESIS_PATH``, ``NEQOS_CALIBRATION_DIR``
+   * - :doc:`Fake Driver (Software-only Evaluation) <Fake>`
+     - No additional vendor SDK declared
+     - None beyond the runtime
+     - —
+
+
+Python dependencies listed above describe driver requirements; a standalone release may already bundle them. Vendor SDK compatibility must match the distributed Python/runtime architecture. No automatic dependency installation is performed.
+

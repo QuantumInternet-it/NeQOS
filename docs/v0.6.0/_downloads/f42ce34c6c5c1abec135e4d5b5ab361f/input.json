@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CaptureRawTimeTagStream",
+      "sharedParams": {
+        "timeTaggerDeviceId": "ExampleTimeTaggerId",
+        "linkId": "ExampleLinkId",
+        "detectorPorts": [
+          "H"
+        ],
+        "durationSec": 5.0,
+        "recordingRef": "example-explicit-raw-stream",
+        "recordingSubdirectory": "examples",
+        "marker": "example",
+        "maxFileSizeBytes": null,
+        "nodeDestinationDirectory": null
+      }
+    }
+  ]
+}

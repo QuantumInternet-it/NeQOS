@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkPolarizationSingles",
+      "sharedParams": {
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExamplePolarizationAnalyzerId"
+        ],
+        "tomographyStates": [
+          "H",
+          "V"
+        ],
+        "measurementDurationSec": 1,
+        "settleSec": 1,
+        "clear": true,
+        "defaultDwdmChannel": 44,
+        "dwdmChannelByLink": {},
+        "finalTomographyState": "H",
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        },
+        "resourceDeviceIds": [
+          "ExamplePolarizationAnalyzerId",
+          "ExampleTimeTaggerId"
+        ]
+      }
+    }
+  ]
+}

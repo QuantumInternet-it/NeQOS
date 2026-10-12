@@ -1,0 +1,108 @@
+Open libraries
+==============
+
+Editable protocol libraries loaded alongside NeQOS. Each library declares its protocols and any local Python handlers.
+
+:doc:`Run an Open library </user-guide/quickstart>` | :doc:`Built-in stage handlers <MetaProtocolHandlers>` | :doc:`Writing a meta-protocol </user-guide/writing-meta-protocols>`
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+
+   open/external-python-package-dependency
+   open/fake-device-examples
+   open/ieee-qce-2026-demo
+
+External Python Package Dependency
+----------------------------------
+
+Shows how a local handler in an Open library imports humanize, formats an integer and publishes its result without device operations.
+
+``external-python-package-dependency``, 1 protocol
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST
+      :link: open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST
+      :link-type: doc
+
+      .. _external-python-package-dependency-test:
+
+      Formats an integer with humanize from a local Open-library handler and publishes the formatted value; no device operations are required.
+
+Fake Device Examples
+--------------------
+
+Examples on the software-only FakeDriver: built-in stage handlers, local Python handlers, multi-stage/preemptible execution and passing declared results from children to their parent.
+
+``fake-device-examples``, 6 protocols
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: FAKE-SIMPLE
+      :link: open/fake-device-examples--FAKE-SIMPLE
+      :link-type: doc
+
+      .. _fake-simple:
+
+      Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.
+
+   .. grid-item-card:: FAKE-STAGED
+      :link: open/fake-device-examples--FAKE-STAGED
+      :link-type: doc
+
+      .. _fake-staged:
+
+      Multi-stage FakeDriver foreground protocol mixing short and pausable long tasks.
+
+   .. grid-item-card:: FAKE-HANDLER
+      :link: open/fake-device-examples--FAKE-HANDLER
+      :link-type: doc
+
+      .. _fake-handler:
+
+      Foreground FakeDriver protocol whose local handlers run device tasks and repeat one stage up to maxIterations before publishing the result.
+
+   .. grid-item-card:: FAKE-COMPOSED-SWEEP
+      :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP
+      :link-type: doc
+
+      .. _fake-composed-sweep:
+
+      Parent meta-protocol on the software-only FakeDriver: submits one branch that runs sweepCount leaf protocols and publishes their aggregated results.
+
+   .. grid-item-card:: FAKE-COMPOSED-SWEEP-BRANCH
+      :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH
+      :link-type: doc
+
+      .. _fake-composed-sweep-branch:
+
+      Submits sweepCount leaf runs from one stage, waits for all of them and aggregates their declared outputs.
+
+   .. grid-item-card:: FAKE-COMPOSED-SWEEP-LEAF
+      :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF
+      :link-type: doc
+
+      .. _fake-composed-sweep-leaf:
+
+      Leaf protocol that runs a short FakeDriver task and publishes the value received from its parent sweep.
+
+IEEE QCE 2026 Demo
+------------------
+
+Open library example invoking the public built-in protocol AlignSNSPDInputPolarization for MPC320 count-rate optimization on one quantum link.
+
+``ieee-qce-2026-demo``, 1 protocol
+
+.. grid:: 1 1 2 2
+   :gutter: 2
+
+   .. grid-item-card:: MPC320CountsMaximization
+      :link: open/ieee-qce-2026-demo--MPC320CountsMaximization
+      :link-type: doc
+
+      .. _mpc320countsmaximization:
+
+      Open IEEE QCE demonstration wrapper for aligning the polarization incident on the SNSPD of one selected quantum link.

@@ -1,0 +1,53 @@
+{
+  "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+  "description": "Formats an integer with humanize from a local Open-library handler and publishes the formatted value; no device operations are required.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 10.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "value": 1234567
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "value": {
+        "type": "integer",
+        "description": "Integer formatted by the humanize package.",
+        "required": true
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "test.formattedValue": {
+        "type": "string",
+        "description": "Comma-separated representation returned by the external-package handler."
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+      "handler": "ExternalPythonPackageDependencyHumanizeStage",
+      "params": {
+        "value": "$shared.value"
+      }
+    },
+    {
+      "stageId": "01-publish-result",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "externalPythonPackageDependency.formattedValue",
+            "as": "test.formattedValue"
+          }
+        ]
+      }
+    }
+  ]
+}

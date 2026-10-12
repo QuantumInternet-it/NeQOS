@@ -1,0 +1,62 @@
+{
+  "protocolId": "FAKE-HANDLER",
+  "description": "FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30.0,
+  "resourceRequests": ["FakeDeviceId"],
+  "sharedParams": {
+    "fakeDeviceId": "FakeDeviceId",
+    "gain": 3.3,
+    "taskDurationSec": 1.0,
+    "tickSec": 0.5,
+    "maxIterations": 2
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "fakeDeviceId": {"type": "string", "description": "Identifier of the shared FakeDriver device.", "required": true, "minLength": 1},
+      "gain": {"type": "number", "description": "Synthetic gain set by the local handler.", "required": true, "minimum": 0},
+      "taskDurationSec": {"type": "number", "description": "Duration of each handler-run foreground task in seconds.", "required": true, "minimum": 0},
+      "tickSec": {"type": "number", "description": "FakeDriver task tick interval in seconds.", "required": true, "minimum": 0},
+      "maxIterations": {"type": "integer", "description": "Number of repeat-stage executions.", "required": true, "minimum": 1}
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "summary.status": {"type": "string", "description": "Terminal status returned by the final repeated foreground check."},
+      "summary.deviceId": {"type": "string", "description": "FakeDriver device used by the local handlers.", "minLength": 1},
+      "summary.gain": {"type": "number", "description": "Gain submitted by the preparation handler."},
+      "summary.durationSec": {"type": "number", "description": "Duration submitted to every foreground check in seconds.", "minimum": 0},
+      "summary.iterations": {"type": "integer", "description": "Number of foreground checks executed by the repeat handler.", "minimum": 1}
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-FAKE-HANDLER-Prepare",
+      "handler": "FakePrepareStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "gain": "$shared.gain", "durationSec": "$shared.taskDurationSec", "tickSec": "$shared.tickSec"}
+    },
+    {
+      "stageId": "01-FAKE-HANDLER-RepeatShortCheck",
+      "handler": "FakeRepeatShortCheckStage",
+      "params": {"deviceId": "$shared.fakeDeviceId", "durationSec": "$shared.taskDurationSec", "tickSec": "$shared.tickSec", "maxIterations": "$shared.maxIterations"}
+    },
+    {
+      "stageId": "02-FAKE-HANDLER-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {"from": "handler.status", "as": "summary.status"},
+          {"from": "handler.deviceId", "as": "summary.deviceId"},
+          {"from": "handler.gain", "as": "summary.gain"},
+          {"from": "handler.durationSec", "as": "summary.durationSec"},
+          {"from": "handler.iterations", "as": "summary.iterations"}
+        ]
+      }
+    }
+  ]
+}

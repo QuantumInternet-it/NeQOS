@@ -1,0 +1,394 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "DeriveEntangledPairFidelitySummary",
+      "sharedParams": {
+        "twoQubitDensityMatrix": {
+          "rho": {
+            "real": [
+              [
+                0.4499999999999999,
+                0,
+                0,
+                0.3999999999999999
+              ],
+              [
+                0,
+                0.05,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0.05,
+                0
+              ],
+              [
+                0.3999999999999999,
+                0,
+                0,
+                0.4499999999999999
+              ]
+            ],
+            "imag": [
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          "basisOrder": [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        },
+        "entangledPairFidelity": {
+          "targetState": "PhiPlus",
+          "targetStateDefinition": "(HH + VV) / sqrt(2)",
+          "labFrameFidelity": 0.8499999999999996,
+          "fullyEntangledFraction": 0.8499999999999999,
+          "frameMisalignmentFidelityLoss": 2.220446049250313e-16,
+          "crossCheck": {
+            "fullyEntangledFractionNumeric": 0.8499999999999996,
+            "numericLocalUnitary": {
+              "fidelity": 0.8499999999999996,
+              "bestAttempt": {
+                "index": 0,
+                "initialization": "identity",
+                "parameters": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "fidelity": 0.8499999999999996,
+                "success": true,
+                "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+                "iterations": 0,
+                "functionEvaluations": 7
+              },
+              "attemptCount": 1
+            }
+          },
+          "svdLocalUnitary": {
+            "method": "svd",
+            "fidelity": 0.8499999999999999,
+            "correlationMatrix": [
+              [
+                0.7999999999999998,
+                0,
+                0
+              ],
+              [
+                0,
+                -0.7999999999999998,
+                0
+              ],
+              [
+                0,
+                0,
+                0.7999999999999998
+              ]
+            ],
+            "singularValues": [
+              0.7999999999999998,
+              0.7999999999999998,
+              0.7999999999999998
+            ],
+            "determinantCorrection": 1,
+            "procrustesScore": 2.3999999999999995,
+            "rotationA": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ],
+            "rotationB": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ]
+            ],
+            "unitaryA": {
+              "real": [
+                [
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "imag": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ]
+            },
+            "unitaryB": {
+              "real": [
+                [
+                  1,
+                  0
+                ],
+                [
+                  0,
+                  1
+                ]
+              ],
+              "imag": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ]
+            },
+            "rhoOptimized": {
+              "real": [
+                [
+                  0.4499999999999999,
+                  0,
+                  0,
+                  0.3999999999999999
+                ],
+                [
+                  0,
+                  0.05,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0.05,
+                  0
+                ],
+                [
+                  0.3999999999999999,
+                  0,
+                  0,
+                  0.4499999999999999
+                ]
+              ],
+              "imag": [
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "stateTransformConvention": "rhoOptimized = (UA tensor UB)^dagger rho (UA tensor UB)",
+            "diagnostics": {
+              "axis_order": [
+                "X",
+                "Y",
+                "Z"
+              ],
+              "phi_plus_correlation_tensor": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  1
+                ]
+              ],
+              "aligned_correlation_matrix": [
+                [
+                  0.7999999999999998,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  -0.7999999999999998,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0.7999999999999998
+                ]
+              ],
+              "det_U": 1,
+              "det_V": -1,
+              "det_UVt_sign": -1,
+              "determinant_correction": 1,
+              "det_RA": 1,
+              "det_RB": 1,
+              "orthogonality_error_RA": 0,
+              "orthogonality_error_RB": 0,
+              "procrustes_score": 2.3999999999999995,
+              "singular_value_score": 2.3999999999999995,
+              "score_consistency_error": 0,
+              "transformed_rho_fidelity": 0.8499999999999996,
+              "transformed_rho_fidelity_error": 2.220446049250313e-16
+            }
+          }
+        },
+        "distillableEntanglementRate": {
+          "entropyABits": 0.847584679824574,
+          "entropyABitsSubsystemA": 1,
+          "entropyABitsSubsystemB": 1,
+          "coherentInformationAToBBits": 0.15241532017542603,
+          "coherentInformationBToABits": 0.15241532017542603,
+          "bestDirection": "A_TO_B",
+          "oneWayHashingLowerBoundEbitsPerPair": 0.15241532017542603,
+          "rhoA": {
+            "real": [
+              [
+                0.4999999999999999,
+                0
+              ],
+              [
+                0,
+                0.4999999999999999
+              ]
+            ],
+            "imag": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "rhoB": {
+            "real": [
+              [
+                0.4999999999999999,
+                0
+              ],
+              [
+                0,
+                0.4999999999999999
+              ]
+            ],
+            "imag": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "measurementDurationSec": 2,
+          "countsByCompleteBasis": {
+            "HV": 3999.999999999999,
+            "DA": 3999.9999999999973,
+            "RL": 3999.9999999999973
+          },
+          "detectedPairRateHzByBasis": {
+            "HV": 1999.9999999999995,
+            "DA": 1999.9999999999986,
+            "RL": 1999.9999999999986
+          },
+          "detectedPairRateHz": 1999.9999999999989,
+          "basisRateStandardDeviationHz": 4.35387440919084e-13,
+          "basisRateRelativeStandardDeviation": 2.176937204595421e-16,
+          "interpretation": "Background-corrected detected coincidence rate. This is not an absolute source-generation rate unless total path and detector efficiencies are independently calibrated.",
+          "distillableEntanglementRateLowerBoundEbitPerSec": 304.83064035085187,
+          "rateConvention": "DETECTED_BACKGROUND_CORRECTED_PAIRS",
+          "status": "OK"
+        },
+        "writeToArtifactRoot": true
+      }
+    }
+  ]
+}
+

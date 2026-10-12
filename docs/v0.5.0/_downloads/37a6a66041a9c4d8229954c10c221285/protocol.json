@@ -1,0 +1,38 @@
+{
+  "protocolId": "FAKE-COMPOSED-SWEEP-BRANCH",
+  "description": "Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "sweepCount": 3,
+    "valueStart": 10,
+    "fakeDeviceId": "FakeDeviceId",
+    "fakeTaskDurationSec": 0.05,
+    "pollDelaySec": 0.2
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "sweepCount": {"type": "integer", "description": "Number of deterministic leaf runs.", "minimum": 1},
+      "valueStart": {"type": "integer", "description": "Value assigned to the first leaf run."},
+      "fakeDeviceId": {"type": "string", "description": "Identifier of the FakeDriver device.", "minLength": 1},
+      "fakeTaskDurationSec": {"type": "number", "description": "Duration of each fake foreground task in seconds.", "minimum": 0},
+      "pollDelaySec": {"type": "number", "description": "Parent polling interval in seconds.", "minimum": 0}
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "test.sweep": {"type": "object", "description": "Aggregated deterministic leaf results.", "artifact": {"path": "result.json", "format": "json"}}
+    }
+  },
+  "stages": [
+    {"stageId": "00-FAKE-COMPOSED-SWEEP-LEAF-SubmitSweep", "handler": "FakeComposedSweepSubmitStage", "params": {"templateId": "FAKE-COMPOSED-SWEEP-LEAF", "count": "$shared.sweepCount", "valueStart": "$shared.valueStart", "fakeDeviceId": "$shared.fakeDeviceId", "fakeTaskDurationSec": "$shared.fakeTaskDurationSec"}},
+    {"stageId": "01-FAKE-COMPOSED-SWEEP-LEAF-WaitSweep", "handler": "FakeComposedSweepWaitStage", "params": {"pollDelaySec": "$shared.pollDelaySec"}},
+    {"stageId": "02-FAKE-COMPOSED-SWEEP-BRANCH-PublishResult", "handler": "PublishResultStage", "params": {"exports": [{"from": "test.sweep", "as": "test.sweep"}]}}
+  ]
+}

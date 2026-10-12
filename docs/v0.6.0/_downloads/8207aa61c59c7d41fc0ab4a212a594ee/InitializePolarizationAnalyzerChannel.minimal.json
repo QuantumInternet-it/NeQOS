@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "InitializePolarizationAnalyzerChannel",
+      "sharedParams": {
+        "paDeviceId": "ExamplePolarizationAnalyzerId",
+        "linkId": "ExampleQuantumLinkId"
+      }
+    }
+  ]
+}

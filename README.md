@@ -41,11 +41,13 @@ Running NodeEngine or DeviceOS requires a valid NeQOS license. Evaluation licens
 
 ## Documentation
 
-The [NeQOS User Guide](https://quantuminternet-it.github.io/NeQOS/user-guide/index.html) covers installation, network configuration, protocol execution, experimental examples and results. Its [public protocol cookbook](https://quantuminternet-it.github.io/NeQOS/user-guide/protocols/index.html) lists required and optional inputs, defaults and outputs.
+The [NeQOS User Guide](https://quantuminternet-it.github.io/NeQOS/user-guide/index.html) covers installation, network configuration, protocol execution, experimental examples and results. Its [protocol catalog](https://quantuminternet-it.github.io/NeQOS/user-guide/protocols/index.html) lists each protocol's required and optional inputs, defaults, outputs and examples.
 
-The [NeQOS Developer API](https://quantuminternet-it.github.io/NeQOS/) documents DeviceOS driver parameters, readable signals, and exported tasks, together with NodeEngine exported microprotocols, open meta-protocol packs, and meta-protocol handler contracts. It is intended for developers extending NeQOS with drivers, microprotocols, or meta-protocols.
+The [NeQOS documentation](https://quantuminternet-it.github.io/NeQOS/) describes each DeviceOS driver's task surface (device tasks, parameters and signals) and, for NodeEngine, the built-in protocol catalog, Open libraries and stage handlers. It is intended for developers extending NeQOS with drivers, micro-protocols or meta-protocols.
 
 Direct references: [NodeEngine API](https://quantuminternet-it.github.io/NeQOS/api/NodeEngine/index.html) and [DeviceOS API](https://quantuminternet-it.github.io/NeQOS/api/DeviceOS/index.html).
+
+The documentation root follows the latest stable release. Use the [0.5.0 documentation](https://quantuminternet-it.github.io/NeQOS/v0.5.0/) for that release, or the [0.6.0 documentation](https://quantuminternet-it.github.io/NeQOS/v0.6.0/) for the upcoming release. The sidebar version selector switches between 0.5.0 and 0.6.0; the latter is marked as development documentation until released.
 
 ## References
 

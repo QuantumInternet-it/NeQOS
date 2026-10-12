@@ -1,0 +1,68 @@
+{
+  "protocolId": "FAKE-SIMPLE",
+  "description": "Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30.0,
+  "resourceRequests": ["FakeDeviceId"],
+  "sharedParams": {
+    "fakeDeviceId": "FakeDeviceId",
+    "gain": 2.5,
+    "taskDurationSec": 1.0,
+    "tickSec": 0.5
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "fakeDeviceId": {"type": "string", "description": "Identifier of the shared FakeDriver device.", "required": true, "minLength": 1},
+      "gain": {"type": "number", "description": "Synthetic gain set before the foreground task.", "required": true, "minimum": 0},
+      "taskDurationSec": {"type": "number", "description": "Foreground task duration in seconds.", "required": true, "minimum": 0},
+      "tickSec": {"type": "number", "description": "FakeDriver task tick interval in seconds.", "required": true, "minimum": 0}
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "summary.status": {"type": "string", "description": "Terminal status returned by the foreground check."},
+      "summary.deviceId": {"type": "string", "description": "FakeDriver device used by the run.", "minLength": 1},
+      "summary.gain": {"type": "number", "description": "Gain confirmed by the SetGainTask."},
+      "summary.durationSec": {"type": "number", "description": "Duration confirmed by the foreground check in seconds.", "minimum": 0}
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-FAKE-SIMPLE-SetGain",
+      "handler": "RunSingleTaskStage",
+      "params": {
+        "deviceId": "$shared.fakeDeviceId",
+        "taskName": "SetGainTask",
+        "taskParams": {"value": "$shared.gain"},
+        "resultKey": "simple.setGain"
+      }
+    },
+    {
+      "stageId": "01-FAKE-SIMPLE-ShortCheck",
+      "handler": "RunSingleTaskStage",
+      "params": {
+        "deviceId": "$shared.fakeDeviceId",
+        "taskName": "ForegroundShortTask",
+        "taskParams": {"durationSec": "$shared.taskDurationSec", "tickSec": "$shared.tickSec"},
+        "resultKey": "simple.shortCheck"
+      }
+    },
+    {
+      "stageId": "02-FAKE-SIMPLE-PublishResult",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {"from": "simple.shortCheck.reply.result.status", "as": "summary.status"},
+          {"from": "simple.shortCheck.deviceId", "as": "summary.deviceId"},
+          {"from": "simple.setGain.reply.result.gain", "as": "summary.gain"},
+          {"from": "simple.shortCheck.reply.result.durationSec", "as": "summary.durationSec"}
+        ]
+      }
+    }
+  ]
+}

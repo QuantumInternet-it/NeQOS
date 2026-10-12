@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CompensateSourcePolarizationFromEntangledPairProbes",
+      "sharedParams": {
+        "referenceLinkId": "ExampleEntangledArmA",
+        "compensationTargetLinkId": "ExampleEntangledArmB",
+        "referenceUseCompensatedTomoStates": false,
+        "referenceResetCompensatedTomoStates": true,
+        "resourceDeviceIds": [
+          "ExampleSourceId",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleTimeTaggerId"
+        ],
+        "sourceSetup": {
+          "sources": [
+            {
+              "deviceId": "ExampleSourceId",
+              "outputMode": "ENTANGLED",
+              "entangledOutputAttenuationDb": 20
+            }
+          ]
+        },
+        "measurementDurationSec": 2,
+        "settleSec": 1,
+        "applyCompensation": false,
+        "persist": false,
+        "pbsReadout": "simultaneous",
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        },
+        "subtractBackground": false
+      }
+    },
+    {
+      "protocolId": "CompensateSourcePolarizationFromEntangledPairProbes",
+      "sharedParams": {
+        "referenceLinkId": "ExampleEntangledArmA",
+        "compensationTargetLinkId": "ExampleEntangledArmB",
+        "referenceUseCompensatedTomoStates": false,
+        "referenceResetCompensatedTomoStates": true,
+        "resourceDeviceIds": [
+          "ExampleSourceId",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleTimeTaggerId",
+          "ExampleDetectorHealthId"
+        ],
+        "sourceSetup": {
+          "sources": [
+            {
+              "deviceId": "ExampleSourceId",
+              "outputMode": "ENTANGLED",
+              "entangledOutputAttenuationDb": 20
+            }
+          ]
+        },
+        "measurementDurationSec": 2,
+        "settleSec": 1,
+        "applyCompensation": false,
+        "persist": false,
+        "pbsReadout": "symmetrized",
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        },
+        "subtractBackground": true
+      }
+    }
+  ]
+}

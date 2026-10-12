@@ -1,0 +1,601 @@
+Mpc320 Foreground Tasks
+=======================
+
+.. _deviceos-mpc320-setparameters:
+
+.. admonition:: ``SetParameters``
+   :class: driver-overview task-reference
+
+   Apply optional polarizer configuration overrides.
+
+   The task holds the driver I/O lock while it calls the vendor API. An
+   argument set to ``None`` keeps the corresponding configured value.
+   On success, the result contains the resolved serial number and all
+   five applied polarizer settings. A cancelled context returns
+   ``CANCELLED``; a rejected or unavailable device raises ``RuntimeError``.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``velocity``
+        - ``float \| int \| None``
+        - No
+        - ``None``
+        - Optional polarizer velocity in degrees per second.
+      * - ``home_position``
+        - ``float \| int \| None``
+        - No
+        - ``None``
+        - Optional home position in degrees.
+      * - ``jog_size1``
+        - ``float \| int \| None``
+        - No
+        - ``None``
+        - Optional jog distance for paddle 1 in degrees.
+      * - ``jog_size2``
+        - ``float \| int \| None``
+        - No
+        - ``None``
+        - Optional jog distance for paddle 2 in degrees.
+      * - ``jog_size3``
+        - ``float \| int \| None``
+        - No
+        - ``None``
+        - Optional jog distance for paddle 3 in degrees.
+      * - ``serialNumber``
+        - ``str \| None``
+        - No
+        - ``None``
+        - Optional target controller serial number; omitting it uses the driver-resolved controller.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``serialNumber``
+        - ``str``
+        - No
+        - ``—``
+        - Resolved controller serial number.
+      * - ``velocity``
+        - ``float \| int \| None``
+        - No
+        - ``deg/s``
+        - Applied polarizer velocity.
+      * - ``home_position``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied home position.
+      * - ``jog_size1``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied paddle 1 jog size.
+      * - ``jog_size2``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied paddle 2 jog size.
+      * - ``jog_size3``
+        - ``float \| int \| None``
+        - No
+        - ``deg``
+        - Applied paddle 3 jog size.
+
+
+.. _deviceos-mpc320-settomographystate:
+
+.. admonition:: ``setTomographyState``
+   :class: driver-overview task-reference
+
+   Apply one named H/V/D/A/R/L state using the configured MPC tables.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - —
+      * - ``state``
+        - ``str``
+        - Yes
+        - —
+        - —
+      * - ``useCompensated``
+        - ``bool``
+        - No
+        - ``True``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Logical polarization-analyzer channel (MPC320 supports channel 1).
+      * - ``tomographyState``
+        - ``str``
+        - Yes
+        - ``H, V, D, A, R, L``
+        - Applied tomography state.
+      * - ``appliedMode``
+        - ``str``
+        - Yes
+        - ``factory, compensated``
+        - Selected state table.
+      * - ``appliedWaveplateAnglesDeg``
+        - ``object``
+        - Yes
+        - ``deg``
+        - Read-back angles keyed by one-based paddle number.
+
+
+.. _deviceos-mpc320-installcompensatedtomographystates:
+
+.. admonition:: ``installCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Install a complete compensation table without moving the paddles.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channel``
+        - ``int``
+        - Yes
+        - —
+        - —
+      * - ``states``
+        - ``Dict[str, Dict[int, float]]``
+        - Yes
+        - —
+        - —
+      * - ``persist``
+        - ``bool``
+        - No
+        - ``True``
+        - —
+      * - ``sourceReport``
+        - ``Optional[Dict[str, Any]]``
+        - No
+        - ``None``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channel``
+        - ``int``
+        - Yes
+        - ``—``
+        - Logical polarization-analyzer channel (MPC320 supports channel 1).
+      * - ``states``
+        - ``object``
+        - Yes
+        - ``deg``
+        - Validated states keyed by H/V/D/A/R/L and one-based paddle number.
+      * - ``persisted``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the state table was written to DeviceOS-local storage.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - DeviceOS-local compensated-state persistence file.
+
+
+.. _deviceos-mpc320-loadpersistedcompensatedtomographystates:
+
+.. admonition:: ``loadPersistedCompensatedTomographyStates``
+   :class: driver-overview task-reference
+
+   Load the one MPC320 logical channel and optionally apply a state.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channels``
+        - ``Optional[list[int]]``
+        - No
+        - ``None``
+        - —
+      * - ``applyState``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Loaded logical channels.
+      * - ``channelCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of loaded channels.
+      * - ``applyState``
+        - ``str \| None``
+        - No
+        - ``H, V, D, A, R, L``
+        - Compensated state applied after loading, if requested.
+      * - ``appliedByChannel``
+        - ``object``
+        - Yes
+        - ``—``
+        - Applied state report by logical channel.
+      * - ``persistenceFile``
+        - ``str``
+        - Yes
+        - ``—``
+        - DeviceOS-local compensated-state persistence file.
+
+
+.. _deviceos-mpc320-moveto:
+
+.. admonition:: ``MoveTo``
+   :class: driver-overview task-reference
+
+   Move one paddle to an absolute target angle.
+
+   The task holds the driver I/O lock for both the movement and its
+   position readback. When ``timeout`` is omitted it uses
+   ``operation_timeout``. The target angle is constrained to the
+   configured 0--160 degree range. A requested displacement smaller than
+   ``minimum_step`` is accepted without issuing a vendor movement.
+
+   The result contains ``status``, the resolved serial number, normalized
+   paddle index, requested target angle, reported position, and effective
+   timeout. Movement failures are reported with ``status: ERROR``;
+   a cancelled context returns ``CANCELLED``.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``angle``
+        - ``float``
+        - Yes
+        - —
+        - Absolute target angle in degrees, constrained to 0 through 160.
+      * - ``paddle``
+        - ``int``
+        - Yes
+        - —
+        - Zero-based paddle index: 0, 1, or 2 for paddles 1, 2, or 3.
+      * - ``timeout``
+        - ``float \| None``
+        - No
+        - ``None``
+        - Optional operation timeout in seconds; the configured ``operation_timeout`` is used when omitted.
+      * - ``serialNumber``
+        - ``str \| None``
+        - No
+        - ``None``
+        - Optional target controller serial number; omitting it uses the driver-resolved controller.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, ERROR, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``serialNumber``
+        - ``str``
+        - No
+        - ``—``
+        - Resolved controller serial number.
+      * - ``paddle``
+        - ``int``
+        - No
+        - ``0, 1, 2``
+        - Normalized zero-based paddle index.
+      * - ``target_angle``
+        - ``float``
+        - No
+        - ``deg``
+        - Requested absolute target angle.
+      * - ``position``
+        - ``float \| None``
+        - No
+        - ``deg``
+        - Position read back after the move.
+      * - ``timeout``
+        - ``float``
+        - No
+        - ``s``
+        - Effective operation timeout.
+
+
+.. _deviceos-mpc320-moverelative:
+
+.. admonition:: ``MoveRelative``
+   :class: driver-overview task-reference
+
+   Move one paddle by a relative angle.
+
+   The task holds the driver I/O lock for both the movement and its
+   position readback. When ``timeout`` is omitted it uses
+   ``operation_timeout``. Relative requests above 160 degrees in
+   magnitude are rejected. If a target is within 2 degrees of either
+   hardware boundary, it is clamped to the 0--160 degree range; targets
+   further outside that range are rejected. A displacement smaller than
+   ``minimum_step`` is accepted without issuing a vendor movement.
+
+   The result contains ``status``, the resolved serial number, normalized
+   paddle index, requested relative angle, reported position, and
+   effective timeout. Movement failures are reported with ``status: ERROR``;
+   a cancelled context returns ``CANCELLED``.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``relative_angle``
+        - ``float``
+        - Yes
+        - —
+        - Requested signed displacement in degrees.
+      * - ``paddle``
+        - ``int``
+        - Yes
+        - —
+        - Zero-based paddle index: 0, 1, or 2 for paddles 1, 2, or 3.
+      * - ``timeout``
+        - ``float \| None``
+        - No
+        - ``None``
+        - Optional operation timeout in seconds; the configured ``operation_timeout`` is used when omitted.
+      * - ``serialNumber``
+        - ``str \| None``
+        - No
+        - ``None``
+        - Optional target controller serial number; omitting it uses the driver-resolved controller.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, ERROR, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``serialNumber``
+        - ``str``
+        - No
+        - ``—``
+        - Resolved controller serial number.
+      * - ``paddle``
+        - ``int``
+        - No
+        - ``0, 1, 2``
+        - Normalized zero-based paddle index.
+      * - ``relative_angle``
+        - ``float``
+        - No
+        - ``deg``
+        - Requested signed displacement.
+      * - ``position``
+        - ``float \| None``
+        - No
+        - ``deg``
+        - Position read back after the move.
+      * - ``timeout``
+        - ``float``
+        - No
+        - ``s``
+        - Effective operation timeout.
+

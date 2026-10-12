@@ -1,0 +1,206 @@
+Eps1000W Foreground Tasks
+=========================
+
+.. _deviceos-eps1000w-setoutputhh:
+
+.. admonition:: ``setOutputHH``
+   :class: driver-overview task-reference
+
+   Select the ``HH`` output mode and return the device readback.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``setOutputHH``
+        - Executed device task name.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``HH``
+        - Output mode selected by the device.
+
+
+.. _deviceos-eps1000w-setoutputdd:
+
+.. admonition:: ``setOutputDD``
+   :class: driver-overview task-reference
+
+   Select the ``DD`` output mode and return the device readback.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``setOutputDD``
+        - Executed device task name.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``DD``
+        - Output mode selected by the device.
+
+
+.. _deviceos-eps1000w-setoutputentangled:
+
+.. admonition:: ``setOutputEntangled``
+   :class: driver-overview task-reference
+
+   Select the ``ENTANGLED`` output mode and return the device readback.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``setOutputEntangled``
+        - Executed device task name.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``ENTANGLED``
+        - Output mode selected by the device.
+
+
+.. _deviceos-eps1000w-realign:
+
+.. admonition:: ``reAlign``
+   :class: driver-overview task-reference
+
+   Run the device realignment command and then read its output mode.
+
+   The result includes the direct reply from ``Realign`` and the subsequent
+   ``ReadOutputMode`` value. It does not modify other EPS parameters.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``reAlign``
+        - Executed device task name.
+      * - ``reply``
+        - ``object``
+        - Yes
+        - ``—``
+        - Raw reply from the device Realign command.
+      * - ``outputMode``
+        - ``str``
+        - Yes
+        - ``—``
+        - Output mode read back after realignment.
+

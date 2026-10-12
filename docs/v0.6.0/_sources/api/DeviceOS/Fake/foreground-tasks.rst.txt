@@ -1,0 +1,323 @@
+Fake Foreground Tasks
+=====================
+
+.. _deviceos-fake-setgaintask:
+
+.. admonition:: ``SetGainTask``
+   :class: driver-overview task-reference
+
+   Set the synthetic driver gain.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``value``
+        - ``float``
+        - Yes
+        - —
+        - Gain value stored by the fake driver.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``gain``
+        - ``float``
+        - Yes
+        - ``—``
+        - Stored synthetic gain.
+
+
+.. _deviceos-fake-foregroundshorttask:
+
+.. admonition:: ``ForegroundShortTask``
+   :class: driver-overview task-reference
+
+   Example foreground task that should run atomically from DeviceEngine perspective.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``10.0``
+        - Total synthetic task duration in seconds.
+      * - ``tickSec``
+        - ``float``
+        - No
+        - ``1.0``
+        - Delay between progress updates in seconds.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``task``
+        - ``str``
+        - No
+        - ``—``
+        - Completed task name.
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``s``
+        - Completed synthetic duration.
+
+
+.. _deviceos-fake-firstforegroundlongpausabletask:
+
+.. admonition:: ``FirstForegroundLongPausableTask``
+   :class: driver-overview task-reference
+
+   Example long foreground task with pause/resume support.
+
+   Behavior:
+   - At first start, seeds a random value.
+   - On PAUSE cancellation, stores current state in _taskPauseStatesByProtocol.
+   - On RESUME fallback, DeviceEngine injects `_pauseState` and the task continues from there.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: Yes
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``120.0``
+        - Total synthetic task duration in seconds.
+      * - ``tickSec``
+        - ``float``
+        - No
+        - ``1.0``
+        - Delay between progress updates in seconds.
+      * - ``_pauseState``
+        - ``Dict[str, Any] \| None``
+        - No
+        - ``None``
+        - Internal state injected by DeviceEngine during a resume; callers should omit it.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``task``
+        - ``str``
+        - No
+        - ``—``
+        - Completed task name.
+      * - ``seedValue``
+        - ``float``
+        - No
+        - ``—``
+        - Synthetic value generated for the run.
+      * - ``ticks``
+        - ``int``
+        - No
+        - ``—``
+        - Completed synthetic iteration count.
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``s``
+        - Completed synthetic duration.
+
+
+.. _deviceos-fake-secondforegroundlongpausabletask:
+
+.. admonition:: ``SecondForegroundLongPausableTask``
+   :class: driver-overview task-reference
+
+   Second pausable example task.
+
+   This task tracks a synthetic wave value and pause states:
+   - amplitude (random at first start)
+   - phase
+   - elapsed/ticks
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: Yes
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``90.0``
+        - Total synthetic task duration in seconds.
+      * - ``tickSec``
+        - ``float``
+        - No
+        - ``1.0``
+        - Delay between progress updates in seconds.
+      * - ``_pauseState``
+        - ``Dict[str, Any] \| None``
+        - No
+        - ``None``
+        - Internal state injected by DeviceEngine during a resume; callers should omit it.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK, CANCELLED``
+        - Task outcome.
+      * - ``reason``
+        - ``str \| None``
+        - No
+        - ``—``
+        - Cancellation reason when status is CANCELLED.
+      * - ``task``
+        - ``str``
+        - No
+        - ``—``
+        - Completed task name.
+      * - ``amplitude``
+        - ``float``
+        - No
+        - ``—``
+        - Synthetic wave amplitude.
+      * - ``ticks``
+        - ``int``
+        - No
+        - ``—``
+        - Completed synthetic iteration count.
+      * - ``durationSec``
+        - ``float``
+        - No
+        - ``s``
+        - Completed synthetic duration.
+

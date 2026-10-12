@@ -1,0 +1,178 @@
+Fake Background Tasks
+=====================
+
+.. _deviceos-fake-backgroundloopalphatask:
+
+.. admonition:: ``BackgroundLoopAlphaTask``
+   :class: driver-overview task-reference
+
+   Periodic background non-blocking tick A
+
+   :Task class: Background
+   :Blocking: No
+   :Frequency: ``1.0`` Hz
+   :Maximum repetitions: Unlimited
+   :Expires after: Never
+   :Lifecycle: abort-only (no pause/resume).
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``—``
+        - Executed task name.
+      * - ``iteration``
+        - ``int``
+        - Yes
+        - ``—``
+        - Background iteration count.
+
+
+.. _deviceos-fake-backgroundloopbetatask:
+
+.. admonition:: ``BackgroundLoopBetaTask``
+   :class: driver-overview task-reference
+
+   Periodic background non-blocking tick B
+
+   :Task class: Background
+   :Blocking: No
+   :Frequency: ``1.0 / 1.3`` Hz
+   :Maximum repetitions: Unlimited
+   :Expires after: Never
+   :Lifecycle: abort-only (no pause/resume).
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``—``
+        - Executed task name.
+      * - ``iteration``
+        - ``int``
+        - Yes
+        - ``—``
+        - Background iteration count.
+
+
+.. _deviceos-fake-backgroundloopblockingtask:
+
+.. admonition:: ``BackgroundLoopBlockingTask``
+   :class: driver-overview task-reference
+
+   Run one synthetic background iteration while holding the driver I/O lock.
+
+   :Task class: Background
+   :Blocking: Yes
+   :Frequency: ``1.0`` Hz
+   :Maximum repetitions: ``8``
+   :Expires after: Never
+   :Lifecycle: abort-only (no pause/resume).
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``workSec``
+        - ``float``
+        - No
+        - ``0.9``
+        - Duration in seconds for which the iteration holds the lock.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``task``
+        - ``str``
+        - Yes
+        - ``—``
+        - Executed task name.
+      * - ``iteration``
+        - ``int``
+        - Yes
+        - ``—``
+        - Background iteration count.
+      * - ``workSec``
+        - ``float``
+        - Yes
+        - ``s``
+        - Duration for which the iteration held the driver I/O lock.
+

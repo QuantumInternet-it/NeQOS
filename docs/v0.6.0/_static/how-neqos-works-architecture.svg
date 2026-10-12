@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-labelledby="t d">
+  <title id="t">NeQOS architecture</title>
+  <desc id="d">A run plan, the network description and the protocol catalog enter the NodeEngine. The NodeEngine exchanges tasks, events and telemetry with one DeviceOS process per device. Each DeviceOS process hosts a DeviceEngine and a hardware driver connected to a physical device. The devices are joined by the quantum network. The NodeEngine writes the execution record.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#4a5260"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; fill: #1b1f24; }
+    .h { font-size: 17px; font-weight: 600; }
+    .s { font-size: 13px; fill: #3a414c; }
+    .m { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-size: 12px; fill: #4a5260; }
+    .tag { font-size: 11px; font-weight: 600; letter-spacing: .08em; fill: #6b7280; }
+    .box { fill: #ffffff; stroke: #c5ccd6; stroke-width: 1.5; }
+    .core { fill: #eef2fb; stroke: #2446a0; stroke-width: 2; }
+    .dev { fill: #f6f7f9; stroke: #c5ccd6; stroke-width: 1.5; }
+    .ln { stroke: #4a5260; stroke-width: 1.6; fill: none; }
+  </style>
+
+  <rect x="0" y="0" width="960" height="560" rx="14" fill="#ffffff"/>
+
+  <!-- Declarative inputs -->
+  <text x="40" y="40" class="tag">INPUTS</text>
+  <rect x="40" y="52" width="230" height="58" rx="8" class="box"/>
+  <text x="56" y="77" class="h">Run plan</text>
+  <text x="56" y="97" class="m">input.json</text>
+  <rect x="40" y="122" width="230" height="58" rx="8" class="box"/>
+  <text x="56" y="147" class="h">Network description</text>
+  <text x="56" y="167" class="m">network.json</text>
+  <rect x="40" y="192" width="230" height="58" rx="8" class="box"/>
+  <text x="56" y="217" class="h">Protocol catalog</text>
+  <text x="56" y="237" class="s">built-in + Open libraries</text>
+
+  <path d="M270 81 L340 130" class="ln" marker-end="url(#a)"/>
+  <path d="M270 151 L340 151" class="ln" marker-end="url(#a)"/>
+  <path d="M270 221 L340 172" class="ln" marker-end="url(#a)"/>
+
+  <!-- NodeEngine -->
+  <text x="344" y="40" class="tag">ORCHESTRATION HOST</text>
+  <rect x="344" y="52" width="300" height="198" rx="10" class="core"/>
+  <text x="364" y="82" class="h">NodeEngine</text>
+  <text x="364" y="110" class="s">resolves the service against</text>
+  <text x="364" y="128" class="s">catalog and network description</text>
+  <text x="364" y="154" class="s">leases devices</text>
+  <text x="364" y="178" class="s">runs stages, device tasks</text>
+  <text x="364" y="196" class="s">and child protocols</text>
+  <text x="364" y="222" class="s">collects telemetry and results</text>
+
+  <!-- Execution record -->
+  <path d="M644 151 L714 151" class="ln" marker-end="url(#a)"/>
+  <text x="718" y="40" class="tag">RECORD</text>
+  <rect x="718" y="96" width="202" height="110" rx="8" class="box"/>
+  <text x="734" y="122" class="h">Execution record</text>
+  <text x="734" y="144" class="m">RunPlan_*/</text>
+  <text x="734" y="164" class="m">result.json</text>
+  <text x="734" y="184" class="m">run-manifest.json</text>
+
+  <!-- Control network -->
+  <path d="M494 250 L494 288" class="ln"/>
+  <path d="M150 288 L810 288" class="ln"/>
+  <path d="M150 288 L150 318" class="ln" marker-end="url(#a)"/>
+  <path d="M494 288 L494 318" class="ln" marker-end="url(#a)"/>
+  <path d="M810 288 L810 318" class="ln" marker-end="url(#a)"/>
+  <text x="510" y="278" class="s">classical control network: tasks · events · telemetry</text>
+
+  <!-- DeviceOS processes -->
+  <text x="40" y="314" class="tag">DEVICE HOSTS</text>
+  <g>
+    <rect x="40" y="322" width="220" height="132" rx="10" class="box"/>
+    <text x="56" y="348" class="h">DeviceOS</text>
+    <rect x="56" y="360" width="188" height="38" rx="6" class="core"/>
+    <text x="68" y="384" class="s">DeviceEngine · task surface</text>
+    <rect x="56" y="406" width="188" height="36" rx="6" class="dev"/>
+    <text x="68" y="429" class="s">Hardware driver</text>
+  </g>
+  <g>
+    <rect x="384" y="322" width="220" height="132" rx="10" class="box"/>
+    <text x="400" y="348" class="h">DeviceOS</text>
+    <rect x="400" y="360" width="188" height="38" rx="6" class="core"/>
+    <text x="412" y="384" class="s">DeviceEngine · task surface</text>
+    <rect x="400" y="406" width="188" height="36" rx="6" class="dev"/>
+    <text x="412" y="429" class="s">Hardware driver</text>
+  </g>
+  <g>
+    <rect x="700" y="322" width="220" height="132" rx="10" class="box"/>
+    <text x="716" y="348" class="h">DeviceOS</text>
+    <rect x="716" y="360" width="188" height="38" rx="6" class="core"/>
+    <text x="728" y="384" class="s">DeviceEngine · task surface</text>
+    <rect x="716" y="406" width="188" height="36" rx="6" class="dev"/>
+    <text x="728" y="429" class="s">Hardware driver</text>
+  </g>
+  <text x="638" y="394" class="h" fill="#6b7280">···</text>
+
+  <!-- Devices -->
+  <path d="M150 454 L150 478" class="ln" marker-end="url(#a)"/>
+  <path d="M494 454 L494 478" class="ln" marker-end="url(#a)"/>
+  <path d="M810 454 L810 478" class="ln" marker-end="url(#a)"/>
+  <rect x="40" y="482" width="220" height="44" rx="8" class="dev"/>
+  <text x="56" y="509" class="s">entangled-photon source</text>
+  <rect x="384" y="482" width="220" height="44" rx="8" class="dev"/>
+  <text x="400" y="509" class="s">polarization analyzer</text>
+  <rect x="700" y="482" width="220" height="44" rx="8" class="dev"/>
+  <text x="716" y="509" class="s">time tagger, detectors</text>
+
+  <!-- Quantum network -->
+  <path d="M260 504 L384 504 M604 504 L700 504" stroke="#2446a0" stroke-width="2.5" stroke-dasharray="7 5" fill="none"/>
+  <text x="270" y="546" class="s" fill="#2446a0">quantum network (fiber links)</text>
+</svg>

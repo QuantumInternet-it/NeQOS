@@ -1,0 +1,58 @@
+{
+  "protocolId": "HOLD-DYNAMIC",
+  "summary": "Compose a hold from a runtime handler.",
+  "description": "Submit HoldDuration once from a handler, poll it and publish its declared result.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 30,
+  "resourceRequests": [],
+  "sharedParams": {
+    "durationSec": 0.1
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "durationSec": {
+        "type": "number",
+        "description": "Duration of the child hold, in seconds.",
+        "required": true,
+        "minimum": 0,
+        "maximum": 10
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "execution.control.status.holdDuration": {
+        "type": "object",
+        "description": "Completed child hold and its timestamps.",
+        "role": "status"
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-DynamicHold",
+      "handler": "AuthoringDynamicHoldStage",
+      "params": {
+        "durationSec": "$shared.durationSec"
+      }
+    },
+    {
+      "stageId": "01-Publish",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "holdResult",
+            "as": "execution.control.status.holdDuration"
+          }
+        ],
+        "writeSummary": true
+      }
+    }
+  ]
+}

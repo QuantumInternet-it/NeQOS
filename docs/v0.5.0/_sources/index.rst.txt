@@ -1,0 +1,46 @@
+.. rst-class:: documentation-home
+
+NeQOS documentation
+===================
+
+NeQOS is a distributed operating system for quantum networks. It runs network
+services as meta-protocols composed from reusable micro-protocols, coordinating
+heterogeneous quantum-classical devices unattended. Start with
+:doc:`How NeQOS works <user-guide/how-neqos-works>`; use the User Guide to
+install, configure and run the software, and the API Reference to extend it.
+
+Source code, release archives, and project updates are available in the
+`NeQOS GitHub repository <https://github.com/QuantumInternet-it/NeQOS>`_.
+
+User guide
+----------
+
+* :doc:`How NeQOS works <user-guide/how-neqos-works>`: architecture, protocol
+  composition, execution and extensibility.
+* :doc:`NeQOS User Guide <user-guide/index>`: installation, network setup,
+  protocol runs and results.
+* :doc:`LLM Authoring Guide <llm-authoring>`: creating Open
+  libraries with downloadable instructions for your LLM.
+
+API reference
+-------------
+
+* :doc:`NodeEngine API <api/NodeEngine/index>`: Open libraries, composition
+  handlers and links to the built-in protocol catalog.
+* :doc:`DeviceOS API <api/DeviceOS/index>`: driver tasks, parameters and signals.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+   :hidden:
+
+   user-guide/index
+   llm-authoring
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+   :hidden:
+
+   api/NodeEngine/index
+   api/DeviceOS/index

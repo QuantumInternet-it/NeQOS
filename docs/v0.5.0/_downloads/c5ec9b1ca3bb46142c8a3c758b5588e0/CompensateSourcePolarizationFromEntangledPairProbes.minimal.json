@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "CompensateSourcePolarizationFromEntangledPairProbes",
+      "sharedParams": {
+        "referenceLinkId": "ExampleEntangledArmA",
+        "compensationTargetLinkId": "ExampleEntangledArmB",
+        "resourceDeviceIds": [
+          "ExampleSourceId",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleTimeTaggerId"
+        ],
+        "referenceUseCompensatedTomoStates": false,
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        },
+        "sourceSetup": {}
+      }
+    }
+  ]
+}

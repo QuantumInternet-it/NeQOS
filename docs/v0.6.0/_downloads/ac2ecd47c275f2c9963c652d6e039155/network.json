@@ -1,0 +1,11 @@
+{
+  "networkId": "external-python-package-dependency-humanize-test",
+  "nodes": [
+    {
+      "nodeId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+      "host": "127.0.0.1",
+      "enabled": true,
+      "devices": []
+    }
+  ]
+}

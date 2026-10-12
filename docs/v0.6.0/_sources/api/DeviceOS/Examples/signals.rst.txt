@@ -1,0 +1,36 @@
+Signals
+=======
+
+Read only signals advertised by the target driver's capability reply.
+
+.. rubric:: Reserve the device
+   :class: invocation-heading
+
+The enclosing micro-protocol must reserve the target device.
+
+.. code-block:: json
+
+   {
+     "resourceRequests": ["<device-id>"]
+   }
+
+NodeEngine retrieves driver capabilities during the device handshake and verifies that the requested signal is advertised. Use the driver signal reference to choose a name.
+
+Replace each ``<...>`` placeholder with an appropriate value.
+
+.. rubric:: Read a signal from a Python handler
+   :class: invocation-heading
+
+.. code-block:: python
+
+   result = await ctx.read_signal(
+       deviceId="<device-id>",
+       name="<signal-name>",
+   )
+
+.. rubric:: Result
+   :class: invocation-heading
+
+``ctx.read_signal(...)`` returns an envelope with ``deviceId``, ``signalName``, ``status``, and the driver readback in ``value``.
+
+When ``status`` is ``ERROR``, ``errorType`` and ``errorMessage`` describe the NodeEngine-to-DeviceEngine failure. ``reply`` retains the raw device reply for diagnostics.

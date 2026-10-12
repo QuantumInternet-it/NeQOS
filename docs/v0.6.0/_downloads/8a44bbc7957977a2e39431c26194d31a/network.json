@@ -1,0 +1,35 @@
+{
+  "networkId": "lab-qnet",
+  "nodes": [
+    {
+      "nodeId": "NODE-MPC",
+      "host": "127.0.0.1",
+      "enabled": true,
+      "devices": [
+        {
+          "deviceId": "MPC-1",
+          "deviceType": "Mpc320",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "QLINK-DETECTOR-1",
+              "role": "polarizationAligner"
+            }
+          ],
+          "deviceEngine": {"ip": "127.0.0.1", "syncCmdPort": 5811, "asyncCmdPort": 5812, "telemetryPort": 5813},
+          "driverConfig": {"serialNumber": "38507244"},
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "TT-1",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {"ip": "127.0.0.1", "syncCmdPort": 5801, "asyncCmdPort": 5802, "telemetryPort": 5803},
+          "driverConfig": {},
+          "hardwareConfig": {},
+          "linkBindings": [{"linkId": "QLINK-DETECTOR-1", "role": "sink", "channel": 1}]
+        }
+      ]
+    }
+  ]
+}

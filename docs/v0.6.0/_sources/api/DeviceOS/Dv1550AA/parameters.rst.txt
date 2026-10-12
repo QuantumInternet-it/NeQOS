@@ -1,0 +1,49 @@
+Dv1550AA Parameters
+===================
+
+.. admonition:: Parameter reference
+   :class: api-reference
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-parameter-table
+      :widths: 20 15 10 15 12 28
+
+      * - Name
+        - Type
+        - Unit
+        - Range
+        - Default
+        - Description
+      * - ``attenuation``
+        - ``float``
+        - ``dB``
+        - ``0.0 to 34.0``
+        - ``0.0``
+        - Optical attenuation. Values must be from 0.00 to 34.00 dB in 0.01 dB increments.
+      * - ``defaultAttenuationDb``
+        - ``float``
+        - ``dB``
+        - ``0.0 to 34.0``
+        - —
+        - Resting attenuation used by homeAttenuation and READY transitions.
+      * - ``mode``
+        - ``int``
+        - —
+        - ``0, 2``
+        - ``0``
+        - Attenuator operating mode: 0 for calibrated operation or 2 for manual operation.
+      * - ``voaEnabled``
+        - ``bool``
+        - —
+        - —
+        - ``False``
+        - Whether the VOA optical output is enabled.
+      * - ``wavelength``
+        - ``int``
+        - ``nm``
+        - ``1310, 1550, 1590``
+        - ``1550``
+        - Operating wavelength. Supported values are 1310, 1550, and 1590 nm.
+

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "0.5",
+  "libraryId": "authoring-hold-examples",
+  "description": "Hardware-free static and dynamic parent-child composition.",
+  "metaProtocols": [
+    {
+      "protocolId": "HOLD-STATIC",
+      "definitionFile": "MetaProtocolsDef/HOLD-STATIC/protocol.json"
+    },
+    {
+      "protocolId": "HOLD-DYNAMIC",
+      "definitionFile": "MetaProtocolsDef/HOLD-DYNAMIC/protocol.json",
+      "handlerFiles": [
+        "MetaProtocolsDef/HOLD-DYNAMIC/Handlers.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+  "description": "Verifies that an open handler can import a distribution-local pure-Python dependency.",
+  "privilegeLevel": "NORMAL",
+  "dependencies": [],
+  "executionMode": "foreground",
+  "preemptive": false,
+  "timeoutSec": 10.0,
+  "resourceRequests": [],
+  "sharedParams": {
+    "value": 1234567
+  },
+  "inputSchema": {
+    "schemaVersion": "0.1",
+    "parameters": {
+      "value": {
+        "type": "integer",
+        "description": "Integer formatted by the humanize package.",
+        "required": true
+      }
+    }
+  },
+  "outputSchema": {
+    "schemaVersion": "0.1",
+    "exports": {
+      "test.formattedValue": {
+        "type": "string",
+        "description": "Comma-separated representation returned by the external-package handler."
+      }
+    }
+  },
+  "stages": [
+    {
+      "stageId": "00-EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+      "handler": "ExternalPythonPackageDependencyHumanizeStage",
+      "params": {
+        "value": "$shared.value"
+      }
+    },
+    {
+      "stageId": "01-publish-result",
+      "handler": "PublishResultStage",
+      "params": {
+        "exports": [
+          {
+            "from": "externalPythonPackageDependency.formattedValue",
+            "as": "test.formattedValue"
+          }
+        ]
+      }
+    }
+  ]
+}

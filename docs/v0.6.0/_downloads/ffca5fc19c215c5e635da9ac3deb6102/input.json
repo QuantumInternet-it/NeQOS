@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "fake-device-examples",
+    "folder": "../.."
+  },
+  "steps": [
+    {
+      "protocolId": "FAKE-HANDLER",
+      "sharedParams": {
+    "fakeDeviceId": "FakeDeviceId",
+    "gain": 3.3,
+    "taskDurationSec": 1.0,
+    "tickSec": 0.5,
+        "maxIterations": 2
+      }
+    }
+  ]
+}

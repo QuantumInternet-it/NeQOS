@@ -1,0 +1,297 @@
+{
+  "networkId": "example-experiment-entanglement-distribution",
+  "telemetryDefaults": {
+    "periodSec": 1,
+    "ttlMs": 2500
+  },
+  "quantumLinks": [
+    {
+      "linkId": "ExampleEntangledArmA",
+      "enabled": true,
+      "dwdmChannel": 44
+    },
+    {
+      "linkId": "ExampleEntangledArmB",
+      "enabled": true,
+      "dwdmChannel": 24
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleEntangledPhotonSourceId",
+          "deviceType": "Eps1000W",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "source",
+              "outputPort": 1
+            },
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "source",
+              "outputPort": 2,
+              "hTrafficAdditionalAttenuationDb": 10,
+              "dTrafficAdditionalAttenuationDb": 10
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.11",
+            "syncCmdPort": 39041,
+            "asyncCmdPort": 39042,
+            "telemetryPort": 39043
+          },
+          "driverConfig": {
+            "serialPort": "COM11",
+            "probeTimeoutSec": 5,
+            "probeBeforeInitialize": false,
+            "probeFailureThreshold": 3
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "entangledOutputAttenuation": {
+                "min": 0,
+                "max": 83.3099
+              },
+              "classicOutputAttenuation": {
+                "min": 0,
+                "max": 44.9542
+              }
+            },
+            "hTrafficTargetAttenuationDb": 10,
+            "dTrafficTargetAttenuationDb": 10
+          }
+        },
+        {
+          "deviceId": "ExampleAttenuatorA",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "inlineAttenuator"
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.12",
+            "syncCmdPort": 39111,
+            "asyncCmdPort": 39112,
+            "telemetryPort": 39113
+          },
+          "driverConfig": {
+            "serialPort": "COM12"
+          },
+          "hardwareConfig": {
+            "defaultAttenuationDb": 0,
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0,
+                "max": 34,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAttenuatorB",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "inlineAttenuator"
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.13",
+            "syncCmdPort": 39121,
+            "asyncCmdPort": 39122,
+            "telemetryPort": 39123
+          },
+          "driverConfig": {
+            "serialPort": "COM13"
+          },
+          "hardwareConfig": {
+            "defaultAttenuationDb": 0,
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0,
+                "max": 34,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAnalyzerA",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "polarizationAnalyzer",
+              "channel": 1,
+              "outputPort": "H",
+              "measurementTopology": "polarizer"
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.14",
+            "syncCmdPort": 39031,
+            "asyncCmdPort": 39032,
+            "telemetryPort": 39033
+          },
+          "driverConfig": {
+            "serialPort": "COM14"
+          },
+          "hardwareConfig": {
+            "loadPersistedCompensatedTomographyAtBoot": false,
+            "compensatedTomographyChannels": {
+              "1": {
+                "loadAtBoot": false
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAnalyzerB",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "polarizationAnalyzer",
+              "channel": 1,
+              "outputPort": "H",
+              "measurementTopology": "polarizer"
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.15",
+            "syncCmdPort": 39061,
+            "asyncCmdPort": 39062,
+            "telemetryPort": 39063
+          },
+          "driverConfig": {
+            "serialPort": "COM15"
+          },
+          "hardwareConfig": {
+            "loadPersistedCompensatedTomographyAtBoot": false,
+            "compensatedTomographyChannels": {
+              "1": {
+                "loadAtBoot": false
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "sink",
+              "inputPort": "H",
+              "channel": 1
+            },
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "sink",
+              "inputPort": "H",
+              "channel": 2
+            }
+          ],
+          "healthGuards": [
+            {
+              "deviceId": "ExampleDetectorHealthId",
+              "channelMappings": [
+                {
+                  "timeTaggerChannel": 1,
+                  "snspdChannel": 1
+                },
+                {
+                  "timeTaggerChannel": 2,
+                  "snspdChannel": 2
+                }
+              ]
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.16",
+            "syncCmdPort": 39001,
+            "asyncCmdPort": 39002,
+            "telemetryPort": 39003
+          },
+          "driverConfig": {
+            "serialNumber": "EXAMPLE-TIME-TAGGER-SERIAL"
+          },
+          "hardwareConfig": {
+            "channels": {
+              "1": {
+                "triggerLevelVolt": 0.5,
+                "inputDelayPs": 0
+              },
+              "2": {
+                "triggerLevelVolt": 0.5,
+                "inputDelayPs": 0
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleDetectorHealthId",
+          "deviceType": "Photec",
+          "enabled": true,
+          "linkBindings": [
+            {
+              "linkId": "ExampleEntangledArmA",
+              "role": "sink",
+              "channel": 1
+            },
+            {
+              "linkId": "ExampleEntangledArmB",
+              "role": "sink",
+              "channel": 2
+            }
+          ],
+          "deviceEngine": {
+            "ip": "192.0.2.17",
+            "syncCmdPort": 39021,
+            "asyncCmdPort": 39022,
+            "telemetryPort": 39023
+          },
+          "driverConfig": {
+            "serialPort": "COM17"
+          },
+          "hardwareConfig": {
+            "inUseChannels": [
+              1,
+              2
+            ],
+            "biasCurrents": {
+              "1": 13.8,
+              "2": 9.8
+            },
+            "integrationTimeMs": 100,
+            "healthLogEnabled": true,
+            "healthLogFrequencyHz": 1,
+            "latchGuardChannels": [
+              1,
+              2
+            ],
+            "autoRecoverOnLatch": true,
+            "zeroConsecutiveLimit": 1,
+            "zeroCountThreshold": 0,
+            "maxRecoveryAttempts": 3
+          }
+        }
+      ]
+    }
+  ]
+}

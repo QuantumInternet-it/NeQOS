@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "ConfigureQuantumLinkCarrier",
+      "sharedParams": {
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleInlineAttenuatorOneId",
+          "ExampleInlineAttenuatorTwoId"
+        ],
+        "sourceDeviceId": "ExampleEntangledPhotonSourceId",
+        "outputMode": "ENTANGLED"
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+DeviceOS API
+============
+
+DeviceOS hosts a DeviceEngine and one hardware driver. DeviceEngine admits and schedules device tasks; the driver implements vendor I/O and declares parameters, signals and task results. NodeEngine coordinates protocols and device leases.
+
+Driver development
+------------------
+
+* :doc:`Writing a hardware driver </user-guide/writing-hardware-driver>`
+* :doc:`Open driver contract <DriverContract>`
+* :doc:`Network hardware configuration <HardwareConfiguration>`
+
+Device drivers
+--------------
+
+* :doc:`NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>`
+* :doc:`NuCrypt PA1000/PA2000 Polarization Controller <PaX000>`
+* :doc:`Photec SNSPD Controller <Photec>`
+* :doc:`Swabian Instruments Time Tagger <SwabianTT>`
+* :doc:`Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>`
+* :doc:`Thorlabs MPC320 Polarization Controller <Mpc320>`
+* :doc:`Fake Driver (Software-only Evaluation) <Fake>`
+
+Runtime setup
+-------------
+
+* :doc:`Local vendor-runtime configuration <RuntimeSetup>`
+
+Examples
+--------
+
+* :doc:`Shared DeviceOS invocation patterns <Examples/index>`
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>
+   NuCrypt PA1000/PA2000 Polarization Controller <PaX000>
+   Photec SNSPD Controller <Photec>
+   Swabian Instruments Time Tagger <SwabianTT>
+   Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>
+   Thorlabs MPC320 Polarization Controller <Mpc320>
+   Fake Driver (Software-only Evaluation) <Fake>
+   Open driver contract <DriverContract>
+   Network hardware configuration <HardwareConfiguration>
+   Runtime setup <RuntimeSetup>
+   Examples <Examples/index>

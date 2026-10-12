@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "external-python-package-dependency",
+    "folder": "../.."
+  },
+  "steps": [
+    {
+      "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+      "sharedParams": {
+        "value": 1234567
+      }
+    }
+  ]
+}

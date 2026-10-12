@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureLinkBackgroundCoincidences",
+      "sharedParams": {
+        "referenceLinkId": "ExampleReferenceLinkId",
+        "targetLinkIds": [
+          "ExampleTargetLinkId"
+        ],
+        "resourceDeviceIds": [
+          "ExampleEntangledPhotonSourceId",
+          "ExampleTimeTaggerId"
+        ],
+        "measurementDurationSec": 1,
+        "coincidenceWindowPs": 1000,
+        "settleSec": 0.2,
+        "restoreSettleSec": 0.2,
+        "clear": true,
+        "detectorPairs": [],
+        "latchGuard": {
+          "mode": "disabled",
+          "maxWindowRetries": 0
+        }
+      }
+    }
+  ]
+}

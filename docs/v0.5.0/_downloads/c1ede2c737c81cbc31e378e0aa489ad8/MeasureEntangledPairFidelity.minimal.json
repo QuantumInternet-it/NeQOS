@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "MeasureEntangledPairFidelity",
+      "sharedParams": {
+        "linkPairIds": [
+          "ExampleEntangledArmA",
+          "ExampleEntangledArmB"
+        ],
+        "polarizationAnalyzerDeviceIds": [
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB"
+        ],
+        "resourceDeviceIds": [
+          "ExampleTimeTaggerId",
+          "ExampleAnalyzerA",
+          "ExampleAnalyzerB",
+          "ExampleDetectorHealthId"
+        ],
+        "latchGuard": {
+          "mode": "required",
+          "maxWindowRetries": 2
+        },
+        "qualityGate": {
+          "minimumCompleteBasisCounts": 100.0,
+          "maximumBasisRateRelativeStandardDeviation": 0.5
+        }
+      }
+    }
+  ]
+}

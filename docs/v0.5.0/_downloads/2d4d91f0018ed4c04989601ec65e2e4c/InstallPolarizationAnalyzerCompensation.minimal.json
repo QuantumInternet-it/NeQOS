@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "InstallPolarizationAnalyzerCompensation",
+      "sharedParams": {
+        "polarizationAnalyzerDeviceId": "ExampleMpc320Id",
+        "states": {
+          "H": {
+            "1": 0.0,
+            "2": 0.0,
+            "3": 0.0
+          },
+          "V": {
+            "1": 45.0,
+            "2": 0.0,
+            "3": 0.0
+          },
+          "D": {
+            "1": 22.5,
+            "2": 22.5,
+            "3": 0.0
+          },
+          "A": {
+            "1": 67.5,
+            "2": 22.5,
+            "3": 0.0
+          },
+          "R": {
+            "1": 0.0,
+            "2": 45.0,
+            "3": 22.5
+          },
+          "L": {
+            "1": 0.0,
+            "2": 45.0,
+            "3": 67.5
+          }
+        }
+      }
+    }
+  ]
+}

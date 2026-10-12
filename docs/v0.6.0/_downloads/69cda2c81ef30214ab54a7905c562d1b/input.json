@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "protocolId": "AlignSNSPDInputPolarization",
+      "sharedParams": {
+        "linkId": "ExampleQuantumLinkId",
+        "resourceMpcDeviceIds": [
+          "ExamplePolarizationControllerId"
+        ],
+        "measurementDurationSec": 0.2,
+        "optimizationMode": "maximize",
+        "initialPositionMode": "explicit",
+        "paddles": [
+          0,
+          1,
+          2
+        ],
+        "initialAnglesDeg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finalAnglesDeg": [
+          20.0,
+          20.0,
+          20.0
+        ],
+        "stepDeg": 10.0,
+        "refinements": [
+          {
+            "halfRangeDeg": 5.0,
+            "stepDeg": 2.5
+          },
+          {
+            "halfRangeDeg": 1.0,
+            "stepDeg": 0.5
+          }
+        ],
+        "settleAfterMoveSec": 0.2,
+        "moveTimeoutSec": 30.0
+      }
+    }
+  ]
+}

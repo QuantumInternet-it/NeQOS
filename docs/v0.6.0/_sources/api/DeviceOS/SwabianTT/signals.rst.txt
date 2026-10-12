@@ -1,0 +1,49 @@
+SwabianTT Signals
+=================
+
+.. admonition:: Signal reference
+   :class: api-reference
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-signal-table
+      :widths: 25 18 15 42
+
+      * - Name
+        - Type
+        - Unit
+        - Description
+      * - ``activeMeasurements``
+        - ``list``
+        - —
+        - Measurement references selected for the next StartMeasurement window.
+      * - ``activeRawStreamRecording``
+        - ``object``
+        - —
+        - Explicit raw TimeTagger recording currently held by this driver, or null.
+      * - ``deviceInfo``
+        - ``object``
+        - —
+        - Resolved Time Tagger identity and model information.
+      * - ``lastMeasurementResults``
+        - ``object``
+        - —
+        - Results returned by the most recently completed StartMeasurement task.
+      * - ``logicalChannels``
+        - ``list``
+        - —
+        - Logical channels created during the current measurement-engine session.
+      * - ``measurements``
+        - ``list``
+        - —
+        - Measurement definitions created during the current measurement-engine session.
+      * - ``physicalChannels``
+        - ``list``
+        - —
+        - Discovered physical channels with live trigger-level and input-delay state.
+      * - ``unclaimedRawStreamArtifacts``
+        - ``list``
+        - —
+        - Bounded recovery manifests for raw recordings closed by reset, initialization, or disconnect rather than their original workflow.
+

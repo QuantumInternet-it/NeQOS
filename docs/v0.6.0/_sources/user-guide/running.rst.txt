@@ -1,0 +1,382 @@
+4. Run and customize a protocol
+===============================
+
+Copy the input and network together
+-----------------------------------
+
+Open :doc:`protocols/index` and choose the capability by the data or outcome
+you need. Download its input and network, or find them in:
+
+.. code-block:: text
+
+   NodeEnginePack/ReservedMetaProtocols/<domain>/<function>/<ProtocolId>/RunExample/
+
+Copy them to your working directory. Edit the network as described in
+:doc:`network`, then make the input's device/link identities match. Inspect
+**all** ``steps``: some shipped inputs demonstrate multiple modes and will
+execute more than once. Keep only the intended step for a single-protocol test.
+
+Do not edit a built-in ``protocol.json`` merely to change measurement duration
+or device identity. Override its declared inputs through the run plan instead.
+The definitions/implementations belong to the compiled catalog; edited external
+JSON is not a substitute for recompiling changed compiled behavior.
+
+A minimal run-plan shape
+------------------------
+
+For a direct count-rate measurement of Time Tagger channels 1 and 2:
+
+.. code-block:: json
+
+   {
+     "schemaVersion": "0.4",
+     "metaProtocolLibrary": {
+       "libraryId": "neqos-protected"
+     },
+     "steps": [
+       {
+         "protocolId": "MeasureCountRates",
+         "sharedParams": {
+           "deviceId": "ExampleTimeTaggerId",
+           "resourceDeviceIds": [
+             "ExampleTimeTaggerId"
+           ],
+           "channelRefs": [
+             1,
+             2
+           ],
+           "durationSec": 1.0,
+           "clear": true,
+           "latchGuard": {
+             "mode": "disabled",
+             "maxWindowRetries": 0
+           }
+         }
+       }
+     ]
+   }
+
+This explicitly chooses an unguarded measurement. To enable protection, change
+``mode`` to ``required``, supply a retry budget and add the network-resolved
+health-device union to ``resourceDeviceIds``. Do not copy the unguarded choice
+into a protected experiment by omission or accident.
+
+For an Open library, the library additionally declares ``folder``. Use the library's
+own run example: relative library folders resolve against the run input's
+location. Built-in run plans declare ``neqos-protected`` and do not need an Open
+folder.
+
+Launch DeviceOS, then NodeEngine
+--------------------------------
+
+Start one DeviceOS per required device, using its host and hardware runtime.
+For a Windows launcher:
+
+.. code-block:: bat
+
+   C:\NeQOS\DeviceOS.dist\DeviceOS.exe ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --configFile "C:\NeQOSConfig\network.json" ^
+     --deviceId ExampleTimeTaggerId
+
+Wait for readiness, then launch NodeEngine on its host:
+
+.. code-block:: bat
+
+   C:\NeQOS\NodeEngine.dist\NodeEngine.exe ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --configFile "C:\NeQOSConfig\network.json" ^
+     --nodeId ExampleNodeId ^
+     --metaProtocolRun "C:\NeQOSConfig\input.json" ^
+     --waitProtocol ^
+     --verboseRunFolders
+
+In a source checkout, use the Python prefix shown in :doc:`quickstart`.
+There is no ``--protocolId`` selector: select protocols inside the run input.
+The network is ``--configFile``; the list of operations is ``--metaProtocolRun``.
+Keep hardware processes alive through terminal cleanup.
+
+.. _protocol-timeouts:
+
+Declared timeouts and async completion waits
+---------------------------------------------
+
+The protocol-sheet badge shows the contract's declared ``timeoutSec``. In the
+current handler-backed execution path, this field is not a general deadline
+around the handler or the entire protocol. Actual device waits and handler
+termination conditions must be checked separately; requeue/repeat alone does
+not establish an elapsed-time bound.
+
+Async admission separates the acknowledgement from task completion. The
+NodeEngine async ACK wait is 10 s; its default task-completion wait is 30 s.
+For ``StartMeasurement`` and finite ``RecordTimeTagStream`` recordings
+(``operation: "record"``, also the default when omitted), completion waiting
+is extended to the greater of 30 s and ``durationSec + 60 s`` for finalization.
+A 300 s recording therefore has a 360 s completion wait. The same bound
+applies when recovering a lost async ACK from task-state telemetry.
+``RecordTimeTagStream`` operations ``start`` and ``stop`` retain the default
+30 s completion wait. ``RecordTimeTagStream`` declares no protocol-level
+timeout; its previous unenforced 120 s catalog value has been removed.
+
+.. warning::
+
+   The requested duration is the recording window, not the total run time.
+   Completion waiting includes a bounded finalization margin; a stalled task
+   or file finalization that exceeds that margin can still time out. Treat
+   only a successfully completed, published artifact as a valid result.
+
+For a long bracketed capture, inspect :doc:`protocols/CaptureRawTimeTagStream`
+and its start/hold/stop/transfer lifecycle. The parent must retain the Time
+Tagger lease and guarantee closure; start/stop task finalization still has
+completion waits. Treat an active or unclaimed device artifact as recovery
+evidence, not a successfully published recording.
+
+Choose command-line or browser operation
+----------------------------------------
+
+NodeEngine can execute a meta-protocol without a graphical interface. In
+operator mode the same NodeEngine process also serves a browser interface;
+the browser can run on a different computer through an SSH tunnel.
+
+.. warning::
+
+   Both NodeEngine launch commands below boot the real engine and can
+   initialize configured devices. Start the required DeviceOS processes and
+   check the active network before using either command. These are not
+   hardware-free preview commands.
+
+The examples use a source checkout. For an executable distribution, replace
+``python3 -m NodeEnginePack.NodeEngine`` with its NodeEngine launcher, keeping
+the same arguments. Browser operation requires the operator runtime and
+browser assets to be included in that distribution.
+
+Run without a browser
+~~~~~~~~~~~~~~~~~~~~~
+
+Pass the run plan JSON, containing one protocol or an ordered sequence:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile "/path/network.json" \
+     --nodeId YOUR_NODE_ID \
+     --licenseFile "/path/license.json" \
+     --metaProtocolRun "/path/input.json" \
+     --waitProtocol
+
+``--waitProtocol`` keeps the process waiting for the plan's terminal outcome.
+Add ``--dashboard`` for periodic state output in the terminal. Neither a
+browser nor the optional operator web runtime is needed for this mode.
+
+Operate from a browser
+~~~~~~~~~~~~~~~~~~~~~~
+
+Start one NodeEngine process in operator mode:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile "/path/network.json" \
+     --nodeId YOUR_NODE_ID \
+     --licenseFile "/path/license.json" \
+     --serve --operatorPort 8766
+
+Open `http://127.0.0.1:8766 <http://127.0.0.1:8766>`_ and enter the startup
+token printed in that terminal. The interface lets you compose, validate,
+submit and follow runs. Do not put the token in a URL.
+
+Do not start ``NodeEnginePack.BrowserUI.server`` separately for live operation:
+that is the standalone read-only viewer, not the operator service.
+``--serve`` and ``--metaProtocolRun`` cannot be combined. Operator mode
+accepts run submissions from the interface rather than a startup run plan.
+
+**Closing the browser does not stop an experiment.** Execution belongs to the
+NodeEngine process, which must remain running. Operator mode does not attach
+to an existing NodeEngine process; stop that process deliberately before
+changing modes instead of launching a second engine for the same devices.
+
+Use a browser on another computer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The operator service listens only on the NodeEngine host's loopback address.
+Opening ``http://LAB_HOST_IP:8766`` from another computer does not connect to
+it. Direct remote access is not implemented.
+
+With SSH access already configured on the laboratory host, run this command
+on the computer where the browser will be used:
+
+.. code-block:: bash
+
+   ssh -N -L 127.0.0.1:8766:127.0.0.1:8766 user@LAB_HOST
+
+Keep the tunnel open and browse to
+`http://127.0.0.1:8766 <http://127.0.0.1:8766>`_ on that computer. Enter the
+startup token from the NodeEngine terminal on the laboratory host. SSH
+forwards the local connection to the laboratory host's loopback service.
+
+Use ``127.0.0.1``, not ``localhost``, and the same port at both ends:
+the current service requires the browser's Host and Origin to match its exact
+``http://127.0.0.1:<operatorPort>`` address. If port 8766 is occupied locally,
+choose another ``--operatorPort`` and use that port on both sides of the
+tunnel. Do not disable these checks to enable remote access.
+
+The NodeEngine can therefore run in the laboratory while the browser runs on
+a laptop. The SSH tunnel must be verified against your hosts, SSH permissions
+and network configuration before operational use.
+
+Complete entanglement-distribution sequence
+-------------------------------------------
+
+The paired
+:download:`experiment input <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-input-EntanglementDistribution.json>`
+and
+:download:`experiment network <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`
+demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
+compensation, independent coincidence background, fidelity, detected distillable
+rate and the common summary. Replace the distributed network placeholders before
+use. The shared laboratory counterpart uses EPS-2, PA-1A/PA-1B, ATT-1/ATT-2,
+TT-2 channels 1/2 and Photec-2.
+
+Fidelity imports the separately acquired background through ``$steps.background``.
+Rate and summary import the unchanged declared observation, reconstruction and
+fidelity exports; no second tomography or optimization is performed. A failed
+quality gate stops the plan before those consumers. This is an operator sequence,
+not a new protocol or an atomic experiment lease: no competing workflow should
+change the physical state between top-level steps.
+
+.. warning::
+
+   The fixture preserves the previous experiment's explicit ENTANGLED setup at
+   **0 dB global attenuation**, reference factory reset and persistent
+   compensation installation. Review optical power and detector protection
+   before execution. Installation/persistence does not certify acceptance.
+   Offline validation is complete; hardware validation remains pending.
+
+Understand defaults and constraints
+-----------------------------------
+
+Each protocol sheet lists all top-level and nested input fields. It distinguishes
+an explicit JSON null default from a field with no catalog default, and shows
+whether a field occurs in a shipped direct example. Use that list to discover
+optional behavior instead of assuming the example exhausts the contract.
+
+The engine validates effective inputs against types, allowed values, numeric
+ranges, required object properties and other declared constraints. It also
+performs runtime checks that a flat schema cannot express: exact device unions,
+network wiring, installed-table availability and cross-field compatibility.
+Passing schema validation does not establish physical validity.
+
+``required`` refers to the effective value after catalog defaults and recursive
+overrides: omit a defaulted field to keep its default; do not replace it with
+null. Numerical/boolean inputs without a defined null behavior reject explicit
+null. Array item requirements apply separately to every element.
+``exclusiveMinimum: 0`` means strictly positive, not a minimum duration or
+step imposed by the hardware. Selected-mode requirements are checked by the
+owning service before device writes/acquisition.
+
+For ``AlignChannels``, ``single`` settings are needed only for single-pass mode
+or measurement-only operation (``delayCorrection.apply=false``). A
+measurement-only coarse/fine request still uses one single pass.
+``closest``/``nearest`` peak selection needs ``targetDelayPs``; ranked selection
+needs ``rank``. Unused mode fields can be null, but the selected pass must
+have a positive duration and either a bin count or a positive pump frequency.
+
+In particular:
+
+* A finite ``latchGuard`` is explicit: ``disabled`` or ``required``. With
+  ``required``, ``clear=false`` is invalid. A latch-invalid integration is
+  discarded and, when recovery permits, a fresh window is acquired in the same
+  analyzer state. ``maxWindowRetries=2`` permits at most three attempts;
+  ``0`` rejects the first contaminated window. Failed recovery and exhausted
+  retries are distinct outcomes.
+* A monitor uses ``disabled`` or ``annotate``, not finite-window ``required``.
+  Annotation preserves invalid-window evidence and excludes it from accepted
+  aggregate statistics; it does not retry the time-series window.
+* ``useCompensatedTomoStates=true`` needs the relevant installed/loaded table;
+  ``false`` uses factory states. The table can remain stored even when a run
+  chooses not to use it. A per-link map, when available, specifies this choice
+  separately for each analyzer.
+* ``persist`` controls writing calibration on the **DeviceOS host**. Campaign
+  defaults currently include ``persist=true``: inspect the specific sheet and
+  override it to ``false`` for a non-persistent trial. Persistence is not a
+  scientific acceptance gate and does not imply automatic rollback of an
+  installed table after a later error.
+* ``settleSec`` is an intentional delay after a physical change, before
+  acquisition. Scheduling/communication overhead is additional, variable time,
+  not a settling guarantee. Check the protocol-specific default and increase it
+  when the hardware requires more time.
+* ``subtractBackground`` controls whether acquired background is subtracted,
+  not necessarily whether the background child is executed. Read the campaign
+  description; do not confuse raw and corrected counts.
+
+Sequence several protocols without another wrapper
+--------------------------------------------------
+
+Add steps to the same ``steps`` list in the order you want. A practical sequence
+is source compensation, explicit carrier setup to ``ENTANGLED``, timing
+alignment, then pair-fidelity measurement. Keep each step's complete, current
+``sharedParams`` from its shipped example and use one coherent network.
+
+Steps run sequentially; a failure stops the plan. Their independent leases do
+not protect the interval between top-level steps. If uninterrupted exclusivity
+is scientifically necessary, use a composed parent that owns the full device
+union for the operation rather than treating a run-plan sequence as one lease.
+Pass an earlier result explicitly by giving its step a unique ``stepId`` and
+using a whole-value reference in a later step. For example:
+
+.. code-block:: json
+
+   {
+     "stepId": "fidelity",
+     "protocolId": "MeasureEntangledPairFidelity",
+     "sharedParams": {
+       "backgroundObservation": "$steps.background.link.characterization.observation.background"
+     }
+   }
+
+This is a fragment: keep the fidelity step's other required inputs. The earlier
+step named ``background`` must select ``MeasureLinkBackgroundCoincidences`` and
+measure every physical detector pair required by tomography, with the same
+TimeTagger and coincidence window. Set ``backgroundCountRateHz`` to zero when
+importing a measured background object. Choose ``pbsReadout`` independently for
+the fidelity scan; a reference does not change its acquisition strategy.
+
+``stepId`` starts with a letter and contains only letters, digits, underscores
+or hyphens. It is optional for existing inputs. The syntax is
+``$steps.<stepId>.<declaredExportPath>``; references can occur in nested
+``sharedParams``, ``commonStageParams``, ``stageParamOverrides`` and individual
+``resourceRequests`` entries. A declared object export also permits importing
+its dictionary fields. Array indexing, string interpolation, expressions,
+forward/self references and scratchpad access are not supported.
+
+Preflight checks source order, declared export paths and literal input fields.
+After the source completes successfully, NodeEngine copies its exported value,
+preserves its JSON type and validates the destination's effective inputs before
+submission. Missing fields, incompatible types and required null values stop
+the plan without submitting that step. There is no default fallback for a
+missing export. Imported values are data, not recursively evaluated references.
+The manifests record input bindings, source runtime IDs/directories, and the
+original and resolved step input. This wiring does not rerun a measurement.
+
+For an offline, synthetic reconstruction-to-fidelity example, use
+``tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json``
+with that folder's existing ``network.json``. Its counts are illustrative,
+not acquired data, and neither analysis step operates hardware.
+
+Extend a raw-recording bracket
+------------------------------
+
+``CaptureRawTimeTagStream`` is the safe built-in example of a declared
+start/hold/stop/transfer bracket. Its input changes duration and capture options;
+it does not accept an arbitrary list of replacement tasks. To replace the hold
+with analyzer movement or another workflow, create an Open parent that composes
+the public built-in recording primitives, waits for each child and owns all affected
+devices.
+
+``RecordTimeTagStream`` start/stop are lifecycle primitives, not independent
+unrelated runs. The parent must keep the Time Tagger lease, supply the same
+``recordingRef`` and register terminal stop cleanup. NodeEngine stamps the
+lease-root identity; start and stop can be different child instances under the
+same root. A bare start without a responsible parent can leave a recorder open.
+See :doc:`../api/NodeEngine/MetaProtocolHandlers` for submission, waiting and
+cleanup stage contracts when developing such a library.

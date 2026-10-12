@@ -1,0 +1,569 @@
+SwabianTT Foreground Tasks
+==========================
+
+.. _deviceos-swabiantt-createlogicalchannel:
+
+.. admonition:: ``CreateLogicalChannel``
+   :class: driver-overview task-reference
+
+   Create or reuse a named logical channel.
+
+   AND accepts one or more input references and uses coincidenceWindowPs or
+   defaultCoincidenceWindowPs. OR ignores coincidenceWindowPs; NOT requires
+   exactly one input reference. Supplying an existing name with identical
+   configuration returns its channel reference with ``reused=True``.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``operator``
+        - ``str``
+        - Yes
+        - —
+        - Logical operator ``AND``, ``OR``, or ``NOT``.
+      * - ``inputRefs``
+        - ``List[Any]``
+        - Yes
+        - —
+        - Non-empty references to channels known to this driver.
+      * - ``coincidenceWindowPs``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - Coincidence window in ps for ``AND``; omit to use ``defaultCoincidenceWindowPs``. It is ignored by ``OR`` and ``NOT``.
+      * - ``name``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - Optional stable logical-channel reference; an existing name can be reused only with identical configuration.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``channelRef``
+        - ``str``
+        - Yes
+        - ``—``
+        - Stable logical-channel reference.
+      * - ``channelId``
+        - ``int``
+        - Yes
+        - ``—``
+        - Time Tagger logical-channel identifier.
+      * - ``operator``
+        - ``str``
+        - Yes
+        - ``AND, OR, NOT``
+        - Logical operator.
+      * - ``inputRefs``
+        - ``list[object]``
+        - Yes
+        - ``—``
+        - Requested input channel references.
+      * - ``resolvedInputChannels``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Resolved Time Tagger channel identifiers.
+      * - ``implementation``
+        - ``str \| None``
+        - Yes
+        - ``—``
+        - Time Tagger implementation used for the logical channel.
+      * - ``reused``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether an identical named logical channel was reused.
+
+
+.. _deviceos-swabiantt-createmeasurement:
+
+.. admonition:: ``CreateMeasurement``
+   :class: driver-overview task-reference
+
+   Create or reuse one synchronized COUNTRATE or CORRELATION measurement.
+
+   COUNTRATE requires channelRef. CORRELATION requires channelRefA and
+   channelRefB; omitted binWidthPs and binCount use the documented default
+   parameters. An existing name may be reused only with identical settings.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``measurementType``
+        - ``str``
+        - Yes
+        - —
+        - Measurement kind ``COUNTRATE`` or ``CORRELATION``.
+      * - ``channelRef``
+        - ``Any``
+        - No
+        - ``None``
+        - Channel reference required by ``COUNTRATE``.
+      * - ``channelRefA``
+        - ``Any``
+        - No
+        - ``None``
+        - First channel reference required by ``CORRELATION``.
+      * - ``channelRefB``
+        - ``Any``
+        - No
+        - ``None``
+        - Second channel reference required by ``CORRELATION``.
+      * - ``binWidthPs``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - Correlation bin width in ps; omit to use the configured default. Ignored by ``COUNTRATE``.
+      * - ``binCount``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - Number of correlation bins; omit to use the configured default. Ignored by ``COUNTRATE``.
+      * - ``name``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - Optional stable measurement reference; an existing name can be reused only with identical configuration.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``measurementRef``
+        - ``str``
+        - Yes
+        - ``—``
+        - Stable measurement reference.
+      * - ``measurementType``
+        - ``str``
+        - Yes
+        - ``COUNTRATE, CORRELATION``
+        - Measurement kind.
+      * - ``channelRefs``
+        - ``list[object]``
+        - Yes
+        - ``—``
+        - Channel references used by the measurement.
+      * - ``channelIds``
+        - ``list[int]``
+        - Yes
+        - ``—``
+        - Resolved Time Tagger channel identifiers.
+      * - ``binWidthPs``
+        - ``int \| None``
+        - Yes
+        - ``ps``
+        - Correlation bin width; null for COUNTRATE.
+      * - ``binCount``
+        - ``int \| None``
+        - Yes
+        - ``—``
+        - Correlation bin count; null for COUNTRATE.
+      * - ``reused``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether an identical named measurement was reused.
+
+
+.. _deviceos-swabiantt-resetmeasurementengine:
+
+.. admonition:: ``ResetMeasurementEngine``
+   :class: driver-overview task-reference
+
+   Reopen the measurement engine and discard its derived state.
+
+   Logical channels, measurement definitions, and active-measurement
+   selections are released. Physical trigger levels and input delays are
+   read before the reset, restored afterward, and returned as readback.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   No public parameters.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``releasedLogicalChannelCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of logical channels released during reset.
+      * - ``releasedMeasurementCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of measurements released during reset.
+      * - ``releasedActiveMeasurementCount``
+        - ``int``
+        - Yes
+        - ``—``
+        - Number of active-measurement selections released during reset.
+      * - ``timeTaggerReopened``
+        - ``bool``
+        - Yes
+        - ``—``
+        - Whether the Time Tagger measurement engine was reopened.
+      * - ``restoredChannelState``
+        - ``object``
+        - Yes
+        - ``—``
+        - Physical-channel trigger-level and input-delay state restored after reset.
+
+
+.. _deviceos-swabiantt-activatemeasurements:
+
+.. admonition:: ``ActivateMeasurements``
+   :class: driver-overview task-reference
+
+   Select the created measurements used by StartMeasurement.
+
+   The supplied references replace the active selection. Unknown references
+   fail the task; duplicates are removed while preserving their first order.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``measurementRefs``
+        - ``List[str]``
+        - Yes
+        - —
+        - List of previously created measurement references to use in the next ``StartMeasurement`` call.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``activeMeasurements``
+        - ``list[str]``
+        - Yes
+        - ``—``
+        - Measurement references selected for the next acquisition.
+
+
+.. _deviceos-swabiantt-startmeasurement:
+
+.. admonition:: ``StartMeasurement``
+   :class: driver-overview task-reference
+
+   Acquire all active synchronized measurements for durationSec.
+
+   clear resets compatible measurement handles before acquisition. With
+   rawDataMode ``node``, correlation arrays are returned in the result;
+   with ``device``, raw correlation data and a preview are scheduled as
+   device artifacts and artifactWriteState is initially ``pending``.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``durationSec``
+        - ``float``
+        - Yes
+        - —
+        - Positive acquisition duration in seconds.
+      * - ``clear``
+        - ``bool``
+        - No
+        - ``True``
+        - Clear compatible measurement handles before acquisition.
+      * - ``rawDataMode``
+        - ``str``
+        - No
+        - ``'node'``
+        - ``node`` returns correlation data in the reply; ``device`` schedules raw data and preview artifacts on disk.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``durationSec``
+        - ``float``
+        - Yes
+        - ``s``
+        - Acquisition duration.
+      * - ``activeMeasurements``
+        - ``list[str]``
+        - Yes
+        - ``—``
+        - Measurement references included in the acquisition.
+      * - ``rawDataMode``
+        - ``str``
+        - Yes
+        - ``node, device``
+        - Raw-data delivery mode.
+      * - ``timingSec``
+        - ``object``
+        - Yes
+        - ``—``
+        - Timing breakdown for the acquisition.
+      * - ``artifactDirectory``
+        - ``str \| None``
+        - Yes
+        - ``—``
+        - Directory used for scheduled device artifacts.
+      * - ``artifactWriteState``
+        - ``str``
+        - Yes
+        - ``pending, complete``
+        - Device-artifact write state.
+      * - ``results``
+        - ``object``
+        - Yes
+        - ``—``
+        - Counts and coincidence results keyed by measurement reference.
+
+
+.. _deviceos-swabiantt-recordtimetagstream:
+
+.. admonition:: ``RecordTimeTagStream``
+   :class: driver-overview task-reference
+
+   Record selected channels to one local .ttbin artifact.
+
+   ``operation='record'`` preserves the original finite-duration behavior:
+   it requires channelRefs and durationSec, then returns a completed
+   transfer-ready artifact. ``operation='start'`` starts an indefinite
+   recording and retains its FileWriter in this driver. A later
+   ``operation='stop'`` closes that writer and returns the completed
+   artifact. Only one explicit recording can be active per Time Tagger.
+
+   :Task class: Foreground
+   :Admission policy: ``async``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``channelRefs``
+        - ``Optional[List[Any]]``
+        - No
+        - ``None``
+        - Non-empty references to channels known to this driver; required for ``record`` and ``start``.
+      * - ``durationSec``
+        - ``Optional[float]``
+        - No
+        - ``None``
+        - Positive finite recording duration in seconds; required only for ``record``.
+      * - ``recordingRef``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - Optional token used in the generated artifact filename. It is required when stopping to identify the active stream.
+      * - ``recordingSubdirectory``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - Optional sanitized relative directory below the configured recording root.
+      * - ``marker``
+        - ``Optional[str]``
+        - No
+        - ``None``
+        - Optional marker forwarded to the vendor FileWriter when supported by the installed SDK.
+      * - ``maxFileSizeBytes``
+        - ``Optional[int]``
+        - No
+        - ``None``
+        - Optional maximum file size forwarded to the vendor FileWriter when supported by the installed SDK.
+      * - ``operation``
+        - ``str``
+        - No
+        - ``'record'``
+        - ``record`` (default), ``start``, or ``stop``.
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``OK``
+        - Task outcome.
+      * - ``artifact``
+        - ``object``
+        - No
+        - ``—``
+        - Transfer-ready .ttbin file-set manifest returned by a finite record or explicit stop, including the entry file, numbered data segments, per-file SHA-256/size, channel mapping, duration, and FileWriter statistics.
+      * - ``recording``
+        - ``object``
+        - No
+        - ``—``
+        - Active-recording descriptor returned by operation='start'.
+
