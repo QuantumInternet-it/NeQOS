@@ -619,22 +619,42 @@ idle, but their submitted inputs cannot be edited in place.</p>
 <p><strong>Execution</strong> follows actual runtime identities. Repeated protocol definitions
 produce distinct instances. Requeue attempts belong to the same stage;
 unstarted stages after failure or abort are <strong>Skipped</strong>, not fabricated children.
-Missing historical evidence remains unknown. <strong>Follow execution</strong> controls
-branch expansion; it does not allow selecting a historical run while busy.</p>
-<p>The graph can group an adjacent submit/wait pair and collapse iteration or
-operation branches. The original stages and requeues remain in the evidence.
-Open a group to inspect it; many operations inside one iteration are not many
-independent iterations. Archived completed branches normally start collapsed.</p>
+Missing historical evidence remains unknown. The <strong>Runs</strong> column is the run
+timeline and includes a filter and <strong>Follow the active run</strong>. While execution
+or cleanup is in progress, only the current run is available. When idle,
+selecting another run turns Follow off. Queue Pause/Resume is idle-only;
+<strong>Abort run</strong> belongs to the selected active run’s header.</p>
+<p>Run names use the saved experiment name, a network-activation label, or the
+first and last protocol names. The short run ID remains in the header and the
+full runtime identities remain in technical details. <strong>Open plan</strong> is read-only;
+<strong>Reuse plan</strong> opens a new draft in <strong>Library &amp; compose</strong>, never restarts a
+failed run implicitly. Saved experiments are also opened from Library.</p>
+<p>Execution uses a vertical tree and a wrapping plan stepper. A chevron expands
+a branch; the name selects its record independently. The <strong>NOW</strong> breadcrumb
+selects the active child chain. Follow keeps the last opened branch during
+gaps between children, and live updates retain the existing tree controls.
+Adjacent submit/wait stages can be grouped. Long completed operation sequences
+collapse to a count; their individual chips remain available. The original
+stages and requeues remain in the evidence. Many operations inside one
+iteration are not many independent iterations.</p>
 <p>Scheduled or requeued parents with non-terminal recorded children are labelled
-<strong>Waiting for child</strong>. The raw scheduler state remains in the tooltip and JSON.
-Stage continuation counts are requeues, not failed measurements or latch retries.
-Operation tiles retain distinct ordinal labels even when observation IDs repeat;
-the recorded observation appears below the ordinal and in the tooltip. No
-polarization projection is inferred from an operation’s position.</p>
+<strong>Running · in child</strong>; propagated failures show <strong>Failed · in child</strong>.
+The raw scheduler state and requeue counts remain in <strong>Technical details</strong>.
+Requeues are scheduler continuations, not failed measurements or latch retries.
+Chips use recorded projection labels only when unique; repeated observation IDs
+retain distinct ordinal labels and tooltips. No projection is inferred from
+an operation’s position.</p>
 <p>Select stages, iterations and child operations to inspect recorded timing,
 task results and leases. Handler-time totals exclude waits between invocations;
 missing device start events remain unknown. A partial live timing window is not
 an all-time total, and no percentage or ETA is inferred from dynamic stages.
+The inspector opens as a dismissible drawer and refreshes the selected record
+as the run evolves. Failure cards show the deepest recorded cause, the path,
+devices, guard and skipped steps; parent errors are in a separate disclosure.
+Cleanup without evidence is <strong>Not recorded</strong>, never assumed successful.
+Results and declared files from completed steps remain available after failure.
+Network-activation runs use a compact changes table rather than the protocol
+tree; missing previous values stay <strong>Not recorded</strong>.
 An interval between submission and an update is not a recorded stage duration.
 The inspector separates direct device tasks from tasks recorded by descendant
 protocols, with links to their owners. It shows up to 12 descendant tasks, active
