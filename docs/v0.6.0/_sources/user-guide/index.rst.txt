@@ -22,9 +22,8 @@ commands, choose :ref:`headless-inventory-run` or :ref:`browser-inventory-run`.
 
    how-neqos-works
    installation
-   upgrading-0.6.0
-   network
    quickstart
+   network
    running
    browser-interface
    recipes
@@ -33,6 +32,15 @@ commands, choose :ref:`headless-inventory-run` or :ref:`browser-inventory-run`.
    writing-hardware-driver
    protocols/index
    common-issues
+   command-line
+   error-reference
+   hardware-safety
+
+.. toctree::
+   :hidden:
+
+   upgrading-0.6.0
+   whats-new-0.6.0
 
 Which component does what?
 --------------------------

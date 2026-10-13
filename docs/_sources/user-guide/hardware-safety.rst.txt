@@ -1,0 +1,54 @@
+Hardware safety
+===============
+
+Software validation checks declared contracts, topology, readiness and resource
+ownership. It does not measure optical power, verify laboratory wiring or
+replace the equipment manufacturer's operating limits and safety procedures.
+The operator's Start action can operate real devices.
+
+Before starting or activating
+-----------------------------
+
+1. Verify device identities, serial numbers, endpoints, optical paths and
+   detector/readout pairing against the actual equipment.
+2. Review source operating modes, power and attenuation requests. An example
+   value, particularly zero attenuation, is not a safe value for your testbed.
+3. Verify each detector's permitted illumination and bias against its
+   manufacturer's limits and the laboratory's procedures.
+4. Inspect the activation changes table, persistent calibration options and
+   the protocol's restoration policy before accepting changes.
+5. Confirm that no other process or computer owns the same hardware.
+   NeQOS endpoint locks and leases are not a laboratory-wide physical interlock.
+
+No universal power or bias limit is prescribed here: it depends on the exact
+source, detector, optical losses and hardware configuration.
+
+Detector health during acquisition
+-----------------------------------
+
+A latch guard uses declared detector channels paired to the acquisition's
+TimeTagger channels. An available **G** marker means a guard can be resolved,
+not that the current run enabled it. Read the protocol's explicit
+``latchGuard`` policy.
+
+For guarded finite acquisitions, a latch-invalid window is discarded.
+A retry requires successful recovery evidence, valid health and remaining
+retry budget. Monitoring instead annotates invalid windows without retrying
+them. Count-rate traces, zero counts and a successful terminal state alone
+do not prove detector safety or measurement validity.
+See :doc:`error-reference` for the report classifications.
+
+Abort, cleanup and recovery
+---------------------------
+
+``Abort run`` stops the submitted workflow and invokes its declared cleanup.
+It is not a hardware emergency-stop guarantee and not a whole-experiment undo.
+Persistent changes and completed prior steps can remain. Follow the
+laboratory's emergency procedures when physical equipment requires intervention.
+
+Keep the relevant processes running until cleanup finishes, then inspect
+restoration replies. Missing cleanup evidence is unknown, not successful
+restoration. After failed activation, reconcile configuration drift before
+running another scientific protocol.
+
+Use :doc:`quickstart` for software-only checks before connecting hardware.

@@ -1,0 +1,37 @@
+Command-line reference
+======================
+
+The tables below are generated from the source entry points'
+``argparse`` declarations, without importing an engine, loading a driver or
+contacting hardware. Defaults are parser defaults: configuration files and
+runtime discovery can replace them.
+
+For complete launch sequences, paths and shell syntax, use :doc:`running`,
+:doc:`quickstart` and :doc:`installation`. Standalone distributions use the
+corresponding executable instead of ``python -m``.
+
+Operating-mode constraints
+--------------------------
+
+* NodeEngine requires exactly one of ``--configFile`` and ``--inventoryFile``.
+  ``--networkFile`` requires an inventory. A headless ``--metaProtocolRun``
+  in inventory mode also requires ``--networkFile``.
+* ``--serve`` and ``--metaProtocolRun`` are alternatives; repeatable
+  ``--openLibrary`` is available with ``--serve``.
+* ``--operatorData`` is a persistent directory on the NodeEngine host for
+  operator history, saved experiments and its database, not an input file.
+  Its identity is bound to the inventory and endpoint set (or legacy network).
+  Use a separate directory for a different inventory, not for each run plan.
+* DeviceOS currently uses ``--configFile`` for either a lab inventory or a
+  legacy complete network. ``--nodeId`` is an optional disambiguation when
+  deriving its device configuration.
+* DeviceOS command-line identity and transport defaults apply only without
+  a shared configuration file. SDK paths belong to ``--localConfigFile``;
+  an Open driver registry belongs to ``--openDriversFile``.
+* The offline viewer starts neither engine. ``ValidateNetwork`` checks files;
+  it does not establish hardware readiness or optical safety.
+
+``DriverContractSource --openDriversFile`` accepts the older
+``--open-drivers-file`` spelling as an alias.
+
+.. include:: ../_generated/cli-reference.rst

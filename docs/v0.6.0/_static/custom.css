@@ -152,6 +152,15 @@ table.api-table.api-runtime-settings-table {
   overflow-wrap: anywhere;
 }
 
+.browser-guide-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 36rem;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+}
+
 @media (max-width: 46em) {
   table.api-parameter-table th:nth-child(4),
   table.api-parameter-table td:nth-child(4),

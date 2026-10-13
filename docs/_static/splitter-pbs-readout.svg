@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">Declared splitter and PBS readout</title>
+  <desc id="desc">EPS feeds ROOT into SPLIT. Output 1 feeds PA on ROOT-1 with H and V outputs paired to SNSPD channels 5 and 6 and TT inputs 6 and 7. Output 2 feeds ROOT-2, SNSPD channel 7 and TT input 8. Electrical pairings are dashed.</desc>
+  <defs><marker id="optical" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#28724f"/></marker><marker id="readout" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#785399"/></marker></defs>
+  <rect width="960" height="440" fill="#ffffff"/>
+  <g font-family="Arial, sans-serif" fill="#1b1f24">
+    <text x="24" y="34" font-size="22" font-weight="bold">Splitter + PBS: declared paths and readout pairing</text>
+    <g fill="none" stroke="#28724f" stroke-width="3" marker-end="url(#optical)">
+      <path d="M125 231 H168"/>
+      <path d="M290 216 H318 V137 H354"/>
+      <path d="M490 137 H608"/>
+      <path d="M490 213 H540 V229 H608"/>
+      <path d="M290 268 H320 V321 H608"/>
+    </g>
+    <g fill="none" stroke="#785399" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#readout)">
+      <path d="M742 137 H802"/><path d="M742 229 H802"/><path d="M742 321 H802"/>
+    </g>
+    <g fill="#f4f7f5" stroke="#cfd5de" stroke-width="2">
+      <rect x="24" y="192" width="100" height="80"/><rect x="170" y="185" width="120" height="105"/>
+      <rect x="355" y="96" width="135" height="144"/>
+      <rect x="610" y="80" width="132" height="282"/><rect x="804" y="80" width="132" height="282"/>
+    </g>
+    <g font-size="18" text-anchor="middle">
+      <text x="74" y="222" font-weight="bold">EPS</text><text x="74" y="248">source</text>
+      <text x="230" y="216" font-weight="bold">SPLIT</text><text x="230" y="242">passive</text><text x="230" y="271">ports 1 / 2</text>
+      <text x="422" y="126" font-weight="bold">PA ch 1</text><text x="422" y="166">PBS</text><text x="470" y="146">H</text><text x="470" y="219">V</text>
+      <text x="676" y="107" font-weight="bold">SNSPD</text><text x="676" y="146">ch 5</text><text x="676" y="238">ch 6</text><text x="676" y="330">ch 7</text>
+      <text x="870" y="107" font-weight="bold">TT</text><text x="870" y="146">input 6</text><text x="870" y="238">input 7</text><text x="870" y="330">input 8</text>
+    </g>
+    <g font-size="16">
+      <text x="128" y="176">ROOT</text><text x="320" y="77">ROOT-1</text><text x="336" y="306">ROOT-2</text>
+      <text x="506" y="119">H</text><text x="550" y="211">V</text>
+      <text x="24" y="397" fill="#28724f">Solid: optical declaration</text>
+      <text x="290" y="397" fill="#785399">Dashed: electrical pairing</text>
+      <text x="24" y="424">Schematic only: verify physical cabling and detector protection independently.</text>
+    </g>
+  </g>
+</svg>

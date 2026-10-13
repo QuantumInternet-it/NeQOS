@@ -15,6 +15,71 @@ not sufficient.
 The library's network uses ``FakeNodeId`` and ``FakeDeviceId`` with localhost
 endpoints. Leave those identities consistent across the network and input.
 
+First browser run with a Fake inventory
+---------------------------------------
+
+This route uses a real NodeEngine and DeviceOS with a software-only Fake
+driver. No optical hardware is configured, but both processes still require
+valid licenses. Use the source-checkout commands below; standalone executables
+need the matching Fake driver and its registry on the DeviceOS host.
+
+Download these three files into a shared working directory:
+
+* :download:`lab-inventory.json <../examples/InventoryFake/lab-inventory.json>`
+* :download:`network-gain-2.json <../examples/InventoryFake/network-gain-2.json>`
+* :download:`network-gain-3.json <../examples/InventoryFake/network-gain-3.json>`
+
+From the source repository root, start DeviceOS in terminal A, using the
+inventory's path rather than an experiment network or a run plan:
+
+.. code-block:: bash
+
+   python -m DeviceOSPack.DeviceOS \
+     --licenseFile "/path/to/license-DeviceOS.json" \
+     --configFile "./DocumentationFolder/examples/InventoryFake/lab-inventory.json" \
+     --deviceId FakeDeviceId \
+     --openDriversFile "./DeviceOSPack/OpenDrivers/OpenDrivers.json"
+
+In terminal B:
+
+.. code-block:: bash
+
+   python -m NodeEnginePack.NodeEngine \
+     --licenseFile "/path/to/license-NodeEngine.json" \
+     --inventoryFile "./DocumentationFolder/examples/InventoryFake/lab-inventory.json" \
+     --nodeId FakeNodeId \
+     --serve --operatorPort 8768 \
+     --operatorData "./OperatorData-FakeInventory"
+
+The quoted paths are placeholders except for the repository examples.
+For downloaded files, replace the example paths with their absolute paths.
+Use a separate operator data directory from your laboratory inventory; do
+not delete or reuse the laboratory's database for this test.
+Open ``http://127.0.0.1:8768`` and enter the startup token printed by NodeEngine.
+
+1. In **Network & devices**, load ``network-gain-2.json``. Check that the
+   draft contains ``FakeDeviceId`` and the requested gain is 2.
+2. Wait for the device to be connected, initialized and ready. Use
+   **Validate network**, inspect the changes and then **Activate network**.
+   The activation run must complete before scientific runs are available.
+3. Open **Library & compose**, select the built-in library and search for
+   ``HoldDuration``. Add one occurrence with ``durationSec`` set to 2 and
+   ``resourceDeviceIds`` set to ``["FakeDeviceId"]``.
+4. Use **Validate with NodeEngine** and check that the resource plan reserves
+   only ``FakeDeviceId``. Start the run.
+5. Follow **Execution** until ``COMPLETED``. Inspect the published
+   ``execution.control.status.holdDuration`` export and the selected run's
+   result files. This proves orchestration and leasing, not photon acquisition.
+6. When idle, load ``network-gain-3.json``, validate and activate it.
+   Its changes table should request gain 3. Neither DeviceOS nor NodeEngine
+   needs restarting for this experiment-setting change.
+
+An optional negative check is
+:download:`network-invalid-gain-11.json <../examples/InventoryFake/network-invalid-gain-11.json>`:
+gain 11 must be rejected by validation, without an activation write.
+Keep DeviceOS running through completion and cleanup.
+See :doc:`browser-interface` for queue, abort and history controls.
+
 Windows standalone distributions
 ---------------------------------
 

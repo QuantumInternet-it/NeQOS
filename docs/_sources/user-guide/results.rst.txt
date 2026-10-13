@@ -30,10 +30,37 @@ Read the execution record
 -------------------------
 
 ``RunPlan_*`` contains the plan manifest and the executed parent/child protocol relationships.
-``Sxx`` denotes a stage; ``Nxx`` denotes a logical iteration; a nested ``Syy``
-is an operation within that iteration. With verbose names, protocol IDs help
+``Sxx`` denotes a parent stage, numbered from 1. For simple child submissions,
+``Nxx`` is the submission ordinal within that stage. A looping stage can
+instead group children as ``Sxx/Nxx/Syy``: ``Nxx`` then denotes the logical
+iteration and ``Syy`` the ordered operation within it.
+With verbose names, a hyphen and protocol ID help
 identify the child. Do not treat ``Nxx`` as a global detector or protocol
 counter, and do not assume every directory level contains a result file.
+
+An illustrative folder tree (actual stage and child names vary):
+
+.. code-block:: text
+
+   MetaProtocolResults/
+     RunPlan_<id>/
+       run-manifest.json
+       S01/
+         N01-<protocol>/
+           run-manifest.json
+           run-inputs.json
+           run-stages.jsonl
+           run-lifecycle.json
+           run-exports.json
+           result.json
+           S01/
+             N01-<child>/
+               run-manifest.json
+               ...
+
+Terminal evidence files and ``result.json`` appear only when their respective
+recording/publication points have been reached. Follow the paths recorded in
+the manifests instead of constructing them from this illustration.
 
 At a protocol publication point:
 

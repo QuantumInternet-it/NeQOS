@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "fake-inventory-smoke",
+  "nodes": [
+    {
+      "nodeId": "FakeNodeId",
+      "enabled": true,
+      "devices": [
+        {
+          "deviceId": "FakeDeviceId",
+          "deviceType": "Fake",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "127.0.0.1",
+            "syncCmdPort": 49201,
+            "asyncCmdPort": 49211,
+            "telemetryPort": 49221
+          },
+          "driverConfig": {},
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

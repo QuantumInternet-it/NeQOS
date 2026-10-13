@@ -1,0 +1,75 @@
+Acquisition and detector error reference
+========================================
+
+These classifications come from the acquisition service's latch-guard reports,
+not from the protocol's terminal state alone. Inspect the failing child's
+manifest, device replies and guard report; a parent can report the child's
+failure without containing the original detector evidence.
+See :doc:`results` and :doc:`hardware-safety`.
+
+Finite acquisition windows
+--------------------------
+
+.. list-table::
+   :header-rows: 1
+   :class: api-table
+
+   * - Classification
+     - Meaning
+     - What to inspect
+   * - ``DETECTOR_HEALTH_INVALID``
+     - A selected detector's health read failed validation before or after
+       the acquisition. The window is not accepted.
+     - The specific device, health reply, required channels and underlying
+       failure message. Missing or stale evidence is not healthy evidence.
+   * - ``DETECTOR_RECOVERY_FAILED``
+     - Detector health or window recovery explicitly reports ``FAILED``.
+     - Recovery attempts and device-side failures. Do not assume an additional
+       run will repair the detector.
+   * - ``DETECTOR_LATCH_UNRECOVERED``
+     - A latch counter changed during the window, but the guard could not
+       establish successful recovery for every affected detector.
+     - ``healthBeforeByDevice``, ``healthAfterByDevice``,
+       ``recoveryStatusByDevice`` and ``lastRecovery``.
+   * - ``DETECTOR_LATCH_RETRY_EXHAUSTED``
+     - All affected detectors recovered, but the permitted additional windows
+       have been used. The last latch-invalid window is still discarded.
+     - ``maxWindowRetries``, ``attemptCount`` and the ordered
+       ``attempts``. Retries are additional to the initial window.
+   * - ``DETECTOR_LATCH_RECOVERED_RETRYING_WINDOW``
+     - A discarded-window reason, not a terminal failure. Recovery is confirmed
+       and a new integration window will be attempted within the retry budget.
+     - The next attempt and whether it was accepted. Successful recovery does
+       not make the discarded measurement valid.
+
+A healthy final read can legitimately say ``recoveryStatus: NOT_NEEDED``.
+It describes that read, not the entire acquisition interval. Photec's
+``lastRecovery`` retains the preceding recovery outcome and latch counter;
+the guard can use it only when it matches the window's changed counter.
+An unrelated historical recovery must not authorize a retry.
+
+Monitoring annotations
+-----------------------
+
+``DETECTOR_LATCH_ANNOTATED_RECOVERED`` and
+``DETECTOR_LATCH_ANNOTATED_UNRECOVERED`` mark invalid monitoring windows.
+Monitoring retains the window as evidence, does not retry it, and excludes
+invalid windows from aggregate statistics. These annotations are not a claim
+that the entire monitoring protocol failed or that zero counts prove a latch.
+
+Operator and configuration failures
+------------------------------------
+
+* **Operator data belongs to another network**: the persistent data directory
+  belongs to a different inventory/network and endpoint identity. Choose a
+  separate directory; do not delete a laboratory archive to run a Fake test.
+* **Configuration drift**: a failed activation left settings unresolved.
+  Inspect its changes and replies, then validate and activate the intended
+  network before submitting scientific runs.
+* **Planner unavailable**: a catalog entry lacks audited browser planning.
+  Inspect its contract; changing its resources does not bypass this boundary.
+* **409 / operator locked**: execution or cleanup is active. Observe or abort
+  the current run as appropriate; wait for cleanup before editing or submitting.
+
+This page covers these common classifications, not every vendor SDK error.
+Full messages and device replies remain authoritative diagnostic evidence.

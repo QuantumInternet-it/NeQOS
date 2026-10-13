@@ -87,8 +87,8 @@ Generate the manifest from a source checkout, then check it after driver edits:
 
 .. code-block:: bash
 
-   python -m CommonFiles.DriverContractSource --open-drivers-file /path/to/OpenDrivers.json
-   python -m CommonFiles.DriverContractSource --open-drivers-file /path/to/OpenDrivers.json --check
+   python -m CommonFiles.DriverContractSource --openDriversFile /path/to/OpenDrivers.json
+   python -m CommonFiles.DriverContractSource --openDriversFile /path/to/OpenDrivers.json --check
 
 ``contractPath`` names the generated JSON relative to the registry. It is a
 derived artifact, not another file to maintain by hand. Generation and offline

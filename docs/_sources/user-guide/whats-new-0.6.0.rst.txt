@@ -1,0 +1,30 @@
+What's new in 0.6.0
+===================
+
+0.6.0 is the latest documentation and the default site entry.
+The 0.5.0 documentation remains a historical snapshot. The latest guide can be
+updated as development continues; its label does not freeze a release archive.
+Use :doc:`upgrading-0.6.0` for migration details.
+
+* **Browser operation**: NodeEngine can serve an authenticated local interface
+  for composing and validating supported protocols, execution, abort, queue
+  management and recorded results. See :doc:`browser-interface`.
+* **Inventory and experiment separation**: stable equipment configuration is
+  separate from hot-activated experiment topology and operating settings.
+  Activation records changes and read-backs; unresolved drift blocks runs.
+  See :doc:`network`.
+* **Driver-owned configuration contracts**: generated manifests provide
+  offline validation for built-in and Open drivers. Runtime fingerprints check
+  agreement with the live driver. See :doc:`writing-hardware-driver`.
+* **Execution records**: compact manifests link complete inputs, stage history,
+  exports and lifecycle evidence. The operator retains its own persistent
+  experiment and run history. See :doc:`results`.
+* **Detector monitoring**: the browser's Detectors page and compact monitor show
+  timestamped Photec counts and reported health, with telemetry recordings.
+  Latch-guard recovery evidence remains distinct from final-read health.
+* **Software-only checks**: :doc:`quickstart` includes a Fake inventory,
+  experiment activation and a browser run without optical hardware.
+
+Browser catalog visibility is not universal execution support. The current
+coverage list is generated from the audited planner in :doc:`browser-interface`.
+Keep NodeEngine, DeviceOS, driver manifests and examples from matching builds.

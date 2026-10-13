@@ -12,6 +12,9 @@ install, configure and run the software, and the API Reference to extend it.
 Source code, release archives, and project updates are available in the
 `NeQOS GitHub repository <https://github.com/QuantumInternet-it/NeQOS>`_.
 
+See :doc:`What's new in 0.6.0 <user-guide/whats-new-0.6.0>` for inventory
+activation, browser operation and execution-record changes.
+
 User guide
 ----------
 
@@ -19,6 +22,10 @@ User guide
   composition, execution and extensibility.
 * :doc:`NeQOS User Guide <user-guide/index>`: installation, network setup,
   protocol runs and results.
+* :doc:`Use the browser interface <user-guide/browser-interface>`: activate
+  an experiment, compose and validate runs, inspect execution and monitor detectors.
+* :doc:`First run without hardware <user-guide/quickstart>`: test orchestration
+  from the command line or browser with a Fake device.
 * :doc:`LLM Authoring Guide <llm-authoring>`: creating Open
   libraries with downloadable instructions for your LLM.
 

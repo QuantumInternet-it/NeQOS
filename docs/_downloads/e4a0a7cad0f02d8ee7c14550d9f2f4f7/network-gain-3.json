@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "experiment-1",
+  "inventoryId": "fake-inventory-smoke",
+  "networkId": "fake-gain-3",
+  "quantumLinks": [],
+  "devices": [
+    {
+      "deviceId": "FakeDeviceId",
+      "settings": {
+        "gain": 3.0
+      }
+    }
+  ]
+}

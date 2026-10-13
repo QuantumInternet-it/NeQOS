@@ -264,6 +264,16 @@ non-zero if any selected network has an error.
 
 Full topology example with one splitter and a PBS analyzer:
 
+.. figure:: /_static/splitter-pbs-readout.svg
+   :alt: EPS ROOT enters a passive splitter; ROOT-1 passes through a PBS to
+         SNSPD channels 5 and 6 paired with TT inputs 6 and 7; ROOT-2 uses
+         SNSPD channel 7 paired with TT input 8.
+   :width: 100%
+   :target: ../_static/splitter-pbs-readout.svg
+
+   The JSON below declares this schematic. Optical paths and electrical
+   readout pairing are distinct; SNSPD and TT each remain one physical device.
+
 .. code-block:: json
 
    {

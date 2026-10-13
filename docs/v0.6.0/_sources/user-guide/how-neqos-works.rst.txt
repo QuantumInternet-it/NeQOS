@@ -108,9 +108,11 @@ The NodeEngine is the orchestration process. It:
 * collects telemetry and writes the execution record.
 
 The NodeEngine can run on any host that reaches the DeviceOS processes; its
-location is independent of the hardware. In the current release one NodeEngine
-coordinates the devices of one logical network node, selected with
-``--nodeId``.
+location is independent of the hardware. ``--nodeId`` identifies the engine.
+In inventory mode its aggregated view can coordinate devices owned by several
+inventory nodes; in legacy single-file mode it selects one node's local view.
+With ``--serve``, the same process also serves the authenticated browser
+interface; the browser is not a separate execution engine.
 
 DeviceOS and the DeviceEngine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -166,6 +168,14 @@ validates and activates each experiment through the scheduler, records the
 configuration fingerprints and read-backs, and blocks scientific runs until a
 network is active and any failed-activation drift has been resolved.
 
+.. figure:: /_static/inventory-experiment-lifecycle.svg
+   :alt: Inventory supplies process startup; experiment networks are chosen,
+         validated and activated while idle before scientific runs.
+   :width: 100%
+   :target: ../_static/inventory-experiment-lifecycle.svg
+
+   Stable startup configuration and hot experiment activation are separate.
+
 The network description
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -176,7 +186,7 @@ The **network description** (``network.json``) declares the physical network:
 * the **quantum links** and, for each device, its **link bindings**: which
   device channel serves which link, and in which role (``source``,
   ``inlineAttenuator``, ``polarizationAnalyzer``, ``polarizationAligner``,
-  ``sink``);
+  ``sink``, ``splitterInput`` and ``splitterOutput``);
 * physical details the protocols need, such as analyzer measurement topology
   and output ports, time-tagger input channels, detector-health wiring and
   hardware parameter limits.
@@ -289,9 +299,17 @@ Running a service
 
 The request for a service is a **run plan** (``input.json``): it names the
 library and an ordered list of steps, each with a protocol and the inputs to
-override. The NodeEngine is started with the network description
-(``--configFile``), the node (``--nodeId``) and the run plan
-(``--metaProtocolRun``). See :doc:`running`.
+override. For a headless inventory run, start NodeEngine with
+``--inventoryFile``, ``--networkFile``, ``--nodeId`` and
+``--metaProtocolRun``; add ``--waitProtocol`` to wait for completion.
+Legacy single-file runs use ``--configFile`` instead of the inventory and
+experiment files.
+
+For browser operation, start NodeEngine with ``--serve`` and the inventory,
+then validate and activate the experiment and submit its run from the
+interface. ``--serve`` and ``--metaProtocolRun`` are alternatives.
+Closing the browser does not stop the engine or an experiment.
+See :doc:`running` and :doc:`browser-interface`.
 
 For each step, the NodeEngine:
 
@@ -381,6 +399,10 @@ Glossary
 
 .. glossary::
 
+   Activation
+      A scheduled application of a validated experiment network's operating
+      settings, with device replies and read-back evidence. See :doc:`network`.
+
    Built-in catalog
       The protocols shipped with NodeEngine (library ``neqos-protected``).
 
@@ -400,6 +422,20 @@ Glossary
       acquiring counts. Foreground tasks run one at a time; background tasks
       run concurrently.
 
+   Driver contract manifest
+      A generated JSON description of a driver's kind, task surface and
+      configuration policy. It supports offline validation without importing
+      hardware SDKs; NodeEngine checks its fingerprint against the live driver.
+
+   Drift
+      Unresolved differences after a failed network activation. Scientific runs
+      are blocked until the configuration has been reconciled; a failure does
+      not imply rollback.
+
+   Experiment network
+      An ``experiment-1`` document selecting inventory devices, quantum links,
+      bindings and operating settings. Validate and activate it before a run.
+
    Execution record
       Everything a run leaves behind: the ``RunPlan_*`` tree with
       ``result.json``, ``run-manifest.json`` and artifacts.
@@ -410,6 +446,16 @@ Glossary
 
    Hardware driver
       The adapter between abstract device tasks and a vendor's device.
+
+   Inventory
+      An ``inventory-1`` document declaring stable equipment, endpoints and
+      boot configuration. Changes to this startup configuration require restarting
+      the affected processes, unlike experiment activation.
+
+   Latch guard
+      A declared detector-health policy for an acquisition window. It uses the
+      exact detector/readout pairing; invalid finite windows are discarded and
+      retried only when recovery evidence and the retry budget allow it.
 
    Lease
       Exclusive use of a device by one protocol. The lease root holds it; a
@@ -436,6 +482,10 @@ Glossary
    Open library
       A user-supplied set of protocol definitions and optional handlers.
 
+   Operator
+      The authenticated service hosted by NodeEngine with ``--serve``, and
+      its browser interface for network activation, validated runs and history.
+
    Parent protocol
       A protocol whose stage invokes another protocol. Parent and child are a
       runtime relationship, not a hierarchy.
@@ -448,8 +498,22 @@ Glossary
       The ``input.json`` request: a library and an ordered list of protocol
       steps with their input overrides.
 
+   Readout pairing
+      The declared association between an optical output, a detector channel
+      and a TimeTagger input. It determines the exact health guard mapping;
+      an available association is not evidence that a run enabled the guard.
+
+   Run queue
+      Persisted operator submissions waiting for execution. Pending plans are
+      revalidated before starting; resuming a queue does not retry a failed run.
+
    Stage
       One step of a protocol: a handler, a device task, or a child protocol.
+
+   Sub-link
+      A quantum link whose ``parentLinkId`` names its upstream link, for
+      example a passive splitter output. Link lineage preserves that declared
+      relationship; it does not measure the physical cable path.
 
    Task surface
       What a device offers to the NodeEngine: its device tasks, parameters,
