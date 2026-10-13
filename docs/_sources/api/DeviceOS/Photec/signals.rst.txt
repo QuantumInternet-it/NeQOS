@@ -22,6 +22,22 @@ Photec Signals
         - ``object``
         - —
         - Latest counts for all 16 controller channels, keyed by 1-based channel number.
+      * - ``countIntegrationTimeMs``
+        - ``int``
+        - —
+        - Integration associated with this count sample.
+      * - ``countSampleEpoch``
+        - ``float``
+        - —
+        - Controller read time, not telemetry publication time.
+      * - ``countSampleId``
+        - ``str``
+        - —
+        - Identity of the actual controller read; unchanged for cached telemetry.
+      * - ``countSampleValid``
+        - ``bool``
+        - —
+        - False during integration settling or invalid detector health.
       * - ``counts``
         - ``object``
         - —
@@ -61,5 +77,5 @@ Photec Signals
       * - ``recoveryStatus``
         - ``str``
         - —
-        - Health recovery outcome: NOT_NEEDED, PENDING, RECOVERED, or FAILED.
+        - Recovery outcome of the latest health read: NOT_NEEDED, PENDING, RECOVERED, or FAILED; historical recovery evidence is returned by ReadDetectorHealth.lastRecovery.
 

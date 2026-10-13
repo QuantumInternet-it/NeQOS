@@ -3,14 +3,14 @@ DeviceOS Runtime Setup
 
 Vendor SDKs and native libraries are installed on the DeviceOS host and are not redistributed with NeQOS.
 
-DeviceOS reads ``config/DeviceOS.local.json`` automatically when present. In a standalone release, it searches beside the executable before loading the selected driver. Use ``--localConfigFile <path>`` to select another local-runtime JSON file.
+DeviceOS searches for ``config/DeviceOS.local.json`` and ``DeviceOSPack/config/DeviceOS.local.json`` under the executable, launcher, module and working directories, in that order, before loading the selected driver. It does not search for a bare DeviceOS.local.json beside the executable. Use ``--localConfigFile <path>`` to select another local-runtime JSON file.
 
 Local settings belong to the host machine. Do not place them in ``network.json``.
 
 .. rubric:: Local runtime configuration
    :class: invocation-heading
 
-Copy ``DeviceOS.local.json.example`` to ``DeviceOS.local.json`` and adapt paths to the installed vendor software:
+Create or adapt ``config/DeviceOS.local.json`` below DeviceOS.dist, or select a host-local file with ``--localConfigFile``. An older archive's ``.example`` file must first be copied to the active filename. Verify the directories against the vendor installation:
 
 .. code-block:: json
 
@@ -18,11 +18,21 @@ Copy ``DeviceOS.local.json.example`` to ``DeviceOS.local.json`` and adapt paths 
      "environment": {
        "SWABIAN_TIMETAGGER_PYTHON_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\python",
        "SWABIAN_TIMETAGGER_NATIVE_PATH": "C:\\Program Files\\Swabian Instruments\\Time Tagger\\driver\\x64",
-       "NEQOS_DEVICE_ARTIFACT_DIR": "C:\\NeQOSData\\DeviceArtifacts",
-       "THORLABS_KINESIS_PATH": "C:\\Program Files\\Thorlabs\\Kinesis",
-       "NEQOS_CALIBRATION_DIR": "C:\\NeQOS\\DeviceCalibrations"
+       "THORLABS_KINESIS_PATH": "C:\\Program Files\\Thorlabs\\Kinesis"
      }
    }
+
+Only the SDK settings shown above are applied from this JSON. For Swabian, both paths must be present in the loaded JSON and refer to existing directories; shell variables alone do not satisfy the startup check. Correct a missing file/key before considering recompilation.
+
+Set ``NEQOS_LOG_DIR``, ``NEQOS_DEVICE_ARTIFACT_DIR`` and ``NEQOS_CALIBRATION_DIR`` in the process environment before launching DeviceOS, not in this JSON. For example, in a Windows Command Prompt launcher:
+
+.. code-block:: bat
+
+   set "NEQOS_LOG_DIR=C:\NeQOSData\logs"
+   set "NEQOS_DEVICE_ARTIFACT_DIR=C:\NeQOSData\DeviceArtifacts"
+   set "NEQOS_CALIBRATION_DIR=G:\NeQOS-shared\calibration"
+
+Paths are examples. Check write access and preserve existing calibration tables; changing a directory variable does not migrate files. See :doc:`installation </user-guide/installation>` and :doc:`the 0.6.0 upgrade checklist </user-guide/upgrading-0.6.0>`.
 
 .. rubric:: Driver requirements
    :class: invocation-heading
@@ -31,15 +41,41 @@ Copy ``DeviceOS.local.json.example`` to ``DeviceOS.local.json`` and adapt paths 
    :header-rows: 1
    :width: 100%
    :class: api-table api-runtime-driver-table
-   :widths: 28 30 42
+   :widths: 24 24 20 32
 
    * - Driver
      - Vendor software
-     - Local settings
+     - Python dependency
+     - SDK JSON / process environment settings
+   * - :doc:`NuCrypt EPS1000W Entangled-Photon Source <Eps1000W>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
+   * - :doc:`NuCrypt PA1000/PA2000 Polarization Controller <PaX000>`
+     - No additional vendor SDK declared
+     - pyserial
+     - ``NEQOS_CALIBRATION_DIR``
+   * - :doc:`Photec SNSPD Controller <Photec>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
    * - :doc:`Swabian Instruments Time Tagger <SwabianTT>`
      - Swabian Instruments Time Tagger software
+     - TimeTagger (vendor API)
      - ``SWABIAN_TIMETAGGER_PYTHON_PATH``, ``SWABIAN_TIMETAGGER_NATIVE_PATH``, ``NEQOS_DEVICE_ARTIFACT_DIR``
+   * - :doc:`Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>`
+     - No additional vendor SDK declared
+     - pyserial
+     - —
    * - :doc:`Thorlabs MPC320 Polarization Controller <Mpc320>`
      - Thorlabs Kinesis
+     - pythonnet
      - ``THORLABS_KINESIS_PATH``, ``NEQOS_CALIBRATION_DIR``
+   * - :doc:`Fake Driver (Software-only Evaluation) <Fake>`
+     - No additional vendor SDK declared
+     - None beyond the runtime
+     - —
+
+
+Python dependencies listed above describe driver requirements; a standalone release may already bundle them. Vendor SDK compatibility must match the distributed Python/runtime architecture. No automatic dependency installation is performed.
 

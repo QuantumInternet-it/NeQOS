@@ -1,0 +1,72 @@
+Common issues
+=============
+
+Use these checks for installation and host-configuration problems. For failed
+protocols, device readiness and execution-record diagnostics, see :doc:`results`.
+
+.. _windows-zip-path-too-long:
+
+Windows ZIP extraction fails: path too long
+-------------------------------------------
+
+Extraction may stop with a filename/path-too-long message and leave an
+incomplete distribution. This symptom alone does not prove that the ZIP is
+corrupt.
+
+Some Windows applications still use the classic ``MAX_PATH`` limit of 260
+characters. It concerns the complete destination path, not just the filename:
+the extraction directory, directories stored inside the archive and the
+filename all contribute. Deep extraction destinations can therefore make the
+same archive fail on one PC and extract successfully on another.
+See Microsoft's `path-length documentation
+<https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation>`_.
+
+Extract to a short directory first
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Choose a new, empty directory with a short path and write permission, such
+   as ``C:\NeQOS`` or ``D:\N``. A deeply nested Downloads, Desktop or synchronized
+   folder adds to every extracted path; the issue is path length, not proof
+   that synchronization caused the failure.
+2. Set that directory explicitly as the extractor's destination. Avoid an
+   additional automatically created folder named after a long archive filename.
+   Extract the **entire** distribution, preserving its internal directory
+   structure.
+3. Retry from the original ZIP rather than mixing a partial extraction with an
+   existing installation. After success, follow :doc:`installation` to check
+   the extracted distribution before connecting hardware.
+
+Do not rename or flatten internal library, protocol or driver directories to
+make paths shorter: NeQOS depends on their relative locations. Renaming the ZIP
+does not rename its internal entries. Keep edited configurations, calibration
+tables and previous results separate from this fresh extraction.
+
+Optional: Windows long-path support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On Windows 10 version 1607 and later, long paths can be enabled for supported
+applications. The system setting alone is insufficient: the application must
+also opt in (``longPathAware``).
+
+An administrator can set the DWORD ``LongPathsEnabled`` to ``1`` under
+``HKLM\SYSTEM\CurrentControlSet\Control\FileSystem``. Where Group Policy is
+available, the corresponding option is **Enable Win32 long paths**, under
+**Computer Configuration > Administrative Templates > System > Filesystem**.
+Restart affected applications; a Windows restart may be needed. On a managed
+PC, ask IT before changing system policy.
+
+Follow the `Microsoft instructions
+<https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation#enable-long-paths-in-windows-10-version-1607-and-later>`_.
+This setting does not guarantee that every extraction tool, runtime or vendor
+library supports long paths. Keeping the installation path short is still a
+useful compatibility measure.
+
+If extraction still fails
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Try an extraction tool with documented long-path support for your Windows
+version, still using a short destination. If that also fails, record the
+NeQOS archive filename/version, Windows version, extraction tool/version,
+destination directory, failing archive entry and exact error message.
+Send those details to the maintainer; the archive layout or extractor may need
+further investigation. Do not share license credentials.

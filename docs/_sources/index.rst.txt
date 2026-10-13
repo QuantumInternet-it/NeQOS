@@ -22,6 +22,12 @@ User guide
 * :doc:`LLM Authoring Guide <llm-authoring>`: creating Open
   libraries with downloadable instructions for your LLM.
 
+Extending NeQOS
+---------------
+
+* :doc:`Writing a meta-protocol <user-guide/writing-meta-protocols>`: contracts, static and dynamic child composition, results and cleanup.
+* :doc:`Writing a hardware driver <user-guide/writing-hardware-driver>`: Open registration, lifecycle, tasks, telemetry and configuration.
+
 API reference
 -------------
 

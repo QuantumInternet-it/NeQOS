@@ -1,5 +1,5 @@
-4. Run and customize a protocol
-===============================
+Run and customize a protocol
+============================
 
 Copy the input and network together
 -----------------------------------
@@ -16,7 +16,7 @@ Copy them to your working directory. Edit the network as described in
 **all** ``steps``: some shipped inputs demonstrate multiple modes and will
 execute more than once. Keep only the intended step for a single-protocol test.
 
-Do not edit the Reserved ``protocol.json`` merely to change measurement duration
+Do not edit a built-in ``protocol.json`` merely to change measurement duration
 or device identity. Override its declared inputs through the run plan instead.
 The definitions/implementations belong to the compiled catalog; edited external
 JSON is not a substitute for recompiling changed compiled behavior.
@@ -56,45 +56,65 @@ For a direct count-rate measurement of Time Tagger channels 1 and 2:
      ]
    }
 
-This explicitly chooses an unguarded measurement. To enable protection, change
-``mode`` to ``required``, supply a retry budget and add the network-resolved
-health-device union to ``resourceDeviceIds``. Do not copy the unguarded choice
+This explicitly chooses an unguarded measurement, with the TimeTagger as its
+only resource. For a guarded counterpart and the exact device union to declare,
+see :ref:`latch-guard-resource-declarations`. Do not copy the unguarded choice
 into a protected experiment by omission or accident.
 
-For an Open pack, the library additionally declares ``folder``. Use the pack's
+For an Open library, the library additionally declares ``folder``. Use the library's
 own run example: relative library folders resolve against the run input's
-location. Reserved runs declare ``neqos-protected`` and do not need an Open
+location. Built-in run plans declare ``neqos-protected`` and do not need an Open
 folder.
 
 Launch DeviceOS, then NodeEngine
 --------------------------------
 
-Start one DeviceOS per required device, using its host and hardware runtime.
-For a Windows launcher:
+Start one DeviceOS per enabled active inventory device on its hardware host,
+then start one NodeEngine in the mode described in
+:ref:`choose-nodeengine-operation` below. For the single-file examples shipped
+with protocols, use :ref:`single-file-operation` instead. Do not pass an
+``experiment-1`` file directly to DeviceOS.
 
-.. code-block:: bat
-
-   C:\NeQOS\DeviceOS.dist\DeviceOS.exe ^
-     --licenseFile "C:\NeQOSConfig\license.json" ^
-     --configFile "C:\NeQOSConfig\network.json" ^
-     --deviceId ExampleTimeTaggerId
-
-Wait for readiness, then launch NodeEngine on its host:
-
-.. code-block:: bat
-
-   C:\NeQOS\NodeEngine.dist\NodeEngine.exe ^
-     --licenseFile "C:\NeQOSConfig\license.json" ^
-     --configFile "C:\NeQOSConfig\network.json" ^
-     --nodeId ExampleNodeId ^
-     --metaProtocolRun "C:\NeQOSConfig\input.json" ^
-     --waitProtocol ^
-     --verboseRunFolders
-
-In a source checkout, use the Python prefix shown in :doc:`quickstart`.
 There is no ``--protocolId`` selector: select protocols inside the run input.
-The network is ``--configFile``; the list of operations is ``--metaProtocolRun``.
-Keep hardware processes alive through terminal cleanup.
+Keep DeviceOS processes alive through terminal cleanup. If upgrading existing
+launchers, first read :doc:`upgrading-0.6.0`.
+
+.. _protocol-timeouts:
+
+Declared timeouts and async completion waits
+---------------------------------------------
+
+The protocol-sheet badge shows the contract's declared ``timeoutSec``. In the
+current handler-backed execution path, this field is not a general deadline
+around the handler or the entire protocol. Actual device waits and handler
+termination conditions must be checked separately; requeue/repeat alone does
+not establish an elapsed-time bound.
+
+Async admission separates the acknowledgement from task completion. The
+NodeEngine async ACK wait is 10 s; its default task-completion wait is 30 s.
+For ``StartMeasurement`` and finite ``RecordTimeTagStream`` recordings
+(``operation: "record"``, also the default when omitted), completion waiting
+is extended to the greater of 30 s and ``durationSec + 60 s`` for finalization.
+A 300 s recording therefore has a 360 s completion wait. The same bound
+applies when recovering a lost async ACK from task-state telemetry.
+``RecordTimeTagStream`` operations ``start`` and ``stop`` retain the default
+30 s completion wait. ``RecordTimeTagStream`` declares no protocol-level
+timeout; its previous unenforced 120 s catalog value has been removed.
+
+.. warning::
+
+   The requested duration is the recording window, not the total run time.
+   Completion waiting includes a bounded finalization margin; a stalled task
+   or file finalization that exceeds that margin can still time out. Treat
+   only a successfully completed, published artifact as a valid result.
+
+For a long bracketed capture, inspect :doc:`protocols/CaptureRawTimeTagStream`
+and its start/hold/stop/transfer lifecycle. The parent must retain the Time
+Tagger lease and guarantee closure; start/stop task finalization still has
+completion waits. Treat an active or unclaimed device artifact as recovery
+evidence, not a successfully published recording.
+
+.. _choose-nodeengine-operation:
 
 Choose command-line or browser operation
 ----------------------------------------
@@ -103,52 +123,178 @@ NodeEngine can execute a meta-protocol without a graphical interface. In
 operator mode the same NodeEngine process also serves a browser interface;
 the browser can run on a different computer through an SSH tunnel.
 
+.. list-table:: Choose the execution mode
+   :header-rows: 1
+   :widths: 25 38 37
+
+   * - Mode
+     - NodeEngine arguments with an inventory
+     - Where the run is selected
+   * - Command line
+     - ``--inventoryFile`` + ``--networkFile`` + ``--metaProtocolRun`` + ``--waitProtocol``
+     - In the run-plan JSON; one protocol or ordered steps.
+   * - Browser operator
+     - ``--inventoryFile`` + ``--serve``; optional ``--networkFile`` for boot activation.
+     - In the browser after experiment activation.
+
 .. warning::
 
-   Both NodeEngine launch commands below boot the real engine and can
-   initialize configured devices. Start the required DeviceOS processes and
-   check the active network before using either command. These are not
-   hardware-free preview commands.
+   These launch commands start real engines and can initialize or configure
+   hardware. Review optical powers, detector protection and calibration
+   effects before execution. Use :doc:`quickstart` for a software-only test.
 
-The examples use a source checkout. For an executable distribution, replace
-``python3 -m NodeEnginePack.NodeEngine`` with its NodeEngine launcher, keeping
-the same arguments. Browser operation requires the operator runtime and
-browser assets to be included in that distribution.
+Prepare the files and start DeviceOS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Prepare the following files; filenames are examples, not fixed names:
+
+* ``lab-inventory.json``: stable devices, endpoints, driver and boot settings.
+* ``experiment.json``: experiment topology and operating settings referencing
+  that inventory's ``inventoryId``.
+* ``input.json``: the run plan, used directly by CLI or composed in the browser.
+* ``DeviceOS.local.json``: per-host vendor SDK paths, not optical topology.
+
+Use the same inventory content on all hosts. Its path may differ between PCs.
+Choose a real ``deviceId`` from it and a valid NodeEngine ``nodeId``. Paths and
+IDs below are placeholders. A shared file path does not configure networking:
+device endpoints must be reachable from NodeEngine.
+
+On Windows, from ``DeviceOS.dist``, start one process per enabled active device:
+
+.. code-block:: bat
+
+   .\DeviceOS.exe ^
+     --configFile "C:\NeQOSConfig\lab-inventory.json" ^
+     --localConfigFile "C:\NeQOSConfig\DeviceOS.local.json" ^
+     --deviceId YOUR_DEVICE_ID ^
+     --licenseFile "C:\NeQOSConfig\license.json"
+
+DeviceOS still uses ``--configFile`` for the inventory; it does not use
+NodeEngine's ``--inventoryFile`` or ``--networkFile`` options. Prepare the SDK
+paths and calibration environment as described in :doc:`installation`.
+Wait for connected, initialized and ready state before starting the experiment.
+Passive splitters have no DeviceOS process.
+
+Windows examples below run from ``NodeEngine.dist`` in **Command Prompt**;
+``^`` is not PowerShell line continuation. macOS examples run from
+``NodeEngine.dist`` with the supplied launcher, shown here as ``NodeEngine.bin``.
+Replace that filename if your archive uses another name. Before hardware use,
+check each executable with ``--version`` and ``--help``; use matching 0.6.0 builds.
+
+.. _headless-inventory-run:
 
 Run without a browser
 ~~~~~~~~~~~~~~~~~~~~~
 
-Pass the run plan JSON, containing one protocol or an ordered sequence:
+With DeviceOS running, start NodeEngine with both the inventory and experiment,
+then the run plan. Windows:
+
+.. code-block:: bat
+
+   .\NodeEngine.exe ^
+     --inventoryFile "C:\NeQOSConfig\lab-inventory.json" ^
+     --networkFile "C:\NeQOSConfig\experiment.json" ^
+     --nodeId YOUR_NODE_ID ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --metaProtocolRun "C:\NeQOSConfig\input.json" ^
+     --waitProtocol --dashboard
+
+macOS:
 
 .. code-block:: bash
 
-   python3 -m NodeEnginePack.NodeEngine \
-     --configFile "/path/network.json" \
+   ./NodeEngine.bin \
+     --inventoryFile "/path/lab-inventory.json" \
+     --networkFile "/path/experiment.json" \
      --nodeId YOUR_NODE_ID \
      --licenseFile "/path/license.json" \
      --metaProtocolRun "/path/input.json" \
-     --waitProtocol
+     --waitProtocol --dashboard
 
-``--waitProtocol`` keeps the process waiting for the plan's terminal outcome.
-Add ``--dashboard`` for periodic state output in the terminal. Neither a
-browser nor the optional operator web runtime is needed for this mode.
+NodeEngine validates and activates the experiment before executing the plan.
+Supplying ``--networkFile`` authorizes that startup activation, including its
+recorded warnings and hardware settings. It is not an offline dry-run.
+The inventory CLI run requires ``--networkFile``; the experiment cannot be
+selected later through a browser in this mode.
+
+``--waitProtocol`` waits for the plan's terminal outcome before shutdown.
+``--dashboard`` adds periodic terminal state output; it is optional and does
+not start a web server. Read the final ``[PLAN] terminal state=... reason=...``
+message and the result files, not only the process closing. Use ``Ctrl+C`` for
+an orderly stop and allow cleanup to finish; avoid killing DeviceOS first.
+Add ``--verboseRunFolders`` if desired for descriptive child directory names.
+
+CLI runs write below ``MetaProtocolResults`` in NodeEngine's working directory.
+They do not become operator timeline entries automatically. See :doc:`results`
+for provenance, cleanup and scientific outputs. No browser or optional
+``aiohttp`` operator dependency is required for this mode. The Open-library
+folder is selected in the run plan; ``--openLibrary`` is operator-only.
+
+.. _browser-inventory-run:
 
 Operate from a browser
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Start one NodeEngine process in operator mode:
+With DeviceOS running, start one NodeEngine operator without selecting an
+experiment yet. Windows:
+
+.. code-block:: bat
+
+   .\NodeEngine.exe ^
+     --inventoryFile "C:\NeQOSConfig\lab-inventory.json" ^
+     --nodeId YOUR_NODE_ID ^
+     --licenseFile "C:\NeQOSConfig\license.json" ^
+     --serve --operatorPort 8766 ^
+     --operatorData "C:\NeQOSData\OperatorData"
+
+macOS:
 
 .. code-block:: bash
 
-   python3 -m NodeEnginePack.NodeEngine \
-     --configFile "/path/network.json" \
+   ./NodeEngine.bin \
+     --inventoryFile "/path/lab-inventory.json" \
      --nodeId YOUR_NODE_ID \
      --licenseFile "/path/license.json" \
-     --serve --operatorPort 8766
+     --serve --operatorPort 8766 \
+     --operatorData "/path/OperatorData"
 
-Open `http://127.0.0.1:8766 <http://127.0.0.1:8766>`_ and enter the startup
-token printed in that terminal. The interface lets you compose, validate,
-submit and follow runs. Do not put the token in a URL.
+1. Open `http://127.0.0.1:8766 <http://127.0.0.1:8766>`_ on the NodeEngine PC
+   and enter the token printed in its terminal. Do not put the token in a URL.
+2. In **Network & devices**, load the experiment file, validate the live diff
+   and review warnings, then activate it. Wait for activation to complete;
+   an inventory alone is not an active experiment.
+3. In **Library**, compose or import a run, supply its parameters and use
+   **Validate with NodeEngine**. Inspect exact resources and any errors.
+4. Start the run and follow its children, tasks and leases in **Execution**.
+   While busy, observe or abort; do not submit another plan, change networks
+   or browse historical runs. Already planned children continue normally.
+5. After completion, inspect results or reuse parameters from the timeline.
+   After abort, wait for cleanup; the queue remains paused until you resume it.
+
+For composition, planner coverage, saved experiments, abort and history, see
+:doc:`browser-interface`. Unsupported browser plans are rejected before
+submission; CLI availability does not imply operator-planner coverage.
+
+Keep ``--operatorData`` stable across restarts to retain the SQLite registry,
+saved experiments and run artifacts. On restart, interrupted active records
+remain evidence and the queue is paused. Re-activate the intended network;
+there is no automatic mid-run resume. You may add ``--networkFile`` to the
+startup command to authorize boot activation explicitly instead of selecting
+it in the UI. Use :doc:`results` for backup instructions.
+
+For a source checkout, replace the executable with
+``python -m NodeEnginePack.NodeEngine`` (or ``python -m DeviceOSPack.DeviceOS``)
+from the repository root. Before source-mode browser use, install its optional
+dependency in that Python environment:
+
+.. code-block:: bash
+
+   python -m pip install -r NodeEnginePack/BrowserUI/Operator/requirements.txt
+
+Compiled browser operation requires the operator dependencies and
+``NodeEnginePack/BrowserUI/static`` assets in the distribution. It does not
+require a separate frontend build or a second browser server. Configure
+trusted Open libraries at startup with repeatable ``--openLibrary`` paths.
 
 Do not start ``NodeEnginePack.BrowserUI.server`` separately for live operation:
 that is the standalone read-only viewer, not the operator service.
@@ -159,6 +305,33 @@ accepts run submissions from the interface rather than a startup run plan.
 NodeEngine process, which must remain running. Operator mode does not attach
 to an existing NodeEngine process; stop that process deliberately before
 changing modes instead of launching a second engine for the same devices.
+
+.. _single-file-operation:
+
+Continue using a single-file network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The existing single-file workflow remains supported for current-format
+networks and shipped RunExamples. DeviceOS uses ``--configFile network.json``.
+On NodeEngine, replace the inventory/experiment pair with ``--configFile``:
+
+.. code-block:: bat
+
+   .\NodeEngine.exe --configFile "C:\NeQOSConfig\network.json" --nodeId YOUR_NODE_ID --licenseFile "C:\NeQOSConfig\license.json" --metaProtocolRun "C:\NeQOSConfig\input.json" --waitProtocol
+
+For browser operation on that fixed network:
+
+.. code-block:: bat
+
+   .\NodeEngine.exe --configFile "C:\NeQOSConfig\network.json" --nodeId YOUR_NODE_ID --licenseFile "C:\NeQOSConfig\license.json" --serve --operatorPort 8766 --operatorData "C:\NeQOSData\OperatorData"
+
+Do not combine ``--configFile`` with ``--inventoryFile``. ``--networkFile``
+requires ``--inventoryFile``. An ``experiment-1`` document is not a complete
+single-file network. Use inventory mode for changing experiments while
+keeping the stable equipment inventory connected. See :doc:`upgrading-0.6.0`
+for renamed detector fields and the files to review before upgrading.
+
+.. _use-a-browser-on-another-computer:
 
 Use a browser on another computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -198,9 +371,9 @@ and
 :download:`experiment network <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`
 demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
 compensation, independent coincidence background, fidelity, detected distillable
-rate and the common summary. Replace the distributed network placeholders before
-use. The shared laboratory counterpart uses EPS-2, PA-1A/PA-1B, ATT-1/ATT-2,
-TT-2 channels 1/2 and Photec-2.
+rate and the common summary. Replace the distributed network placeholders with
+your verified device identities, endpoints and physical channel/link bindings
+before use; use the paired input and network together.
 
 Fidelity imports the separately acquired background through ``$steps.background``.
 Rate and summary import the unchanged declared observation, reconstruction and
@@ -220,7 +393,7 @@ change the physical state between top-level steps.
 Understand defaults and constraints
 -----------------------------------
 
-Each cookbook sheet lists all top-level and nested input fields. It distinguishes
+Each protocol sheet lists all top-level and nested input fields. It distinguishes
 an explicit JSON null default from a field with no catalog default, and shows
 whether a field occurs in a shipped direct example. Use that list to discover
 optional behavior instead of assuming the example exhausts the contract.
@@ -280,7 +453,7 @@ Sequence several protocols without another wrapper
 Add steps to the same ``steps`` list in the order you want. A practical sequence
 is source compensation, explicit carrier setup to ``ENTANGLED``, timing
 alignment, then pair-fidelity measurement. Keep each step's complete, current
-``sharedParams`` from its cookbook example and use one coherent network.
+``sharedParams`` from its shipped example and use one coherent network.
 
 Steps run sequentially; a failure stops the plan. Their independent leases do
 not protect the interval between top-level steps. If uninterrupted exclusivity
@@ -335,7 +508,7 @@ Extend a raw-recording bracket
 start/hold/stop/transfer bracket. Its input changes duration and capture options;
 it does not accept an arbitrary list of replacement tasks. To replace the hold
 with analyzer movement or another workflow, create an Open parent that composes
-the exported recording primitives, waits for each child and owns all affected
+the public built-in recording primitives, waits for each child and owns all affected
 devices.
 
 ``RecordTimeTagStream`` start/stop are lifecycle primitives, not independent
@@ -344,4 +517,4 @@ unrelated runs. The parent must keep the Time Tagger lease, supply the same
 lease-root identity; start and stop can be different child instances under the
 same root. A bare start without a responsible parent can leave a recorder open.
 See :doc:`../api/NodeEngine/MetaProtocolHandlers` for submission, waiting and
-cleanup stage contracts when developing such a pack.
+cleanup stage contracts when developing such a library.

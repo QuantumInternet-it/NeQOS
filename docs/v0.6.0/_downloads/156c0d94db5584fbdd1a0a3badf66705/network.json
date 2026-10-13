@@ -12,7 +12,7 @@
       "devices": [
         {
           "deviceId": "ExampleEntangledPhotonSource2Id",
-          "deviceType": "EPS",
+          "deviceType": "Eps1000W",
           "enabled": true,
           "linkBindings": [],
           "deviceEngine": {

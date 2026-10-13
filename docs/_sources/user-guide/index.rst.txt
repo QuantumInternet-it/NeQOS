@@ -7,6 +7,9 @@ Use :doc:`protocols/index` to select an operation and inspect its declared
 inputs, defaults and outputs. The API Reference covers driver task surfaces
 and protocol implementation stages.
 
+Already using 0.5.0? Start with :doc:`upgrading-0.6.0`. For current launch
+commands, choose :ref:`headless-inventory-run` or :ref:`browser-inventory-run`.
+
 .. important::
 
    Use matching NodeEngine, DeviceOS, contracts and examples for this release.
@@ -15,15 +18,21 @@ and protocol implementation stages.
 
 .. toctree::
    :maxdepth: 2
+   :numbered: 1
 
    how-neqos-works
    installation
+   upgrading-0.6.0
    network
    quickstart
    running
+   browser-interface
    recipes
    results
+   writing-meta-protocols
+   writing-hardware-driver
    protocols/index
+   common-issues
 
 Which component does what?
 --------------------------
@@ -32,10 +41,13 @@ Which component does what?
   **DeviceEngine** and hardware driver. The driver declares the device's task
   surface; the DeviceEngine exposes it, admits and schedules device tasks,
   and reports their lifecycle.
-* **NodeEngine** coordinates the devices of one selected network node,
+* **NodeEngine** coordinates the configured devices (across inventory nodes
+  in inventory mode),
   schedules protocols, manages device leases and writes the execution record.
 * The **network description** (``network.json``) declares device identities,
   endpoints, channels, link roles and physical limits.
+  Inventory mode separates stable equipment from the experiment's topology
+  and operating settings; see :doc:`network`.
 * The **run plan** (``input.json``) selects a library and an ordered list of
   protocols with their input overrides. It does not replace the network
   description.

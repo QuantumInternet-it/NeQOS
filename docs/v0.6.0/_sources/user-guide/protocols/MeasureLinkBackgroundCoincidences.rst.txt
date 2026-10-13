@@ -63,7 +63,7 @@ Measure coincidence background while holding the source and Time Tagger leases a
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkBackgroundCoincidences.minimal.json>`
+:download:`Download MeasureLinkBackgroundCoincidences.minimal.json <MeasureLinkBackgroundCoincidences.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkBackgroundCoincidences/RunExample/input.json>`.
 
@@ -75,7 +75,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkBackgroundCoincidences.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

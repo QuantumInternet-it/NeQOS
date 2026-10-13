@@ -50,7 +50,7 @@ Replaces one analyzer channel's compensated table with its six applied factory s
      ]
    }
 
-:download:`Download minimal input.json <ResetPolarizationAnalyzerCompensationToFactory.minimal.json>`
+:download:`Download ResetPolarizationAnalyzerCompensationToFactory.minimal.json <ResetPolarizationAnalyzerCompensationToFactory.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/ResetPolarizationAnalyzerCompensationToFactory/RunExample/input.json>`.
 
@@ -62,7 +62,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ResetPolarizationAnalyzerCompensationToFactory.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

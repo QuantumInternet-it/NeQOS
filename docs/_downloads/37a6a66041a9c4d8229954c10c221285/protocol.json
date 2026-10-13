@@ -1,6 +1,6 @@
 {
   "protocolId": "FAKE-COMPOSED-SWEEP-BRANCH",
-  "description": "Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.",
+  "description": "Submits sweepCount leaf runs from one stage, waits for all of them and aggregates their declared outputs.",
   "privilegeLevel": "NORMAL",
   "dependencies": [],
   "executionMode": "foreground",

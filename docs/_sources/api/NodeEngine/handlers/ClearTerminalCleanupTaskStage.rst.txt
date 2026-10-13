@@ -3,7 +3,59 @@
 ClearTerminalCleanupTaskStage
 =============================
 
-Remove a cleanup task once its normal compensating action completed.
+Remove a cleanup registration after successful normal restoration.
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :widths: 20 17 10 15 38
+   :class: api-table protocol-input-table
+
+   * - Input
+     - Type
+     - Required
+     - Default
+     - Meaning
+   * - ``deviceId``
+     - ``string``
+     - Yes
+     - —
+     - Device of the registered compensation.
+   * - ``taskName``
+     - ``string``
+     - Yes
+     - —
+     - Name of the registered restoring task.
+   * - ``taskParams``
+     - ``object``
+     - No
+     - ``{}``
+     - Exactly the arguments used in registration.
+
+Behavior
+--------
+
+The complete normalized deviceId, taskName and taskParams must match the
+registration. Clearing does not execute or verify the restoring operation.
+Shared and scratch references are resolved at handler execution.
+
+State and results
+-----------------
+
+Removes the matching executeTask action and writes the updated run manifest.
+A non-matching action leaves the registration unchanged and still advances.
+
+Failure conditions
+------------------
+
+Missing/empty deviceId or taskName, invalid taskParams or unresolved references
+fail. A missing current runtime is a no-op in the underlying clearing API;
+this does not constitute a successful hardware restoration.
+
+:doc:`Runtime context, decisions and leases </api/NodeEngine/StageRuntime>`.
 
 Declared stage example
 ----------------------
@@ -32,12 +84,27 @@ From :doc:`CaptureRawTimeTagStream </user-guide/protocols/CaptureRawTimeTagStrea
 
    .. code-block:: python
 
-      async def ClearTerminalCleanupTaskStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult
-
-   .. code-block:: python
-
       async def ClearTerminalCleanupTaskStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult:
-          """Remove a cleanup task once its normal compensating action completed."""
+          """Remove a cleanup registration after successful normal restoration.
+      
+          The complete normalized deviceId, taskName and taskParams must match the
+          registration. Clearing does not execute or verify the restoring operation.
+          Shared and scratch references are resolved at handler execution.
+      
+          Parameters:
+              deviceId (string; required): Device of the registered compensation.
+              taskName (string; required): Name of the registered restoring task.
+              taskParams (object; default: {}): Exactly the arguments used in registration.
+      
+          State and results:
+              Removes the matching executeTask action and writes the updated run manifest.
+              A non-matching action leaves the registration unchanged and still advances.
+      
+          Failure conditions:
+              Missing/empty deviceId or taskName, invalid taskParams or unresolved references
+              fail. A missing current runtime is a no-op in the underlying clearing API;
+              this does not constitute a successful hardware restoration.
+          """
           try:
               resolvedParams = _ResolveSharedReferences(params, ctx)
               deviceId = str(resolvedParams.get("deviceId") or "").strip()

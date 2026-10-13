@@ -1,10 +1,14 @@
 Hardware configuration
 ======================
 
-These settings belong to a device's ``hardwareConfig`` object in the network
-description. They are not task arguments, host SDK paths or NodeEngine shared
-parameters. Constructor transport options belong in ``driverConfig``;
+In a complete, single-file network, device configuration is declared under
+``hardwareConfig``. In inventory-based operation, only boot-only keys belong
+in the inventory's ``hardwareConfig``; supported operating values belong in
+the experiment's ``settings`` and are applied during network activation.
+These are not task arguments, host SDK paths or NodeEngine shared parameters.
+Constructor transport options belong in ``driverConfig``;
 :doc:`RuntimeSetup` covers host-local SDK paths. See
+:doc:`/user-guide/network` for the two configuration workflows and
 :doc:`/user-guide/writing-hardware-driver` when adding a new configuration surface.
 
 The driver validates and applies the configuration it supports. Catalog input
@@ -85,9 +89,44 @@ are stored on the DeviceOS host, not automatically on the NodeEngine host.
 PaX000
 ------
 
-``channel<N>WavelengthNm`` and ``channel<N>Waveplate<M>AngleDeg`` select startup
-values for channels and waveplates discovered on the device. See
-:doc:`PaX000/parameters` for the dynamic parameter patterns and calibration limits.
+.. rubric:: Inventory-based operation
+
+The inventory's ``hardwareConfig`` accepts only ``compensatedTomographyFile``,
+``compensatedTomographyChannels`` and ``loadPersistedCompensatedTomographyAtBoot``
+for PaX000. Changing these boot-only values requires restarting the affected
+DeviceOS with the updated inventory; do not put them in experiment ``settings``.
+
+``channel<N>Waveplate<M>AngleDeg`` belongs in experiment ``settings`` for
+channels and waveplates discovered on the device. NodeEngine applies these
+values during activation, after the channel's derived wavelength. Use the
+advertised parameter bounds; do not invent channels or waveplates that the
+connected analyzer does not expose.
+
+``channel<N>WavelengthNm`` is neither an inventory boot setting nor an
+experiment setting. NodeEngine derives it from the selected channel's
+``linkBindings`` and the link's DWDM channel, following parent-link lineage.
+Declare a channel on each analyzer binding and a resolvable DWDM channel in
+the link topology. Missing or conflicting wavelengths are rejected during
+NodeEngine network validation. The live wavelength parameter remains part of the driver
+API; see :doc:`PaX000/parameters` for its bounds.
+
+.. rubric:: Single-file operation
+
+In a complete network supplied with ``--configFile``,
+``channel<N>Waveplate<M>AngleDeg`` can be declared in ``hardwareConfig`` and
+is applied during driver initialization. Initialization resets waveplate
+retardances and selects H (using loaded compensated H states when available),
+then applies the declared angle overrides.
+
+The driver ignores ``channel<N>WavelengthNm`` entries in ``hardwareConfig``;
+they are not startup wavelength overrides. NodeEngine derives wavelengths
+from the same link/DWDM topology after device readiness in this mode too.
+Unlike inventory activation, this legacy activation applies derived wavelengths
+only; it does not reapply the angle overrides already used at initialization.
+Activation reports a compensation warning when a wavelength changes; this
+does not establish that the calibration is physically valid for that wavelength.
+
+.. rubric:: Calibration storage and boot loading
 
 ``compensatedTomographyFile`` selects the device-host JSON; relative filenames
 are resolved inside the driver's calibration directory, not the process working
@@ -109,11 +148,22 @@ waveplates does not require non-existent ones.
 Photec
 ------
 
-``biasCurrentsUa`` and ``triggerLevels`` accept a channel-number object, an
-eight-element list, or one scalar for all eight channels. ``biasChannels``
-selects biased channels; ``inUseChannels`` and ``latchGuardChannels`` participate
+The driver supports up to 16 detector channels, addressed by IDs 1 through 16.
+A particular unit may have fewer populated detector channels, with
+non-contiguous IDs. Keep the physical channel IDs; do not renumber a subset
+into consecutive positions or assume that every address has a detector.
+
+``biasCurrentsUa`` and ``triggerLevels`` accept a channel-number object, a
+16-element list, or one scalar expanded to all 16 vector positions. The vector
+width is fixed even when fewer detector channels are populated: an eight-value
+list is not accepted. Prefer a channel-number object for a sparse population.
+``biasChannels`` selects biased channels; ``inUseChannels`` and ``latchGuardChannels`` participate
 in health-channel selection. ``currentScale`` defaults to 110.0 and converts
 configured microampere bias values for the controller.
+
+Use explicit channel selections matching the installed detectors. If
+``biasChannels`` is omitted, the driver selects every channel with a positive
+configured bias value; a positive scalar therefore selects all 16 addresses.
 
 ``integrationTimeMs``, ``autoRecoverOnLatch``, ``maxRecoveryAttempts``,
 ``zeroConsecutiveLimit``, ``zeroCountThreshold``, ``recoveryOffSec``,

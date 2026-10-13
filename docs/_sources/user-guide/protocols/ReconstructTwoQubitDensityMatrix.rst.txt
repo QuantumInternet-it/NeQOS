@@ -9,7 +9,9 @@ ReconstructTwoQubitDensityMatrix
 
 Reconstruct a physical two-qubit density matrix from complete corrected tomography.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** no device resources.
 
@@ -21,7 +23,8 @@ Reconstructs a physical two-qubit density matrix from a complete background-corr
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -87,7 +90,11 @@ Reconstructs a physical two-qubit density matrix from a complete background-corr
      ]
    }
 
-:download:`Download minimal input.json <ReconstructTwoQubitDensityMatrix.minimal.json>`
+:download:`Download ReconstructTwoQubitDensityMatrix.minimal.json <ReconstructTwoQubitDensityMatrix.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input.json>`.
+
+Shipped run plan: :download:`Fidelity sequence <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
 
@@ -97,7 +104,18 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./input-fidelity-sequence.json" \
+     --waitProtocol --verboseRunFolders
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./ReconstructTwoQubitDensityMatrix.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -131,7 +149,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -142,36 +161,7 @@ Every declared key is present after successful completion; its value may be null
      - >= 1
      - Maximum L-BFGS-B iterations for the physical maximum-likelihood fit. The default preserves the historical reconstruction limit.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-2
-
-         {
-           "maxIterations": 5000
-         }
-
-   .. tab-item:: input-fidelity-sequence
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-2
-
-         {
-           "maxIterations": 5000
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

@@ -4,6 +4,7 @@
     {
       "deviceType": "AuthoringCounter",
       "modulePath": "CounterDriver.py",
+      "contractPath": "CounterDriver.contract.json",
       "className": "CounterDriver",
       "requiresSerialPort": false
     }

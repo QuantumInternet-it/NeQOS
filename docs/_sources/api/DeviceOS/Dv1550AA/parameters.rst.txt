@@ -22,6 +22,12 @@ Dv1550AA Parameters
         - ``0.0 to 34.0``
         - ``0.0``
         - Optical attenuation. Values must be from 0.00 to 34.00 dB in 0.01 dB increments.
+      * - ``defaultAttenuationDb``
+        - ``float``
+        - ``dB``
+        - ``0.0 to 34.0``
+        - —
+        - Resting attenuation used by homeAttenuation and READY transitions.
       * - ``mode``
         - ``int``
         - —

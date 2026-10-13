@@ -1,4 +1,4 @@
-Photek Background Tasks
+Photec Background Tasks
 =======================
 
 No background tasks.

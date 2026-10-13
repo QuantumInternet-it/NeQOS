@@ -5,15 +5,68 @@ ExportScratchStage
 
 Copy selected scratchpad values into this protocol's exports.
 
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :widths: 20 17 10 15 38
+   :class: api-table protocol-input-table
+
+   * - Input
+     - Type
+     - Required
+     - Default
+     - Meaning
+   * - ``exports``
+     - ``array``
+     - Yes
+     - —
+     - Non-empty objects with from (scratchpad path) and as (declared outputSchema export path).
+
 Behavior
 --------
 
-``exports`` is a non-empty list of ``from``/``as`` mappings. Each source
-must exist in the current scratchpad. The values are validated against this
-protocol's output schema and stored as its exports, where a parent can
-import them. No ``result.json`` is written; use ``PublishResultStage`` for
-the final published result. Successful mappings are recorded as an
-``ExportScratch`` task result before the stage advances.
+Values are validated against this protocol's outputSchema. This handler exposes
+exports but writes no result.json. Use PublishResultStage for the final published
+result. Shared and scratch references are resolved at handler execution.
+
+State and results
+-----------------
+
+Copies values into this protocol's exports and records ExportScratch in
+taskResults before advancing. Public output-schema validation includes all
+declared keys, not only the mappings passed to this stage.
+
+Failure conditions
+------------------
+
+Empty/invalid mappings, missing source values, conflicting destination paths,
+unknown current protocol or output-schema mismatch fail without publishing
+the proposed export set.
+
+:doc:`Runtime context, decisions and leases </api/NodeEngine/StageRuntime>`.
+
+For the mapping below, the scratchpad must contain holdResult and this protocol's outputSchema must declare execution.control.status.holdDuration; see :doc:`the hold example </user-guide/writing-meta-protocols>`.
+
+Declared stage example
+----------------------
+
+.. code-block:: json
+
+   {
+     "stageId": "02-Export",
+     "handler": "ExportScratchStage",
+     "params": {
+       "exports": [
+         {
+           "from": "holdResult",
+           "as": "execution.control.status.holdDuration"
+         }
+       ]
+     }
+   }
 
 .. dropdown:: Implementation and signature
    :class-container: protocol-technical
@@ -22,19 +75,25 @@ the final published result. Successful mappings are recorded as an
 
    .. code-block:: python
 
-      async def ExportScratchStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult
-
-   .. code-block:: python
-
       async def ExportScratchStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult:
           """Copy selected scratchpad values into this protocol's exports.
       
-          ``exports`` is a non-empty list of ``from``/``as`` mappings. Each source
-          must exist in the current scratchpad. The values are validated against this
-          protocol's output schema and stored as its exports, where a parent can
-          import them. No ``result.json`` is written; use ``PublishResultStage`` for
-          the final published result. Successful mappings are recorded as an
-          ``ExportScratch`` task result before the stage advances.
+          Values are validated against this protocol's outputSchema. This handler exposes
+          exports but writes no result.json. Use PublishResultStage for the final published
+          result. Shared and scratch references are resolved at handler execution.
+      
+          Parameters:
+              exports (array; required): Non-empty objects with from (scratchpad path) and as (declared outputSchema export path).
+      
+          State and results:
+              Copies values into this protocol's exports and records ExportScratch in
+              taskResults before advancing. Public output-schema validation includes all
+              declared keys, not only the mappings passed to this stage.
+      
+          Failure conditions:
+              Empty/invalid mappings, missing source values, conflicting destination paths,
+              unknown current protocol or output-schema mismatch fail without publishing
+              the proposed export set.
           """
       
           try:

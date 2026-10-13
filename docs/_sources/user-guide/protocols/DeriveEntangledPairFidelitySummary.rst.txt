@@ -9,7 +9,9 @@ DeriveEntangledPairFidelitySummary
 
 Combine existing fidelity and throughput results into a verified summary.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** no device resources.
 
@@ -21,7 +23,8 @@ Derives a unified fidelity and detected-throughput summary, verifies matrix-to-m
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -431,7 +434,9 @@ Derives a unified fidelity and detected-throughput summary, verifies matrix-to-m
      ]
    }
 
-:download:`Download minimal input.json <DeriveEntangledPairFidelitySummary.minimal.json>`
+:download:`Download DeriveEntangledPairFidelitySummary.minimal.json <DeriveEntangledPairFidelitySummary.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/network.json>`.
 
@@ -441,7 +446,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./DeriveEntangledPairFidelitySummary.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -473,7 +478,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -484,25 +490,7 @@ Every declared key is present after successful completion; its value may be null
      - —
      - Write summary artifacts in this protocol's run directory rather than its stage subdirectory; never the ancestor's or entire run-plan directory.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-2
-
-         {
-           "writeToArtifactRoot": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

@@ -3,16 +3,82 @@
 SubmitMicroProtocolStage
 ========================
 
-Submit a child microprotocol and retain its runtime ID in scratchpad.
+Submit a child protocol and store its runtime ID in the scratchpad.
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :widths: 20 17 10 15 38
+   :class: api-table protocol-input-table
+
+   * - Input
+     - Type
+     - Required
+     - Default
+     - Meaning
+   * - ``templateId``
+     - ``string``
+     - Yes
+     - —
+     - Identifier of the child protocol definition.
+   * - ``protocolKey``
+     - ``string``
+     - No
+     - ``templateId``
+     - Scratchpad label shared with the wait stage.
+   * - ``sharedParamOverrides``
+     - ``object``
+     - No
+     - ``{}``
+     - Child input overrides, recursively merged with the child's sharedParams.
+   * - ``commonStageParams``
+     - ``object``
+     - No
+     - ``{}``
+     - Parameters applied to every child stage.
+   * - ``stageParamOverrides``
+     - ``object``
+     - No
+     - ``{}``
+     - Child stageId to parameter-object overrides.
+   * - ``resourceRequests``
+     - ``array of strings``
+     - No
+     - ``null``
+     - Replacement child resources; omitted/null uses its declaration.
+   * - ``scratchImports``
+     - ``array``
+     - No
+     - ``[]``
+     - Objects with from (parent scratchpad path) and as (child scratchpad path); values are copied.
 
 Behavior
 --------
 
-``templateId`` is required; ``protocolKey`` selects the scratchpad key
-``_mp_<protocolKey>`` and defaults to the template ID. Optional shared,
-common-stage, stage-specific, resource, and scratch-import overrides are
-validated before submission. Shared references are resolved before the
-child is submitted, then the stage advances.
+The stage advances immediately; pair it with WaitMicroProtocolStage using the
+same protocolKey. Open callers may invoke their own library's protocols and
+public built-in protocols. Shared and scratch references are resolved before
+submission. An omitted resourceRequests uses the child declaration; an explicit
+list replaces it. An empty list grants no permission to operate parent devices.
+
+State and results
+-----------------
+
+Stores the runtime ID at _mp_<protocolKey>. Imported scratchpad values initialize
+the child's private state; they are not public result imports. The parent
+retains its lease root while a declared foreground child uses a delegated turn.
+
+Failure conditions
+------------------
+
+Missing templateId, invalid override/resource/mapping values or unavailable
+referenced paths fail the stage. Child contract, visibility and submission
+errors propagate to NodeEngine's stage-failure handling.
+
+:doc:`Runtime context, decisions and leases </api/NodeEngine/StageRuntime>`.
 
 Declared stage example
 ----------------------
@@ -47,18 +113,33 @@ Pair with :doc:`WaitMicroProtocolStage <WaitMicroProtocolStage>` using the same 
 
    .. code-block:: python
 
-      async def SubmitMicroProtocolStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult
-
-   .. code-block:: python
-
       async def SubmitMicroProtocolStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult:
-          """Submit a child microprotocol and retain its runtime ID in scratchpad.
+          """Submit a child protocol and store its runtime ID in the scratchpad.
       
-          ``templateId`` is required; ``protocolKey`` selects the scratchpad key
-          ``_mp_<protocolKey>`` and defaults to the template ID. Optional shared,
-          common-stage, stage-specific, resource, and scratch-import overrides are
-          validated before submission. Shared references are resolved before the
-          child is submitted, then the stage advances.
+          The stage advances immediately; pair it with WaitMicroProtocolStage using the
+          same protocolKey. Open callers may invoke their own library's protocols and
+          public built-in protocols. Shared and scratch references are resolved before
+          submission. An omitted resourceRequests uses the child declaration; an explicit
+          list replaces it. An empty list grants no permission to operate parent devices.
+      
+          Parameters:
+              templateId (string; required): Identifier of the child protocol definition.
+              protocolKey (string; default: templateId): Scratchpad label shared with the wait stage.
+              sharedParamOverrides (object; default: {}): Child input overrides, recursively merged with the child's sharedParams.
+              commonStageParams (object; default: {}): Parameters applied to every child stage.
+              stageParamOverrides (object; default: {}): Child stageId to parameter-object overrides.
+              resourceRequests (array of strings; default: null): Replacement child resources; omitted/null uses its declaration.
+              scratchImports (array; default: []): Objects with from (parent scratchpad path) and as (child scratchpad path); values are copied.
+      
+          State and results:
+              Stores the runtime ID at _mp_<protocolKey>. Imported scratchpad values initialize
+              the child's private state; they are not public result imports. The parent
+              retains its lease root while a declared foreground child uses a delegated turn.
+      
+          Failure conditions:
+              Missing templateId, invalid override/resource/mapping values or unavailable
+              referenced paths fail the stage. Child contract, visibility and submission
+              errors propagate to NodeEngine's stage-failure handling.
           """
       
           try:

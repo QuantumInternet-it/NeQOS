@@ -1,6 +1,6 @@
 {
   "protocolId": "MeasureLinkBackgroundCoincidences",
-  "description": "Measures finite coincidence background between one reference link and one or more target links. The protocol snapshots both EPS attenuation paths, output mode, and every bound inline attenuator of each resolved source. Any traffic-mode change is first protected at declared source/attenuator maxima; it then parks the sources, composes MeasureLinkCoincidences for the requested pairs, and restores the exact live state. The source and TimeTagger leases remain owned for the complete park/acquire/restore bracket, including failure cleanup. Optional detectorPairs select physical reference-target channels validated against network bindings, including PBS/multibranch ports; these pairs are acquired together through MeasureCoincidences. latchGuard is forwarded unchanged, with the exact selected health-guard lease union.",
+  "description": "Measure coincidence background while holding the source and Time Tagger leases and attempting to restore the original source and inline-attenuator settings, including after failure. A required latchGuard or a nonempty detectorPairs list selects MeasureCoincidences, which receives the guard policy. Otherwise, unguarded H-sink acquisition uses MeasureLinkCoincidences, which does not accept latchGuard.",
   "summary": "Measure link coincidence background while preserving and restoring the carrier state.",
   "domain": "link",
   "function": "characterization",
@@ -93,7 +93,7 @@
       },
       "detectorPairs": {
         "type": "array",
-        "description": "Optional physical reference-target pairs; empty retains the historical H-sink-per-link acquisition. Each channel must belong to the selected network link, and duplicate pairs are rejected.",
+        "description": "Optional physical reference-target pairs acquired together by MeasureCoincidences. An empty list uses each link's H sink; required latchGuard still selects MeasureCoincidences. Each channel must belong to the selected link, and duplicate pairs are rejected.",
         "required": false,
         "items": {
           "type": "object",
@@ -117,7 +117,7 @@
       },
       "latchGuard": {
         "type": "object",
-        "description": "Finite-window guard policy forwarded to the acquisition. Default disabled preserves existing callers. Required adds the network-selected health devices to the exact resource union and rejects clear=false.",
+        "description": "Finite-window guard policy passed to MeasureCoincidences when the policy is required or nonempty detectorPairs is supplied. Required mode leases the network-selected health devices and rejects clear=false; disabled mode acquires without latch protection. The unguarded H-only MeasureLinkCoincidences path has no latchGuard input.",
         "required": false,
         "properties": {
           "mode": {
@@ -154,7 +154,7 @@
       },
       "link.characterization.observation.background": {
         "type": "object",
-        "description": "Finite coincidence background with source-parking provenance. Explicit detectorPairs publish observation.countsByPair, measurementDurationSec, coincidenceWindowPs and the acquisition window/latch evidence; default H-only callers retain observation.countsByTargetLink.",
+        "description": "Finite background counts indexed by physical detector pair, with source-parking provenance. Unguarded H-only acquisition also retains countsByTargetLink; MeasureCoincidences adds its window and latch evidence.",
         "role": "observation"
       },
       "link.characterization.status.restoration": {

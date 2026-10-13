@@ -9,7 +9,9 @@ MeasureLinkCoincidences
 
 Measure coincidence counts and rates between resolved reference and target links.
 
-:bdg:`foreground` :bdg:`timeout 3 min`
+:bdg:`foreground` :bdg:`declared timeout 3 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** none of its own; child protocols lease the devices they use.
 
@@ -21,7 +23,8 @@ Measures finite reference-target coincidence counts and rates for resolved quant
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -30,11 +33,8 @@ Measures finite reference-target coincidence counts and rates for resolved quant
      - string length >= 1
      - Quantum-link identifier whose TimeTagger sink channel is paired with every target link.
    * - ``targetLinkIds``
-     - string[] (items >= 1)
-     - Unique target quantum-link identifiers paired with the reference link in one acquisition window.
-   * - ``targetLinkIds[]``
-     - string length >= 1
-     - One target quantum-link identifier resolved from network.json.
+     - string[] (items >= 1; each length >= 1)
+     - Unique target quantum-link identifiers paired with the reference link in one acquisition window. Each item: One target quantum-link identifier resolved from network.json.
 
 .. code-block:: json
 
@@ -56,7 +56,9 @@ Measures finite reference-target coincidence counts and rates for resolved quant
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkCoincidences.minimal.json>`
+:download:`Download MeasureLinkCoincidences.minimal.json <MeasureLinkCoincidences.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkCoincidences/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkCoincidences/RunExample/network.json>`.
 
@@ -66,7 +68,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkCoincidences.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -92,7 +94,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -100,7 +103,7 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``measurementDurationSec``
      - 1
-     - —
+     - > 0
      - Finite integration duration for the shared coincidence observation window, in seconds.
    * - ``coincidenceWindowPs``
      - 1000
@@ -111,27 +114,7 @@ Every declared key is present after successful completion; its value may be null
      - —
      - Whether the selected stable coincidence measurements are cleared before acquisition.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkCoincidences/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-4
-
-         {
-           "measurementDurationSec": 1.0,
-           "coincidenceWindowPs": 1000,
-           "clear": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 May call, depending on the inputs:

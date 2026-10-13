@@ -7,9 +7,9 @@ Library: ``ieee-qce-2026-demo``
 
 Open IEEE QCE demonstration wrapper for aligning the polarization incident on the SNSPD of one selected quantum link.
 
-:bdg:`foreground` :bdg:`timeout 60 min`
+:bdg:`foreground` :bdg:`declared timeout 1 h`
 
-**Lease:** no device resources.
+**Lease:** none of its own; child protocols lease the devices they use.
 
 1 Required inputs
 -----------------
@@ -17,7 +17,8 @@ Open IEEE QCE demonstration wrapper for aligning the polarization incident on th
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -26,11 +27,8 @@ Open IEEE QCE demonstration wrapper for aligning the polarization incident on th
      - string length >= 1
      - Quantum link whose SNSPD input polarization is aligned.
    * - ``resourceMpcDeviceIds``
-     - string[] (items >= 1)
-     - MPC320 controller identifiers leased by the child alignment.
-   * - ``resourceMpcDeviceIds[]``
-     - string length >= 1
-     - One MPC320 controller to lease for the alignment.
+     - string[] (items >= 1; each length >= 1)
+     - MPC320 controller identifiers leased by the child alignment. Each item: One MPC320 controller to lease for the alignment.
 
 :doc:`Input defaults and launching </user-guide/running>`.
 
@@ -51,7 +49,7 @@ Open IEEE QCE demonstration wrapper for aligning the polarization incident on th
    * - ``link.polarizationAlignment.observation.countSamples``
      - Count samples collected by the alignment scan.
 
-Declared keys are present after successful completion; values may be null or empty. See :doc:`/user-guide/results`.
+Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
 3 Options
 ---------
@@ -59,7 +57,8 @@ Declared keys are present after successful completion; values may be null or emp
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -101,58 +100,88 @@ Declared keys are present after successful completion; values may be null or emp
 4 Run examples
 --------------
 
-Library folders resolve relative to the run input. Keep the pack's directory layout when using its shipped input and network.
+Library folders resolve relative to the run input. Keep the library's directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow :doc:`/user-guide/quickstart`: DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary. These commands execute the run, not an offline validation.
 
-For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+:download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/input.json>`
 
-.. tab-set::
+Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json>`.
 
-   .. tab-item:: countsMaximization
+Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.
 
-      :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/input.json>`
+**MPC-1** (``Mpc320`` driver):
 
-      Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json>`.
+.. code-block:: bash
 
-      .. code-block:: json
+   python3 -m DeviceOSPack.DeviceOS \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json \
+     --nodeId NODE-MPC \
+     --deviceId MPC-1 \
+     --licenseFile /path/to/license.json
 
-         {
-           "schemaVersion": "0.4",
-           "metaProtocolLibrary": {
-             "libraryId": "ieee-qce-2026-demo",
-             "folder": "../.."
-           },
-           "steps": [
-             {
-               "protocolId": "MPC320CountsMaximization",
-               "sharedParams": {
-                 "linkId": "QLINK-DETECTOR-1",
-                 "measurementDurationSec": 2,
-                 "optimizationMode": "maximize",
-                 "paddles": [
-                   0,
-                   1,
-                   2
-                 ],
-                 "initialAnglesDeg": [
-                   0,
-                   0,
-                   0
-                 ],
-                 "finalAnglesDeg": [
-                   160,
-                   160,
-                   160
-                 ],
-                 "stepDeg": 20,
-                 "settleAfterMoveSec": 0.2,
-                 "moveTimeoutSec": 30,
-                 "resourceMpcDeviceIds": [
-                   "MPC-1"
-                 ]
-               }
-             }
-           ]
-         }
+**TT-1** (``SwabianTT`` driver):
+
+.. code-block:: bash
+
+   python3 -m DeviceOSPack.DeviceOS \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json \
+     --nodeId NODE-MPC \
+     --deviceId TT-1 \
+     --licenseFile /path/to/license.json
+
+Then start NodeEngine:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json \
+     --nodeId NODE-MPC \
+     --licenseFile /path/to/license.json \
+     --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/input.json \
+     --waitProtocol
+
+.. dropdown:: Run plan JSON
+   :class-container: protocol-technical
+
+   .. code-block:: json
+
+      {
+        "schemaVersion": "0.4",
+        "metaProtocolLibrary": {
+          "libraryId": "ieee-qce-2026-demo",
+          "folder": "../.."
+        },
+        "steps": [
+          {
+            "protocolId": "MPC320CountsMaximization",
+            "sharedParams": {
+              "linkId": "QLINK-DETECTOR-1",
+              "measurementDurationSec": 2,
+              "optimizationMode": "maximize",
+              "paddles": [
+                0,
+                1,
+                2
+              ],
+              "initialAnglesDeg": [
+                0,
+                0,
+                0
+              ],
+              "finalAnglesDeg": [
+                160,
+                160,
+                160
+              ],
+              "stepDeg": 20,
+              "settleAfterMoveSec": 0.2,
+              "moveTimeoutSec": 30,
+              "resourceMpcDeviceIds": [
+                "MPC-1"
+              ]
+            }
+          }
+        ]
+      }
 
 5 Composition
 -------------
@@ -167,104 +196,6 @@ Declared child sequence: :doc:`AlignSNSPDInputPolarization </user-guide/protocol
    Definition: :download:`protocol.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsDef/MPC320CountsMaximization/protocol.json>`.
 
    Source: ``NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsDef/MPC320CountsMaximization/protocol.json``.
-
-   Catalog defaults:
-
-   .. code-block:: json
-
-      {
-        "linkId": null,
-        "measurementDurationSec": 2,
-        "optimizationMode": "maximize",
-        "paddles": [
-          0,
-          1,
-          2
-        ],
-        "initialAnglesDeg": [
-          0,
-          0,
-          0
-        ],
-        "finalAnglesDeg": [
-          160,
-          160,
-          160
-        ],
-        "stepDeg": 20,
-        "settleAfterMoveSec": 0.2,
-        "moveTimeoutSec": 30,
-        "resourceMpcDeviceIds": null
-      }
-
-   Stages, in declared order:
-
-   .. code-block:: json
-
-      [
-        {
-          "stageId": "00-AlignSNSPDInputPolarization",
-          "handler": "SubmitMicroProtocolStage",
-          "params": {
-            "templateId": "AlignSNSPDInputPolarization",
-            "protocolKey": "alignment",
-            "sharedParamOverrides": {
-              "linkId": "$shared.linkId",
-              "measurementDurationSec": "$shared.measurementDurationSec",
-              "optimizationMode": "$shared.optimizationMode",
-              "paddles": "$shared.paddles",
-              "initialAnglesDeg": "$shared.initialAnglesDeg",
-              "finalAnglesDeg": "$shared.finalAnglesDeg",
-              "stepDeg": "$shared.stepDeg",
-              "settleAfterMoveSec": "$shared.settleAfterMoveSec",
-              "moveTimeoutSec": "$shared.moveTimeoutSec",
-              "resourceMpcDeviceIds": "$shared.resourceMpcDeviceIds"
-            }
-          }
-        },
-        {
-          "stageId": "01-WaitForSNSPDInputPolarizationAlignment",
-          "handler": "WaitMicroProtocolStage",
-          "params": {
-            "templateId": "AlignSNSPDInputPolarization",
-            "protocolKey": "alignment",
-            "imports": [
-              {
-                "from": "link.polarizationAlignment.status.alignment",
-                "as": "alignment.status"
-              },
-              {
-                "from": "link.polarizationAlignment.applied.selectedControllerAnglesDeg",
-                "as": "alignment.selectedControllerAnglesDeg"
-              },
-              {
-                "from": "link.polarizationAlignment.observation.countSamples",
-                "as": "alignment.countSamples"
-              }
-            ]
-          }
-        },
-        {
-          "stageId": "02-MPC320CountsMaximization-PublishResult",
-          "handler": "PublishResultStage",
-          "params": {
-            "exports": [
-              {
-                "from": "alignment.status",
-                "as": "link.polarizationAlignment.status.alignment"
-              },
-              {
-                "from": "alignment.selectedControllerAnglesDeg",
-                "as": "link.polarizationAlignment.applied.selectedControllerAnglesDeg"
-              },
-              {
-                "from": "alignment.countSamples",
-                "as": "link.polarizationAlignment.observation.countSamples"
-              }
-            ]
-          }
-        }
-      ]
 
    Protocol definition:
 

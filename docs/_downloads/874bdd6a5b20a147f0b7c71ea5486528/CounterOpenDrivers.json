@@ -1,0 +1,12 @@
+{
+  "apiVersion": "0.6.0",
+  "drivers": [
+    {
+      "deviceType": "AuthoringCounter",
+      "modulePath": "CounterDriver.py",
+      "contractPath": "CounterDriver.contract.json",
+      "className": "CounterDriver",
+      "requiresSerialPort": false
+    }
+  ]
+}

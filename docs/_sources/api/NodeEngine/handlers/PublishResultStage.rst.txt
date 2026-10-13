@@ -3,26 +3,69 @@
 PublishResultStage
 ==================
 
-Atomically validate, persist, and publish the declared result contract.
+Validate, write and publish this protocol's declared result.
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :widths: 20 17 10 15 38
+   :class: api-table protocol-input-table
+
+   * - Input
+     - Type
+     - Required
+     - Default
+     - Meaning
+   * - ``exports``
+     - ``array``
+     - Yes
+     - —
+     - Non-empty objects with from (scratchpad path) and as (declared outputSchema export path).
+   * - ``fileName``
+     - ``string``
+     - No
+     - ``"result.json"``
+     - Plain relative filename in this run's artifact directory.
+   * - ``writeSummary``
+     - ``boolean``
+     - No
+     - ``false``
+     - Also write summary.md with the published outputs and any post-publication failure reason.
+   * - ``failIfScratchPath``
+     - ``string``
+     - No
+     - ``null``
+     - Scratchpad path checked after publication; a present value other than null/empty string becomes the failure reason.
 
 Behavior
 --------
 
-``exports`` is a non-empty list of scratchpad ``from``/contract ``as``
-mappings. All values are assembled first, validated against the active
-output schema, written as ``result.json`` in the current run directory,
-and only then exposed as protocol exports. This keeps disk output and
-parent-visible output consistent.
+Assemble and validate the output set, write the result file in the current run
+directory, then expose the exports. Shared and scratch references are resolved
+at handler execution. A post-publication failure retains evidence for operators;
+WaitMicroProtocolStage and child_output do not import a failed child's result.
 
-An optional ``failIfScratchPath`` names a scratchpad value that is checked
-*after* successful publication. A non-empty value makes the protocol fail
-with that value as its reason, while preserving the result artifact and
-declared exports for operators and an enclosing parent to inspect.
+State and results
+-----------------
 
-``writeSummary: true`` additionally writes a shared ``summary.md`` view
-beside the canonical result, including a post-publication failure reason.
-It introduces no scientific output or protocol-specific sidecar JSON.
-The default is false; existing publications remain unchanged.
+Writes schemaVersion 0.1, templateProtocolId, runtimeProtocolId and outputs.
+Exposes the validated outputs and records PublishResult in taskResults.
+Missing failIfScratchPath values do not trigger failure. Summary generation
+and the optional failure check occur after the result file is written.
+
+Failure conditions
+------------------
+
+Invalid mappings/references, absent source values, conflicting paths or
+output-schema mismatch fail. Invalid fileName, unavailable run directory,
+result/summary write errors or a collision with summary.md fail. A truthy
+writeSummary is not enough: its value must be a boolean. Post-publication
+failure can leave result.json and exports available to an operator.
+
+:doc:`Runtime context, decisions and leases </api/NodeEngine/StageRuntime>`.
 
 Declared stage example
 ----------------------
@@ -51,28 +94,32 @@ From :doc:`EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST </api/NodeEngine/open/externa
 
    .. code-block:: python
 
-      async def PublishResultStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult
-
-   .. code-block:: python
-
       async def PublishResultStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult:
-          """Atomically validate, persist, and publish the declared result contract.
+          """Validate, write and publish this protocol's declared result.
       
-          ``exports`` is a non-empty list of scratchpad ``from``/contract ``as``
-          mappings. All values are assembled first, validated against the active
-          output schema, written as ``result.json`` in the current run directory,
-          and only then exposed as protocol exports. This keeps disk output and
-          parent-visible output consistent.
+          Assemble and validate the output set, write the result file in the current run
+          directory, then expose the exports. Shared and scratch references are resolved
+          at handler execution. A post-publication failure retains evidence for operators;
+          WaitMicroProtocolStage and child_output do not import a failed child's result.
       
-          An optional ``failIfScratchPath`` names a scratchpad value that is checked
-          *after* successful publication. A non-empty value makes the protocol fail
-          with that value as its reason, while preserving the result artifact and
-          declared exports for operators and an enclosing parent to inspect.
+          Parameters:
+              exports (array; required): Non-empty objects with from (scratchpad path) and as (declared outputSchema export path).
+              fileName (string; default: "result.json"): Plain relative filename in this run's artifact directory.
+              writeSummary (boolean; default: false): Also write summary.md with the published outputs and any post-publication failure reason.
+              failIfScratchPath (string; default: null): Scratchpad path checked after publication; a present value other than null/empty string becomes the failure reason.
       
-          ``writeSummary: true`` additionally writes a shared ``summary.md`` view
-          beside the canonical result, including a post-publication failure reason.
-          It introduces no scientific output or protocol-specific sidecar JSON.
-          The default is false; existing publications remain unchanged.
+          State and results:
+              Writes schemaVersion 0.1, templateProtocolId, runtimeProtocolId and outputs.
+              Exposes the validated outputs and records PublishResult in taskResults.
+              Missing failIfScratchPath values do not trigger failure. Summary generation
+              and the optional failure check occur after the result file is written.
+      
+          Failure conditions:
+              Invalid mappings/references, absent source values, conflicting paths or
+              output-schema mismatch fail. Invalid fileName, unavailable run directory,
+              result/summary write errors or a collision with summary.md fail. A truthy
+              writeSummary is not enough: its value must be a boolean. Post-publication
+              failure can leave result.json and exports available to an operator.
           """
           try:
               resolvedParams = _ResolveSharedReferences(params, ctx)

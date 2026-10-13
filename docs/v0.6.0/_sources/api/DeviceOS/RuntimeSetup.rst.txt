@@ -54,7 +54,7 @@ Paths are examples. Check write access and preserve existing calibration tables;
    * - :doc:`NuCrypt PA1000/PA2000 Polarization Controller <PaX000>`
      - No additional vendor SDK declared
      - pyserial
-     - —
+     - ``NEQOS_CALIBRATION_DIR``
    * - :doc:`Photec SNSPD Controller <Photec>`
      - No additional vendor SDK declared
      - pyserial

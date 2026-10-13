@@ -84,7 +84,7 @@ Compensates the relative polarization mismatch between the two links emitted by 
      ]
    }
 
-:download:`Download minimal input.json <CompensateSourcePolarizationFromEntangledPairProbes.minimal.json>`
+:download:`Download CompensateSourcePolarizationFromEntangledPairProbes.minimal.json <CompensateSourcePolarizationFromEntangledPairProbes.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/network.json>`.
 
@@ -94,7 +94,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CompensateSourcePolarizationFromEntangledPairProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -267,6 +267,19 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/network.json>`.
+
+      This run plan executes all 2 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
          :emphasize-lines: 2-13
 
@@ -288,6 +301,19 @@ Each example lists only the inputs it adds to or changes in the minimal run.
    .. tab-item:: Symmetrized
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/network.json>`.
+
+      This run plan executes all 2 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-26

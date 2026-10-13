@@ -95,9 +95,9 @@ Measures Phi+ lab-frame fidelity, the fully entangled fraction, and their fideli
      ]
    }
 
-:download:`Download minimal input.json <MeasureEntangledPairFidelity.minimal.json>`
+:download:`Download MeasureEntangledPairFidelity.minimal.json <MeasureEntangledPairFidelity.minimal.json>`
 
-Network: :download:`experiment-network-EntanglementDistribution.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`.
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/network.json>`.
 
 .. code-block:: bash
 
@@ -105,7 +105,7 @@ Network: :download:`experiment-network-EntanglementDistribution.json <../../../N
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureEntangledPairFidelity.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -214,6 +214,17 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/network.json>`.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
          :emphasize-lines: 2-6
 
@@ -228,6 +239,17 @@ Each example lists only the inputs it adds to or changes in the minimal run.
    .. tab-item:: Pbs Symmetrized
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/pbsSymmetrized/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/pbsSymmetrized/network.json>`.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-7
@@ -244,6 +266,19 @@ Each example lists only the inputs it adds to or changes in the minimal run.
    .. tab-item:: Entanglement Distribution
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-input-EntanglementDistribution.json>`
+
+      Network: :download:`experiment-network-EntanglementDistribution.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`.
+
+      This run plan executes all 7 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./experiment-network-EntanglementDistribution.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./experiment-input-EntanglementDistribution.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-9

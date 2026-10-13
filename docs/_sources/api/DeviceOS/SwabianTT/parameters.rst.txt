@@ -35,3 +35,32 @@ SwabianTT Parameters
         - ``1000``
         - Default correlation-bin width used when CreateMeasurement CORRELATION omits binWidthPs.
 
+   .. rubric:: Runtime Parameter Patterns
+
+   Concrete names are created after the driver discovers its hardware.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-parameter-table
+      :widths: 20 15 10 15 12 28
+
+      * - Name
+        - Type
+        - Unit
+        - Range
+        - Default
+        - Description
+      * - ``channel.<N>.inputDelayPs``
+        - ``int``
+        - —
+        - —
+        - ``0``
+        - —
+      * - ``channel.<N>.triggerLevelVolt``
+        - ``float``
+        - —
+        - —
+        - ``0.0``
+        - —
+

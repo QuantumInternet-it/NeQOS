@@ -17,7 +17,7 @@ Results
       :link: PublishResultStage
       :link-type: doc
 
-      Atomically validate, persist, and publish the declared result contract.
+      Validate, write and publish this protocol's declared result.
 
    .. grid-item-card:: ExportScratchStage
       :link: ExportScratchStage

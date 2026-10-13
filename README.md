@@ -47,7 +47,7 @@ The [NeQOS documentation](https://quantuminternet-it.github.io/NeQOS/) describes
 
 Direct references: [NodeEngine API](https://quantuminternet-it.github.io/NeQOS/api/NodeEngine/index.html) and [DeviceOS API](https://quantuminternet-it.github.io/NeQOS/api/DeviceOS/index.html).
 
-The documentation root follows the latest stable release. Use the [0.5.0 documentation](https://quantuminternet-it.github.io/NeQOS/v0.5.0/) for that release, or the [0.6.0 documentation](https://quantuminternet-it.github.io/NeQOS/v0.6.0/) for the upcoming release. The sidebar version selector switches between 0.5.0 and 0.6.0; the latter is marked as development documentation until released.
+The documentation root follows [Latest 0.6.0](https://quantuminternet-it.github.io/NeQOS/), also available at its [versioned address](https://quantuminternet-it.github.io/NeQOS/v0.6.0/). It remains development documentation until released. Use the historical [0.5.0 documentation](https://quantuminternet-it.github.io/NeQOS/v0.5.0/) when running the 0.5.0 software release. The sidebar selector offers `0.5.0` and `Latest 0.6.0`; choosing a historical version does not change the default for new visits to the root.
 
 ## References
 

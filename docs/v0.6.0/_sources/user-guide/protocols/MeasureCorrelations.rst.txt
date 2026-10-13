@@ -96,7 +96,7 @@ Acquire finite raw correlation histograms for the requested TimeTagger channel p
      ]
    }
 
-:download:`Download minimal input.json <MeasureCorrelations.minimal.json>`
+:download:`Download MeasureCorrelations.minimal.json <MeasureCorrelations.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/correlation/MeasureCorrelations/RunExample/input.json>`.
 
@@ -108,7 +108,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureCorrelations.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

@@ -1,6 +1,15 @@
 DeviceOS API
 ============
 
+DeviceOS hosts a DeviceEngine and one hardware driver. DeviceEngine admits and schedules device tasks; the driver implements vendor I/O and declares parameters, signals and task results. NodeEngine coordinates protocols and device leases.
+
+Driver development
+------------------
+
+* :doc:`Writing a hardware driver </user-guide/writing-hardware-driver>`
+* :doc:`Open driver contract <DriverContract>`
+* :doc:`Network hardware configuration <HardwareConfiguration>`
+
 Device drivers
 --------------
 
@@ -33,5 +42,7 @@ Examples
    Thorlabs DV1550AA Variable Optical Attenuator <Dv1550AA>
    Thorlabs MPC320 Polarization Controller <Mpc320>
    Fake Driver (Software-only Evaluation) <Fake>
+   Open driver contract <DriverContract>
+   Network hardware configuration <HardwareConfiguration>
    Runtime setup <RuntimeSetup>
    Examples <Examples/index>

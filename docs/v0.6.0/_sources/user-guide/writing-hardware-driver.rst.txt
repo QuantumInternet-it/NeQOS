@@ -18,7 +18,8 @@ just the absence of NeQOS source files.
 --------------------------------
 
 Download :download:`CounterDriver.py <../examples/CounterDriver.py>` and its
-:download:`OpenDrivers.json <../examples/CounterOpenDrivers.json>`. Keep them in
+:download:`OpenDrivers.json <../examples/CounterOpenDrivers.json>` and
+:download:`CounterDriver.contract.json <../examples/CounterDriver.contract.json>`. Keep them in
 the same directory. This is a software-only implementation of the entire
 contract, not a vendor hardware adapter or a subclass of a private base class.
 
@@ -58,6 +59,151 @@ See :doc:`network` for the full network description. Launch the selected device:
 With a standalone release, replace the Python module invocation with its
 DeviceOS executable. Loading the registry module executes trusted local Python
 code with DeviceOS process permissions. Do not import untrusted plugins.
+
+.. _writing-hardware-driver-inventory:
+
+Inventory metadata without importing the driver
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For ``inventory-1``, declare a static ``DEVICE_CONTRACT`` in the driver class.
+It describes its kind, boot-only ``hardwareConfig`` fields and optional
+experiment activation policy. Counter declares:
+
+.. literalinclude:: ../examples/CounterDriver.py
+   :language: python
+   :start-at:     DEVICE_CONTRACT =
+   :end-before:     _PARAMETER_SPECS =
+
+Keep parameters and signals in ``_PARAMETER_SPECS`` and ``_SIGNAL_SPECS``;
+build runtime capabilities from these same dictionaries. Declare tasks through
+the base-class decorators or a static ``_TASK_SPECS`` dictionary used to build
+``_taskRegistry``. Do not copy them into ``DEVICE_CONTRACT``. Explicit constructor
+arguments supply the ``driverConfig`` fields. Use static literal declarations:
+the extractor rejects Python calls instead of executing them. Drivers with
+dynamically assembled metadata must expose these declarations before using
+inventory validation.
+
+Generate the manifest from a source checkout, then check it after driver edits:
+
+.. code-block:: bash
+
+   python -m CommonFiles.DriverContractSource --open-drivers-file /path/to/OpenDrivers.json
+   python -m CommonFiles.DriverContractSource --open-drivers-file /path/to/OpenDrivers.json --check
+
+``contractPath`` names the generated JSON relative to the registry. It is a
+derived artifact, not another file to maintain by hand. Generation and offline
+validation do not import the driver or its SDK. Distribute the registry and
+manifest to the NodeEngine host; only the DeviceOS host needs the driver module
+and vendor dependencies. The bundled runtime also needs its
+``CommonFiles/driver_contracts`` data directory.
+
+Pass the registry to NodeEngine and to the offline validator:
+
+.. code-block:: bash
+
+   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --nodeId ExampleNodeId --licenseFile config/license.json --openDriversFile /path/to/OpenDrivers.json --serve
+   python -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory lab-inventory.json --openDriversFile /path/to/OpenDrivers.json experiment.json
+
+For a device without an explicit policy, experiment ``settings`` name parameters
+declared writable in the manifest, for example Counter's ``value`` or Fake's
+``gain``. To restrict the experiment-facing interface, declare
+``experimentSettings`` (exact names) and optionally
+``experimentSettingPatterns`` (names of existing ``_PARAMETER_PATTERNS``).
+An empty ``experimentSettings`` list permits no direct settings unless a
+declared pattern or structured activation rule supplies them. Parameter types
+and ranges come from the existing specifications; do not duplicate them.
+
+``activation`` describes how to translate settings into the existing driver
+operations. The same policies are available to built-in and Open drivers:
+
+.. list-table::
+   :header-rows: 1
+   :class: api-table
+
+   * - Field
+     - Meaning
+   * - ``parameterCopies``
+     - Copy one explicitly supplied setting to additional parameters. DV1550AA
+       applies ``defaultAttenuationDb`` to ``attenuation`` as well.
+   * - ``parametersLast``
+     - Move named parameter writes to the end of that device's parameter list.
+       EPS puts ``outputMode`` after its attenuation settings.
+   * - ``storedSettings``
+     - Typed metadata retained in the experiment projection, without a device
+       write. EPS traffic calibration values are consumed by protocols.
+   * - ``channelParameters``
+     - Map a channel object and optional aliases to existing parameter patterns.
+       ``setting`` names the object, ``fields`` maps each field to a pattern,
+       ``aliases`` maps alternative objects to fields, and ``boundRole`` names
+       bindings that require an explicit channel entry. Swabian uses
+       ``channels`` with trigger/delay parameter patterns.
+   * - ``channelSelection``
+     - Configure a complete current vector, channel selection and guard
+       selection with one synchronous task. Declare the task/input/read-back
+       names, vector width, current scale and register range, optional setting
+       aliases, and an optional trigger-vector task. Photec declares these in
+       its own contract. Channels leaving the selection are disabled in phase
+       0; ordinary writes and triggers run in phase 1; the final selection runs
+       in phase 2. Quantized read-back uses the declared scale.
+   * - ``linkWavelengthParameter``
+     - Existing parameter pattern receiving a wavelength derived by NodeEngine
+       from link lineage and DWDM. PaX000 uses ``channel<N>WavelengthNm``.
+       The wavelength is derived before explicit waveplate settings.
+   * - ``parameterLimits``
+     - Name the boot-only hardware field containing per-parameter limits and
+       optional parameter-name aliases. Live limits are still checked.
+
+For example, the attenuator's complete static policy is declared here:
+
+.. literalinclude:: ../../DeviceOSPack/Dv1550AADriver.py
+   :language: python
+   :start-at:     DEVICE_CONTRACT =
+   :end-before:     _DOCUMENTATION =
+
+Activation plans are built without importing the driver. The generator rejects
+references to absent parameters, patterns or tasks; atomic tasks must be
+synchronous foreground tasks with matching input/read-back parameters. Before
+activation, NodeEngine also checks live parameters, commands and limits.
+This policy concerns network activation; direct task, signal and parameter
+operations retain their existing runtime checks. Supplied boot configuration
+and experiment values are checked offline; constructor defaults are not
+automatically inserted into the inventory.
+
+``deviceKind`` supplies the optical
+classification to NodeEngine, offline validation and the browser. Use ``generic``
+for devices without one of the existing optical functions; these include
+``source``, ``attenuator``, ``polarizationAnalyzer``, ``polarizationAligner``,
+``snspd`` and ``timeTagger``. Roles in ``linkBindings`` still describe each
+device's function on a particular link. Do not add a kind field to network files.
+
+The browser receives the server's catalog, including registered Open drivers.
+The read-only viewer accepts the same ``--openDriversFile`` option. Optional
+``topologyAliases`` preserve historical type names for topology lookup only;
+they do not register additional DeviceOS implementations. Conflicting names are
+rejected. ``FiberSplitter`` remains a passive topology element, not a driver.
+
+Optical classification alone does not guarantee protocol compatibility. An Open
+detector used as a latch guard must implement the ``ReadDetectorHealth`` task and
+its expected result contract; a time tagger must implement the acquisition tasks
+the selected protocol calls. Photec-specific telemetry controls are not enabled
+merely by declaring ``snspd``. Static manifests cannot know connected channels or
+instance-specific calibration limits; these remain part of live capabilities.
+
+At startup, DeviceOS derives a contract fingerprint from the loaded driver's
+class declarations and signatures, before constructing the driver. This needs
+no Python source file and does not read the generated manifest. ``PING`` reports
+the identity in ``driverContract``; NodeEngine compares it with its catalog
+during handshake and experiment activation. For a registered type, a missing
+or different identity blocks use of the device. Regenerate the manifests from
+the matching sources, distribute them with NodeEngine (and any Open catalog),
+and update/restart DeviceOS with the corresponding driver. Older DeviceOS
+versions that do not report this identity must also be updated.
+
+The fingerprint covers declared metadata, not implementation bytes or hardware
+behavior. The launch ``configFingerprint`` remains a separate check of startup
+configuration, not a hash of current parameter values. A legacy Open driver
+without ``DEVICE_CONTRACT`` remains usable outside inventory mode when its type
+is not registered in NodeEngine's contract catalog.
 
 2 Implement the lifecycle contract
 ----------------------------------

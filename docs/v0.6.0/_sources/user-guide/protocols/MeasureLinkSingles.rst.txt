@@ -71,7 +71,7 @@ Measures finite singles counts and rates for resolved quantum links and returns 
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkSingles.minimal.json>`
+:download:`Download MeasureLinkSingles.minimal.json <MeasureLinkSingles.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkSingles/RunExample/input.json>`.
 
@@ -83,7 +83,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkSingles.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

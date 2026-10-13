@@ -5,9 +5,9 @@ EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST
 
 Library: ``external-python-package-dependency``
 
-Verifies that an open handler can import a distribution-local pure-Python dependency.
+Formats an integer with humanize from a local Open-library handler and publishes the formatted value; no device operations are required.
 
-:bdg:`foreground` :bdg:`timeout 10 s`
+:bdg:`foreground` :bdg:`declared timeout 10 s`
 
 **Lease:** no device resources.
 
@@ -31,7 +31,7 @@ Catalog defaults satisfy the input schema; no input overrides are required.
    * - ``test.formattedValue``
      - Comma-separated representation returned by the external-package handler.
 
-Declared keys are present after successful completion; values may be null or empty. See :doc:`/user-guide/results`.
+Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
 3 Options
 ---------
@@ -39,7 +39,8 @@ Declared keys are present after successful completion; values may be null or emp
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -53,40 +54,50 @@ Declared keys are present after successful completion; values may be null or emp
 4 Run examples
 --------------
 
-Library folders resolve relative to the run input. Keep the pack's directory layout when using its shipped input and network.
+Library folders resolve relative to the run input. Keep the library's directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow :doc:`/user-guide/quickstart`: DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary. These commands execute the run, not an offline validation.
 
-For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+:download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsRun/humanize/input.json>`
 
-.. tab-set::
+Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json>`.
 
-   .. tab-item:: humanize
+This shipped network declares no devices; no DeviceOS process is required.
 
-      :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsRun/humanize/input.json>`
+Then start NodeEngine:
 
-      Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json>`.
+.. code-block:: bash
 
-      .. code-block:: json
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json \
+     --nodeId EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST \
+     --licenseFile /path/to/license.json \
+     --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsRun/humanize/input.json \
+     --waitProtocol
 
-         {
-           "schemaVersion": "0.4",
-           "metaProtocolLibrary": {
-             "libraryId": "external-python-package-dependency",
-             "folder": "../.."
-           },
-           "steps": [
-             {
-               "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
-               "sharedParams": {
-                 "value": 1234567
-               }
-             }
-           ]
-         }
+.. dropdown:: Run plan JSON
+   :class-container: protocol-technical
+
+   .. code-block:: json
+
+      {
+        "schemaVersion": "0.4",
+        "metaProtocolLibrary": {
+          "libraryId": "external-python-package-dependency",
+          "folder": "../.."
+        },
+        "steps": [
+          {
+            "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
+            "sharedParams": {
+              "value": 1234567
+            }
+          }
+        ]
+      }
 
 5 Composition
 -------------
 
-No child submissions are declared in the stage list. Runtime submissions, if any, are owned by the bound handlers.
+No child submissions were found in the declared stages or local handlers.
 
 :doc:`Child submission and waiting </api/NodeEngine/MetaProtocolHandlers>`.
 
@@ -99,47 +110,13 @@ No child submissions are declared in the stage list. Runtime submissions, if any
 
    Local handlers: :download:`Handlers.py <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsDef/EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST/Handlers.py>`.
 
-   Catalog defaults:
-
-   .. code-block:: json
-
-      {
-        "value": 1234567
-      }
-
-   Stages, in declared order:
-
-   .. code-block:: json
-
-      [
-        {
-          "stageId": "00-EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
-          "handler": "ExternalPythonPackageDependencyHumanizeStage",
-          "params": {
-            "value": "$shared.value"
-          }
-        },
-        {
-          "stageId": "01-publish-result",
-          "handler": "PublishResultStage",
-          "params": {
-            "exports": [
-              {
-                "from": "externalPythonPackageDependency.formattedValue",
-                "as": "test.formattedValue"
-              }
-            ]
-          }
-        }
-      ]
-
    Protocol definition:
 
    .. code-block:: json
 
       {
         "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
-        "description": "Verifies that an open handler can import a distribution-local pure-Python dependency.",
+        "description": "Formats an integer with humanize from a local Open-library handler and publishes the formatted value; no device operations are required.",
         "privilegeLevel": "NORMAL",
         "dependencies": [],
         "executionMode": "foreground",

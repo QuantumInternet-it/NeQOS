@@ -17,10 +17,10 @@ Child protocols
       :link: SubmitMicroProtocolStage
       :link-type: doc
 
-      Submit a child microprotocol and retain its runtime ID in scratchpad.
+      Submit a child protocol and store its runtime ID in the scratchpad.
 
    .. grid-item-card:: WaitMicroProtocolStage
       :link: WaitMicroProtocolStage
       :link-type: doc
 
-      Wait for a child runtime submitted under a protocol key.
+      Wait for the child run submitted under the same protocolKey.

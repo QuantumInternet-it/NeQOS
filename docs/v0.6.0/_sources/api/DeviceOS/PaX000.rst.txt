@@ -8,6 +8,33 @@ PaX000 Driver
    :Source: ``DeviceOSPack/PaX000Driver.py``
    :Official product page: `NuCrypt PA1000/PA2000 <https://nucrypt.net/PA-1000.html>`_
 
+.. admonition:: Runtime requirements
+   :class: api-reference runtime-requirements
+
+   :Vendor software: No additional vendor SDK declared
+   :Python packages: ``pyserial``
+
+   .. rubric:: Local settings
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-runtime-settings-table
+      :widths: 28 12 25 35
+
+      * - Setting
+        - Required
+        - Default
+        - Description
+      * - ``NEQOS_CALIBRATION_DIR``
+        - No
+        - ``calibrations``
+        - DeviceOS-host directory for persisted PaX000 compensated tomography tables. Relative paths are resolved beside the driver module. Set this in the process environment, not DeviceOS.local.json.
+
+
+   See :doc:`DeviceOS runtime setup <RuntimeSetup>` for local-config discovery and overrides.
+
 Control a NuCrypt PA1000/PA2000 polarization controller.
 
 Hardware capabilities are discovered after connection. Each discovered

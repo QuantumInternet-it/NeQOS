@@ -1,17 +1,99 @@
-2. Describe the bench
-=====================
+.. _describe-the-bench:
+
+Describe the network
+====================
 
 Start from the network shipped with the protocol you intend to run. Preserve
 its schema and replace anonymized identities, addresses and hardware settings
-with verified bench values. Documentation/example addresses such as
+with verified testbed values. Documentation/example addresses such as
 ``192.0.2.10`` are placeholders, not reachable laboratory hosts.
+
+Lab inventory and experiment networks
+-------------------------------------
+
+Fake and registered Open drivers are supported in inventory mode. Open driver
+registries require a generated ``contractPath`` manifest for offline validation;
+see :ref:`writing-hardware-driver-inventory` for generation and launch commands.
+
+The driver contract is the source of truth for admitted experiment settings,
+their types and their application. Built-in and Open drivers use the same
+planner. Compound settings may become atomic task calls; other settings become
+ordered parameter writes or remain protocol metadata. NodeEngine checks the
+generated manifest offline and the loaded driver's identity and live limits
+before activation. Update DeviceOS drivers and their NodeEngine manifests
+together when these declarations change.
+
+For a long-running laboratory session, separate the stable equipment inventory
+from the experiment. A ``schemaVersion: inventory-1`` file contains an
+``inventoryId``, nodes, enabled active devices, endpoints, driver configuration
+and boot-only hardware settings. It contains no optical bindings, operating
+values or passive splitters. Start each DeviceOS once with that inventory::
+
+   python -m DeviceOSPack.DeviceOS --configFile lab-inventory.json --deviceId ExampleDetectorId --licenseFile config/license.json
+
+The IDs and paths in these commands are placeholders. Replace
+``ExampleDetectorId`` and ``ExampleNodeId`` with enabled device and node IDs
+declared in your own inventory, and use your own configuration/license paths.
+
+Use the same inventory on NodeEngine and every instrument host; the launch
+configuration fingerprint must match. Endpoint, driver and boot-only changes
+require restarting the affected DeviceOS. DeviceOS can run on separate PCs.
+NodeEngine aggregates the enabled devices across all declared nodes.
+
+Start the operator without an active experiment::
+
+   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --nodeId ExampleNodeId --licenseFile config/license.json --serve
+
+An ``experiment-1`` file names the same ``inventoryId`` and a ``networkId``.
+Its top-level ``devices`` list references inventory IDs. Each entry holds
+``settings`` (the existing driver configuration names), ``linkBindings`` and
+optional ``healthGuards``. Only passive ``FiberSplitter`` entries declare a
+``deviceType``. Devices absent or disabled in the experiment remain connected
+but are not available to that experiment; their operating settings are ignored.
+An inventory-disabled device is not launched. A bound TimeTagger input needs
+a ``settings.channels.<n>`` entry. An empty entry deliberately leaves its live
+trigger/delay unchanged and produces an activation warning.
+
+The Network view loads a draft, validates it against live device capabilities
+and read-backs, shows the diff, then activates it through an internal built-in
+protocol. Activation refuses active protocols, leases or queued runs. It
+zeros detector channels leaving the selection, applies other device settings,
+then applies the final detector bias/guard selection. A detector may therefore
+have separate zeroing and final-configuration children. DV1550AA activation
+updates both its home value and its current attenuation. Analyzer wavelength
+comes from link lineage and DWDM, not from a file in the DeviceOS working
+directory. Wavelength changes warn about the analyzer's default internal
+compensation before activation.
+
+Only successful completion replaces the active topology. Failure preserves
+the previous topology, records attempted writes/read-backs in run manifests,
+and flags configuration drift. Start remains blocked until a successful
+re-activation; there is no automatic rollback or unchecked drift-dismissal
+button. After restart no experiment is active; re-validate and re-activate
+the last network from the UI. History is bound to inventory identity and
+endpoints, not the changing experiment network ID.
+
+For a headless run, activate the network before the plan::
+
+   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --networkFile experiment.json --nodeId ExampleNodeId --licenseFile config/license.json --metaProtocolRun input.json --waitProtocol
+
+Supplying ``--networkFile`` explicitly authorizes boot activation, including
+its recorded warnings. The legacy single-file ``--configFile`` workflow remains
+available, but it cannot be combined with ``--inventoryFile``. Legacy analyzer
+wavelengths are now applied by NodeEngine after device readiness too.
+
+Offline validation does not start drivers or contact equipment::
+
+   python -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory lab-inventory.json experiment.json
 
 Nodes, devices and addresses
 ----------------------------
 
-``network.json`` must contain a top-level ``nodes`` list. Select an existing
-``nodeId`` when launching NodeEngine. Each enabled device has a unique
-``deviceId`` and a supported ``deviceType``. Its ``deviceEngine`` gives the
+In the single-file format, ``network.json`` must contain a top-level ``nodes``
+list. In inventory mode this list belongs to the inventory, not the experiment.
+Select an existing
+``nodeId`` when launching NodeEngine. Each declared device has a globally unique
+``deviceId`` and a supported ``deviceType``. For an enabled active device, ``deviceEngine`` gives the
 DeviceOS host address and its synchronous-command, asynchronous-command and
 telemetry ports. Those three ports must match DeviceOS and be reachable across
 the relevant hosts; device processes sharing an IP must not bind conflicting
@@ -26,7 +108,8 @@ to the device configuration on the host that physically owns it.
 Check in this order:
 
 1. The intended node and device are enabled.
-2. NodeEngine and DeviceOS use the same edited network file.
+2. NodeEngine and DeviceOS use the same inventory content (or the same edited
+   single-file network when not using inventory mode).
 3. Device identity, physical serial/COM port and DeviceOS instance agree.
 4. The command/telemetry endpoints match and firewall rules permit access.
 5. DeviceOS reports connected, initialized and ready before a measurement.
@@ -77,7 +160,7 @@ used by the requested observation to be declared consistently.
      "detectorConnected": true
    }
 
-This fragment is an analyzer binding, not an entire network. The cookbook
+This fragment is an analyzer binding, not an entire network. The protocol catalog
 provides complete network downloads, including source, sink and device entries.
 Do not infer an analyzer's output from a label such as upper/lower: check its
 declared physical channel and port.
@@ -89,40 +172,336 @@ declared physical channel and port.
    safe light, move one analyzer and verify which detector changes. The same
    mapping must agree in the analyzer, Time Tagger and detector-health entries.
 
-Declare detector-health wiring
-------------------------------
+Wiring and readout
+------------------
 
-A Time Tagger's ``healthGuards`` identifies the detector-health device and maps
-its channels to the Time Tagger inputs. This is wiring, not the run's decision
-to enable protection. For example, a Time Tagger device entry may contain:
+Each TimeTagger sink pairs with the unique Photec sink on the same link.
+On PBS links the key is ``(linkId, inputPort)`` and both devices declare H/V;
+on other links the port is ignored. Channel numbers at the two ends need
+not agree: SNSPD 5 can feed TimeTagger 6. Multiple sinks on the same key are
+ambiguous, not a reason to guess equal channel numbers.
+
+Declaring Photec is optional. A channel without one is labelled
+``detector not declared`` in neutral grey, and unguarded acquisition still
+works. ``latchGuard.mode: required`` needs a declared, enabled detector for
+every measured input; NodeEngine validates this before acquisition and the
+CLI validates literal selected inputs before Boot. A disabled detector does
+not silently downgrade required protection to disabled.
+
+For guarded acquisition, declare the policy and device leases explicitly in the run plan;
+the topology does not add detector IDs to its resource list. See
+:ref:`latch-guard-resource-declarations` for the exact union and an example.
+
+An explicit ``healthGuards`` association uses ``snspdChannel`` and must agree
+with any link pairing. It can also describe a channel without optical link
+bindings. The old detector type ``Photek``, generic ``DetectorHealth`` type
+and network field ``detectorHealthChannel`` are rejected: there are no aliases.
+Canonical deployments use ``Photec`` and ``snspdChannel``. Public protocol IDs,
+export keys and latch observation-report keys are not renamed by this change.
+
+A ``FiberSplitter`` is passive: no DeviceOS process, ``deviceEngine``,
+telemetry, readiness, tasks or lease. Its one ``splitterInput`` names the
+parent link; each numbered ``splitterOutput`` names a distinct child link
+with ``parentLinkId``. Children inherit the root source, source output and
+DWDM channel; cascaded splitters are supported. ``splitRatio`` is optional,
+defaults to equal division and, when supplied, has one positive value per
+output summing to 1 within 1e-6. A PBS remains inside the analyzer, not a
+FiberSplitter. If a splitter is declared, lineage resolution uses it; it is
+not merely a drawing annotation.
+
+Device IDs are globally unique, including disabled devices and nodes.
+``enabled: false`` means switched off: drawn in the viewer but excluded from
+runtime connections and operations. Passive device IDs cannot appear in
+``resourceDeviceIds``. Validation is owned by NodeEngine, not the browser.
+The browser presents authoritative classifications, chains and diagnostics;
+offline imports use a parity-tested read-only fallback.
+
+Validate a complete, single-file network without connecting hardware::
+
+   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork /path/to/network.json
+
+An ``experiment-1`` network requires ``--inventory`` so device types, endpoints
+and boot-only configuration can be resolved before checking its settings and
+optical topology. Without that argument the CLI reports an error, rather than
+validating an incomplete projection::
+
+   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory /path/to/lab-inventory.json /path/to/experiment.json
+
+To check a folder recursively, supply the inventory for its experiments::
+
+   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory /path/to/lab-inventory.json /path/to/experiments
+
+Run plans and result files are skipped in folder scans. Complete networks in
+the same folder are validated independently; ``--inventory`` is used only for
+``experiment-1`` files. Inventory files are checked against the inventory
+contract, not treated as active optical topologies. Checking an inventory alone
+does not validate any experiment's wiring.
+
+This is an offline structural check. It does not test connectivity, initialize
+hardware, check live capabilities/read-backs or authorize network activation.
+
+Errors stop boot or Start and are listed together. Warnings and information
+remain visible in the topology panel and operator state. The CLI exits
+non-zero if any selected network has an error.
+
+.. list-table:: Wiring diagnostics
+   :header-rows: 1
+
+   * - Severity
+     - Codes
+   * - Error
+     - ``duplicate-device-id``, ``unknown-link``, ``parent-link-missing``, ``parent-link-cycle``
+   * - Error
+     - ``sublink-without-splitter``, ``splitter-invalid``, ``sublink-dwdm-mismatch``
+   * - Error
+     - ``readout-ambiguous``, ``readout-invalid``, ``pbs-snspd-port-missing``, ``healthguard-conflict``
+   * - Error
+     - ``retired-device-type``, ``retired-field``, ``invalid-network``; passive resource requests are rejected by plan/resource validation.
+   * - Warning
+     - ``pbs-output-unread``, ``implicit-split``, ``unknown-device-type``
+   * - Information
+     - ``no-snspd``, ``device-disabled``, ``inventory-validated`` (CLI inventory-contract check only)
+
+Full topology example with one splitter and a PBS analyzer:
 
 .. code-block:: json
 
    {
-     "healthGuards": [
+     "networkId": "splitter-pbs-example",
+     "quantumLinks": [
        {
-         "deviceId": "ExampleDetectorHealthId",
-         "channelMappings": [
+         "linkId": "ROOT",
+         "dwdmChannel": 44
+       },
+       {
+         "linkId": "ROOT-1",
+         "parentLinkId": "ROOT"
+       },
+       {
+         "linkId": "ROOT-2",
+         "parentLinkId": "ROOT"
+       }
+     ],
+     "nodes": [
+       {
+         "nodeId": "Bench",
+         "devices": [
            {
-             "timeTaggerChannel": 1,
-             "detectorHealthChannel": 1
+             "deviceId": "EPS",
+             "deviceType": "Eps1000W",
+             "enabled": true,
+             "linkBindings": [
+               {
+                 "linkId": "ROOT",
+                 "role": "source",
+                 "outputPort": 1
+               }
+             ],
+             "deviceEngine": {
+               "ip": "192.0.2.10",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             }
            },
            {
-             "timeTaggerChannel": 2,
-             "detectorHealthChannel": 2
+             "deviceId": "SPLIT",
+             "deviceType": "FiberSplitter",
+             "enabled": true,
+             "linkBindings": [
+               {
+                 "linkId": "ROOT",
+                 "role": "splitterInput"
+               },
+               {
+                 "linkId": "ROOT-1",
+                 "role": "splitterOutput",
+                 "outputPort": 1
+               },
+               {
+                 "linkId": "ROOT-2",
+                 "role": "splitterOutput",
+                 "outputPort": 2
+               }
+             ],
+             "hardwareConfig": {
+               "splitRatio": [
+                 0.5,
+                 0.5
+               ]
+             }
+           },
+           {
+             "deviceId": "PA",
+             "deviceType": "PaX000",
+             "enabled": true,
+             "linkBindings": [
+               {
+                 "linkId": "ROOT-1",
+                 "role": "polarizationAnalyzer",
+                 "channel": 1,
+                 "outputPort": "H",
+                 "measurementTopology": "pbs"
+               },
+               {
+                 "linkId": "ROOT-1",
+                 "role": "polarizationAnalyzer",
+                 "channel": 1,
+                 "outputPort": "V",
+                 "measurementTopology": "pbs"
+               }
+             ],
+             "deviceEngine": {
+               "ip": "192.0.2.20",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             }
+           },
+           {
+             "deviceId": "SNSPD",
+             "deviceType": "Photec",
+             "enabled": true,
+             "linkBindings": [
+               {
+                 "linkId": "ROOT-1",
+                 "role": "sink",
+                 "channel": 5,
+                 "inputPort": "H"
+               },
+               {
+                 "linkId": "ROOT-1",
+                 "role": "sink",
+                 "channel": 6,
+                 "inputPort": "V"
+               },
+               {
+                 "linkId": "ROOT-2",
+                 "role": "sink",
+                 "channel": 7
+               }
+             ],
+             "deviceEngine": {
+               "ip": "192.0.2.30",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             }
+           },
+           {
+             "deviceId": "TT",
+             "deviceType": "SwabianTT",
+             "enabled": true,
+             "linkBindings": [
+               {
+                 "linkId": "ROOT-1",
+                 "role": "sink",
+                 "channel": 6,
+                 "inputPort": "H"
+               },
+               {
+                 "linkId": "ROOT-1",
+                 "role": "sink",
+                 "channel": 7,
+                 "inputPort": "V"
+               },
+               {
+                 "linkId": "ROOT-2",
+                 "role": "sink",
+                 "channel": 8
+               }
+             ],
+             "deviceEngine": {
+               "ip": "192.0.2.40",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             }
            }
          ]
        }
      ]
    }
 
-Enable or disable the guard explicitly in ``input.json``. For a finite primitive
-with ``required``, include the exact Time Tagger plus relevant health-device
-union in its ``resourceDeviceIds``. With ``disabled``, the primitive expects
-only its Time Tagger; a composed campaign may require a larger union for its
-other operations. The network can describe a Photec even when a specific run
-disables the guard. Protection enabled without a registered, ready health
-device or without channel mappings fails; it does not fall back silently.
+Addresses and hardware settings are placeholders. Supply the actual driver
+configuration and experimentally verify optical paths, splitter port order
+and RF cabling before use. This example does not prove hardware readiness.
+
+.. _latch-guard-resource-declarations:
+
+Latch-guard policy and lease resources
+--------------------------------------
+
+The network declares readout associations, not an acquisition policy or a
+run's device leases. For acquisition contracts that expose ``latchGuard`` and
+``resourceDeviceIds``, declare both explicitly in the run plan. Detector IDs
+are not silently added to a supplied resource list.
+
+For a direct, finite-window measurement using this policy, such as
+``MeasureCountRates``:
+
+* ``latchGuard.mode: required``: ``resourceDeviceIds`` must contain exactly
+  the TimeTagger device plus the unique Photec devices associated with the
+  measured channels. Omitting a required device or adding an unrelated one
+  fails validation. Finite guarded acquisition also requires ``clear: true``.
+* ``latchGuard.mode: disabled``: declare exactly the TimeTagger device. A
+  Photec association in the network does not enable protection automatically.
+  Disabling protection is an explicit policy choice, not a missing-device
+  fallback.
+
+Resource entries are **device IDs**, not channel numbers. If several measured
+channels share one Photec, list that device once. The guard checks only the
+detector channels resolved for the selected TimeTagger inputs; do not lease
+every detector in the inventory. Passive splitters are never lease resources.
+
+In the complete topology example above, TimeTagger ``TT`` channel 6 is fed by
+``SNSPD`` channel 5 on the H output of ``ROOT-1``. The following one-window run
+plan declares the corresponding guarded resource union:
+
+.. code-block:: json
+
+   {
+     "schemaVersion": "0.4",
+     "metaProtocolLibrary": {
+       "libraryId": "neqos-protected"
+     },
+     "steps": [
+       {
+         "protocolId": "MeasureCountRates",
+         "sharedParams": {
+           "deviceId": "TT",
+           "resourceDeviceIds": [
+             "TT",
+             "SNSPD"
+           ],
+           "channelRefs": [
+             6
+           ],
+           "durationSec": 1.0,
+           "clear": true,
+           "latchGuard": {
+             "mode": "required",
+             "maxWindowRetries": 0
+           }
+         }
+       }
+     ]
+   }
+
+``maxWindowRetries: 0`` permits no replacement window if this acquisition is
+rejected by the guard. To make this same primitive explicitly unguarded,
+change the mode to ``disabled`` and the resource list to ``["TT"]``;
+merely removing ``SNSPD`` while keeping ``required`` is invalid.
+
+These exact-union rules describe direct acquisition primitives, not every
+parent's complete lease. A composite protocol may also need analyzers,
+controllers, sources or attenuators: declare the full union required by that
+protocol's contract. Its child acquisitions use their own required subsets,
+with leases delegated by the runtime. ``MonitorCountRates`` uses ``annotate``
+rather than ``required`` for guarded monitoring; its resource union still
+includes the TimeTagger and selected Photec devices. Use only the guard modes
+declared by the chosen protocol. Do not add these fields to contracts that
+do not declare them.
 
 Hardware limits are not global attenuation requests
 ---------------------------------------------------

@@ -1,6 +1,6 @@
 {
   "protocolId": "FAKE-HANDLER",
-  "description": "FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.",
+  "description": "Foreground FakeDriver protocol whose local handlers run device tasks and repeat one stage up to maxIterations before publishing the result.",
   "privilegeLevel": "NORMAL",
   "dependencies": [],
   "executionMode": "foreground",

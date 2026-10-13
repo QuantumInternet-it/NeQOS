@@ -9,7 +9,9 @@ CaptureRawTimeTagStream
 
 Capture, close and transfer a raw time-tag stream for a quantum link.
 
-:bdg:`foreground` :bdg:`timeout 1441 min`
+:bdg:`foreground` :bdg:`declared timeout 24 h 1 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``timeTaggerDeviceId``.
 
@@ -21,7 +23,8 @@ Resolve a link's TimeTagger channels from the active network, then declaratively
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -55,7 +58,7 @@ Resolve a link's TimeTagger channels from the active network, then declaratively
      ]
    }
 
-:download:`Download minimal input.json <CaptureRawTimeTagStream.minimal.json>`
+:download:`Download CaptureRawTimeTagStream.minimal.json <CaptureRawTimeTagStream.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/network.json>`.
 
@@ -65,7 +68,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CaptureRawTimeTagStream.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -97,7 +100,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -105,15 +109,11 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``detectorPorts``
      - []
-     - —
-     - Optional subset of named sink ports; an empty list records every sink channel of the link.
-   * - ``detectorPorts[]``
-     - not declared
-     - length >= 1
-     - One link sink-port label such as H or V. Required when the containing object or array item is supplied.
+     - each string (length >= 1)
+     - Optional subset of named sink ports; an empty list records every sink channel of the link. Each item: One link sink-port label such as H or V.
    * - ``durationSec``
      - 30
-     - —
+     - > 0
      - Declared raw-stream hold duration in seconds.
    * - ``recordingSubdirectory``
      - null
@@ -135,27 +135,34 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-9
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "detectorPorts": [
-             "H"
-           ],
-           "durationSec": 5.0,
-           "recordingSubdirectory": "examples",
-           "marker": "example",
-           "maxFileSizeBytes": null,
-           "nodeDestinationDirectory": null
-         }
+.. code-block:: json
+   :emphasize-lines: 2-9
+
+   {
+     "sharedParams": {
+       "detectorPorts": [
+         "H"
+       ],
+       "durationSec": 5.0,
+       "recordingSubdirectory": "examples",
+       "marker": "example"
+     }
+   }
 
 5 How it is built
 -----------------

@@ -5,14 +5,14 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="NodeEngine API" href="../api/NodeEngine/index.html"><link rel="prev" title="LLM Authoring Guide" href="../llm-authoring.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+    <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>NeQOS_LLM_AUTHORING.md - NeQOS documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=05b004e2" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4887f515" />
     
     
 
@@ -39,7 +39,7 @@
   }
 </style><!-- neqos-doc-versioning:start -->
 <link rel="stylesheet" href="../_versioning/selector.css">
-<script defer src="../_versioning/selector.js" data-neqos-version="v0.5.0" data-neqos-page="llm/authoring-instructions.html"></script>
+<script defer src="../_versioning/selector.js" data-neqos-version="v0.6.0" data-neqos-page="llm/authoring-instructions.html"></script>
 <!-- neqos-doc-versioning:end -->
 </head>
   <body>
@@ -200,14 +200,18 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../user-guide/index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/how-neqos-works.html">How NeQOS works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/installation.html">1. Install the software</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/network.html">2. Describe the bench</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/quickstart.html">3. First run without hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/running.html">4. Run and customize a protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/recipes.html">5. Experimental recipes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/results.html">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../user-guide/protocols/index.html">Built-in protocol catalog</a><input aria-label="Toggle navigation of Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/how-neqos-works.html">1. How NeQOS works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/installation.html">2. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/network.html">4. Describe the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/quickstart.html">5. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/running.html">6. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/browser-interface.html">7. Use the browser interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/recipes.html">8. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/results.html">9. Read results and diagnose failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/writing-meta-protocols.html">10. Writing a meta-protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/writing-hardware-driver.html">11. Writing a hardware driver</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../user-guide/protocols/index.html">12. Built-in protocol catalog</a><input aria-label="Toggle navigation of 12. Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../user-guide/protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4 has-children"><a class="reference internal" href="../user-guide/protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../user-guide/protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
@@ -324,6 +328,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/common-issues.html">13. Common issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
@@ -334,7 +339,7 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open Meta-protocols</a><input aria-label="Toggle navigation of Open Meta-protocols" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open libraries</a><input aria-label="Toggle navigation of Open libraries" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency.html">External Python Package Dependency</a><input aria-label="Toggle navigation of External Python Package Dependency" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a></li>
 </ul>
@@ -354,7 +359,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a><input aria-label="Toggle navigation of Meta-protocol Handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Built-in stage handlers</a><input aria-label="Toggle navigation of Built-in stage handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/handlers/composition.html">Child protocols</a><input aria-label="Toggle navigation of Child protocols" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/SubmitMicroProtocolStage.html">SubmitMicroProtocolStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/WaitMicroProtocolStage.html">WaitMicroProtocolStage</a></li>
@@ -373,40 +378,50 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/StageRuntime.html">Stage handler runtime</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Photec.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -416,6 +431,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/DriverContract.html">Open driver contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/HardwareConfiguration.html">Network hardware configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/parameters.html">Parameters</a></li>
@@ -468,105 +485,104 @@
 <p><a class="reference download internal" download="" href="../_downloads/102024a480fe32de1cd383cfc75ec092/NeQOS_LLM_AUTHORING.md"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">NeQOS_LLM_AUTHORING.md</span></code></a></p>
 <p>The complete Markdown instructions are shown below. Attach the downloaded
 file to your LLM conversation, following the <a class="reference internal" href="../llm-authoring.html"><span class="doc">LLM Authoring Guide</span></a>.</p>
-<div class="llm-authoring-source highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># NeQOS LLM Authoring Instructions</span>
+<div class="llm-authoring-source highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># NeQOS LLM authoring instructions</span>
 
-Apply these instructions when generating or extending an Open meta-protocol library. Read them together with the Reserved and Open libraries supplied by the user&#39;s NodeEngine distribution. This guide accompanies NeQOS 0.5.0; verify the contracts and formats against the supplied release before generating files.
+Apply these instructions when generating or extending an Open library. Read them together with the built-in catalog (<span class="sb">`ReservedMetaProtocols/`</span>) and Open example libraries (<span class="sb">`OpenMetaProtocols/`</span>) supplied by the user&#39;s NodeEngine distribution. This guide accompanies NeQOS 0.6.0; verify the contracts and formats against the supplied release before generating files.
 
-<span class="gu">## 1. Establish the Available Context</span>
+<span class="gu">## 1. Establish the available context</span>
 
-<span class="k">-</span><span class="w"> </span>Inspect <span class="sb">`NodeEnginePack/ReservedMetaProtocols/`</span> for Built-in contracts and <span class="sb">`NodeEnginePack/OpenMetaProtocols/`</span> for editable examples.
-<span class="k">-</span><span class="w"> </span>Report the file paths actually read, the target NeQOS release, and sources you cannot access. Do not claim to have read an entire archive or folder if the interface only exposes part of it.
-<span class="k">-</span><span class="w"> </span>Search manifests and protocol descriptions first, then read the complete relevant <span class="sb">`protocol.json`</span> files, including <span class="sb">`sharedParams`</span>, <span class="sb">`inputSchema`</span>, <span class="sb">`outputSchema`</span>, <span class="sb">`resourceRequests`</span> and stages. Read the relevant Open manifests, handlers and run inputs.
-<span class="k">-</span><span class="w"> </span>Use the matching public NodeEngine handler and DeviceOS API documentation when needed. If a necessary API contract is unavailable, request it instead of inventing a signature.
-<span class="k">-</span><span class="w"> </span>Treat the supplied release contracts as authoritative. Documentation from another release or remembered examples must not override them.
-<span class="k">-</span><span class="w"> </span>Treat example device IDs, timings and physical values as examples, not as settings for the user&#39;s bench.
+<span class="k">-</span><span class="w"> </span>Inspect <span class="sb">`NodeEnginePack/ReservedMetaProtocols/`</span> for built-in contracts and <span class="sb">`NodeEnginePack/OpenMetaProtocols/`</span> for editable examples.
+<span class="k">-</span><span class="w"> </span>Report the paths actually read, the target release and sources you cannot access. An upload alone does not establish that an entire archive is readable.
+<span class="k">-</span><span class="w"> </span>Search manifests and descriptions first, then read complete relevant definitions: <span class="sb">`sharedParams`</span>, <span class="sb">`inputSchema`</span>, <span class="sb">`outputSchema`</span>, <span class="sb">`resourceRequests`</span>, stages and the built-in <span class="sb">`exported`</span> flag. Read the relevant Open manifests, handlers and run plans.
+<span class="k">-</span><span class="w"> </span>Use the matching stage-handler, <span class="sb">`StageContext`</span>/<span class="sb">`StageResult`</span> and DeviceOS task-surface references. Request a missing API contract rather than inventing a signature.
+<span class="k">-</span><span class="w"> </span>Treat the supplied release as authoritative. Example IDs, timing and physical values require review for the user&#39;s testbed.
 
-<span class="sb">`ReservedMetaProtocols`</span> is already the distributed Built-in capability catalog. Do not create another hand-maintained catalog. Only Built-in contracts explicitly marked <span class="sb">`&quot;exported&quot;: true`</span> may be invoked by an Open protocol. Children defined in the loaded Open library do not need this protected-only field.
+The built-in catalog is the only index of built-in protocols. Only definitions marked <span class="sb">`&quot;exported&quot;: true`</span> are public built-in protocols callable by an Open library. That flag is unrelated to result exports. Open definitions do not declare it. Use the current shipped examples cited by the documentation, not remembered examples from another release.
 
-<span class="gu">## 2. Compose Existing Behavior First</span>
+<span class="gu">## 2. Compose existing behavior first</span>
 
-<span class="k">1.</span> Search existing exported Built-in protocols and existing Open definitions before creating new behavior. Explain which contracts satisfy each requested operation and what, if anything, is missing.
-<span class="k">2.</span> Prefer declarative composition through <span class="sb">`SubmitMicroProtocolStage`</span> and <span class="sb">`WaitMicroProtocolStage`</span>. Use the matching <span class="sb">`protocolKey`</span> for submission and waiting, pass declared child inputs through <span class="sb">`sharedParamOverrides`</span>, and import only paths declared by the child&#39;s <span class="sb">`outputSchema`</span>.
-<span class="k">3.</span> Reuse existing Open children within the generated library. Follow the manifest rules for the library actually loaded; do not assume a protocol in another example library becomes available automatically. Identify any Open definition you propose to include and register it explicitly.
-<span class="k">4.</span> Do not copy protected implementations or import internal Reserved services to bypass a public contract. Compose exported protocols through their public interfaces.
-<span class="k">5.</span> Avoid duplicated setup, acquisition, timing, loading, calibration and scientific analysis. Reuse a child with different inputs when that expresses the requested behavior.
-<span class="k">6.</span> Do not produce long repeated stage lists when a reusable child plus justified runtime iteration can express them. Do not add wrappers that only rename an existing protocol without serving the user&#39;s workflow.
-<span class="k">7.</span> If a required reusable primitive is absent, describe the missing contract. Do not silently implement a protected workflow in a new Open handler.
+<span class="k">1.</span> Identify public built-in protocols and existing Open definitions that satisfy the requested operations, then describe any missing contract.
+<span class="k">2.</span> Prefer <span class="sb">`SubmitMicroProtocolStage`</span> followed by <span class="sb">`WaitMicroProtocolStage`</span> with the same <span class="sb">`protocolKey`</span>. Pass only declared child inputs through <span class="sb">`sharedParamOverrides`</span>; import declared outputs or existing dictionary fields under a declared object export.
+<span class="k">3.</span> Register every included Open child in the loaded library. Definitions from another example library do not become available automatically.
+<span class="k">4.</span> Compose public built-in interfaces rather than copying their handler code or importing internal NodeEngine services.
+<span class="k">5.</span> Reuse setup, acquisition, timing, loading, calibration and scientific analysis. Add a wrapper only when it serves an actual parent contract or execution requirement.
+<span class="k">6.</span> Use a justified runtime loop instead of repeating long stage lists. New scientific analysis requires the user&#39;s request and documented assumptions.
 
-<span class="gu">## 3. Use Local Handlers Where Needed</span>
+<span class="gu">## 3. Use local handlers where needed</span>
 
-Local Python handlers are appropriate for runtime branching, bounded iteration, convergence decisions, aggregation of child results or new domain-specific behavior not provided by existing contracts. Explain why declarative composition is insufficient before adding one. New scientific analysis must be explicitly requested and its assumptions documented; do not invent calculations to fill a gap.
+Local handlers support runtime branching, bounded iteration, convergence decisions and aggregation. Explain why declared composition is insufficient before adding one. Document inputs, decisions, produced values and failure conditions in Python docstrings.
 
-<span class="k">-</span><span class="w"> </span>Keep reusable logic in one place rather than duplicating it across handlers.
-<span class="k">-</span><span class="w"> </span>Document the handler&#39;s inputs, decisions, produced values and reason for existing in Python docstrings.
-<span class="k">-</span><span class="w"> </span>Follow the public <span class="sb">`StageContext`</span> and <span class="sb">`StageResult`</span> APIs demonstrated in the matching Open examples and handler reference. Do not guess whether a call is synchronous or awaited.
-<span class="k">-</span><span class="w"> </span>In runtime composition, retain child runtime identifiers, check failures, wait for completion and consume declared results. Do not treat submission as completion or suppress child failures.
-<span class="k">-</span><span class="w"> </span>Register callable stages in <span class="sb">`HANDLERS`</span>. A file listed in a protocol&#39;s <span class="sb">`handlerFiles`</span> registers only handlers used by that protocol. Shared Open handlers belong in <span class="sb">`sharedHandlerFiles`</span>; declare each handler file once and avoid collisions with compiled names.
-<span class="k">-</span><span class="w"> </span>Use finite timeouts and explicit termination conditions for repeated work. A deliberately unbounded monitor requires a parent that owns its termination.
+<span class="k">-</span><span class="w"> </span>Register callable stages in <span class="sb">`HANDLERS`</span>. A protocol&#39;s <span class="sb">`handlerFiles`</span> registers only handlers used by that protocol. Reusable handlers belong in <span class="sb">`sharedHandlerFiles`</span>; declare each file once and avoid built-in stage-handler names such as <span class="sb">`PublishResultStage`</span>.
+<span class="k">-</span><span class="w"> </span><span class="sb">`ctx.submit_microprotocol`</span>, child state checks, <span class="sb">`ctx.child_output`</span>, <span class="sb">`ctx.get`</span> and <span class="sb">`ctx.set`</span> are synchronous. Await device operations and <span class="sb">`ctx.abort_microprotocol`</span>.
+<span class="k">-</span><span class="w"> </span>Store child runtime IDs in the scratchpad before returning; re-entry must not submit the same child again. Check failure/abort and unknown IDs, wait for <span class="sb">`COMPLETED`</span>, then read declared values through <span class="sb">`ctx.child_output`</span>.
+<span class="k">-</span><span class="w"> </span>Return <span class="sb">`StageResult`</span> with <span class="sb">`advance`</span>, <span class="sb">`repeat`</span>, <span class="sb">`requeue`</span>, <span class="sb">`complete`</span> or <span class="sb">`fail`</span>. <span class="sb">`requeue`</span> returns to scheduling at the same stage; <span class="sb">`repeat`</span> runs it again inside the current execution. Include <span class="sb">`reason`</span> for failure and a non-negative <span class="sb">`delaySec`</span> when polling. Publish all required outputs before an early <span class="sb">`complete`</span>.
+<span class="k">-</span><span class="w"> </span>Define explicit loop termination and an actual elapsed-time guard when needed. A declared catalog <span class="sb">`timeoutSec`</span> alone is not an enforced deadline for a handler-backed run. A deliberately unbounded monitor requires a parent that owns termination.
 
-<span class="gu">## 4. Respect Device and Acquisition Ownership</span>
+<span class="gu">## 4. Respect devices, acquisition and leases</span>
 
-<span class="k">-</span><span class="w"> </span>Prefer exported device configuration and acquisition protocols over direct task calls. For a small uncovered device operation, use the documented <span class="sb">`RunSingleTaskStage`</span> or <span class="sb">`ctx.run_task`</span> interface with declared resources and advertised task inputs.
-<span class="k">-</span><span class="w"> </span>Do not call TimeTagger acquisition tasks such as <span class="sb">`CreateMeasurement`</span>, <span class="sb">`ActivateMeasurements`</span> or <span class="sb">`StartMeasurement`</span> directly from an Open handler. Compose the appropriate exported acquisition contract for count rates, coincidences, correlations or raw streams.
-<span class="k">-</span><span class="w"> </span>Preserve acquisition guard semantics from the chosen contract. Do not select <span class="sb">`latchGuard: disabled`</span> merely to make an input pass validation. Ask for the intended policy when it is unresolved.
-<span class="k">-</span><span class="w"> </span>Sequential child measurements do not represent a simultaneous acquisition window. If simultaneity is required and no public contract provides it, report that missing capability.
-<span class="k">-</span><span class="w"> </span>Declare resources for each protocol that operates devices, including delegated children. Use parameterized resource declarations supported by the release. Do not override a child&#39;s resources to an empty list when it needs hardware.
-<span class="k">-</span><span class="w"> </span>The runtime manages ancestor/child leases and the active device turn. A parent may poll a delegated child but cannot operate that device while the child is active. Do not invent manual ownership or an <span class="sb">`inherit`</span>/<span class="sb">`acquire`</span> catalog switch.
-<span class="k">-</span><span class="w"> </span>Compose existing state restoration workflows. If a new handler changes reversible device state across invocations, use the documented terminal cleanup API and clear the cleanup only after normal restoration succeeds.
+<span class="k">-</span><span class="w"> </span>Prefer public configuration and acquisition protocols to direct device operations. For a small uncovered task, use <span class="sb">`RunSingleTaskStage`</span> or <span class="sb">`ctx.run_task`</span> with declared resources and advertised inputs.
+<span class="k">-</span><span class="w"> </span>Time Tagger acquisition through <span class="sb">`CreateMeasurement`</span>, <span class="sb">`ActivateMeasurements`</span> and <span class="sb">`StartMeasurement`</span> belongs to the built-in acquisition implementation. Open handlers compose the public acquisition contract for count rates, coincidences, correlations or raw streams.
+<span class="k">-</span><span class="w"> </span>Select <span class="sb">`latchGuard`</span> from the experiment&#39;s intended detector-health policy, not merely to pass validation. Ask when it is unresolved.
+<span class="k">-</span><span class="w"> </span>Sequential measurements are not a simultaneous acquisition window. Report a missing simultaneous-acquisition contract instead of relabelling sequential data.
+<span class="k">-</span><span class="w"> </span>Every device-operating child declares its resources. Omit <span class="sb">`resourceRequests`</span> to retain the child declaration; an explicit list replaces it, and <span class="sb">`[]`</span> grants no device access.
+<span class="k">-</span><span class="w"> </span>A lease root retains external ownership while a foreground child uses a delegated lease. The active turn means only that runtime instance may operate the device; its parent can poll but cannot issue competing operations. Siblings serialize and delegated background work is forbidden.
+<span class="k">-</span><span class="w"> </span>Default <span class="sb">`requeue`</span> retains owned/delegated leases. <span class="sb">`releaseResources=True`</span> intentionally yields them and breaks uninterrupted exclusivity; use it only for a deliberate cooperative boundary.
+<span class="k">-</span><span class="w"> </span>Register idempotent terminal restoration before opening reversible device state. On the normal path, verify restoration and clear the exact registration. Successful completion does not automatically execute pending cleanup.
 
-<span class="gu">## 5. Define Inputs and Results Precisely</span>
+<span class="gu">## 5. Define inputs and results precisely</span>
 
-<span class="k">-</span><span class="w"> </span>Put configurable experiment values in <span class="sb">`sharedParams`</span>, describe and constrain them in <span class="sb">`inputSchema`</span>, and supply experiment-specific overrides in the run&#39;s <span class="sb">`input.json`</span>. Keep device identities, topology, paths and channels out of Python literals.
-<span class="k">-</span><span class="w"> </span>Follow the release&#39;s actual schema semantics for required fields, defaults, nullability and nested fields. Do not assume this schema supports every JSON Schema keyword.
-<span class="k">-</span><span class="w"> </span>Define caller-meaningful <span class="sb">`outputSchema`</span> exports before stages. Every successful completion must publish all declared exports, normally through <span class="sb">`PublishResultStage`</span>.
-<span class="k">-</span><span class="w"> </span>Map child exports through declared imports and publish the parent&#39;s declared result. Do not reach into private child scratchpad fields or scrape operational artifacts as a result API.
-<span class="k">-</span><span class="w"> </span>Preserve the distinction: <span class="sb">`run-manifest.json`</span> says how the run executed; <span class="sb">`result.json`</span> says what it produced.
-<span class="k">-</span><span class="w"> </span>Preserve nested statuses when handling task replies: the outer status describes the NodeEngine-to-DeviceOS operation, while the task result can describe the driver/hardware outcome. Follow the documented success checks for the selected task.
+<span class="k">-</span><span class="w"> </span>Put configurable values and defaults in <span class="sb">`sharedParams`</span>; describe and constrain them in <span class="sb">`inputSchema`</span>. Its parameter names match <span class="sb">`sharedParams`</span> exactly. Supply testbed-specific overrides in the run plan and resolve devices/channels from the network where the chosen contract supports it.
+<span class="k">-</span><span class="w"> </span>Input and output schemas use version <span class="sb">`&quot;0.1&quot;`</span>. Supported types are <span class="sb">`string`</span>, <span class="sb">`integer`</span>, <span class="sb">`number`</span>, <span class="sb">`boolean`</span>, <span class="sb">`array`</span> and <span class="sb">`object`</span>; booleans are not integers. Each specification has <span class="sb">`type`</span> and <span class="sb">`description`</span>.
+<span class="k">-</span><span class="w"> </span><span class="sb">`required: true`</span> means the effective value after defaults/overrides must be non-null. Defaults are not schema fields. Nested objects merge recursively; lists/scalars are replaced. Required descendants apply when their parent object is non-null. Handler-specific conditional requirements still apply.
+<span class="k">-</span><span class="w"> </span>Supported constraints include <span class="sb">`minimum`</span>, <span class="sb">`exclusiveMinimum`</span>, <span class="sb">`maximum`</span>, <span class="sb">`enum`</span>, string lengths, array sizes/items and object properties. Explicit object properties reject unknown fields. Follow the supplied release instead of adding unsupported JSON Schema keywords.
+<span class="k">-</span><span class="w"> </span>Publish every declared output key after successful completion, normally with <span class="sb">`PublishResultStage`</span>. A key can contain null/empty data if its contract permits that; this is not an optional missing export. Add neither per-output <span class="sb">`presence`</span> nor <span class="sb">`effects`</span>/<span class="sb">`group`</span> metadata. <span class="sb">`summary`</span> complements the protocol&#39;s <span class="sb">`description`</span>.
+<span class="k">-</span><span class="w"> </span>Keep scratchpad state private. Use declared child imports and <span class="sb">`ctx.child_output`</span>; read <span class="sb">`outputs`</span> in <span class="sb">`result.json`</span>. Operational provenance and restoration evidence belong in <span class="sb">`run-manifest.json`</span>, not the library <span class="sb">`manifest.json`</span>.
+<span class="k">-</span><span class="w"> </span>Check the normalized outer reply status and any task-specific inner status before consuming device data. <span class="sb">`RunSingleTaskStage`</span> checks only the outer status by default.
 
-<span class="gu">## 6. Generate a Portable Library</span>
+Whole-value <span class="sb">`&quot;$shared.&lt;path&gt;&quot;`</span> references preserve JSON types; they are not interpolation or expressions. NodeEngine resolves shared references in effective stage parameters. Composition/publication/cleanup handlers also resolve <span class="sb">`&quot;$scratch.&lt;path&gt;&quot;`</span> at execution; a custom handler uses <span class="sb">`ctx.get`</span> for scratch data rather than assuming automatic scratch-reference resolution.
 
-Create the user&#39;s library separately from the shipped Reserved contracts and Open examples. Do not edit shipped contracts to make generated inputs valid.
+<span class="gu">## 6. Generate a portable library</span>
+
+Keep the user&#39;s library separate from shipped built-in contracts and Open examples:
 
 <span class="sb">```text</span>
 MyLibrary/
   manifest.json
   MetaProtocolsDef/
-    MY-ROOT/
+    MY-PARENT/
       protocol.json
-      Handlers.py       # only when needed
+      Handlers.py
   MetaProtocolsRun/
-    my-root/
+    my-parent/
       input.json
-  network.json          # only if the user requests a new network example
+  network.json
 <span class="sb">```</span>
 
-For NeQOS 0.5.0, the library manifest has <span class="sb">`schemaVersion: &quot;0.5&quot;`</span> and a <span class="sb">`libraryId`</span>. Each <span class="sb">`metaProtocols`</span> entry declares a <span class="sb">`protocolId`</span>, <span class="sb">`definitionFile`</span> and optional <span class="sb">`handlerFiles`</span>; each definition file contains exactly that protocol. Definition and handler paths remain relative and inside the library. Do not add undeclared manifest fields.
+The manifest has <span class="sb">`schemaVersion: &quot;0.5&quot;`</span>, a <span class="sb">`libraryId`</span> and non-empty <span class="sb">`metaProtocols`</span>. Allowed optional fields are <span class="sb">`description`</span>, <span class="sb">`domain`</span>, <span class="sb">`function`</span> and <span class="sb">`sharedHandlerFiles`</span>. Each protocol entry contains <span class="sb">`protocolId`</span>, <span class="sb">`definitionFile`</span> and optional <span class="sb">`handlerFiles`</span>. Paths are relative, inside the library, and refer to existing JSON/Python files. For example, shared handlers can be declared as <span class="sb">`&quot;sharedHandlerFiles&quot;: [&quot;Handlers.py&quot;]`</span>; that file must exist and its registered handlers must be used by the library.
 
-The run input has a different schema version: <span class="sb">`&quot;0.4&quot;`</span>. It declares <span class="sb">`metaProtocolLibrary`</span> with the same <span class="sb">`libraryId`</span> and a <span class="sb">`folder`</span> resolved relative to the input file, and an ordered <span class="sb">`steps`</span> list. With the layout above, <span class="sb">`folder`</span> is <span class="sb">`&quot;../..&quot;`</span>. Do not use the manifest schema version as the run-input version. Check these formats against the supplied release.
+The run plan uses <span class="sb">`schemaVersion: &quot;0.4&quot;`</span>, <span class="sb">`metaProtocolLibrary`</span> with the same <span class="sb">`libraryId`</span> and a <span class="sb">`folder`</span> resolved relative to the input file, plus an ordered <span class="sb">`steps`</span> list. In the layout above, the folder is <span class="sb">`&quot;../..&quot;`</span>. Manifest, run-plan and input/output schema versions are distinct. Use one JSON property per line and unique protocol/handler identifiers. Include a network example only when requested; preserve the user&#39;s verified network instead of inventing hardware values.
 
-Format JSON with indentation and one object property per line. Register all included Open children, use unique protocol and handler identifiers, and provide a minimal run input with explicitly documented unresolved values. Do not fabricate a bench configuration if the user&#39;s network file already supplies it.
+A step may have a unique <span class="sb">`stepId`</span> starting with a letter and then letters/digits/underscore/hyphen. Use <span class="sb">`&quot;$steps.&lt;stepId&gt;.&lt;declaredExportPath&gt;&quot;`</span> as an entire JSON value to import an earlier successfully completed step&#39;s declared output. Dictionary fields under declared object exports are accessible; array indexing, interpolation, expressions, self/forward references and missing-value fallback are unsupported. References can occur recursively in shared/common/stage overrides and resource entries. Preflight validates literal fields and source declarations; resolved destination inputs are validated again before submission. Top-level steps have independent leases.
 
-Sequential run inputs may assign an optional unique <span class="sb">`stepId`</span> (letter first, then letters/digits/underscore/hyphen). Use <span class="sb">`$steps.&lt;stepId&gt;.&lt;declaredExportPath&gt;`</span> as an entire JSON value to import a declared export from a preceding successfully completed step. Dictionary fields inside declared object exports are also accessible; no scratchpad access, array indexing, interpolation, self/forward references or automatic wiring. References work recursively in shared/common/stage overrides and resource list entries. Preflight validates literal fields and source declarations; destination input types and constraints are validated again after resolution and before submission. Missing exports stop the plan, not a default fallback. Keep network/resource/physical-background compatibility explicit; top-level steps still have independent leases. Older runtimes may not support this additive run-input 0.4 extension.
+<span class="gu">## 7. Work in this order</span>
 
-<span class="gu">## 7. Work in This Order</span>
+<span class="k">1.</span> Confirm sources and missing experiment information.
+<span class="k">2.</span> Present a concise composition: exact child IDs, effective inputs, imported outputs, resources, termination, actual timeout guards and final results. Explain necessary new handlers.
+<span class="k">3.</span> Generate the library and minimal run plan.
+<span class="k">4.</span> Check JSON syntax, paths/IDs, registrations, schema constraints, references, resources and child import/export mappings. Parse Python without executing handlers during this review.
+<span class="k">5.</span> Report checks performed, outcomes and unperformed checks. Syntax validation alone is not a runtime or hardware test.
+<span class="k">6.</span> Provide the launch command for the supplied distribution. Starting NodeEngine can initialize hardware; authoring and offline checks are not authorization to execute the experiment.
 
-<span class="k">1.</span> Confirm available sources and identify missing experiment information.
-<span class="k">2.</span> Present a concise composition plan naming exact existing contracts, effective child inputs, imported outputs, resources, timeouts and final results. Explain any necessary new handler.
-<span class="k">3.</span> Generate the library files and a minimal run input.
-<span class="k">4.</span> Check JSON parsing, manifest paths and IDs, handler registration, schema constraints, shared references, resource declarations and child import/export mappings. Parse Python syntax without importing or executing handlers during this review.
-<span class="k">5.</span> State which checks ran, their outcomes and any checks that remain unperformed. Do not report runtime validation from syntax checks alone.
-<span class="k">6.</span> Provide the exact launch command using the executable and arguments documented for the supplied distribution. Label it as execution: starting NodeEngine can invoke hardware. Keep authoring and static checks separate from running an experiment.
+Use only existing documented validators and switches. Ask for the relevant runtime validation path if the supplied release does not provide an offline checker for the required behavior.
 
-Do not invent a standalone validator, CLI switch or dry-run mode. If runtime checking is only available by loading or running NodeEngine, explain that limitation. Do not execute the generated experiment as part of an authoring request.
+<span class="gu">## 8. Final review</span>
 
-<span class="gu">## 8. Final Review</span>
-
-<span class="k">-</span><span class="w"> </span>Every Built-in child is explicitly exported; every Open child is registered in the loaded library.
-<span class="k">-</span><span class="w"> </span>Child inputs use the actual contract, and every imported output path is declared by that child.
-<span class="k">-</span><span class="w"> </span>New code serves a documented need and does not duplicate an available workflow.
-<span class="k">-</span><span class="w"> </span>Devices and guard policies are explicit; delegated ownership and restoration are respected.
-<span class="k">-</span><span class="w"> </span>Successful publication includes all declared results, with operational provenance kept in the manifest.
-<span class="k">-</span><span class="w"> </span>The deliverable includes all required files, a minimal run input, evidence of checks and clearly stated unresolved inputs.
+<span class="k">-</span><span class="w"> </span>Every built-in child is public and every Open child is registered in the loaded library.
+<span class="k">-</span><span class="w"> </span>Inputs and imported paths match real contracts, including conditional requirements.
+<span class="k">-</span><span class="w"> </span>New code serves a documented need and reuses existing operations.
+<span class="k">-</span><span class="w"> </span>Physical values, detector-health policies, delegated leases and restoration are explicit.
+<span class="k">-</span><span class="w"> </span>Successful publication contains every declared result; <span class="sb">`run-manifest.json`</span> records operational provenance.
+<span class="k">-</span><span class="w"> </span>Deliver all necessary files, a minimal input, evidence of checks and unresolved values. No hardware run occurs as part of authoring.
 </pre></div>
 </div>
 </section>
@@ -620,7 +636,7 @@ Do not invent a standalone validator, CLI switch or dry-run mode. If runtime che
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

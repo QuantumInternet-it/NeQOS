@@ -128,7 +128,8 @@ table.api-table td {
   padding: 0.65rem;
 }
 
-table.api-table.protocol-input-table {
+table.api-table.protocol-input-table,
+table.api-table.api-runtime-settings-table {
   min-width: 44rem;
 }
 

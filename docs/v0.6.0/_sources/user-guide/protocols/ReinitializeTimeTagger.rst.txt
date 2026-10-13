@@ -50,7 +50,7 @@ Release and recreate a Time Tagger measurement engine, then restore its physical
      ]
    }
 
-:download:`Download minimal input.json <ReinitializeTimeTagger.minimal.json>`
+:download:`Download ReinitializeTimeTagger.minimal.json <ReinitializeTimeTagger.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/initialization/ReinitializeTimeTagger/RunExample/input.json>`.
 
@@ -62,7 +62,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ReinitializeTimeTagger.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

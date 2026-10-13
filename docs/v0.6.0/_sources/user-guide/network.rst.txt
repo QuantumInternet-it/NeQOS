@@ -1,7 +1,7 @@
 .. _describe-the-bench:
 
-2. Describe the network
-=======================
+Describe the network
+====================
 
 Start from the network shipped with the protocol you intend to run. Preserve
 its schema and replace anonymized identities, addresses and hardware settings
@@ -11,13 +11,29 @@ with verified testbed values. Documentation/example addresses such as
 Lab inventory and experiment networks
 -------------------------------------
 
+Fake and registered Open drivers are supported in inventory mode. Open driver
+registries require a generated ``contractPath`` manifest for offline validation;
+see :ref:`writing-hardware-driver-inventory` for generation and launch commands.
+
+The driver contract is the source of truth for admitted experiment settings,
+their types and their application. Built-in and Open drivers use the same
+planner. Compound settings may become atomic task calls; other settings become
+ordered parameter writes or remain protocol metadata. NodeEngine checks the
+generated manifest offline and the loaded driver's identity and live limits
+before activation. Update DeviceOS drivers and their NodeEngine manifests
+together when these declarations change.
+
 For a long-running laboratory session, separate the stable equipment inventory
 from the experiment. A ``schemaVersion: inventory-1`` file contains an
 ``inventoryId``, nodes, enabled active devices, endpoints, driver configuration
 and boot-only hardware settings. It contains no optical bindings, operating
 values or passive splitters. Start each DeviceOS once with that inventory::
 
-   python -m DeviceOSPack.DeviceOS --configFile lab-inventory.json --deviceId Photec-2 --licenseFile config/license.json
+   python -m DeviceOSPack.DeviceOS --configFile lab-inventory.json --deviceId ExampleDetectorId --licenseFile config/license.json
+
+The IDs and paths in these commands are placeholders. Replace
+``ExampleDetectorId`` and ``ExampleNodeId`` with enabled device and node IDs
+declared in your own inventory, and use your own configuration/license paths.
 
 Use the same inventory on NodeEngine and every instrument host; the launch
 configuration fingerprint must match. Endpoint, driver and boot-only changes
@@ -26,7 +42,7 @@ NodeEngine aggregates the enabled devices across all declared nodes.
 
 Start the operator without an active experiment::
 
-   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --nodeId PRODUCER-1 --licenseFile config/license.json --serve
+   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --nodeId ExampleNodeId --licenseFile config/license.json --serve
 
 An ``experiment-1`` file names the same ``inventoryId`` and a ``networkId``.
 Its top-level ``devices`` list references inventory IDs. Each entry holds
@@ -59,7 +75,7 @@ endpoints, not the changing experiment network ID.
 
 For a headless run, activate the network before the plan::
 
-   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --networkFile experiment.json --nodeId PRODUCER-1 --licenseFile config/license.json --metaProtocolRun input.json --waitProtocol
+   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --networkFile experiment.json --nodeId ExampleNodeId --licenseFile config/license.json --metaProtocolRun input.json --waitProtocol
 
 Supplying ``--networkFile`` explicitly authorizes boot activation, including
 its recorded warnings. The legacy single-file ``--configFile`` workflow remains
@@ -69,12 +85,6 @@ wavelengths are now applied by NodeEngine after device readiness too.
 Offline validation does not start drivers or contact equipment::
 
    python -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory lab-inventory.json experiment.json
-
-The legacy-network conversion utility is temporarily archived in
-``NodeEnginePack.BrowserUI.ToDelete`` pending completion of hardware regression;
-it is not part of the normal operator workflow. The current shared network distribution is
-``networksv0.6.0``. Pump minimum 23 MHz for both EPS units
-is operator-indicated and still requires laboratory confirmation.
 
 Nodes, devices and addresses
 ----------------------------
@@ -178,6 +188,10 @@ every measured input; NodeEngine validates this before acquisition and the
 CLI validates literal selected inputs before Boot. A disabled detector does
 not silently downgrade required protection to disabled.
 
+For guarded acquisition, declare the policy and device leases explicitly in the run plan;
+the topology does not add detector IDs to its resource list. See
+:ref:`latch-guard-resource-declarations` for the exact union and an example.
+
 An explicit ``healthGuards`` association uses ``snspdChannel`` and must agree
 with any link pairing. It can also describe a channel without optical link
 bindings. The old detector type ``Photek``, generic ``DetectorHealth`` type
@@ -202,9 +216,29 @@ runtime connections and operations. Passive device IDs cannot appear in
 The browser presents authoritative classifications, chains and diagnostics;
 offline imports use a parity-tested read-only fallback.
 
-Validate a file or folder without connecting hardware::
+Validate a complete, single-file network without connecting hardware::
 
-   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork /absolute/path/networksv0.6.0
+   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork /path/to/network.json
+
+An ``experiment-1`` network requires ``--inventory`` so device types, endpoints
+and boot-only configuration can be resolved before checking its settings and
+optical topology. Without that argument the CLI reports an error, rather than
+validating an incomplete projection::
+
+   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory /path/to/lab-inventory.json /path/to/experiment.json
+
+To check a folder recursively, supply the inventory for its experiments::
+
+   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory /path/to/lab-inventory.json /path/to/experiments
+
+Run plans and result files are skipped in folder scans. Complete networks in
+the same folder are validated independently; ``--inventory`` is used only for
+``experiment-1`` files. Inventory files are checked against the inventory
+contract, not treated as active optical topologies. Checking an inventory alone
+does not validate any experiment's wiring.
+
+This is an offline structural check. It does not test connectivity, initialize
+hardware, check live capabilities/read-backs or authorize network activation.
 
 Errors stop boot or Start and are listed together. Warnings and information
 remain visible in the topology panel and operator state. The CLI exits
@@ -226,7 +260,7 @@ non-zero if any selected network has an error.
    * - Warning
      - ``pbs-output-unread``, ``implicit-split``, ``unknown-device-type``
    * - Information
-     - ``no-snspd``, ``device-disabled``
+     - ``no-snspd``, ``device-disabled``, ``inventory-validated`` (CLI inventory-contract check only)
 
 Full topology example with one splitter and a PBS analyzer:
 
@@ -392,10 +426,82 @@ Full topology example with one splitter and a PBS analyzer:
 Addresses and hardware settings are placeholders. Supply the actual driver
 configuration and experimentally verify optical paths, splitter port order
 and RF cabling before use. This example does not prove hardware readiness.
-Enable or disable the acquisition guard explicitly in the run inputs.
-A finite required primitive leases its TimeTagger plus the exact selected
-SNSPD devices; a composite campaign also leases its other active resources.
-A network association only makes a guard available: it does not turn it on.
+
+.. _latch-guard-resource-declarations:
+
+Latch-guard policy and lease resources
+--------------------------------------
+
+The network declares readout associations, not an acquisition policy or a
+run's device leases. For acquisition contracts that expose ``latchGuard`` and
+``resourceDeviceIds``, declare both explicitly in the run plan. Detector IDs
+are not silently added to a supplied resource list.
+
+For a direct, finite-window measurement using this policy, such as
+``MeasureCountRates``:
+
+* ``latchGuard.mode: required``: ``resourceDeviceIds`` must contain exactly
+  the TimeTagger device plus the unique Photec devices associated with the
+  measured channels. Omitting a required device or adding an unrelated one
+  fails validation. Finite guarded acquisition also requires ``clear: true``.
+* ``latchGuard.mode: disabled``: declare exactly the TimeTagger device. A
+  Photec association in the network does not enable protection automatically.
+  Disabling protection is an explicit policy choice, not a missing-device
+  fallback.
+
+Resource entries are **device IDs**, not channel numbers. If several measured
+channels share one Photec, list that device once. The guard checks only the
+detector channels resolved for the selected TimeTagger inputs; do not lease
+every detector in the inventory. Passive splitters are never lease resources.
+
+In the complete topology example above, TimeTagger ``TT`` channel 6 is fed by
+``SNSPD`` channel 5 on the H output of ``ROOT-1``. The following one-window run
+plan declares the corresponding guarded resource union:
+
+.. code-block:: json
+
+   {
+     "schemaVersion": "0.4",
+     "metaProtocolLibrary": {
+       "libraryId": "neqos-protected"
+     },
+     "steps": [
+       {
+         "protocolId": "MeasureCountRates",
+         "sharedParams": {
+           "deviceId": "TT",
+           "resourceDeviceIds": [
+             "TT",
+             "SNSPD"
+           ],
+           "channelRefs": [
+             6
+           ],
+           "durationSec": 1.0,
+           "clear": true,
+           "latchGuard": {
+             "mode": "required",
+             "maxWindowRetries": 0
+           }
+         }
+       }
+     ]
+   }
+
+``maxWindowRetries: 0`` permits no replacement window if this acquisition is
+rejected by the guard. To make this same primitive explicitly unguarded,
+change the mode to ``disabled`` and the resource list to ``["TT"]``;
+merely removing ``SNSPD`` while keeping ``required`` is invalid.
+
+These exact-union rules describe direct acquisition primitives, not every
+parent's complete lease. A composite protocol may also need analyzers,
+controllers, sources or attenuators: declare the full union required by that
+protocol's contract. Its child acquisitions use their own required subsets,
+with leases delegated by the runtime. ``MonitorCountRates`` uses ``annotate``
+rather than ``required`` for guarded monitoring; its resource union still
+includes the TimeTagger and selected Photec devices. Use only the guard modes
+declared by the chosen protocol. Do not add these fields to contracts that
+do not declare them.
 
 Hardware limits are not global attenuation requests
 ---------------------------------------------------

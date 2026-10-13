@@ -159,6 +159,13 @@ A run declares the network it will operate and the sequence of protocols it
 will execute. NodeEngine resolves the request against these two inputs and
 the available protocol catalog.
 
+The network input can be a legacy single file or a stable ``inventory-1``
+equipment inventory plus an ``experiment-1`` topology and operating settings.
+In inventory mode DeviceOS stays connected between experiments. NodeEngine
+validates and activates each experiment through the scheduler, records the
+configuration fingerprints and read-backs, and blocks scientific runs until a
+network is active and any failed-activation drift has been resolved.
+
 The network description
 ~~~~~~~~~~~~~~~~~~~~~~~
 

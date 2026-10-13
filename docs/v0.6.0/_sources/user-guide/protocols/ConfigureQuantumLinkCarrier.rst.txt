@@ -62,7 +62,7 @@ Selects a source output mode and applies the requested total attenuation on ever
      ]
    }
 
-:download:`Download minimal input.json <ConfigureQuantumLinkCarrier.minimal.json>`
+:download:`Download ConfigureQuantumLinkCarrier.minimal.json <ConfigureQuantumLinkCarrier.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
 
@@ -72,7 +72,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ConfigureQuantumLinkCarrier.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -137,6 +137,19 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
+
+      This run plan executes all 4 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
          :emphasize-lines: 2-7
 
@@ -152,6 +165,19 @@ Each example lists only the inputs it adds to or changes in the minimal run.
    .. tab-item:: Options 2
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
+
+      This run plan executes all 4 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-11
@@ -172,6 +198,19 @@ Each example lists only the inputs it adds to or changes in the minimal run.
    .. tab-item:: Options 3
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
+
+      This run plan executes all 4 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-10

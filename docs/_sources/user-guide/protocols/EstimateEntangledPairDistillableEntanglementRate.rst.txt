@@ -9,7 +9,9 @@ EstimateEntangledPairDistillableEntanglementRate
 
 Estimate detected pair throughput and a one-way hashing lower bound from existing tomography.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** no device resources.
 
@@ -21,7 +23,8 @@ Estimates detected pair throughput and a best-direction one-way hashing lower bo
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -152,7 +155,9 @@ Estimates detected pair throughput and a best-direction one-way hashing lower bo
      ]
    }
 
-:download:`Download minimal input.json <EstimateEntangledPairDistillableEntanglementRate.minimal.json>`
+:download:`Download EstimateEntangledPairDistillableEntanglementRate.minimal.json <EstimateEntangledPairDistillableEntanglementRate.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/distillation/EstimateEntangledPairDistillableEntanglementRate/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/distillation/EstimateEntangledPairDistillableEntanglementRate/RunExample/network.json>`.
 
@@ -162,7 +167,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./EstimateEntangledPairDistillableEntanglementRate.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -194,7 +199,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -202,28 +208,10 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``densityTolerance``
      - 1e-09
-     - —
+     - > 0
      - Positive finite tolerance for physical 4x4 density-matrix validation; preserves 1e-9.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/distillation/EstimateEntangledPairDistillableEntanglementRate/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-2
-
-         {
-           "densityTolerance": 1e-09
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

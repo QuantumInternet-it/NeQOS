@@ -9,7 +9,9 @@ MeasureCorrelations
 
 Acquire correlation histograms for selected Time Tagger channel pairs.
 
-:bdg:`foreground` :bdg:`timeout 2 min`
+:bdg:`foreground` :bdg:`declared timeout 2 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Acquire finite raw correlation histograms for the requested TimeTagger channel p
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -30,17 +33,11 @@ Acquire finite raw correlation histograms for the requested TimeTagger channel p
      - string length >= 1
      - TimeTagger device that acquires the requested correlation histograms.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device needed by this finite acquisition.
+     - string[] (items >= 1; each length >= 1)
+     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required. Each item: One device needed by this finite acquisition.
    * - ``correlations``
      - object[] (items >= 1)
-     - Unique correlation-histogram definitions acquired together in one finite window.
-   * - ``correlations[]``
-     - object
-     - One named channel-pair histogram definition.
+     - Unique correlation-histogram definitions acquired together in one finite window. Each item: One named channel-pair histogram definition.
    * - ``correlations[].correlationId``
      - string length >= 1
      - Caller-stable identifier used as the output-map key.
@@ -99,7 +96,9 @@ Acquire finite raw correlation histograms for the requested TimeTagger channel p
      ]
    }
 
-:download:`Download minimal input.json <MeasureCorrelations.minimal.json>`
+:download:`Download MeasureCorrelations.minimal.json <MeasureCorrelations.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/correlation/MeasureCorrelations/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/correlation/MeasureCorrelations/RunExample/network.json>`.
 
@@ -109,7 +108,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureCorrelations.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -141,7 +140,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -149,33 +149,14 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``durationSec``
      - 1
-     - —
+     - > 0
      - Finite integration duration of the shared correlation window, in seconds.
    * - ``clear``
      - true
      - —
      - Whether every selected correlation histogram is cleared before the window.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/correlation/MeasureCorrelations/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-3
-
-         {
-           "durationSec": 1.0,
-           "clear": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

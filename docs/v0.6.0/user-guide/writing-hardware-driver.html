@@ -3,16 +3,16 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Built-in protocol catalog" href="protocols/index.html"><link rel="prev" title="Writing a meta-protocol" href="writing-meta-protocols.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="12. Built-in protocol catalog" href="protocols/index.html"><link rel="prev" title="10. Writing a meta-protocol" href="writing-meta-protocols.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
-        <title>Writing a hardware driver - NeQOS documentation</title>
+        <title>11. Writing a hardware driver - NeQOS documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b26db2b9" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4887f515" />
     
     
 
@@ -200,18 +200,18 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
-<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Writing a hardware driver</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">Built-in protocol catalog</a><input aria-label="Toggle navigation of Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">1. How NeQOS works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">2. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">4. Describe the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">5. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">6. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">7. Use the browser interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html">8. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">9. Read results and diagnose failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">10. Writing a meta-protocol</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">11. Writing a hardware driver</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">12. Built-in protocol catalog</a><input aria-label="Toggle navigation of 12. Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
@@ -328,6 +328,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="common-issues.html">13. Common issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -480,7 +481,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="writing-a-hardware-driver">
-<h1>Writing a hardware driver<a class="headerlink" href="#writing-a-hardware-driver" title="Link to this heading">¶</a></h1>
+<h1><span class="section-number">11. </span>Writing a hardware driver<a class="headerlink" href="#writing-a-hardware-driver" title="Link to this heading">¶</a></h1>
 <p>DeviceOS hosts a DeviceEngine and one selected driver. DeviceEngine admits,
 schedules and controls tasks, transports commands and publishes lifecycle and
 telemetry messages. The driver implements vendor I/O, validates hardware values,
@@ -495,7 +496,8 @@ just the absence of NeQOS source files.</p>
 <section id="register-and-select-the-driver">
 <h2>1 Register and select the driver<a class="headerlink" href="#register-and-select-the-driver" title="Link to this heading">¶</a></h2>
 <p>Download <a class="reference download internal" download="" href="../_downloads/3dcb5fc836af7dbf470264e94d4c6eb0/CounterDriver.py"><code class="xref download docutils literal notranslate"><span class="pre">CounterDriver.py</span></code></a> and its
-<a class="reference download internal" download="" href="../_downloads/874bdd6a5b20a147f0b7c71ea5486528/CounterOpenDrivers.json"><code class="xref download docutils literal notranslate"><span class="pre">OpenDrivers.json</span></code></a>. Keep them in
+<a class="reference download internal" download="" href="../_downloads/874bdd6a5b20a147f0b7c71ea5486528/CounterOpenDrivers.json"><code class="xref download docutils literal notranslate"><span class="pre">OpenDrivers.json</span></code></a> and
+<a class="reference download internal" download="" href="../_downloads/4b578c17894c10f28dc1527c68512053/CounterDriver.contract.json"><code class="xref download docutils literal notranslate"><span class="pre">CounterDriver.contract.json</span></code></a>. Keep them in
 the same directory. This is a software-only implementation of the entire
 contract, not a vendor hardware adapter or a subclass of a private base class.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -504,6 +506,7 @@ contract, not a vendor hardware adapter or a subclass of a private base class.</
 <span class="w">    </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;deviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AuthoringCounter&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;modulePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CounterDriver.py&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;contractPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CounterDriver.contract.json&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;className&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CounterDriver&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;requiresSerialPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">    </span><span class="p">}</span>
@@ -529,7 +532,7 @@ matching, explicitly named <code class="docutils literal notranslate"><span clas
 </pre></div>
 </div>
 <p>This fragment belongs in a node’s device list, with its network endpoints.
-See <a class="reference internal" href="network.html"><span class="doc">2. Describe the network</span></a> for the full network description. Launch the selected device:</p>
+See <a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a> for the full network description. Launch the selected device:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>DeviceOSPack.DeviceOS<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--configFile<span class="w"> </span>/path/to/network.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--deviceId<span class="w"> </span>Counter-1<span class="w"> </span><span class="se">\</span>
@@ -540,6 +543,169 @@ See <a class="reference internal" href="network.html"><span class="doc">2. Descr
 <p>With a standalone release, replace the Python module invocation with its
 DeviceOS executable. Loading the registry module executes trusted local Python
 code with DeviceOS process permissions. Do not import untrusted plugins.</p>
+<section id="inventory-metadata-without-importing-the-driver">
+<span id="writing-hardware-driver-inventory"></span><h3>Inventory metadata without importing the driver<a class="headerlink" href="#inventory-metadata-without-importing-the-driver" title="Link to this heading">¶</a></h3>
+<p>For <code class="docutils literal notranslate"><span class="pre">inventory-1</span></code>, declare a static <code class="docutils literal notranslate"><span class="pre">DEVICE_CONTRACT</span></code> in the driver class.
+It describes its kind, boot-only <code class="docutils literal notranslate"><span class="pre">hardwareConfig</span></code> fields and optional
+experiment activation policy. Counter declares:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">DEVICE_CONTRACT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;schemaVersion&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;deviceKind&quot;</span><span class="p">:</span> <span class="s2">&quot;generic&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;configurationScope&quot;</span><span class="p">:</span> <span class="s2">&quot;inventory-1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hardwareConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;initialValue&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Keep parameters and signals in <code class="docutils literal notranslate"><span class="pre">_PARAMETER_SPECS</span></code> and <code class="docutils literal notranslate"><span class="pre">_SIGNAL_SPECS</span></code>;
+build runtime capabilities from these same dictionaries. Declare tasks through
+the base-class decorators or a static <code class="docutils literal notranslate"><span class="pre">_TASK_SPECS</span></code> dictionary used to build
+<code class="docutils literal notranslate"><span class="pre">_taskRegistry</span></code>. Do not copy them into <code class="docutils literal notranslate"><span class="pre">DEVICE_CONTRACT</span></code>. Explicit constructor
+arguments supply the <code class="docutils literal notranslate"><span class="pre">driverConfig</span></code> fields. Use static literal declarations:
+the extractor rejects Python calls instead of executing them. Drivers with
+dynamically assembled metadata must expose these declarations before using
+inventory validation.</p>
+<p>Generate the manifest from a source checkout, then check it after driver edits:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>CommonFiles.DriverContractSource<span class="w"> </span>--open-drivers-file<span class="w"> </span>/path/to/OpenDrivers.json
+python<span class="w"> </span>-m<span class="w"> </span>CommonFiles.DriverContractSource<span class="w"> </span>--open-drivers-file<span class="w"> </span>/path/to/OpenDrivers.json<span class="w"> </span>--check
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">contractPath</span></code> names the generated JSON relative to the registry. It is a
+derived artifact, not another file to maintain by hand. Generation and offline
+validation do not import the driver or its SDK. Distribute the registry and
+manifest to the NodeEngine host; only the DeviceOS host needs the driver module
+and vendor dependencies. The bundled runtime also needs its
+<code class="docutils literal notranslate"><span class="pre">CommonFiles/driver_contracts</span></code> data directory.</p>
+<p>Pass the registry to NodeEngine and to the offline validator:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.NodeEngine<span class="w"> </span>--inventoryFile<span class="w"> </span>lab-inventory.json<span class="w"> </span>--nodeId<span class="w"> </span>ExampleNodeId<span class="w"> </span>--licenseFile<span class="w"> </span>config/license.json<span class="w"> </span>--openDriversFile<span class="w"> </span>/path/to/OpenDrivers.json<span class="w"> </span>--serve
+python<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.NetworkConfiguration.ValidateNetwork<span class="w"> </span>--inventory<span class="w"> </span>lab-inventory.json<span class="w"> </span>--openDriversFile<span class="w"> </span>/path/to/OpenDrivers.json<span class="w"> </span>experiment.json
+</pre></div>
+</div>
+<p>For a device without an explicit policy, experiment <code class="docutils literal notranslate"><span class="pre">settings</span></code> name parameters
+declared writable in the manifest, for example Counter’s <code class="docutils literal notranslate"><span class="pre">value</span></code> or Fake’s
+<code class="docutils literal notranslate"><span class="pre">gain</span></code>. To restrict the experiment-facing interface, declare
+<code class="docutils literal notranslate"><span class="pre">experimentSettings</span></code> (exact names) and optionally
+<code class="docutils literal notranslate"><span class="pre">experimentSettingPatterns</span></code> (names of existing <code class="docutils literal notranslate"><span class="pre">_PARAMETER_PATTERNS</span></code>).
+An empty <code class="docutils literal notranslate"><span class="pre">experimentSettings</span></code> list permits no direct settings unless a
+declared pattern or structured activation rule supplies them. Parameter types
+and ranges come from the existing specifications; do not duplicate them.</p>
+<p><code class="docutils literal notranslate"><span class="pre">activation</span></code> describes how to translate settings into the existing driver
+operations. The same policies are available to built-in and Open drivers:</p>
+<div class="table-wrapper api-table docutils container">
+<table class="api-table docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameterCopies</span></code></p></td>
+<td><p>Copy one explicitly supplied setting to additional parameters. DV1550AA
+applies <code class="docutils literal notranslate"><span class="pre">defaultAttenuationDb</span></code> to <code class="docutils literal notranslate"><span class="pre">attenuation</span></code> as well.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parametersLast</span></code></p></td>
+<td><p>Move named parameter writes to the end of that device’s parameter list.
+EPS puts <code class="docutils literal notranslate"><span class="pre">outputMode</span></code> after its attenuation settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">storedSettings</span></code></p></td>
+<td><p>Typed metadata retained in the experiment projection, without a device
+write. EPS traffic calibration values are consumed by protocols.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">channelParameters</span></code></p></td>
+<td><p>Map a channel object and optional aliases to existing parameter patterns.
+<code class="docutils literal notranslate"><span class="pre">setting</span></code> names the object, <code class="docutils literal notranslate"><span class="pre">fields</span></code> maps each field to a pattern,
+<code class="docutils literal notranslate"><span class="pre">aliases</span></code> maps alternative objects to fields, and <code class="docutils literal notranslate"><span class="pre">boundRole</span></code> names
+bindings that require an explicit channel entry. Swabian uses
+<code class="docutils literal notranslate"><span class="pre">channels</span></code> with trigger/delay parameter patterns.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">channelSelection</span></code></p></td>
+<td><p>Configure a complete current vector, channel selection and guard
+selection with one synchronous task. Declare the task/input/read-back
+names, vector width, current scale and register range, optional setting
+aliases, and an optional trigger-vector task. Photec declares these in
+its own contract. Channels leaving the selection are disabled in phase
+0; ordinary writes and triggers run in phase 1; the final selection runs
+in phase 2. Quantized read-back uses the declared scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">linkWavelengthParameter</span></code></p></td>
+<td><p>Existing parameter pattern receiving a wavelength derived by NodeEngine
+from link lineage and DWDM. PaX000 uses <code class="docutils literal notranslate"><span class="pre">channel&lt;N&gt;WavelengthNm</span></code>.
+The wavelength is derived before explicit waveplate settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameterLimits</span></code></p></td>
+<td><p>Name the boot-only hardware field containing per-parameter limits and
+optional parameter-name aliases. Live limits are still checked.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For example, the attenuator’s complete static policy is declared here:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">DEVICE_CONTRACT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;schemaVersion&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;deviceKind&quot;</span><span class="p">:</span> <span class="s2">&quot;attenuator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;configurationScope&quot;</span><span class="p">:</span> <span class="s2">&quot;inventory-1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;experimentSettings&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;defaultAttenuationDb&quot;</span><span class="p">,</span> <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;wavelength&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;activation&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;parameterCopies&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;defaultAttenuationDb&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;attenuation&quot;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;parameterLimits&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;setting&quot;</span><span class="p">:</span> <span class="s2">&quot;parameterLimits&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;aliases&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;defaultAttenuationDb&quot;</span><span class="p">:</span> <span class="s2">&quot;attenuation&quot;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;hardwareConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;parameterLimits&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+</pre></div>
+</div>
+<p>Activation plans are built without importing the driver. The generator rejects
+references to absent parameters, patterns or tasks; atomic tasks must be
+synchronous foreground tasks with matching input/read-back parameters. Before
+activation, NodeEngine also checks live parameters, commands and limits.
+This policy concerns network activation; direct task, signal and parameter
+operations retain their existing runtime checks. Supplied boot configuration
+and experiment values are checked offline; constructor defaults are not
+automatically inserted into the inventory.</p>
+<p><code class="docutils literal notranslate"><span class="pre">deviceKind</span></code> supplies the optical
+classification to NodeEngine, offline validation and the browser. Use <code class="docutils literal notranslate"><span class="pre">generic</span></code>
+for devices without one of the existing optical functions; these include
+<code class="docutils literal notranslate"><span class="pre">source</span></code>, <code class="docutils literal notranslate"><span class="pre">attenuator</span></code>, <code class="docutils literal notranslate"><span class="pre">polarizationAnalyzer</span></code>, <code class="docutils literal notranslate"><span class="pre">polarizationAligner</span></code>,
+<code class="docutils literal notranslate"><span class="pre">snspd</span></code> and <code class="docutils literal notranslate"><span class="pre">timeTagger</span></code>. Roles in <code class="docutils literal notranslate"><span class="pre">linkBindings</span></code> still describe each
+device’s function on a particular link. Do not add a kind field to network files.</p>
+<p>The browser receives the server’s catalog, including registered Open drivers.
+The read-only viewer accepts the same <code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code> option. Optional
+<code class="docutils literal notranslate"><span class="pre">topologyAliases</span></code> preserve historical type names for topology lookup only;
+they do not register additional DeviceOS implementations. Conflicting names are
+rejected. <code class="docutils literal notranslate"><span class="pre">FiberSplitter</span></code> remains a passive topology element, not a driver.</p>
+<p>Optical classification alone does not guarantee protocol compatibility. An Open
+detector used as a latch guard must implement the <code class="docutils literal notranslate"><span class="pre">ReadDetectorHealth</span></code> task and
+its expected result contract; a time tagger must implement the acquisition tasks
+the selected protocol calls. Photec-specific telemetry controls are not enabled
+merely by declaring <code class="docutils literal notranslate"><span class="pre">snspd</span></code>. Static manifests cannot know connected channels or
+instance-specific calibration limits; these remain part of live capabilities.</p>
+<p>At startup, DeviceOS derives a contract fingerprint from the loaded driver’s
+class declarations and signatures, before constructing the driver. This needs
+no Python source file and does not read the generated manifest. <code class="docutils literal notranslate"><span class="pre">PING</span></code> reports
+the identity in <code class="docutils literal notranslate"><span class="pre">driverContract</span></code>; NodeEngine compares it with its catalog
+during handshake and experiment activation. For a registered type, a missing
+or different identity blocks use of the device. Regenerate the manifests from
+the matching sources, distribute them with NodeEngine (and any Open catalog),
+and update/restart DeviceOS with the corresponding driver. Older DeviceOS
+versions that do not report this identity must also be updated.</p>
+<p>The fingerprint covers declared metadata, not implementation bytes or hardware
+behavior. The launch <code class="docutils literal notranslate"><span class="pre">configFingerprint</span></code> remains a separate check of startup
+configuration, not a hash of current parameter values. A legacy Open driver
+without <code class="docutils literal notranslate"><span class="pre">DEVICE_CONTRACT</span></code> remains usable outside inventory mode when its type
+is not registered in NodeEngine’s contract catalog.</p>
+</section>
 </section>
 <section id="implement-the-lifecycle-contract">
 <h2>2 Implement the lifecycle contract<a class="headerlink" href="#implement-the-lifecycle-contract" title="Link to this heading">¶</a></h2>
@@ -732,35 +898,49 @@ access, telemetry, cooperative cancellation and I/O locking:</p>
 <span class="k">class</span><span class="w"> </span><span class="nc">CounterDriver</span><span class="p">:</span>
     <span class="n">NEQOS_DEVICE_DRIVER_API_VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.6.0&quot;</span>
 
+    <span class="n">DEVICE_CONTRACT</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;schemaVersion&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;deviceKind&quot;</span><span class="p">:</span> <span class="s2">&quot;generic&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;configurationScope&quot;</span><span class="p">:</span> <span class="s2">&quot;inventory-1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hardwareConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;initialValue&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">_PARAMETER_SPECS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Current counter value.&quot;</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="n">_SIGNAL_SPECS</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_TASK_SPECS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Increment&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;taskClass&quot;</span><span class="p">:</span> <span class="s2">&quot;foreground&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;admissionPolicy&quot;</span><span class="p">:</span> <span class="s2">&quot;sync&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pausable&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Increment a software counter and return the new value.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;resultSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;OK&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Task outcome.&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Counter after incrementing.&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deviceId</span><span class="p">,</span> <span class="n">hardwareConfig</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">deviceId</span> <span class="o">=</span> <span class="n">deviceId</span>
         <span class="n">config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hardwareConfig</span> <span class="ow">or</span> <span class="p">{})</span>
         <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s2">&quot;initialValue&quot;</span><span class="p">}:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CounterDriver only supports hardwareConfig.initialValue&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;initialValue&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_integer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;initialValue&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEVICE_CONTRACT</span><span class="p">[</span><span class="s2">&quot;hardwareConfig&quot;</span><span class="p">][</span><span class="s2">&quot;initialValue&quot;</span><span class="p">][</span><span class="s2">&quot;default&quot;</span><span class="p">]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ready</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reason</span> <span class="o">=</span> <span class="s2">&quot;Not connected&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">driverIOLock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_taskRegistry</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Increment&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;taskClass&quot;</span><span class="p">:</span> <span class="s2">&quot;foreground&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;admissionPolicy&quot;</span><span class="p">:</span> <span class="s2">&quot;sync&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;pausable&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Increment a software counter and return the new value.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;resultSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;OK&quot;</span><span class="p">],</span>
-                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Task outcome.&quot;</span><span class="p">,</span>
-                    <span class="p">},</span>
-                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Counter after incrementing.&quot;</span><span class="p">,</span>
-                    <span class="p">},</span>
-                <span class="p">},</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_taskRegistry</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TASK_SPECS</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_integer</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
@@ -830,9 +1010,10 @@ access, telemetry, cooperative cancellation and I/O locking:</p>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">GetCapabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span>
-                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Current counter value.&quot;</span><span class="p">}},</span> <span class="s2">&quot;signals&quot;</span><span class="p">:</span> <span class="p">{},</span>
-                <span class="s2">&quot;commands&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;INITIALIZE&quot;</span><span class="p">,</span> <span class="s2">&quot;SET_READY&quot;</span><span class="p">,</span> <span class="s2">&quot;CLEAR_READY&quot;</span><span class="p">,</span> <span class="s2">&quot;DISCONNECT&quot;</span><span class="p">],</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARAMETER_SPECS</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span> <span class="s2">&quot;signals&quot;</span><span class="p">:</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_SIGNAL_SPECS</span><span class="p">),</span>
+                <span class="s2">&quot;commands&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;INITIALIZE&quot;</span><span class="p">,</span> <span class="s2">&quot;SET_READY&quot;</span><span class="p">,</span> <span class="s2">&quot;CLEAR_READY&quot;</span><span class="p">,</span> <span class="s2">&quot;DISCONNECT&quot;</span><span class="p">,</span> <span class="s2">&quot;GET_PARAMETER&quot;</span><span class="p">,</span> <span class="s2">&quot;SET_PARAMETER&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;foregroundTasks&quot;</span><span class="p">:</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_taskRegistry</span><span class="p">),</span> <span class="s2">&quot;backgroundTasks&quot;</span><span class="p">:</span> <span class="p">{}}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">BuildStateSnapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -891,7 +1072,7 @@ then test vendor recovery and hardware safety on the supported host platform.</p
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Built-in protocol catalog</div>
+                <div class="title"><span class="section-number">12. </span>Built-in protocol catalog</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -902,7 +1083,7 @@ then test vendor recovery and hardware safety on the supported host platform.</p
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Writing a meta-protocol</div>
+                <div class="title"><span class="section-number">10. </span>Writing a meta-protocol</div>
                 
               </div>
             </a>

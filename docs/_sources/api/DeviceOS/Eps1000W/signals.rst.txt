@@ -1,4 +1,8 @@
 Eps1000W Signals
 ================
 
-No readable signals.
+.. admonition:: Signal reference
+   :class: api-reference
+
+   No readable signals.
+

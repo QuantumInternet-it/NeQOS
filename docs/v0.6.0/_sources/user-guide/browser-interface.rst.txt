@@ -44,6 +44,20 @@ device, link or port to inspect its bindings, channels and current observations.
 Optical edges and electrical readout edges are schematic; verify the actual
 laboratory cabling independently.
 
+With a lab inventory, **Load experiment network** immediately shows the declared
+topology as **Draft · not validated · not active**, including when devices are
+offline. Opening a saved network provides the same preview. This uses only the
+inventory and experiment document; it does not query or configure hardware.
+**Validate network** then checks device readiness and reads current settings.
+**Activate network** applies the validated configuration. A failed validation
+leaves the draft visible but unavailable for activation. **Show draft topology**
+returns to the candidate after viewing the active network.
+
+Configuration read-back uses the same NodeEngine timeout as protocol hardware
+calls: currently 120 seconds per request, with PING retaining its 5-second
+timeout. Driver limits still apply and can return an error earlier. The request
+continues as soon as the reply arrives; failed read-back prevents activation.
+
 Absent sources and unmodelled detectors are annotations, not fabricated devices
 or telemetry. Unbound resources remain separate; disabled links are marked as
 disabled. Very large imports can use a labelled membership layout rather than
@@ -109,7 +123,7 @@ What is available during execution
 While a run, network activation or cleanup is active, the interface permits
 observation of the current run and its network/devices, plus the current run's
 abort action where applicable. The UI and API block draft/library editing,
-new plan validation/submission, network import/save/validation/activation,
+new plan validation/submission, network import/preview/save/validation/activation,
 queue changes and historical browsing. Conflicting API requests return 409.
 
 Previously queued work, planned run steps and runtime child protocols continue
@@ -132,11 +146,31 @@ operation branches. The original stages and requeues remain in the evidence.
 Open a group to inspect it; many operations inside one iteration are not many
 independent iterations. Archived completed branches normally start collapsed.
 
+Scheduled or requeued parents with non-terminal recorded children are labelled
+**Waiting for child**. The raw scheduler state remains in the tooltip and JSON.
+Stage continuation counts are requeues, not failed measurements or latch retries.
+Operation tiles retain distinct ordinal labels even when observation IDs repeat;
+the recorded observation appears below the ordinal and in the tooltip. No
+polarization projection is inferred from an operation's position.
+
 Select stages, iterations and child operations to inspect recorded timing,
 task results and leases. Handler-time totals exclude waits between invocations;
 missing device start events remain unknown. A partial live timing window is not
 an all-time total, and no percentage or ETA is inferred from dynamic stages.
 An interval between submission and an update is not a recorded stage duration.
+The inspector separates direct device tasks from tasks recorded by descendant
+protocols, with links to their owners. It shows up to 12 descendant tasks, active
+first, and identifies incomplete history. Missing task records do not imply that
+the hardware is idle; unfinished durations stop at the last observed update.
+For a failed run, the graph shows the recorded cause from the failing descendant
+and a button to inspect it. The inspector displays the selected protocol's error
+above timing and task details, without requiring the advanced JSON view.
+
+After failure, **Resume queue** enables pending runs; it does not restart the
+failed experiment. **Prepare retry** loads that run's original plan as a Library
+draft, retaining its provenance. Validate the draft and start a new run; already
+completed steps can execute again. Parameters and published files always follow
+the same selected run as the execution graph.
 
 **Abort** stops the whole operator run, prevents later plan steps, invokes the
 runtime's descendant and terminal cleanup, and pauses the queue. The run remains
@@ -194,6 +228,44 @@ requests. For another computer, use the SSH tunnel in :doc:`running`; direct
 remote exposure, multiuser roles and force-lease recovery are not available.
 Same-host endpoint locks do not prevent older binaries or another computer
 from operating the same hardware: coordinate laboratory ownership separately.
+
+Photec count rates
+------------------
+
+The connected operator provides a native **Count rates** chart in **Network &
+devices**. Select a local Photec, choose the channels and use **Expand chart** for
+a larger view. **Visible time** and **Maximum plotted points** control display;
+use zoom buttons, the mouse wheel or a horizontal drag to explore time. Arrow
+keys and ``+`` / ``-`` work when the chart has focus. **Live** returns to the
+current interval.
+
+Rates use each controller sample's actual integration time: counts multiplied
+by 1000 and divided by integration milliseconds. Missing or invalid samples
+remain gaps; isolated samples are dots. A reduced-point view displays separate
+sampled points rather than drawing lines across omitted evidence. These are
+controller readouts delivered through DeviceOS telemetry, not continuous
+TimeTagger acquisition. They do not replace coincidence measurements.
+
+**Hardware integration (ms)** changes the Photec setting and verifies its
+read-back. It is available only while idle, with no pending runs. During a run
+or cleanup the setting is fixed; plotting, channel selection and recording
+remain available. This changes the runtime setting, not saved inventory or
+experiment documents.
+
+**Start recording** captures subsequent telemetry on NodeEngine independently
+of the browser, until **Stop recording** or NodeEngine shutdown. **Save displayed
+data** saves only the samples currently plotted, including recorded validity,
+integration and run ID. The live buffer holds at most 3600 samples per device;
+expired samples must be refreshed before saving.
+
+Each save creates a timestamped folder containing ``metadata.json``,
+``samples.csv`` and ``samples.offsets``. By default it is stored in
+``<operatorData>/TelemetryRecordings``; set ``--telemetryRecordings`` to use
+another directory. The panel displays the directory on the NodeEngine computer.
+**Open recording**, **Load** and **Export CSV** are available while idle. A
+recording must be stopped before loading or exporting it. DeviceOS must supply
+timestamped count samples with their integration time; if these are unavailable,
+the chart explains the missing telemetry.
 
 Configure external Grafana dashboards
 -------------------------------------

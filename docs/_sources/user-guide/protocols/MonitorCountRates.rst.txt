@@ -9,7 +9,9 @@ MonitorCountRates
 
 Monitor successive count-rate windows and publish their ordered observations.
 
-:bdg:`foreground` :bdg:`timeout 1600 min`
+:bdg:`foreground` :bdg:`declared timeout 26 h 40 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Acquire a declared number of complete count-rate windows and return the ordered 
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -30,17 +33,11 @@ Acquire a declared number of complete count-rate windows and return the ordered 
      - string length >= 1
      - Device that acquires and continuously reports the requested count-rate measurements.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it annotates each monitor window.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device needed by this monitor.
+     - string[] (items >= 1; each length >= 1)
+     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it annotates each monitor window. Each item: One device needed by this monitor.
    * - ``channelRefs``
-     - integer[] (items >= 1)
-     - Unique physical or logical channel references monitored in every acquisition window.
-   * - ``channelRefs[]``
-     - integer >= 0
-     - One channel reference accepted by the acquisition device.
+     - integer[] (items >= 1; each >= 0)
+     - Unique physical or logical channel references monitored in every acquisition window. Each item: One channel reference accepted by the acquisition device.
    * - ``latchGuard``
      - object
      - Explicit monitor latch policy; annotate retains an invalid window with health evidence and excludes it from valid aggregate statistics rather than retrying it.
@@ -76,7 +73,7 @@ Acquire a declared number of complete count-rate windows and return the ordered 
      ]
    }
 
-:download:`Download minimal input.json <MonitorCountRates.minimal.json>`
+:download:`Download MonitorCountRates.minimal.json <MonitorCountRates.minimal.json>`
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
@@ -88,7 +85,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MonitorCountRates.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -120,7 +117,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -128,7 +126,7 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``measurementDurationSec``
      - 1
-     - —
+     - > 0
      - Integration duration of each acquisition window, in seconds.
    * - ``windowCount``
      - null
@@ -142,21 +140,30 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-3
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "measurementDurationSec": 2.0,
-           "interWindowDelaySec": 0.1
-         }
+.. code-block:: json
+   :emphasize-lines: 2-5
+
+   {
+     "sharedParams": {
+       "measurementDurationSec": 2.0,
+       "interWindowDelaySec": 0.1
+     }
+   }
 
 5 How it is built
 -----------------

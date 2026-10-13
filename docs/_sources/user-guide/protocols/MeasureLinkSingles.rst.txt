@@ -9,7 +9,9 @@ MeasureLinkSingles
 
 Measure guarded singles counts and rates on resolved quantum links.
 
-:bdg:`foreground` :bdg:`timeout 3 min`
+:bdg:`foreground` :bdg:`declared timeout 3 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** none of its own; child protocols lease the devices they use.
 
@@ -21,17 +23,15 @@ Measures finite singles counts and rates for resolved quantum links and returns 
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``targetLinkIds``
-     - string[] (items >= 1)
-     - Unique quantum-link identifiers whose TimeTagger sink channels are measured as singles.
-   * - ``targetLinkIds[]``
-     - string length >= 1
-     - One target quantum-link identifier resolved from network.json.
+     - string[] (items >= 1; each length >= 1)
+     - Unique quantum-link identifiers whose TimeTagger sink channels are measured as singles. Each item: One target quantum-link identifier resolved from network.json.
    * - ``latchGuard``
      - object
      - Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.
@@ -42,11 +42,8 @@ Measures finite singles counts and rates for resolved quantum links and returns 
      - integer >= 0
      - Maximum immediate retries of an invalid window after a recovered latch.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact acquisition union: TimeTagger plus every network-resolved health guard when required. The acquisition child acquires or inherits these resources.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device needed by this acquisition or scan.
+     - string[] (items >= 1; each length >= 1)
+     - Exact acquisition union: TimeTagger plus every network-resolved health guard when required. The acquisition child acquires or inherits these resources. Each item: One device needed by this acquisition or scan.
 
 .. code-block:: json
 
@@ -74,7 +71,9 @@ Measures finite singles counts and rates for resolved quantum links and returns 
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkSingles.minimal.json>`
+:download:`Download MeasureLinkSingles.minimal.json <MeasureLinkSingles.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkSingles/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkSingles/RunExample/network.json>`.
 
@@ -84,7 +83,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkSingles.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -110,7 +109,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -118,33 +118,14 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``measurementDurationSec``
      - 1
-     - —
+     - > 0
      - Finite integration duration for the shared singles observation window, in seconds.
    * - ``clear``
      - true
      - —
      - Whether the selected stable count-rate measurements are cleared before acquisition.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkSingles/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-3
-
-         {
-           "measurementDurationSec": 1,
-           "clear": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 May call, depending on the inputs:

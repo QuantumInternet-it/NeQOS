@@ -1,99 +1,98 @@
-# NeQOS LLM Authoring Instructions
+# NeQOS LLM authoring instructions
 
-Apply these instructions when generating or extending an Open meta-protocol library. Read them together with the Reserved and Open libraries supplied by the user's NodeEngine distribution. This guide accompanies NeQOS 0.5.0; verify the contracts and formats against the supplied release before generating files.
+Apply these instructions when generating or extending an Open library. Read them together with the built-in catalog (`ReservedMetaProtocols/`) and Open example libraries (`OpenMetaProtocols/`) supplied by the user's NodeEngine distribution. This guide accompanies NeQOS 0.6.0; verify the contracts and formats against the supplied release before generating files.
 
-## 1. Establish the Available Context
+## 1. Establish the available context
 
-- Inspect `NodeEnginePack/ReservedMetaProtocols/` for Built-in contracts and `NodeEnginePack/OpenMetaProtocols/` for editable examples.
-- Report the file paths actually read, the target NeQOS release, and sources you cannot access. Do not claim to have read an entire archive or folder if the interface only exposes part of it.
-- Search manifests and protocol descriptions first, then read the complete relevant `protocol.json` files, including `sharedParams`, `inputSchema`, `outputSchema`, `resourceRequests` and stages. Read the relevant Open manifests, handlers and run inputs.
-- Use the matching public NodeEngine handler and DeviceOS API documentation when needed. If a necessary API contract is unavailable, request it instead of inventing a signature.
-- Treat the supplied release contracts as authoritative. Documentation from another release or remembered examples must not override them.
-- Treat example device IDs, timings and physical values as examples, not as settings for the user's bench.
+- Inspect `NodeEnginePack/ReservedMetaProtocols/` for built-in contracts and `NodeEnginePack/OpenMetaProtocols/` for editable examples.
+- Report the paths actually read, the target release and sources you cannot access. An upload alone does not establish that an entire archive is readable.
+- Search manifests and descriptions first, then read complete relevant definitions: `sharedParams`, `inputSchema`, `outputSchema`, `resourceRequests`, stages and the built-in `exported` flag. Read the relevant Open manifests, handlers and run plans.
+- Use the matching stage-handler, `StageContext`/`StageResult` and DeviceOS task-surface references. Request a missing API contract rather than inventing a signature.
+- Treat the supplied release as authoritative. Example IDs, timing and physical values require review for the user's testbed.
 
-`ReservedMetaProtocols` is already the distributed Built-in capability catalog. Do not create another hand-maintained catalog. Only Built-in contracts explicitly marked `"exported": true` may be invoked by an Open protocol. Children defined in the loaded Open library do not need this protected-only field.
+The built-in catalog is the only index of built-in protocols. Only definitions marked `"exported": true` are public built-in protocols callable by an Open library. That flag is unrelated to result exports. Open definitions do not declare it. Use the current shipped examples cited by the documentation, not remembered examples from another release.
 
-## 2. Compose Existing Behavior First
+## 2. Compose existing behavior first
 
-1. Search existing exported Built-in protocols and existing Open definitions before creating new behavior. Explain which contracts satisfy each requested operation and what, if anything, is missing.
-2. Prefer declarative composition through `SubmitMicroProtocolStage` and `WaitMicroProtocolStage`. Use the matching `protocolKey` for submission and waiting, pass declared child inputs through `sharedParamOverrides`, and import only paths declared by the child's `outputSchema`.
-3. Reuse existing Open children within the generated library. Follow the manifest rules for the library actually loaded; do not assume a protocol in another example library becomes available automatically. Identify any Open definition you propose to include and register it explicitly.
-4. Do not copy protected implementations or import internal Reserved services to bypass a public contract. Compose exported protocols through their public interfaces.
-5. Avoid duplicated setup, acquisition, timing, loading, calibration and scientific analysis. Reuse a child with different inputs when that expresses the requested behavior.
-6. Do not produce long repeated stage lists when a reusable child plus justified runtime iteration can express them. Do not add wrappers that only rename an existing protocol without serving the user's workflow.
-7. If a required reusable primitive is absent, describe the missing contract. Do not silently implement a protected workflow in a new Open handler.
+1. Identify public built-in protocols and existing Open definitions that satisfy the requested operations, then describe any missing contract.
+2. Prefer `SubmitMicroProtocolStage` followed by `WaitMicroProtocolStage` with the same `protocolKey`. Pass only declared child inputs through `sharedParamOverrides`; import declared outputs or existing dictionary fields under a declared object export.
+3. Register every included Open child in the loaded library. Definitions from another example library do not become available automatically.
+4. Compose public built-in interfaces rather than copying their handler code or importing internal NodeEngine services.
+5. Reuse setup, acquisition, timing, loading, calibration and scientific analysis. Add a wrapper only when it serves an actual parent contract or execution requirement.
+6. Use a justified runtime loop instead of repeating long stage lists. New scientific analysis requires the user's request and documented assumptions.
 
-## 3. Use Local Handlers Where Needed
+## 3. Use local handlers where needed
 
-Local Python handlers are appropriate for runtime branching, bounded iteration, convergence decisions, aggregation of child results or new domain-specific behavior not provided by existing contracts. Explain why declarative composition is insufficient before adding one. New scientific analysis must be explicitly requested and its assumptions documented; do not invent calculations to fill a gap.
+Local handlers support runtime branching, bounded iteration, convergence decisions and aggregation. Explain why declared composition is insufficient before adding one. Document inputs, decisions, produced values and failure conditions in Python docstrings.
 
-- Keep reusable logic in one place rather than duplicating it across handlers.
-- Document the handler's inputs, decisions, produced values and reason for existing in Python docstrings.
-- Follow the public `StageContext` and `StageResult` APIs demonstrated in the matching Open examples and handler reference. Do not guess whether a call is synchronous or awaited.
-- In runtime composition, retain child runtime identifiers, check failures, wait for completion and consume declared results. Do not treat submission as completion or suppress child failures.
-- Register callable stages in `HANDLERS`. A file listed in a protocol's `handlerFiles` registers only handlers used by that protocol. Shared Open handlers belong in `sharedHandlerFiles`; declare each handler file once and avoid collisions with compiled names.
-- Use finite timeouts and explicit termination conditions for repeated work. A deliberately unbounded monitor requires a parent that owns its termination.
+- Register callable stages in `HANDLERS`. A protocol's `handlerFiles` registers only handlers used by that protocol. Reusable handlers belong in `sharedHandlerFiles`; declare each file once and avoid built-in stage-handler names such as `PublishResultStage`.
+- `ctx.submit_microprotocol`, child state checks, `ctx.child_output`, `ctx.get` and `ctx.set` are synchronous. Await device operations and `ctx.abort_microprotocol`.
+- Store child runtime IDs in the scratchpad before returning; re-entry must not submit the same child again. Check failure/abort and unknown IDs, wait for `COMPLETED`, then read declared values through `ctx.child_output`.
+- Return `StageResult` with `advance`, `repeat`, `requeue`, `complete` or `fail`. `requeue` returns to scheduling at the same stage; `repeat` runs it again inside the current execution. Include `reason` for failure and a non-negative `delaySec` when polling. Publish all required outputs before an early `complete`.
+- Define explicit loop termination and an actual elapsed-time guard when needed. A declared catalog `timeoutSec` alone is not an enforced deadline for a handler-backed run. A deliberately unbounded monitor requires a parent that owns termination.
 
-## 4. Respect Device and Acquisition Ownership
+## 4. Respect devices, acquisition and leases
 
-- Prefer exported device configuration and acquisition protocols over direct task calls. For a small uncovered device operation, use the documented `RunSingleTaskStage` or `ctx.run_task` interface with declared resources and advertised task inputs.
-- Do not call TimeTagger acquisition tasks such as `CreateMeasurement`, `ActivateMeasurements` or `StartMeasurement` directly from an Open handler. Compose the appropriate exported acquisition contract for count rates, coincidences, correlations or raw streams.
-- Preserve acquisition guard semantics from the chosen contract. Do not select `latchGuard: disabled` merely to make an input pass validation. Ask for the intended policy when it is unresolved.
-- Sequential child measurements do not represent a simultaneous acquisition window. If simultaneity is required and no public contract provides it, report that missing capability.
-- Declare resources for each protocol that operates devices, including delegated children. Use parameterized resource declarations supported by the release. Do not override a child's resources to an empty list when it needs hardware.
-- The runtime manages ancestor/child leases and the active device turn. A parent may poll a delegated child but cannot operate that device while the child is active. Do not invent manual ownership or an `inherit`/`acquire` catalog switch.
-- Compose existing state restoration workflows. If a new handler changes reversible device state across invocations, use the documented terminal cleanup API and clear the cleanup only after normal restoration succeeds.
+- Prefer public configuration and acquisition protocols to direct device operations. For a small uncovered task, use `RunSingleTaskStage` or `ctx.run_task` with declared resources and advertised inputs.
+- Time Tagger acquisition through `CreateMeasurement`, `ActivateMeasurements` and `StartMeasurement` belongs to the built-in acquisition implementation. Open handlers compose the public acquisition contract for count rates, coincidences, correlations or raw streams.
+- Select `latchGuard` from the experiment's intended detector-health policy, not merely to pass validation. Ask when it is unresolved.
+- Sequential measurements are not a simultaneous acquisition window. Report a missing simultaneous-acquisition contract instead of relabelling sequential data.
+- Every device-operating child declares its resources. Omit `resourceRequests` to retain the child declaration; an explicit list replaces it, and `[]` grants no device access.
+- A lease root retains external ownership while a foreground child uses a delegated lease. The active turn means only that runtime instance may operate the device; its parent can poll but cannot issue competing operations. Siblings serialize and delegated background work is forbidden.
+- Default `requeue` retains owned/delegated leases. `releaseResources=True` intentionally yields them and breaks uninterrupted exclusivity; use it only for a deliberate cooperative boundary.
+- Register idempotent terminal restoration before opening reversible device state. On the normal path, verify restoration and clear the exact registration. Successful completion does not automatically execute pending cleanup.
 
-## 5. Define Inputs and Results Precisely
+## 5. Define inputs and results precisely
 
-- Put configurable experiment values in `sharedParams`, describe and constrain them in `inputSchema`, and supply experiment-specific overrides in the run's `input.json`. Keep device identities, topology, paths and channels out of Python literals.
-- Follow the release's actual schema semantics for required fields, defaults, nullability and nested fields. Do not assume this schema supports every JSON Schema keyword.
-- Define caller-meaningful `outputSchema` exports before stages. Every successful completion must publish all declared exports, normally through `PublishResultStage`.
-- Map child exports through declared imports and publish the parent's declared result. Do not reach into private child scratchpad fields or scrape operational artifacts as a result API.
-- Preserve the distinction: `run-manifest.json` says how the run executed; `result.json` says what it produced.
-- Preserve nested statuses when handling task replies: the outer status describes the NodeEngine-to-DeviceOS operation, while the task result can describe the driver/hardware outcome. Follow the documented success checks for the selected task.
+- Put configurable values and defaults in `sharedParams`; describe and constrain them in `inputSchema`. Its parameter names match `sharedParams` exactly. Supply testbed-specific overrides in the run plan and resolve devices/channels from the network where the chosen contract supports it.
+- Input and output schemas use version `"0.1"`. Supported types are `string`, `integer`, `number`, `boolean`, `array` and `object`; booleans are not integers. Each specification has `type` and `description`.
+- `required: true` means the effective value after defaults/overrides must be non-null. Defaults are not schema fields. Nested objects merge recursively; lists/scalars are replaced. Required descendants apply when their parent object is non-null. Handler-specific conditional requirements still apply.
+- Supported constraints include `minimum`, `exclusiveMinimum`, `maximum`, `enum`, string lengths, array sizes/items and object properties. Explicit object properties reject unknown fields. Follow the supplied release instead of adding unsupported JSON Schema keywords.
+- Publish every declared output key after successful completion, normally with `PublishResultStage`. A key can contain null/empty data if its contract permits that; this is not an optional missing export. Add neither per-output `presence` nor `effects`/`group` metadata. `summary` complements the protocol's `description`.
+- Keep scratchpad state private. Use declared child imports and `ctx.child_output`; read `outputs` in `result.json`. Operational provenance and restoration evidence belong in `run-manifest.json`, not the library `manifest.json`.
+- Check the normalized outer reply status and any task-specific inner status before consuming device data. `RunSingleTaskStage` checks only the outer status by default.
 
-## 6. Generate a Portable Library
+Whole-value `"$shared.<path>"` references preserve JSON types; they are not interpolation or expressions. NodeEngine resolves shared references in effective stage parameters. Composition/publication/cleanup handlers also resolve `"$scratch.<path>"` at execution; a custom handler uses `ctx.get` for scratch data rather than assuming automatic scratch-reference resolution.
 
-Create the user's library separately from the shipped Reserved contracts and Open examples. Do not edit shipped contracts to make generated inputs valid.
+## 6. Generate a portable library
+
+Keep the user's library separate from shipped built-in contracts and Open examples:
 
 ```text
 MyLibrary/
   manifest.json
   MetaProtocolsDef/
-    MY-ROOT/
+    MY-PARENT/
       protocol.json
-      Handlers.py       # only when needed
+      Handlers.py
   MetaProtocolsRun/
-    my-root/
+    my-parent/
       input.json
-  network.json          # only if the user requests a new network example
+  network.json
 ```
 
-For NeQOS 0.5.0, the library manifest has `schemaVersion: "0.5"` and a `libraryId`. Each `metaProtocols` entry declares a `protocolId`, `definitionFile` and optional `handlerFiles`; each definition file contains exactly that protocol. Definition and handler paths remain relative and inside the library. Do not add undeclared manifest fields.
+The manifest has `schemaVersion: "0.5"`, a `libraryId` and non-empty `metaProtocols`. Allowed optional fields are `description`, `domain`, `function` and `sharedHandlerFiles`. Each protocol entry contains `protocolId`, `definitionFile` and optional `handlerFiles`. Paths are relative, inside the library, and refer to existing JSON/Python files. For example, shared handlers can be declared as `"sharedHandlerFiles": ["Handlers.py"]`; that file must exist and its registered handlers must be used by the library.
 
-The run input has a different schema version: `"0.4"`. It declares `metaProtocolLibrary` with the same `libraryId` and a `folder` resolved relative to the input file, and an ordered `steps` list. With the layout above, `folder` is `"../.."`. Do not use the manifest schema version as the run-input version. Check these formats against the supplied release.
+The run plan uses `schemaVersion: "0.4"`, `metaProtocolLibrary` with the same `libraryId` and a `folder` resolved relative to the input file, plus an ordered `steps` list. In the layout above, the folder is `"../.."`. Manifest, run-plan and input/output schema versions are distinct. Use one JSON property per line and unique protocol/handler identifiers. Include a network example only when requested; preserve the user's verified network instead of inventing hardware values.
 
-Format JSON with indentation and one object property per line. Register all included Open children, use unique protocol and handler identifiers, and provide a minimal run input with explicitly documented unresolved values. Do not fabricate a bench configuration if the user's network file already supplies it.
+A step may have a unique `stepId` starting with a letter and then letters/digits/underscore/hyphen. Use `"$steps.<stepId>.<declaredExportPath>"` as an entire JSON value to import an earlier successfully completed step's declared output. Dictionary fields under declared object exports are accessible; array indexing, interpolation, expressions, self/forward references and missing-value fallback are unsupported. References can occur recursively in shared/common/stage overrides and resource entries. Preflight validates literal fields and source declarations; resolved destination inputs are validated again before submission. Top-level steps have independent leases.
 
-Sequential run inputs may assign an optional unique `stepId` (letter first, then letters/digits/underscore/hyphen). Use `$steps.<stepId>.<declaredExportPath>` as an entire JSON value to import a declared export from a preceding successfully completed step. Dictionary fields inside declared object exports are also accessible; no scratchpad access, array indexing, interpolation, self/forward references or automatic wiring. References work recursively in shared/common/stage overrides and resource list entries. Preflight validates literal fields and source declarations; destination input types and constraints are validated again after resolution and before submission. Missing exports stop the plan, not a default fallback. Keep network/resource/physical-background compatibility explicit; top-level steps still have independent leases. Older runtimes may not support this additive run-input 0.4 extension.
+## 7. Work in this order
 
-## 7. Work in This Order
+1. Confirm sources and missing experiment information.
+2. Present a concise composition: exact child IDs, effective inputs, imported outputs, resources, termination, actual timeout guards and final results. Explain necessary new handlers.
+3. Generate the library and minimal run plan.
+4. Check JSON syntax, paths/IDs, registrations, schema constraints, references, resources and child import/export mappings. Parse Python without executing handlers during this review.
+5. Report checks performed, outcomes and unperformed checks. Syntax validation alone is not a runtime or hardware test.
+6. Provide the launch command for the supplied distribution. Starting NodeEngine can initialize hardware; authoring and offline checks are not authorization to execute the experiment.
 
-1. Confirm available sources and identify missing experiment information.
-2. Present a concise composition plan naming exact existing contracts, effective child inputs, imported outputs, resources, timeouts and final results. Explain any necessary new handler.
-3. Generate the library files and a minimal run input.
-4. Check JSON parsing, manifest paths and IDs, handler registration, schema constraints, shared references, resource declarations and child import/export mappings. Parse Python syntax without importing or executing handlers during this review.
-5. State which checks ran, their outcomes and any checks that remain unperformed. Do not report runtime validation from syntax checks alone.
-6. Provide the exact launch command using the executable and arguments documented for the supplied distribution. Label it as execution: starting NodeEngine can invoke hardware. Keep authoring and static checks separate from running an experiment.
+Use only existing documented validators and switches. Ask for the relevant runtime validation path if the supplied release does not provide an offline checker for the required behavior.
 
-Do not invent a standalone validator, CLI switch or dry-run mode. If runtime checking is only available by loading or running NodeEngine, explain that limitation. Do not execute the generated experiment as part of an authoring request.
+## 8. Final review
 
-## 8. Final Review
-
-- Every Built-in child is explicitly exported; every Open child is registered in the loaded library.
-- Child inputs use the actual contract, and every imported output path is declared by that child.
-- New code serves a documented need and does not duplicate an available workflow.
-- Devices and guard policies are explicit; delegated ownership and restoration are respected.
-- Successful publication includes all declared results, with operational provenance kept in the manifest.
-- The deliverable includes all required files, a minimal run input, evidence of checks and clearly stated unresolved inputs.
+- Every built-in child is public and every Open child is registered in the loaded library.
+- Inputs and imported paths match real contracts, including conditional requirements.
+- New code serves a documented need and reuses existing operations.
+- Physical values, detector-health policies, delegated leases and restoration are explicit.
+- Successful publication contains every declared result; `run-manifest.json` records operational provenance.
+- Deliver all necessary files, a minimal input, evidence of checks and unresolved values. No hardware run occurs as part of authoring.

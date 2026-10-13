@@ -1,6 +1,6 @@
 {
   "protocolId": "EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST",
-  "description": "Verifies that an open handler can import a distribution-local pure-Python dependency.",
+  "description": "Formats an integer with humanize from a local Open-library handler and publishes the formatted value; no device operations are required.",
   "privilegeLevel": "NORMAL",
   "dependencies": [],
   "executionMode": "foreground",

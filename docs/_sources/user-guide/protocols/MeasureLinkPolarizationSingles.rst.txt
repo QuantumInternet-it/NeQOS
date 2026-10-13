@@ -9,7 +9,9 @@ MeasureLinkPolarizationSingles
 
 Measure guarded link singles tomography across logical analyzer states.
 
-:bdg:`foreground` :bdg:`timeout 30 min`
+:bdg:`foreground` :bdg:`declared timeout 30 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,23 +23,18 @@ Measures finite singles counts and rates across logical analyzer states for one 
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``targetLinkIds``
-     - string[] (items >= 1)
-     - Analyzer-equipped target quantum-link identifiers measured at each state.
-   * - ``targetLinkIds[]``
-     - string length >= 1
-     - One target quantum-link identifier.
+     - string[] (items >= 1; each length >= 1)
+     - Analyzer-equipped target quantum-link identifiers measured at each state. Each item: One target quantum-link identifier.
    * - ``polarizationAnalyzerDeviceIds``
-     - string[] (items >= 1)
-     - Analyzer devices leased while their target channels are configured and scanned.
-   * - ``polarizationAnalyzerDeviceIds[]``
-     - string length >= 1
-     - One polarization-analyzer device identifier.
+     - string[] (items >= 1; each length >= 1)
+     - Analyzer devices leased while their target channels are configured and scanned. Each item: One polarization-analyzer device identifier.
    * - ``latchGuard``
      - object
      - Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.
@@ -48,11 +45,8 @@ Measures finite singles counts and rates across logical analyzer states for one 
      - integer >= 0
      - Maximum immediate retries of an invalid window after a recovered latch.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact scan lease union: resolved analyzers and TimeTagger, plus every network-resolved health guard when required.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device needed by this acquisition or scan.
+     - string[] (items >= 1; each length >= 1)
+     - Exact scan lease union: resolved analyzers and TimeTagger, plus every network-resolved health guard when required. Each item: One device needed by this acquisition or scan.
 
 .. code-block:: json
 
@@ -84,7 +78,7 @@ Measures finite singles counts and rates across logical analyzer states for one 
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkPolarizationSingles.minimal.json>`
+:download:`Download MeasureLinkPolarizationSingles.minimal.json <MeasureLinkPolarizationSingles.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationSingles/RunExample/network.json>`.
 
@@ -94,7 +88,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkPolarizationSingles.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -120,7 +114,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -128,15 +123,11 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``tomographyStates``
      - ["H", "V", "D", "A", "R", "L"]
-     - items >= 1
-     - Logical H/V/D/A/R/L projections to report. A PBS acquires complementary pairs from one physical H/D/R setting; a polarizer requires one setting per requested logical projection.
-   * - ``tomographyStates[]``
-     - not declared
-     - length >= 1
-     - One analyzer state accepted by the polarization analyzer. Required when the containing object or array item is supplied.
+     - items >= 1; each string (length >= 1)
+     - Logical H/V/D/A/R/L projections to report. A PBS acquires complementary pairs from one physical H/D/R setting; a polarizer requires one setting per requested logical projection. Each item: One analyzer state accepted by the polarization analyzer.
    * - ``measurementDurationSec``
      - 3
-     - —
+     - > 0
      - Finite singles acquisition duration for each analyzer state, in seconds.
    * - ``settleSec``
      - 1
@@ -166,29 +157,35 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationSingles/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationSingles/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationSingles/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-11
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "tomographyStates": [
-             "H",
-             "V"
-           ],
-           "measurementDurationSec": 1,
-           "settleSec": 1,
-           "clear": true,
-           "defaultDwdmChannel": 44,
-           "dwdmChannelByLink": {},
-           "finalTomographyState": "H"
-         }
+.. code-block:: json
+   :emphasize-lines: 2-10
+
+   {
+     "sharedParams": {
+       "tomographyStates": [
+         "H",
+         "V"
+       ],
+       "measurementDurationSec": 1,
+       "defaultDwdmChannel": 44,
+       "finalTomographyState": "H"
+     }
+   }
 
 5 How it is built
 -----------------

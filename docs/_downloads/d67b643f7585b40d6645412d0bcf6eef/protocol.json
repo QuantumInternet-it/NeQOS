@@ -138,47 +138,47 @@
     "exports": {
       "link.polarizationCompensation.plan.sourceCampaign": {
         "type": "object",
-        "description": "Resolved source/link roles and resources with explicit probeTraffic.",
+        "description": "Source, two emitted links, analyzer/Time Tagger bindings and lease resources for the separable H/D campaign, with probeTraffic=classical.",
         "role": "plan"
       },
       "link.polarizationCompensation.observation.hdProbesByLink": {
         "type": "object",
-        "description": "Background, H/D counts, raw child observations and latch evidence indexed by estimated link; no invented reference observation.",
+        "description": "Separable H/D counts, background observations, tomography scans and latch evidence keyed by source-emitted link.",
         "role": "observation"
       },
       "link.polarizationCompensation.estimate.compensationByLink": {
         "type": "object",
-        "description": "H/D compensation estimates indexed only by estimated link.",
+        "description": "Independent H/D compensation estimates for the source-emitted links whose estimation completed.",
         "role": "estimate"
       },
       "link.polarizationCompensation.applied.linkCampaigns": {
         "type": "array",
-        "description": "Confirmed table installations with link identity and target/reference role; partial successful writes are retained.",
+        "description": "Completed per-link table installations with linkId and childProtocolId; every entry has role=target, and earlier completed installations remain listed if a later link fails.",
         "role": "applied"
       },
       "link.polarizationCompensation.applied.referenceFactoryCompensation": {
         "type": "object",
-        "description": "Confirmed reference-only factory-equivalent table reset, or null when not performed.",
+        "description": "Always null for separable H/D probes; this protocol does not reset a reference analyzer.",
         "role": "applied"
       },
       "link.polarizationCompensation.status.campaign": {
         "type": "object",
-        "description": "Operational outcome, failures, child identities and final analyzer state; completion does not certify polarization quality.",
+        "description": "Campaign outcome, failure reason, requested/completed link counts, child runs and final compensated-H state confirmations; no post-installation quality gate is applied.",
         "role": "status"
       },
       "link.polarizationCompensation.status.carrierRestoration": {
         "type": "object",
-        "description": "Exact source/ATT snapshot restoration evidence, including partial or unknown outcomes.",
+        "description": "Per-link outcomes of restoring the source and inline-attenuator snapshots; includes RESTORED, FAILED or UNKNOWN status.",
         "role": "status"
       },
       "link.polarizationCompensation.artifact.sourceCampaignReport": {
         "type": "string",
-        "description": "Detailed common JSON campaign report, or null if writing failed.",
+        "description": "Path to the separable H/D source-campaign JSON report, or null if publication failed.",
         "role": "artifact"
       },
       "link.polarizationCompensation.artifact.sourceCampaignCompactReport": {
         "type": "string",
-        "description": "Common Markdown summary, or null if writing failed.",
+        "description": "Path to the separable H/D source-campaign Markdown summary, or null if publication failed.",
         "role": "artifact"
       }
     }

@@ -3,16 +3,68 @@
 WaitMicroProtocolStage
 ======================
 
-Wait for a child runtime submitted under a protocol key.
+Wait for the child run submitted under the same protocolKey.
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :widths: 20 17 10 15 38
+   :class: api-table protocol-input-table
+
+   * - Input
+     - Type
+     - Required
+     - Default
+     - Meaning
+   * - ``templateId``
+     - ``string``
+     - No
+     - ``""``
+     - Fallback protocolKey and diagnostic label, not another submission.
+   * - ``protocolKey``
+     - ``string``
+     - No
+     - ``templateId``
+     - Label used by the submit stage; provide it or templateId.
+   * - ``pollDelaySec``
+     - ``number``
+     - No
+     - ``2.0``
+     - Non-negative delay before the next scheduled poll.
+   * - ``imports``
+     - ``array``
+     - No
+     - ``[]``
+     - Objects with from (declared child output path) and as (parent scratchpad path).
 
 Behavior
 --------
 
-The handler reads the runtime ID saved by ``SubmitMicroProtocolStage``. It
-requeues while the child is active, advances when it succeeds, and fails
-when it reaches a failed or aborted state. On success, optional ``imports``
-copy declared child exports into the parent scratchpad. ``pollDelaySec``
-controls the requeue delay and defaults to 2 seconds.
+COMPLETED advances after successful imports; FAILED or ABORTED fails this stage.
+SUBMITTED, SCHEDULED, RUNNING, PAUSED, PREEMPTED and RESUMED requeue at the same
+stage. A stored but unknown runtime ID also requeues; it does not imply success.
+During a delegated child's active turn, the parent may poll but cannot operate
+that device. Shared and scratch references are resolved at handler execution.
+
+State and results
+-----------------
+
+Reads _mp_<protocolKey>. On success, imports defensive copies into the parent
+scratchpad and records ImportMicroProtocolExports in taskResults. A nested
+dictionary path below a declared object export is allowed when it exists.
+Failed children are not imported, even if they published an artifact first.
+
+Failure conditions
+------------------
+
+Missing stored runtime ID, failed/aborted child, invalid mappings, missing
+child values or undeclared output paths fail. Invalid numeric delays or
+unresolved references also fail through the handler or stage boundary.
+
+:doc:`Runtime context, decisions and leases </api/NodeEngine/StageRuntime>`.
 
 Declared stage example
 ----------------------
@@ -46,18 +98,31 @@ Pair with :doc:`SubmitMicroProtocolStage <SubmitMicroProtocolStage>` using the s
 
    .. code-block:: python
 
-      async def WaitMicroProtocolStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult
-
-   .. code-block:: python
-
       async def WaitMicroProtocolStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult:
-          """Wait for a child runtime submitted under a protocol key.
+          """Wait for the child run submitted under the same protocolKey.
       
-          The handler reads the runtime ID saved by ``SubmitMicroProtocolStage``. It
-          requeues while the child is active, advances when it succeeds, and fails
-          when it reaches a failed or aborted state. On success, optional ``imports``
-          copy declared child exports into the parent scratchpad. ``pollDelaySec``
-          controls the requeue delay and defaults to 2 seconds.
+          COMPLETED advances after successful imports; FAILED or ABORTED fails this stage.
+          SUBMITTED, SCHEDULED, RUNNING, PAUSED, PREEMPTED and RESUMED requeue at the same
+          stage. A stored but unknown runtime ID also requeues; it does not imply success.
+          During a delegated child's active turn, the parent may poll but cannot operate
+          that device. Shared and scratch references are resolved at handler execution.
+      
+          Parameters:
+              templateId (string; default: ""): Fallback protocolKey and diagnostic label, not another submission.
+              protocolKey (string; default: templateId): Label used by the submit stage; provide it or templateId.
+              pollDelaySec (number; default: 2.0): Non-negative delay before the next scheduled poll.
+              imports (array; default: []): Objects with from (declared child output path) and as (parent scratchpad path).
+      
+          State and results:
+              Reads _mp_<protocolKey>. On success, imports defensive copies into the parent
+              scratchpad and records ImportMicroProtocolExports in taskResults. A nested
+              dictionary path below a declared object export is allowed when it exists.
+              Failed children are not imported, even if they published an artifact first.
+      
+          Failure conditions:
+              Missing stored runtime ID, failed/aborted child, invalid mappings, missing
+              child values or undeclared output paths fail. Invalid numeric delays or
+              unresolved references also fail through the handler or stage boundary.
           """
       
           try:

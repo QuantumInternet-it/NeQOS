@@ -9,7 +9,9 @@ RealignEntangledPhotonSourcePolarization
 
 Realign an entangled-photon source with temporary detector protection and state restoration.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``deviceId``.
 
@@ -21,7 +23,8 @@ When the EPS is actively in ENTANGLED output mode, temporarily protects downstre
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -47,7 +50,9 @@ When the EPS is actively in ENTANGLED output mode, temporarily protects downstre
      ]
    }
 
-:download:`Download minimal input.json <RealignEntangledPhotonSourcePolarization.minimal.json>`
+:download:`Download RealignEntangledPhotonSourcePolarization.minimal.json <RealignEntangledPhotonSourcePolarization.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/RealignEntangledPhotonSourcePolarization/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/RealignEntangledPhotonSourcePolarization/RunExample/network.json>`.
 
@@ -57,7 +62,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./RealignEntangledPhotonSourcePolarization.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -87,7 +92,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -102,26 +108,7 @@ Every declared key is present after successful completion; its value may be null
      - >= 0
      - Delay after verified restoration of the prior source output state, in seconds.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/RealignEntangledPhotonSourcePolarization/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-3
-
-         {
-           "protectionSettleSec": 0.0,
-           "settleSec": 10.0
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

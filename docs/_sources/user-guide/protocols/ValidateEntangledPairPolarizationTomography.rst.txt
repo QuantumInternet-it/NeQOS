@@ -9,7 +9,9 @@ ValidateEntangledPairPolarizationTomography
 
 Assess complete entangled-pair tomography against an explicit acceptance policy.
 
-:bdg:`foreground` :bdg:`timeout 1 min`
+:bdg:`foreground` :bdg:`declared timeout 1 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** no device resources.
 
@@ -21,7 +23,8 @@ Assesses a complete background-corrected entangled-pair 6x6 coincidence observat
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -67,12 +70,7 @@ Every declared key is present after successful completion; its value may be null
 
 No optional inputs are declared.
 
-4 Examples with options
------------------------
-
-No standalone option examples are shipped.
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

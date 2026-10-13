@@ -56,9 +56,14 @@ ActivateMeasurements selects the subset used by the next StartMeasurement
 window. RecordTimeTagStream writes raw selected-channel events as .ttbin,
 either for a finite duration or between explicit start and stop calls.
 
+:ref:`Network hardware configuration <hardware-config-swabiantt>`.
+
+:doc:`Driver extension and lifecycle rules </user-guide/writing-hardware-driver>`.
+
 .. toctree::
    :maxdepth: 1
 
    Parameters <SwabianTT/parameters>
    Signals <SwabianTT/signals>
    Foreground Tasks <SwabianTT/foreground-tasks>
+   Background Tasks <SwabianTT/background-tasks>

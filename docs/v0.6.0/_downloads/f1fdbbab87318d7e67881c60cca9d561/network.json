@@ -111,7 +111,7 @@
         },
         {
           "deviceId": "ExamplePolarizationAnalyzerOneId",
-          "deviceType": "PA1000",
+          "deviceType": "PaX000",
           "enabled": true,
           "linkBindings": [
             {
@@ -133,7 +133,7 @@
         },
         {
           "deviceId": "ExamplePolarizationAnalyzerTwoId",
-          "deviceType": "PA1000",
+          "deviceType": "PaX000",
           "enabled": true,
           "linkBindings": [
             {

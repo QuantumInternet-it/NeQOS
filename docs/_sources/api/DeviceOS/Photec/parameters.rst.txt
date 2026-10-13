@@ -22,6 +22,18 @@ Photec Parameters
         - —
         - ``True``
         - Automatically perform stop/start recovery after an invalid guarded count reading.
+      * - ``biasChannels``
+        - ``list``
+        - —
+        - —
+        - —
+        - —
+      * - ``biasCurrentsUa``
+        - ``object``
+        - —
+        - —
+        - —
+        - —
       * - ``healthLogEnabled``
         - ``bool``
         - —
@@ -40,16 +52,46 @@ Photec Parameters
         - ``1 to 65535``
         - ``100``
         - Integration time written to the Photec controller during initialization.
+      * - ``latchGuardChannels``
+        - ``list``
+        - —
+        - —
+        - —
+        - —
       * - ``maxRecoveryAttempts``
         - ``int``
         - —
         - ``0 to 10``
         - ``3``
         - Maximum automatic stop/start recovery attempts for one invalid health reading.
+      * - ``recoveryOffSec``
+        - ``float``
+        - —
+        - ``>= 0``
+        - ``0.5``
+        - —
+      * - ``recoverySettleSec``
+        - ``float``
+        - —
+        - ``>= 0``
+        - ``0.5``
+        - —
+      * - ``triggerLevels``
+        - ``object``
+        - —
+        - —
+        - —
+        - —
       * - ``zeroConsecutiveLimit``
         - ``int``
         - —
         - ``1 to 10``
         - ``1``
         - Consecutive guarded readings at or below zeroCountThreshold required to declare a latch.
+      * - ``zeroCountThreshold``
+        - ``int``
+        - —
+        - ``>= 0``
+        - ``0``
+        - —
 

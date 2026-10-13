@@ -9,7 +9,9 @@ HoldDuration
 
 Wait for a declared interval and report the completed hold.
 
-:bdg:`foreground` :bdg:`timeout 1441 min`
+:bdg:`foreground` :bdg:`declared timeout 24 h 1 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Wait for a declared duration without issuing device commands, then report the co
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -47,7 +50,9 @@ Wait for a declared duration without issuing device commands, then report the co
      ]
    }
 
-:download:`Download minimal input.json <HoldDuration.minimal.json>`
+:download:`Download HoldDuration.minimal.json <HoldDuration.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/network.json>`.
 
@@ -57,7 +62,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./HoldDuration.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -83,7 +88,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -91,27 +97,10 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``resourceDeviceIds``
      - []
-     - —
-     - Optional device identifiers leased for the full hold interval.
-   * - ``resourceDeviceIds[]``
-     - not declared
-     - length >= 1
-     - One device identifier reserved while this hold is active. Required when the containing object or array item is supplied.
+     - each string (length >= 1)
+     - Optional device identifiers leased for the full hold interval. Each item: One device identifier reserved while this hold is active.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/input.json>`
-
-      No additional input overrides.
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

@@ -9,7 +9,9 @@ ConfigureMPC320
 
 Configure an MPC320 controller velocity, home position and jog sizes.
 
-:bdg:`foreground` :bdg:`timeout 1 min`
+:bdg:`foreground` :bdg:`declared timeout 1 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``mpcDeviceId``.
 
@@ -21,7 +23,8 @@ Applies optional velocity, home-position, and jog-size settings to one MPC320 po
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -47,7 +50,7 @@ Applies optional velocity, home-position, and jog-size settings to one MPC320 po
      ]
    }
 
-:download:`Download minimal input.json <ConfigureMPC320.minimal.json>`
+:download:`Download ConfigureMPC320.minimal.json <ConfigureMPC320.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureMPC320/RunExample/network.json>`.
 
@@ -57,7 +60,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ConfigureMPC320.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -83,7 +86,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -113,24 +117,33 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureMPC320/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureMPC320/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureMPC320/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-6
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "velocity": 20.0,
-           "homePosition": 0.0,
-           "jogSize1": 5.0,
-           "jogSize2": 5.0,
-           "jogSize3": 5.0
-         }
+.. code-block:: json
+   :emphasize-lines: 2-8
+
+   {
+     "sharedParams": {
+       "velocity": 20.0,
+       "homePosition": 0.0,
+       "jogSize1": 5.0,
+       "jogSize2": 5.0,
+       "jogSize3": 5.0
+     }
+   }
 
 5 How it is built
 -----------------

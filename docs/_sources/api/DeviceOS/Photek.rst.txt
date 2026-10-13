@@ -1,6 +1,0 @@
-:orphan:
-
-Photec Driver
-=============
-
-See the :doc:`Photec Driver </api/DeviceOS/Photec>` reference.

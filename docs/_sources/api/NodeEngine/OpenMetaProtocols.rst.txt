@@ -1,9 +1,9 @@
-Open Meta-protocols
-===================
+Open libraries
+==============
 
-Editable protocol libraries loaded alongside NeQOS. Each library declares its templates and any local Python handlers.
+Editable protocol libraries loaded alongside NeQOS. Each library declares its protocols and any local Python handlers.
 
-:doc:`Run an Open library </user-guide/quickstart>` | :doc:`Composition handlers <MetaProtocolHandlers>`
+:doc:`Run an Open library </user-guide/quickstart>` | :doc:`Built-in stage handlers <MetaProtocolHandlers>` | :doc:`Writing a meta-protocol </user-guide/writing-meta-protocols>`
 
 .. toctree::
    :hidden:
@@ -16,9 +16,9 @@ Editable protocol libraries loaded alongside NeQOS. Each library declares its te
 External Python Package Dependency
 ----------------------------------
 
-Self-contained demonstration of a pure-Python dependency loaded by an open NeQOS meta-protocol handler.
+Shows how a local handler in an Open library imports humanize, formats an integer and publishes its result without device operations.
 
-``external-python-package-dependency``, 1 template
+``external-python-package-dependency``, 1 protocol
 
 .. grid:: 1 1 2 2
    :gutter: 2
@@ -29,14 +29,14 @@ Self-contained demonstration of a pure-Python dependency loaded by an open NeQOS
 
       .. _external-python-package-dependency-test:
 
-      Verifies that an open handler can import a distribution-local pure-Python dependency.
+      Formats an integer with humanize from a local Open-library handler and publishes the formatted value; no device operations are required.
 
 Fake Device Examples
 --------------------
 
-FakeDriver examples covering compiled stages, local handlers, staged execution, and contract-compliant parent-child result composition.
+Examples on the software-only FakeDriver: built-in stage handlers, local Python handlers, multi-stage/preemptible execution and passing declared results from children to their parent.
 
-``fake-device-examples``, 6 templates
+``fake-device-examples``, 6 protocols
 
 .. grid:: 1 1 2 2
    :gutter: 2
@@ -63,7 +63,7 @@ FakeDriver examples covering compiled stages, local handlers, staged execution, 
 
       .. _fake-handler:
 
-      FakeDriver foreground protocol whose local handlers dynamically submit tasks and repeat one stage.
+      Foreground FakeDriver protocol whose local handlers run device tasks and repeat one stage up to maxIterations before publishing the result.
 
    .. grid-item-card:: FAKE-COMPOSED-SWEEP
       :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP
@@ -71,7 +71,7 @@ FakeDriver examples covering compiled stages, local handlers, staged execution, 
 
       .. _fake-composed-sweep:
 
-      Hardware-free root meta-protocol.
+      Parent meta-protocol on the software-only FakeDriver: submits one branch that runs sweepCount leaf protocols and publishes their aggregated results.
 
    .. grid-item-card:: FAKE-COMPOSED-SWEEP-BRANCH
       :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH
@@ -79,7 +79,7 @@ FakeDriver examples covering compiled stages, local handlers, staged execution, 
 
       .. _fake-composed-sweep-branch:
 
-      Submits N deterministic leaf runs from its first stage, then aggregates the leaf exports.
+      Submits sweepCount leaf runs from one stage, waits for all of them and aggregates their declared outputs.
 
    .. grid-item-card:: FAKE-COMPOSED-SWEEP-LEAF
       :link: open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF
@@ -87,14 +87,14 @@ FakeDriver examples covering compiled stages, local handlers, staged execution, 
 
       .. _fake-composed-sweep-leaf:
 
-      Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.
+      Leaf protocol that runs a short FakeDriver task and publishes the value received from its parent sweep.
 
 IEEE QCE 2026 Demo
 ------------------
 
-Open meta-protocol example that invokes NeQOS's exported protected MPC optimization template.
+Open library example invoking the public built-in protocol AlignSNSPDInputPolarization for MPC320 count-rate optimization on one quantum link.
 
-``ieee-qce-2026-demo``, 1 template
+``ieee-qce-2026-demo``, 1 protocol
 
 .. grid:: 1 1 2 2
    :gutter: 2

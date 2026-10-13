@@ -9,7 +9,9 @@ CompensateSourcePolarizationFromEntangledPairProbes
 
 Compensate relative link polarization using entangled H/D coincidence probes.
 
-:bdg:`foreground` :bdg:`timeout 120 min`
+:bdg:`foreground` :bdg:`declared timeout 2 h`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Compensates the relative polarization mismatch between the two links emitted by 
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -33,11 +36,8 @@ Compensates the relative polarization mismatch between the two links emitted by 
      - string length >= 1
      - Other emitted link whose single analyzer receives the calculated correction.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact union of both analyzers, measured TimeTagger, explicitly required detector guards, sources and all inline attenuators potentially changed by sourceSetup.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One leased device.
+     - string[] (items >= 1; each length >= 1)
+     - Exact union of both analyzers, measured TimeTagger, explicitly required detector guards, sources and all inline attenuators potentially changed by sourceSetup. Each item: One leased device.
    * - ``referenceUseCompensatedTomoStates``
      - boolean
      - Explicit choice of factory or installed/loaded compensated reference states; true fails if the reference table is unavailable.
@@ -84,7 +84,7 @@ Compensates the relative polarization mismatch between the two links emitted by 
      ]
    }
 
-:download:`Download minimal input.json <CompensateSourcePolarizationFromEntangledPairProbes.minimal.json>`
+:download:`Download CompensateSourcePolarizationFromEntangledPairProbes.minimal.json <CompensateSourcePolarizationFromEntangledPairProbes.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/network.json>`.
 
@@ -94,7 +94,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CompensateSourcePolarizationFromEntangledPairProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -136,7 +136,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -156,7 +157,7 @@ Every declared key is present after successful completion; its value may be null
      - False publishes a SKIPPED report without communicating with hardware.
    * - ``measurementDurationSec``
      - 2
-     - —
+     - > 0
      - Equal finite duration of every conditional acquisition window in seconds.
    * - ``coincidenceWindowPs``
      - 1000
@@ -184,52 +185,48 @@ Every declared key is present after successful completion; its value may be null
      - Optional selected reference sink channel, validated against referenceLinkId.
    * - ``referenceProjectionSetMode``
      - "compact2x6"
-     - "compact2x6"
+     - Fixed: "compact2x6"
      - H,D reference probes against the six logical target projections. Only compact2x6 is supported; extended pre-installation acquisition is retired.
    * - ``subtractBackground``
      - false
      - —
      - Subtract the internally acquired detector-pair background from each scan component using integration-duration scaling and zero clipping. False still measures and retains the background, but leaves scan counts uncorrected.
+   * - **sourceSetup**
+     - see Minimal run
+     - —
+     - Optional fields of this required input.
    * - ``sourceSetup.sources``
-     - not declared
      - —
-     - Explicit source traffic/attenuation requests.
-   * - ``sourceSetup.sources[]``
-     - not declared
-     - —
-     - One source request. Required when the containing object or array item is supplied.
+     - each object
+     - Explicit source traffic/attenuation requests. Each item: One source request.
    * - ``sourceSetup.sources[].deviceId``
-     - not declared
+     - —
      - length >= 1
-     - Source device. Required when the containing object or array item is supplied.
+     - Source device. Include this field in each ``sourceSetup.sources`` item.
    * - ``sourceSetup.sources[].outputMode``
-     - not declared
+     - —
      - "HH" \| "DD" \| "ENTANGLED"
      - Carrier traffic.
    * - ``sourceSetup.sources[].entangledOutputAttenuationDb``
-     - not declared
+     - —
      - >= 0
      - Entangled source attenuation, within network limits.
    * - ``sourceSetup.sources[].classicOutputAttenuationDb``
-     - not declared
+     - —
      - >= 0
      - Classic source attenuation, within network limits.
    * - ``sourceSetup.attenuators``
-     - not declared
      - —
-     - Explicit inline attenuators on configured source links.
-   * - ``sourceSetup.attenuators[]``
-     - not declared
-     - —
-     - One attenuation request. Required when the containing object or array item is supplied.
+     - each object
+     - Explicit inline attenuators on configured source links. Each item: One attenuation request.
    * - ``sourceSetup.attenuators[].deviceId``
-     - not declared
+     - —
      - length >= 1
-     - Attenuator device. Required when the containing object or array item is supplied.
+     - Attenuator device. Include this field in each ``sourceSetup.attenuators`` item.
    * - ``sourceSetup.attenuators[].attenuationDb``
-     - not declared
+     - —
      - >= 0
-     - Attenuation within network limits. Required when the containing object or array item is supplied.
+     - Attenuation within network limits. Include this field in each ``sourceSetup.attenuators`` item.
    * - ``applyCompensation``
      - false
      - —
@@ -262,71 +259,91 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
 .. tab-set::
 
-   .. tab-item:: input / step 1
+   .. tab-item:: Simultaneous
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/network.json>`.
+
+      This run plan executes all 2 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
-         :emphasize-lines: 2-17
+         :emphasize-lines: 2-13
 
          {
-           "referenceResetCompensatedTomoStates": true,
-           "sourceSetup": {
-             "sources": [
-               {
-                 "deviceId": "ExampleSourceId",
-                 "outputMode": "ENTANGLED",
-                 "entangledOutputAttenuationDb": 20
-               }
-             ]
-           },
-           "measurementDurationSec": 2,
-           "settleSec": 1,
-           "applyCompensation": false,
-           "persist": false,
-           "pbsReadout": "simultaneous",
-           "subtractBackground": false
+           "sharedParams": {
+             "sourceSetup": {
+               "sources": [
+                 {
+                   "deviceId": "ExampleSourceId",
+                   "outputMode": "ENTANGLED",
+                   "entangledOutputAttenuationDb": 20
+                 }
+               ]
+             },
+             "persist": false
+           }
          }
 
-   .. tab-item:: input / step 2
+   .. tab-item:: Symmetrized
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromEntangledPairProbes/RunExample/network.json>`.
+
+      This run plan executes all 2 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
-         :emphasize-lines: 2-28
+         :emphasize-lines: 2-26
 
          {
-           "referenceResetCompensatedTomoStates": true,
-           "resourceDeviceIds": [
-             "ExampleSourceId",
-             "ExampleAnalyzerA",
-             "ExampleAnalyzerB",
-             "ExampleTimeTaggerId",
-             "ExampleDetectorHealthId"
-           ],
-           "sourceSetup": {
-             "sources": [
-               {
-                 "deviceId": "ExampleSourceId",
-                 "outputMode": "ENTANGLED",
-                 "entangledOutputAttenuationDb": 20
-               }
-             ]
-           },
-           "measurementDurationSec": 2,
-           "settleSec": 1,
-           "applyCompensation": false,
-           "persist": false,
-           "pbsReadout": "symmetrized",
-           "latchGuard": {
-             "mode": "required",
-             "maxWindowRetries": 2
-           },
-           "subtractBackground": true
+           "sharedParams": {
+             "resourceDeviceIds": [
+               "ExampleSourceId",
+               "ExampleAnalyzerA",
+               "ExampleAnalyzerB",
+               "ExampleTimeTaggerId",
+               "ExampleDetectorHealthId"
+             ],
+             "latchGuard": {
+               "mode": "required",
+               "maxWindowRetries": 2
+             },
+             "pbsReadout": "symmetrized",
+             "subtractBackground": true,
+             "sourceSetup": {
+               "sources": [
+                 {
+                   "deviceId": "ExampleSourceId",
+                   "outputMode": "ENTANGLED",
+                   "entangledOutputAttenuationDb": 20
+                 }
+               ]
+             },
+             "persist": false
+           }
          }
 
 5 How it is built

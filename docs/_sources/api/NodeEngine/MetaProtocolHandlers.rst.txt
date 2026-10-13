@@ -1,9 +1,11 @@
-Meta-protocol Handlers
-======================
+Built-in stage handlers
+=======================
 
-Stage handlers for child submission, result publication, DeviceOS tasks and terminal cleanup.
+Built-in stage handlers for submitting and waiting for child protocols, publishing results, running device tasks and registering terminal cleanup.
 
-All handlers receive ``ctx: StageContext`` and ``params: dict`` and return ``StageResult``. Parameters belong to the stage's ``params`` object, not directly to a run plan.
+Handlers receive ``ctx: StageContext`` and ``params: dict`` and normally return ``StageResult``. Decision strings are also accepted; StageResult supports a reason, delay and explicit lease policy. Parameters belong to the stage's ``params`` object, not directly to a run plan.
+
+:doc:`StageContext and StageResult <StageRuntime>` lists signatures, decisions and lease semantics. See :doc:`Writing a meta-protocol </user-guide/writing-meta-protocols>` for complete static and dynamic examples.
 
 **Declared composition:** use :doc:`SubmitMicroProtocolStage <handlers/SubmitMicroProtocolStage>` followed by :doc:`WaitMicroProtocolStage <handlers/WaitMicroProtocolStage>`.
 
@@ -29,7 +31,7 @@ Child protocols
 
       .. _submitmicroprotocolstage:
 
-      Submit a child microprotocol and retain its runtime ID in scratchpad.
+      Submit a child protocol and store its runtime ID in the scratchpad.
 
    .. grid-item-card:: WaitMicroProtocolStage
       :link: handlers/WaitMicroProtocolStage
@@ -37,7 +39,7 @@ Child protocols
 
       .. _waitmicroprotocolstage:
 
-      Wait for a child runtime submitted under a protocol key.
+      Wait for the child run submitted under the same protocolKey.
 
 Results
 -------
@@ -51,7 +53,7 @@ Results
 
       .. _publishresultstage:
 
-      Atomically validate, persist, and publish the declared result contract.
+      Validate, write and publish this protocol's declared result.
 
    .. grid-item-card:: ExportScratchStage
       :link: handlers/ExportScratchStage
@@ -73,7 +75,7 @@ Device tasks and cleanup
 
       .. _runsingletaskstage:
 
-      Run one DeviceOS task and fail unless its reply is explicitly successful.
+      Run one device task; by default, fail unless its outer reply status is OK.
 
    .. grid-item-card:: RegisterTerminalCleanupTaskStage
       :link: handlers/RegisterTerminalCleanupTaskStage
@@ -81,7 +83,7 @@ Device tasks and cleanup
 
       .. _registerterminalcleanuptaskstage:
 
-      Register an idempotent device task for terminal protocol cleanup.
+      Register an idempotent device task for terminal cleanup.
 
    .. grid-item-card:: ClearTerminalCleanupTaskStage
       :link: handlers/ClearTerminalCleanupTaskStage
@@ -89,4 +91,4 @@ Device tasks and cleanup
 
       .. _clearterminalcleanuptaskstage:
 
-      Remove a cleanup task once its normal compensating action completed.
+      Remove a cleanup registration after successful normal restoration.

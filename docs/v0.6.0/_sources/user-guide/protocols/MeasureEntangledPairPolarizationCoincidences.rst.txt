@@ -82,7 +82,7 @@ Measures a logical 6x6 coincidence matrix across two entangled-pair analyzer arm
      ]
    }
 
-:download:`Download minimal input.json <MeasureEntangledPairPolarizationCoincidences.minimal.json>`
+:download:`Download MeasureEntangledPairPolarizationCoincidences.minimal.json <MeasureEntangledPairPolarizationCoincidences.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/network.json>`.
 
@@ -92,7 +92,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureEntangledPairPolarizationCoincidences.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -181,6 +181,17 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/network.json>`.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
          :emphasize-lines: 2-4
 
@@ -193,6 +204,17 @@ Each example lists only the inputs it adds to or changes in the minimal run.
    .. tab-item:: Pbs Symmetrized
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/pbsSymmetrized/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureEntangledPairPolarizationCoincidences/RunExample/pbsSymmetrized/network.json>`.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-5

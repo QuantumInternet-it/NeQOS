@@ -1,0 +1,837 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="8. Experimental recipes" href="recipes.html"><link rel="prev" title="6. Run and customize a protocol" href="running.html">
+
+    <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
+        <title>7. Use the browser interface - NeQOS documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4887f515" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style><!-- neqos-doc-versioning:start -->
+<link rel="stylesheet" href="../_versioning/selector.css">
+<script defer src="../_versioning/selector.js" data-neqos-version="v0.6.0" data-neqos-page="user-guide/browser-interface.html"></script>
+<!-- neqos-doc-versioning:end -->
+</head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">NeQOS documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">NeQOS documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">1. How NeQOS works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">2. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">4. Describe the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">5. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">6. Run and customize a protocol</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">7. Use the browser interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html">8. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">9. Read results and diagnose failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">10. Writing a meta-protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html">11. Writing a hardware driver</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">12. Built-in protocol catalog</a><input aria-label="Toggle navigation of 12. Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/correlation/index.html">Correlation</a><input aria-label="Toggle navigation of Correlation" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCorrelations.html">MeasureCorrelations</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/countrate/index.html">Countrate</a><input aria-label="Toggle navigation of Countrate" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCountRates.html">MeasureCountRates</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MonitorCountRates.html">MonitorCountRates</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/rawStream/index.html">Raw stream</a><input aria-label="Toggle navigation of Raw stream" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/CaptureRawTimeTagStream.html">CaptureRawTimeTagStream</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/RecordTimeTagStream.html">RecordTimeTagStream</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/device/index.html">Device</a><input aria-label="Toggle navigation of Device" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/device/calibrationStore/index.html">Calibration store</a><input aria-label="Toggle navigation of Calibration store" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/InstallPolarizationAnalyzerCompensation.html">InstallPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/LoadPolarizationAnalyzerCompensation.html">LoadPolarizationAnalyzerCompensation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ResetPolarizationAnalyzerCompensationToFactory.html">ResetPolarizationAnalyzerCompensationToFactory</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/device/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ConfigureEntangledPhotonSources.html">ConfigureEntangledPhotonSources</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ConfigureMPC320.html">ConfigureMPC320</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ReadPolarizationAnalyzerOpticalConfiguration.html">ReadPolarizationAnalyzerOpticalConfiguration</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/RealignEntangledPhotonSourcePolarization.html">RealignEntangledPhotonSourcePolarization</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/SetPolarizationAnalyzerTomographyState.html">SetPolarizationAnalyzerTomographyState</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/device/fileTransfer/index.html">File transfer</a><input aria-label="Toggle navigation of File transfer" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/TransferDeviceFileToNode.html">TransferDeviceFileToNode</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/device/initialization/index.html">Initialization</a><input aria-label="Toggle navigation of Initialization" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/InitializePolarizationAnalyzerChannel.html">InitializePolarizationAnalyzerChannel</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ReinitializeTimeTagger.html">ReinitializeTimeTagger</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/entanglement/index.html">Entanglement</a><input aria-label="Toggle navigation of Entanglement" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/entanglement/distillation/index.html">Distillation</a><input aria-label="Toggle navigation of Distillation" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/EstimateEntangledPairDistillableEntanglementRate.html">EstimateEntangledPairDistillableEntanglementRate</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/entanglement/fidelity/index.html">Fidelity</a><input aria-label="Toggle navigation of Fidelity" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/DeriveEntangledPairFidelitySummary.html">DeriveEntangledPairFidelitySummary</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/EstimateEntangledPairFidelity.html">EstimateEntangledPairFidelity</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureEntangledPairFidelity.html">MeasureEntangledPairFidelity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/execution/index.html">Execution</a><input aria-label="Toggle navigation of Execution" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/execution/control/index.html">Control</a><input aria-label="Toggle navigation of Control" class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/HoldDuration.html">HoldDuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/link/index.html">Link</a><input aria-label="Toggle navigation of Link" class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/link/characterization/index.html">Characterization</a><input aria-label="Toggle navigation of Characterization" class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureEntangledPairPolarizationCoincidences.html">MeasureEntangledPairPolarizationCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureLinkBackgroundCoincidences.html">MeasureLinkBackgroundCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureLinkBackgroundSingles.html">MeasureLinkBackgroundSingles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureLinkCoincidences.html">MeasureLinkCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureLinkPolarizationCoincidences.html">MeasureLinkPolarizationCoincidences</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureLinkPolarizationSingles.html">MeasureLinkPolarizationSingles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/MeasureLinkSingles.html">MeasureLinkSingles</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ValidateEntangledPairPolarizationTomography.html">ValidateEntangledPairPolarizationTomography</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/link/configuration/index.html">Configuration</a><input aria-label="Toggle navigation of Configuration" class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ConfigureQuantumLinkCarrier.html">ConfigureQuantumLinkCarrier</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/link/polarizationAlignment/index.html">Polarization alignment</a><input aria-label="Toggle navigation of Polarization alignment" class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/AlignMultipleSNSPDInputPolarizations.html">AlignMultipleSNSPDInputPolarizations</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/AlignSNSPDInputPolarization.html">AlignSNSPDInputPolarization</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/link/polarizationCompensation/index.html">Polarization compensation</a><input aria-label="Toggle navigation of Polarization compensation" class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/CompensateLinkPolarizationFromSeparableHDProbes.html">CompensateLinkPolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/CompensateSourcePolarizationFromEntangledPairProbes.html">CompensateSourcePolarizationFromEntangledPairProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/CompensateSourcePolarizationFromSeparableHDProbes.html">CompensateSourcePolarizationFromSeparableHDProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/EstimateLinkPolarizationCompensationFromHDProbes.html">EstimateLinkPolarizationCompensationFromHDProbes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ValidateLinkPolarizationCompensation.html">ValidateLinkPolarizationCompensation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/timing/index.html">Timing</a><input aria-label="Toggle navigation of Timing" class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/timing/alignment/index.html">Alignment</a><input aria-label="Toggle navigation of Alignment" class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/AlignChannels.html">AlignChannels</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ApplyChannelDelays.html">ApplyChannelDelays</a></li>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ReadChannelDelays.html">ReadChannelDelays</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="protocols/tomography/index.html">Tomography</a><input aria-label="Toggle navigation of Tomography" class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="protocols/tomography/state/index.html">State</a><input aria-label="Toggle navigation of State" class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="protocols/ReconstructTwoQubitDensityMatrix.html">ReconstructTwoQubitDensityMatrix</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common-issues.html">13. Common issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../llm/authoring-instructions.html">NeQOS_LLM_AUTHORING.md</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open libraries</a><input aria-label="Toggle navigation of Open libraries" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency.html">External Python Package Dependency</a><input aria-label="Toggle navigation of External Python Package Dependency" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples.html">Fake Device Examples</a><input aria-label="Toggle navigation of Fake Device Examples" class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples--FAKE-SIMPLE.html">FAKE-SIMPLE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples--FAKE-STAGED.html">FAKE-STAGED</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples--FAKE-HANDLER.html">FAKE-HANDLER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP.html">FAKE-COMPOSED-SWEEP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-BRANCH.html">FAKE-COMPOSED-SWEEP-BRANCH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/fake-device-examples--FAKE-COMPOSED-SWEEP-LEAF.html">FAKE-COMPOSED-SWEEP-LEAF</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/open/ieee-qce-2026-demo.html">IEEE QCE 2026 Demo</a><input aria-label="Toggle navigation of IEEE QCE 2026 Demo" class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/ieee-qce-2026-demo--MPC320CountsMaximization.html">MPC320CountsMaximization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Built-in stage handlers</a><input aria-label="Toggle navigation of Built-in stage handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/handlers/composition.html">Child protocols</a><input aria-label="Toggle navigation of Child protocols" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/SubmitMicroProtocolStage.html">SubmitMicroProtocolStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/WaitMicroProtocolStage.html">WaitMicroProtocolStage</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/handlers/results.html">Results</a><input aria-label="Toggle navigation of Results" class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/PublishResultStage.html">PublishResultStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/ExportScratchStage.html">ExportScratchStage</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/handlers/device-lifecycle.html">Device tasks and cleanup</a><input aria-label="Toggle navigation of Device tasks and cleanup" class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/RunSingleTaskStage.html">RunSingleTaskStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/RegisterTerminalCleanupTaskStage.html">RegisterTerminalCleanupTaskStage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/ClearTerminalCleanupTaskStage.html">ClearTerminalCleanupTaskStage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/StageRuntime.html">Stage handler runtime</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Photec.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/DriverContract.html">Open driver contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/HardwareConfiguration.html">Network hardware configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/signals.html">Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/tasks.html">Tasks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/user-guide/browser-interface.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="use-the-browser-interface">
+<h1><span class="section-number">7. </span>Use the browser interface<a class="headerlink" href="#use-the-browser-interface" title="Link to this heading">¶</a></h1>
+<p>The operator interface is served by the same NodeEngine process that schedules
+the experiment. Closing a browser tab does not stop its run. The standalone
+viewer is a separate, hardware-read-only entrypoint: importing a network or
+state snapshot into that viewer does not connect to a running engine.</p>
+<section id="connect-to-the-operator">
+<h2>Connect to the operator<a class="headerlink" href="#connect-to-the-operator" title="Link to this heading">¶</a></h2>
+<p>Follow <a class="reference internal" href="running.html"><span class="doc">Run and customize a protocol</span></a> for <code class="docutils literal notranslate"><span class="pre">--serve</span></code>, the startup token and a same-port SSH
+tunnel when the browser is on another computer. Start one NodeEngine operator
+for the intended network, with matching DeviceOS processes and a valid license.
+An operator cannot attach itself to another already-running NodeEngine.</p>
+<p>For stable equipment inventories and experiment activation, use <a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a>.
+The active experiment network supplies the operator’s devices and selectors;
+the operator does not import arbitrary local network snapshots as live state.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting the production operator boots the real engine and may initialize
+configured devices. Review wiring, serial numbers, source powers and detector
+settings before launch. The offline viewer below does not execute hardware.</p>
+</div>
+<p>Configure trusted Open libraries at NodeEngine startup with repeatable
+<code class="docutils literal notranslate"><span class="pre">--openLibrary</span> <span class="pre">/absolute/path/library</span></code> arguments. The browser can select these
+libraries, but cannot upload Python handlers or choose arbitrary server folders.
+The operator requires its optional runtime and browser assets in the installed
+distribution; see <a class="reference internal" href="installation.html"><span class="doc">Install the software</span></a>.</p>
+<p>Catalog paths describe taxonomy without renaming runtime IDs. Open entries
+without declared taxonomy appear as unclassified. The offline viewer displays
+the supplied source catalog; it does not prove which library a compiled running
+engine contains.</p>
+</section>
+<section id="inspect-the-network-and-devices">
+<h2>Inspect the network and devices<a class="headerlink" href="#inspect-the-network-and-devices" title="Link to this heading">¶</a></h2>
+<p><strong>Network &amp; devices</strong> shows the declared optical paths, splitter ports,
+polarization analyzers, detectors and Time Tagger electrical readout. Select a
+device, link or port to inspect its bindings, channels and current observations.
+Optical edges and electrical readout edges are schematic; verify the actual
+laboratory cabling independently.</p>
+<p>With a lab inventory, <strong>Load experiment network</strong> immediately shows the declared
+topology as <strong>Draft · not validated · not active</strong>, including when devices are
+offline. Opening a saved network provides the same preview. This uses only the
+inventory and experiment document; it does not query or configure hardware.
+<strong>Validate network</strong> then checks device readiness and reads current settings.
+<strong>Activate network</strong> applies the validated configuration. A failed validation
+leaves the draft visible but unavailable for activation. <strong>Show draft topology</strong>
+returns to the candidate after viewing the active network.</p>
+<p>Configuration read-back uses the same NodeEngine timeout as protocol hardware
+calls: currently 120 seconds per request, with PING retaining its 5-second
+timeout. Driver limits still apply and can return an error earlier. The request
+continues as soon as the reply arrives; failed read-back prevents activation.</p>
+<p>Absent sources and unmodelled detectors are annotations, not fabricated devices
+or telemetry. Unbound resources remain separate; disabled links are marked as
+disabled. Very large imports can use a labelled membership layout rather than
+the detailed schematic. Diagram fit/zoom do not establish physical cable order.</p>
+<p>Each physical device appears once. Passive splitters have no driver, readiness,
+telemetry or lease. Disabled devices show <strong>Off</strong>. A missing detector declaration
+is not an invented health observation: required detector protection needs the
+exact enabled detector/readout pairing. A <strong>G</strong> annotation means a latch guard
+is available, not that the current run enabled it.</p>
+<p>Live telemetry older than ten seconds is stale, not proof of disconnection.
+Unknown or stale health does not establish <strong>Ready</strong>. A healthy device can be
+<strong>Leased</strong>: inspect both its lease root and active executor, separately from
+whether a task is running. The stale threshold is not a lease-expiry rule.</p>
+<p>Use <strong>Fit network</strong> or <strong>Actual size</strong> for presentation. Selecting ports
+highlights the declared path. On narrow screens the inspector is a dismissible
+drawer; closing it does not change the network or experiment.</p>
+</section>
+<section id="compose-and-validate-a-run">
+<h2>Compose and validate a run<a class="headerlink" href="#compose-and-validate-a-run" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Open <strong>Library</strong>, select a configured library and inspect <strong>Catalog</strong>.
+Search uses the protocol’s catalog path and description. Inspect its inputs,
+defaults and declared outputs before adding it.</p></li>
+<li><p>In <strong>Compose run</strong>, add protocols with the add control or drag them into
+insertion gaps. Reorder steps with the handle or arrow controls. Repeated
+occurrences retain independent inputs; top-level steps have independent
+leases, as described in <a class="reference internal" href="running.html"><span class="doc">Run and customize a protocol</span></a>.</p></li>
+<li><p>Supply required inputs and review <strong>Options</strong>, including default values,
+calibration effects and detector-health policy. <strong>Advanced JSON</strong> edits the
+overrides directly. <strong>Reset defaults</strong> clears overrides and restores fixed
+choices. A field with a usable default need not be supplied, but explicit
+null still fails a non-null requirement.</p></li>
+<li><p>Use <strong>Validate with NodeEngine</strong>. Inspect the per-step resource plan, export
+references, physical-change warnings and structured step/field errors. An
+edit invalidates previous validation results; correct errors and validate
+again before starting.</p></li>
+<li><p>Save a named experiment when appropriate, or export its JSON for review.
+Use the start/enqueue action when the operator is idle and the network is
+active. Starting validates again, and queued runs are revalidated before
+execution against the catalog and network they were submitted for.</p></li>
+</ol>
+<p>Validation does not run handlers, submit device tasks, initialize drivers or
+acquire leases. Topology planners can derive supported resource declarations
+and reject explicitly wrong ones. A valid plan does not reserve resources,
+promise immediate execution or provide an estimated completion time.
+Future <code class="docutils literal notranslate"><span class="pre">$steps</span></code> results are checked as references during preflight; their
+resolved scientific values are checked before the consuming step is submitted.</p>
+</section>
+<section id="protocols-accepted-by-the-operator">
+<h2>Protocols accepted by the operator<a class="headerlink" href="#protocols-accepted-by-the-operator" title="Link to this heading">¶</a></h2>
+<p>The current canonical built-in definitions accepted by the operator planner are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="protocols/AlignChannels.html"><span class="doc">AlignChannels</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/CompensateSourcePolarizationFromEntangledPairProbes.html"><span class="doc">CompensateSourcePolarizationFromEntangledPairProbes</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/ConfigureMPC320.html"><span class="doc">ConfigureMPC320</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/ConfigureQuantumLinkCarrier.html"><span class="doc">ConfigureQuantumLinkCarrier</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/DeriveEntangledPairFidelitySummary.html"><span class="doc">DeriveEntangledPairFidelitySummary</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/EstimateEntangledPairDistillableEntanglementRate.html"><span class="doc">EstimateEntangledPairDistillableEntanglementRate</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/HoldDuration.html"><span class="doc">HoldDuration</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/MeasureEntangledPairFidelity.html"><span class="doc">MeasureEntangledPairFidelity</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/MeasureEntangledPairPolarizationCoincidences.html"><span class="doc">MeasureEntangledPairPolarizationCoincidences</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/MeasureLinkBackgroundCoincidences.html"><span class="doc">MeasureLinkBackgroundCoincidences</span></a></p></li>
+<li><p><a class="reference internal" href="protocols/SetPolarizationAnalyzerTomographyState.html"><span class="doc">SetPolarizationAnalyzerTomographyState</span></a></p></li>
+</ul>
+<p>This list is generated from the planner and shipped contracts. Network/input validation still applies; altered stage bindings can be rejected. A visible catalog entry is not by itself permission to start that protocol through the operator.</p>
+<p>Configured Open compositions must be covered by audited static stages and
+statically resolved children. Dynamic template selection and arbitrary custom
+Python handlers do not become operator-runnable simply by declaring resources.
+This operator boundary is separate from what a trusted library can execute
+through the command-line runtime.</p>
+</section>
+<section id="what-is-available-during-execution">
+<h2>What is available during execution<a class="headerlink" href="#what-is-available-during-execution" title="Link to this heading">¶</a></h2>
+<p>While a run, network activation or cleanup is active, the interface permits
+observation of the current run and its network/devices, plus the current run’s
+abort action where applicable. The UI and API block draft/library editing,
+new plan validation/submission, network import/preview/save/validation/activation,
+queue changes and historical browsing. Conflicting API requests return 409.</p>
+<p>Previously queued work, planned run steps and runtime child protocols continue
+according to their execution and lease rules. The busy lock does not cancel
+them. One operator run is active at a time; its internal child concurrency is
+still controlled by NodeEngine. Pending runs can be reordered or removed when
+idle, but their submitted inputs cannot be edited in place.</p>
+</section>
+<section id="observe-and-abort">
+<h2>Observe and abort<a class="headerlink" href="#observe-and-abort" title="Link to this heading">¶</a></h2>
+<p><strong>Execution</strong> follows actual runtime identities. Repeated protocol definitions
+produce distinct instances. Requeue attempts belong to the same stage;
+unstarted stages after failure or abort are <strong>Skipped</strong>, not fabricated children.
+Missing historical evidence remains unknown. <strong>Follow execution</strong> controls
+branch expansion; it does not allow selecting a historical run while busy.</p>
+<p>The graph can group an adjacent submit/wait pair and collapse iteration or
+operation branches. The original stages and requeues remain in the evidence.
+Open a group to inspect it; many operations inside one iteration are not many
+independent iterations. Archived completed branches normally start collapsed.</p>
+<p>Scheduled or requeued parents with non-terminal recorded children are labelled
+<strong>Waiting for child</strong>. The raw scheduler state remains in the tooltip and JSON.
+Stage continuation counts are requeues, not failed measurements or latch retries.
+Operation tiles retain distinct ordinal labels even when observation IDs repeat;
+the recorded observation appears below the ordinal and in the tooltip. No
+polarization projection is inferred from an operation’s position.</p>
+<p>Select stages, iterations and child operations to inspect recorded timing,
+task results and leases. Handler-time totals exclude waits between invocations;
+missing device start events remain unknown. A partial live timing window is not
+an all-time total, and no percentage or ETA is inferred from dynamic stages.
+An interval between submission and an update is not a recorded stage duration.
+The inspector separates direct device tasks from tasks recorded by descendant
+protocols, with links to their owners. It shows up to 12 descendant tasks, active
+first, and identifies incomplete history. Missing task records do not imply that
+the hardware is idle; unfinished durations stop at the last observed update.
+For a failed run, the graph shows the recorded cause from the failing descendant
+and a button to inspect it. The inspector displays the selected protocol’s error
+above timing and task details, without requiring the advanced JSON view.</p>
+<p>After failure, <strong>Resume queue</strong> enables pending runs; it does not restart the
+failed experiment. <strong>Prepare retry</strong> loads that run’s original plan as a Library
+draft, retaining its provenance. Validate the draft and start a new run; already
+completed steps can execute again. Parameters and published files always follow
+the same selected run as the execution graph.</p>
+<p><strong>Abort</strong> stops the whole operator run, prevents later plan steps, invokes the
+runtime’s descendant and terminal cleanup, and pauses the queue. The run remains
+<strong>ABORTING</strong> until cleanup evidence is collected. Repeated abort requests do not
+repeat cleanup. Controls unlock only after execution/cleanup has finished.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Abort is not a whole-experiment undo. Completed persistent calibration
+writes and completed prior steps are not rolled back. Read the applied
+outputs, abort report and restoration replies. An acknowledgement or a
+requested persistence flag is not confirmation that restoration succeeded.</p>
+</div>
+<p>When idle, <strong>Resume queue</strong> allows queued runs to proceed. It is not mid-stage
+protocol resume and does not force-clear leases. After an operator restart,
+its previously active records become <strong>INTERRUPTED</strong>; queued runs remain stored
+and the queue stays paused. Re-activate an experiment network as required by
+<a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a>, review the evidence and decide explicitly how to proceed.</p>
+</section>
+<section id="history-revisions-and-parameter-reuse">
+<h2>History, revisions and parameter reuse<a class="headerlink" href="#history-revisions-and-parameter-reuse" title="Link to this heading">¶</a></h2>
+<p>When idle, use the timeline/run picker to select archived runs, filter by
+experiment and load older records. The execution graph, grouped published files
+and expandable parameter sections follow the selected run. Compare original,
+planned and executed inputs; abbreviated scientific arrays are previews, not
+the full data. Read <a class="reference internal" href="results.html"><span class="doc">Read results and diagnose failures</span></a> for complete evidence files and backup.</p>
+<p>The picker initially selects the newest recorded archive. When an update
+timestamp is missing/invalid, a visibly labelled file-time fallback may be used;
+unreadable metadata stays unknown. Search matches identity, label, state and
+date, grouped by archive month. A selected run outside a filter stays selected.
+An archived <strong>RUNNING</strong> label is historical, not proof of a currently live run.</p>
+<p>Use a previous run as a new draft to repeat or modify an experiment. Starting
+changed inputs for a named experiment creates a new revision; <strong>Save as new
+experiment</strong> creates a distinct identity. Revision checks detect conflicting
+edits from another tab. Reuse retains source-run provenance; it does not rewrite
+history, replay a measurement’s outputs or resume a previous run mid-step.</p>
+<p>PNG plots can be previewed and published files downloaded within the selected
+run. CLI archives have no invented operator experiment identity; inspect them
+through the standalone viewer or folder import.</p>
+</section>
+<section id="reconnect-and-authentication">
+<h2>Reconnect and authentication<a class="headerlink" href="#reconnect-and-authentication" title="Link to this heading">¶</a></h2>
+<p>The browser receives authenticated full state replacements. A reconnect does
+not authorize a new run or terminate one. Expired sessions require the startup
+token again; a server restart also reloads configuration. Tokens stay out of
+URLs, browser storage and archived run inputs. Treat them as credentials.</p>
+<p>The service binds to loopback and checks Host/Origin, sessions and command
+requests. For another computer, use the SSH tunnel in <a class="reference internal" href="running.html"><span class="doc">Run and customize a protocol</span></a>; direct
+remote exposure, multiuser roles and force-lease recovery are not available.
+Same-host endpoint locks do not prevent older binaries or another computer
+from operating the same hardware: coordinate laboratory ownership separately.</p>
+</section>
+<section id="photec-count-rates">
+<h2>Photec count rates<a class="headerlink" href="#photec-count-rates" title="Link to this heading">¶</a></h2>
+<p>The connected operator provides a native <strong>Count rates</strong> chart in <strong>Network &amp;
+devices</strong>. Select a local Photec, choose the channels and use <strong>Expand chart</strong> for
+a larger view. <strong>Visible time</strong> and <strong>Maximum plotted points</strong> control display;
+use zoom buttons, the mouse wheel or a horizontal drag to explore time. Arrow
+keys and <code class="docutils literal notranslate"><span class="pre">+</span></code> / <code class="docutils literal notranslate"><span class="pre">-</span></code> work when the chart has focus. <strong>Live</strong> returns to the
+current interval.</p>
+<p>Rates use each controller sample’s actual integration time: counts multiplied
+by 1000 and divided by integration milliseconds. Missing or invalid samples
+remain gaps; isolated samples are dots. A reduced-point view displays separate
+sampled points rather than drawing lines across omitted evidence. These are
+controller readouts delivered through DeviceOS telemetry, not continuous
+TimeTagger acquisition. They do not replace coincidence measurements.</p>
+<p><strong>Hardware integration (ms)</strong> changes the Photec setting and verifies its
+read-back. It is available only while idle, with no pending runs. During a run
+or cleanup the setting is fixed; plotting, channel selection and recording
+remain available. This changes the runtime setting, not saved inventory or
+experiment documents.</p>
+<p><strong>Start recording</strong> captures subsequent telemetry on NodeEngine independently
+of the browser, until <strong>Stop recording</strong> or NodeEngine shutdown. <strong>Save displayed
+data</strong> saves only the samples currently plotted, including recorded validity,
+integration and run ID. The live buffer holds at most 3600 samples per device;
+expired samples must be refreshed before saving.</p>
+<p>Each save creates a timestamped folder containing <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>,
+<code class="docutils literal notranslate"><span class="pre">samples.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">samples.offsets</span></code>. By default it is stored in
+<code class="docutils literal notranslate"><span class="pre">&lt;operatorData&gt;/TelemetryRecordings</span></code>; set <code class="docutils literal notranslate"><span class="pre">--telemetryRecordings</span></code> to use
+another directory. The panel displays the directory on the NodeEngine computer.
+<strong>Open recording</strong>, <strong>Load</strong> and <strong>Export CSV</strong> are available while idle. A
+recording must be stopped before loading or exporting it. DeviceOS must supply
+timestamped count samples with their integration time; if these are unavailable,
+the chart explains the missing telemetry.</p>
+</section>
+<section id="configure-external-grafana-dashboards">
+<h2>Configure external Grafana dashboards<a class="headerlink" href="#configure-external-grafana-dashboards" title="Link to this heading">¶</a></h2>
+<p><strong>Configure Grafana</strong> accepts dashboard titles, network/run scope, URLs and
+variable names. <strong>Save</strong> stores the configuration in this browser’s local
+storage; closing without saving discards edits. Imported JSON is a draft until
+saved. Export JSON to retain the configuration outside that browser.</p>
+<p>Only HTTP(S) URLs without embedded credentials are accepted. Run dashboards
+need a run-ID variable; demo/imported runs cannot open an unfiltered run
+dashboard. Current context provides network ID and archived run ID; device and
+protocol mappings do not supply runtime context yet.</p>
+<p>Cards open external dashboards, not embedded metrics. Requests occur when a
+dashboard link is opened. Monitoring placeholders are not actual count-rate or
+health measurements, and the example configuration contains placeholder URLs:
+<a class="reference download internal" download="" href="../_downloads/a9a2f3f563f60cdf44c6b0ea051732c9/grafana.example.json"><code class="xref download docutils literal notranslate"><span class="pre">grafana.example.json</span></code></a>.</p>
+</section>
+<section id="use-the-offline-viewer">
+<h2>Use the offline viewer<a class="headerlink" href="#use-the-offline-viewer" title="Link to this heading">¶</a></h2>
+<p>From a source checkout with Python 3.10 or newer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.BrowserUI.server<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network<span class="w"> </span>/absolute/path/network.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--results<span class="w"> </span>/absolute/path/MetaProtocolResults<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">8765</span>
+</pre></div>
+</div>
+<p>Open <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8765</span></code>. The viewer uses Python’s standard library and
+browser modules; it starts neither engine and executes no Python handler.
+The network/results arguments are optional: they supply files to offer in the
+viewer, not a request to connect to those devices.
+Load networks, saved run folders or exported state snapshots to inspect recorded
+topology and execution. Snapshots are historical observations, not live device
+connections; copied run folders remain inspectable without using their archived
+absolute paths to read arbitrary files.</p>
+<p>Local run drafts can be composed, validated against available schemas and
+exported as schema-0.4 JSON. They remain in memory, separate per library, and
+should be exported before reloading. These local checks do not replace operator
+preflight or the runtime’s exact resource validation. Imported files are not
+uploaded to a NodeEngine. The viewer exposes no hardware commands, license
+files or arbitrary server paths.
+Its server has no artifact-download API; read complete artifact files from
+their original directories.</p>
+<p>Demonstration playback is explicitly simulated: play, pause and manual steps
+illustrate nested execution, not historical durations or laboratory results.
+Browser-local Grafana configuration is separate from run files and drafts.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="recipes.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title"><span class="section-number">8. </span>Experimental recipes</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="running.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title"><span class="section-number">6. </span>Run and customize a protocol</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, Quantum Internet Research Group, University of Naples Federico II
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

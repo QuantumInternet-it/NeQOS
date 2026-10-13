@@ -22,6 +22,24 @@ Mpc320 Parameters
         - ``0.0 to 160.0``
         - ``0.0``
         - Default target angle in degrees.
+      * - ``channel1Waveplate1AngleDeg``
+        - ``float``
+        - ``deg``
+        - ``0 to 160``
+        - ``0``
+        - PaX-style compatibility parameter mapped to the corresponding MPC320 paddle 1 angle.
+      * - ``channel1Waveplate2AngleDeg``
+        - ``float``
+        - ``deg``
+        - ``0 to 160``
+        - ``0``
+        - PaX-style compatibility parameter mapped to the corresponding MPC320 paddle 2 angle.
+      * - ``channel1Waveplate3AngleDeg``
+        - ``float``
+        - ``deg``
+        - ``0 to 160``
+        - ``0``
+        - PaX-style compatibility parameter mapped to the corresponding MPC320 paddle 3 angle.
       * - ``home_position``
         - ``float``
         - ``deg``

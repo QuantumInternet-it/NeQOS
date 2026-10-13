@@ -18,6 +18,7 @@ commands, choose :ref:`headless-inventory-run` or :ref:`browser-inventory-run`.
 
 .. toctree::
    :maxdepth: 2
+   :numbered: 1
 
    how-neqos-works
    installation
@@ -31,6 +32,7 @@ commands, choose :ref:`headless-inventory-run` or :ref:`browser-inventory-run`.
    writing-meta-protocols
    writing-hardware-driver
    protocols/index
+   common-issues
 
 Which component does what?
 --------------------------

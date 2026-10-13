@@ -5,11 +5,11 @@ FAKE-COMPOSED-SWEEP
 
 Library: ``fake-device-examples``
 
-Hardware-free root meta-protocol. It submits one branch which submits a configurable number of leaf runs from the same stage.
+Parent meta-protocol on the software-only FakeDriver: submits one branch that runs sweepCount leaf protocols and publishes their aggregated results.
 
-:bdg:`foreground` :bdg:`timeout 30 s`
+:bdg:`foreground` :bdg:`declared timeout 30 s`
 
-**Lease:** ``$shared.fakeDeviceId``.
+**Lease:** ``fakeDeviceId``.
 
 1 Required inputs
 -----------------
@@ -31,7 +31,7 @@ Catalog defaults satisfy the input schema; no input overrides are required.
    * - ``test.sweep``
      - Aggregated deterministic leaf results.
 
-Declared keys are present after successful completion; values may be null or empty. See :doc:`/user-guide/results`.
+Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
 3 Options
 ---------
@@ -39,7 +39,8 @@ Declared keys are present after successful completion; values may be null or emp
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -69,39 +70,60 @@ Declared keys are present after successful completion; values may be null or emp
 4 Run examples
 --------------
 
-Library folders resolve relative to the run input. Keep the pack's directory layout when using its shipped input and network.
+Library folders resolve relative to the run input. Keep the library's directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow :doc:`/user-guide/quickstart`: DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary. These commands execute the run, not an offline validation.
 
-For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+:download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json>`
 
-.. tab-set::
+Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`.
 
-   .. tab-item:: composedSweep
+Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.
 
-      :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json>`
+**FakeDeviceId** (``Fake`` driver):
 
-      Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`.
+.. code-block:: bash
 
-      .. code-block:: json
+   python3 -m DeviceOSPack.DeviceOS \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
+     --nodeId FakeNodeId \
+     --deviceId FakeDeviceId \
+     --licenseFile /path/to/license.json \
+     --openDriversFile ./DeviceOSPack/OpenDrivers/OpenDrivers.json
 
-         {
-           "schemaVersion": "0.4",
-           "metaProtocolLibrary": {
-             "libraryId": "fake-device-examples",
-             "folder": "../.."
-           },
-           "steps": [
-             {
-               "protocolId": "FAKE-COMPOSED-SWEEP",
-               "sharedParams": {
-                 "sweepCount": 3,
-                 "valueStart": 10,
-                 "fakeDeviceId": "FakeDeviceId",
-                 "fakeTaskDurationSec": 0.05,
-                 "pollDelaySec": 0.2
-               }
-             }
-           ]
-         }
+Then start NodeEngine:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
+     --nodeId FakeNodeId \
+     --licenseFile /path/to/license.json \
+     --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json \
+     --waitProtocol
+
+.. dropdown:: Run plan JSON
+   :class-container: protocol-technical
+
+   .. code-block:: json
+
+      {
+        "schemaVersion": "0.4",
+        "metaProtocolLibrary": {
+          "libraryId": "fake-device-examples",
+          "folder": "../.."
+        },
+        "steps": [
+          {
+            "protocolId": "FAKE-COMPOSED-SWEEP",
+            "sharedParams": {
+              "sweepCount": 3,
+              "valueStart": 10,
+              "fakeDeviceId": "FakeDeviceId",
+              "fakeTaskDurationSec": 0.05,
+              "pollDelaySec": 0.2
+            }
+          }
+        ]
+      }
 
 5 Composition
 -------------
@@ -117,75 +139,13 @@ Declared child sequence: :doc:`FAKE-COMPOSED-SWEEP-BRANCH </api/NodeEngine/open/
 
    Source: ``NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsDef/FAKE-COMPOSED-SWEEP/protocol.json``.
 
-   Catalog defaults:
-
-   .. code-block:: json
-
-      {
-        "sweepCount": 3,
-        "valueStart": 10,
-        "fakeDeviceId": "FakeDeviceId",
-        "fakeTaskDurationSec": 0.05,
-        "pollDelaySec": 0.2
-      }
-
-   Stages, in declared order:
-
-   .. code-block:: json
-
-      [
-        {
-          "stageId": "00-FAKE-COMPOSED-SWEEP-BRANCH-Submit",
-          "handler": "SubmitMicroProtocolStage",
-          "params": {
-            "templateId": "FAKE-COMPOSED-SWEEP-BRANCH",
-            "protocolKey": "branch",
-            "resourceRequests": [],
-            "sharedParamOverrides": {
-              "sweepCount": "$shared.sweepCount",
-              "valueStart": "$shared.valueStart",
-              "fakeDeviceId": "$shared.fakeDeviceId",
-              "fakeTaskDurationSec": "$shared.fakeTaskDurationSec",
-              "pollDelaySec": "$shared.pollDelaySec"
-            }
-          }
-        },
-        {
-          "stageId": "01-FAKE-COMPOSED-SWEEP-BRANCH-Wait",
-          "handler": "WaitMicroProtocolStage",
-          "params": {
-            "templateId": "FAKE-COMPOSED-SWEEP-BRANCH",
-            "protocolKey": "branch",
-            "pollDelaySec": "$shared.pollDelaySec",
-            "imports": [
-              {
-                "from": "test.sweep",
-                "as": "test.sweep"
-              }
-            ]
-          }
-        },
-        {
-          "stageId": "02-FAKE-COMPOSED-SWEEP-PublishResult",
-          "handler": "PublishResultStage",
-          "params": {
-            "exports": [
-              {
-                "from": "test.sweep",
-                "as": "test.sweep"
-              }
-            ]
-          }
-        }
-      ]
-
    Protocol definition:
 
    .. code-block:: json
 
       {
         "protocolId": "FAKE-COMPOSED-SWEEP",
-        "description": "Hardware-free root meta-protocol. It submits one branch which submits a configurable number of leaf runs from the same stage.",
+        "description": "Parent meta-protocol on the software-only FakeDriver: submits one branch that runs sweepCount leaf protocols and publishes their aggregated results.",
         "privilegeLevel": "NORMAL",
         "dependencies": [],
         "executionMode": "foreground",

@@ -9,7 +9,9 @@ MeasureEntangledPairFidelity
 
 Measure entangled-pair fidelity from guarded tomography of the current optical state.
 
-:bdg:`foreground` :bdg:`timeout 120 min`
+:bdg:`foreground` :bdg:`declared timeout 2 h`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,34 +23,26 @@ Measures Phi+ lab-frame fidelity, the fully entangled fraction, and their fideli
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``linkPairIds``
-     - string[2]
-     - Exactly two emitted entangled-pair link identifiers defining the row and column analyzers.
-   * - ``linkPairIds[]``
-     - string length >= 1
-     - One link identifier resolved from network.json.
+     - string[2] (each length >= 1)
+     - Exactly two emitted entangled-pair link identifiers defining the row and column analyzers. Each item: One link identifier resolved from network.json.
    * - ``polarizationAnalyzerDeviceIds``
-     - string[] (items >= 1)
-     - Exact analyzer-device lease union for the selected two link arms.
-   * - ``polarizationAnalyzerDeviceIds[]``
-     - string length >= 1
-     - One polarization-analyzer device identifier.
+     - string[] (items >= 1; each length >= 1)
+     - Exact analyzer-device lease union for the selected two link arms. Each item: One polarization-analyzer device identifier.
    * - ``resourceDeviceIds``
-     - string[] (items >= 3)
-     - Exact union of the TimeTagger, selected analyzers, and detector-health devices required for the complete guarded tomography matrix.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device held for the complete measurement workflow.
+     - string[] (items >= 3; each length >= 1)
+     - Exact union of the TimeTagger, selected analyzers, and detector-health devices required for the complete guarded tomography matrix. Each item: One device held for the complete measurement workflow.
    * - ``latchGuard``
      - object
      - Required per-window detector-latch policy passed unchanged to the guarded 6x6 observation child.
    * - ``latchGuard.mode``
-     - string "required"
+     - string Fixed: "required"
      - Finite pair tomography always requires detector-latch protection.
    * - ``latchGuard.maxWindowRetries``
      - integer >= 0
@@ -101,9 +95,9 @@ Measures Phi+ lab-frame fidelity, the fully entangled fraction, and their fideli
      ]
    }
 
-:download:`Download minimal input.json <MeasureEntangledPairFidelity.minimal.json>`
+:download:`Download MeasureEntangledPairFidelity.minimal.json <MeasureEntangledPairFidelity.minimal.json>`
 
-Network: :download:`experiment-network-EntanglementDistribution.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`.
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/network.json>`.
 
 .. code-block:: bash
 
@@ -111,7 +105,7 @@ Network: :download:`experiment-network-EntanglementDistribution.json <../../../N
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureEntangledPairFidelity.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -145,7 +139,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -153,7 +148,7 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``measurementDurationSec``
      - 10
-     - —
+     - > 0
      - Finite integration duration for each topology-derived physical coincidence acquisition.
    * - ``settleSec``
      - 1
@@ -211,73 +206,92 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
 .. tab-set::
 
-   .. tab-item:: input
+   .. tab-item:: Simultaneous
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/network.json>`.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
-         :emphasize-lines: 2-11
+         :emphasize-lines: 2-6
 
          {
-           "measurementDurationSec": 1.0,
-           "settleSec": 1.0,
-           "coincidenceWindowPs": 1000,
-           "useCompensatedTomoStates": false,
-           "backgroundCountRateHz": 0.0,
-           "pbsReadout": "simultaneous",
-           "clear": true,
-           "maxReconstructionIterations": 5000,
-           "numericLocalUnitaryRestarts": 20,
-           "numericLocalUnitarySeed": 42
+           "sharedParams": {
+             "measurementDurationSec": 1.0,
+             "useCompensatedTomoStates": false,
+             "numericLocalUnitarySeed": 42
+           }
          }
 
-   .. tab-item:: input
+   .. tab-item:: Pbs Symmetrized
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/pbsSymmetrized/input.json>`
 
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/pbsSymmetrized/network.json>`.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
-         :emphasize-lines: 2-11
+         :emphasize-lines: 2-7
 
          {
-           "measurementDurationSec": 1.0,
-           "settleSec": 1.0,
-           "coincidenceWindowPs": 1000,
-           "useCompensatedTomoStates": false,
-           "backgroundCountRateHz": 0.0,
-           "pbsReadout": "symmetrized",
-           "clear": true,
-           "maxReconstructionIterations": 5000,
-           "numericLocalUnitaryRestarts": 20,
-           "numericLocalUnitarySeed": 42
+           "sharedParams": {
+             "measurementDurationSec": 1.0,
+             "useCompensatedTomoStates": false,
+             "pbsReadout": "symmetrized",
+             "numericLocalUnitarySeed": 42
+           }
          }
 
-   .. tab-item:: experiment-input-EntanglementDistribution
+   .. tab-item:: Entanglement Distribution
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-input-EntanglementDistribution.json>`
 
+      Network: :download:`experiment-network-EntanglementDistribution.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`.
+
+      This run plan executes all 7 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./experiment-network-EntanglementDistribution.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./experiment-input-EntanglementDistribution.json" \
+           --waitProtocol --verboseRunFolders
+
       .. code-block:: json
-         :emphasize-lines: 2-16
+         :emphasize-lines: 2-9
 
          {
-           "measurementDurationSec": 10,
-           "settleSec": 1,
-           "coincidenceWindowPs": 1000,
-           "useCompensatedTomoStates": true,
-           "backgroundCountRateHz": 0,
-           "clear": true,
-           "maxReconstructionIterations": 5000,
-           "numericLocalUnitaryRestarts": 20,
-           "numericLocalUnitarySeed": 42,
-           "useCompensatedTomoStatesByLink": {
-             "ExampleEntangledArmA": true,
-             "ExampleEntangledArmB": true
-           },
-           "pbsReadout": "simultaneous",
-           "backgroundObservation": "$steps.background.link.characterization.observation.background"
+           "sharedParams": {
+             "backgroundObservation": "$steps.background.link.characterization.observation.background",
+             "numericLocalUnitarySeed": 42,
+             "useCompensatedTomoStatesByLink": {
+               "ExampleEntangledArmA": true,
+               "ExampleEntangledArmB": true
+             }
+           }
          }
 
 5 How it is built

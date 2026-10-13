@@ -3,16 +3,16 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Built-in protocol catalog" href="protocols/index.html"><link rel="prev" title="5. Experimental recipes" href="recipes.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="10. Writing a meta-protocol" href="writing-meta-protocols.html"><link rel="prev" title="8. Experimental recipes" href="recipes.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
-        <title>6. Read results and diagnose failures - NeQOS documentation</title>
+    <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
+        <title>9. Read results and diagnose failures - NeQOS documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=05b004e2" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4887f515" />
     
     
 
@@ -39,7 +39,7 @@
   }
 </style><!-- neqos-doc-versioning:start -->
 <link rel="stylesheet" href="../_versioning/selector.css">
-<script defer src="../_versioning/selector.js" data-neqos-version="v0.5.0" data-neqos-page="user-guide/results.html"></script>
+<script defer src="../_versioning/selector.js" data-neqos-version="v0.6.0" data-neqos-page="user-guide/results.html"></script>
 <!-- neqos-doc-versioning:end -->
 </head>
   <body>
@@ -200,14 +200,18 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the bench</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">Built-in protocol catalog</a><input aria-label="Toggle navigation of Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">1. How NeQOS works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">2. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">4. Describe the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">5. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">6. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">7. Use the browser interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html">8. Experimental recipes</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">9. Read results and diagnose failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">10. Writing a meta-protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html">11. Writing a hardware driver</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">12. Built-in protocol catalog</a><input aria-label="Toggle navigation of 12. Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
@@ -324,6 +328,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="common-issues.html">13. Common issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -334,7 +339,7 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open Meta-protocols</a><input aria-label="Toggle navigation of Open Meta-protocols" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open libraries</a><input aria-label="Toggle navigation of Open libraries" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency.html">External Python Package Dependency</a><input aria-label="Toggle navigation of External Python Package Dependency" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a></li>
 </ul>
@@ -354,7 +359,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a><input aria-label="Toggle navigation of Meta-protocol Handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Built-in stage handlers</a><input aria-label="Toggle navigation of Built-in stage handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/handlers/composition.html">Child protocols</a><input aria-label="Toggle navigation of Child protocols" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/SubmitMicroProtocolStage.html">SubmitMicroProtocolStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/WaitMicroProtocolStage.html">WaitMicroProtocolStage</a></li>
@@ -373,40 +378,50 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/StageRuntime.html">Stage handler runtime</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Photec.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -416,6 +431,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/DriverContract.html">Open driver contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/HardwareConfiguration.html">Network hardware configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/parameters.html">Parameters</a></li>
@@ -464,7 +481,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="read-results-and-diagnose-failures">
-<h1>6. Read results and diagnose failures<a class="headerlink" href="#read-results-and-diagnose-failures" title="Link to this heading">¶</a></h1>
+<h1><span class="section-number">9. </span>Read results and diagnose failures<a class="headerlink" href="#read-results-and-diagnose-failures" title="Link to this heading">¶</a></h1>
 <section id="find-the-right-host-and-directory">
 <h2>Find the right host and directory<a class="headerlink" href="#find-the-right-host-and-directory" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper docutils container">
@@ -478,7 +495,7 @@
 <tr class="row-even"><td><p>Process logs</p></td>
 <td><p>Each process’s <code class="docutils literal notranslate"><span class="pre">NEQOS_LOG_DIR</span></code>; otherwise its local default logs directory.</p></td>
 </tr>
-<tr class="row-odd"><td><p>NodeEngine run tree</p></td>
+<tr class="row-odd"><td><p>NodeEngine execution record</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code> under NodeEngine’s working directory.</p></td>
 </tr>
 <tr class="row-even"><td><p>Original raw Time Tagger files</p></td>
@@ -497,9 +514,9 @@
 redirection does not redirect every artifact. Read the actual paths in the
 published manifest and artifact handles.</p>
 </section>
-<section id="understand-the-execution-tree">
-<h2>Understand the execution tree<a class="headerlink" href="#understand-the-execution-tree" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">RunPlan_*</span></code> contains the plan manifest and the executed protocol hierarchy.
+<section id="read-the-execution-record">
+<span id="understand-the-execution-tree"></span><h2>Read the execution record<a class="headerlink" href="#read-the-execution-record" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RunPlan_*</span></code> contains the plan manifest and the executed parent/child protocol relationships.
 <code class="docutils literal notranslate"><span class="pre">Sxx</span></code> denotes a stage; <code class="docutils literal notranslate"><span class="pre">Nxx</span></code> denotes a logical iteration; a nested <code class="docutils literal notranslate"><span class="pre">Syy</span></code>
 is an operation within that iteration. With verbose names, protocol IDs help
 identify the child. Do not treat <code class="docutils literal notranslate"><span class="pre">Nxx</span></code> as a global detector or protocol
@@ -508,7 +525,7 @@ counter, and do not assume every directory level contains a result file.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">result.json</span></code> is the canonical scientific output. Read its <code class="docutils literal notranslate"><span class="pre">outputs</span></code>
 mapping using declared keys such as <code class="docutils literal notranslate"><span class="pre">acquisition.countrate.observation.window</span></code>.
-The cookbook lists each protocol’s exact keys.</p></li>
+The protocol catalog lists each protocol’s exact keys.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">run-manifest.json</span></code> records operational provenance: runtime identity,
 parent/children, stage/state transitions, lease ownership and cleanup evidence.
 This is where to investigate a failure before result publication.</p></li>
@@ -518,10 +535,70 @@ the result. It can abbreviate arrays/detail; it does not replace JSON.</p></li>
 histograms, density-matrix plots, PNG and SVG. Use the exported artifact paths
 rather than predicting a filename from the protocol’s name.</p></li>
 </ul>
+<section id="manifest-0-2-and-complete-evidence">
+<h3>Manifest 0.2 and complete evidence<a class="headerlink" href="#manifest-0-2-and-complete-evidence" title="Link to this heading">¶</a></h3>
+<p>Protocol manifests use <code class="docutils literal notranslate"><span class="pre">schemaVersion:</span> <span class="pre">&quot;0.2&quot;</span></code>. Their input/export mappings
+and browser projections can be abbreviated: long arrays may appear as
+<code class="docutils literal notranslate"><span class="pre">itemCount</span></code> plus <code class="docutils literal notranslate"><span class="pre">preview</span></code>; deep objects may show keys/counts instead of
+values. These are display/provenance previews, not lossless scientific inputs.
+Use the referenced evidence files when reproducing an analysis.</p>
+<div class="table-wrapper colwidths-given api-table protocol-input-table docutils container">
+<table class="api-table protocol-input-table docutils align-default">
+<colgroup>
+<col style="width: 28.0%" />
+<col style="width: 72.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File or reference</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run-inputs.json</span></code></p></td>
+<td><p>Full protocol inputs and run-step provenance. Resolve <code class="docutils literal notranslate"><span class="pre">inputs.fullInputsFile</span></code> relative to this protocol’s manifest directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run-stages.jsonl</span></code></p></td>
+<td><p>Append-only JSON Lines stage outcomes, including returned requeue results. Read one JSON object per line; follow <code class="docutils literal notranslate"><span class="pre">execution.stageResultsFile</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run-exports.json</span></code></p></td>
+<td><p>Complete export mapping finalized at protocol termination. Follow <code class="docutils literal notranslate"><span class="pre">outputs.exportsFile</span></code>; it is null before terminal export evidence is available.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run-lifecycle.json</span></code></p></td>
+<td><p>Complete <code class="docutils literal notranslate"><span class="pre">deviceTasks</span></code> and <code class="docutils literal notranslate"><span class="pre">stageAttempts</span></code> evidence finalized at termination, beyond the bounded manifest timing window.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run-summary.json</span></code></p></td>
+<td><p>Small run state/update-time summary used for archive listing; not scientific data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The manifest retains only the last 50 device-task/stage-attempt entries and
+their total counts. Its stage-result summary/count is not the complete stage
+journal. Terminal cleanup registrations and their last attempt remain under
+<code class="docutils literal notranslate"><span class="pre">execution.terminalCleanup</span></code> in the manifest. A failure before a stage returns
+need not have a journal outcome; inspect lifecycle and failure evidence too.</p>
+<p>The plan’s own manifest also uses schema 0.2. Each executed step can reference
+<code class="docutils literal notranslate"><span class="pre">steps[].exportsFile</span></code> relative to the plan directory instead of embedding
+scientific exports. A never-submitted step can have no run directory or export
+file. In-memory <code class="docutils literal notranslate"><span class="pre">$steps</span></code> dataflow still consumes complete declared exports;
+browser previews are not its input.</p>
+<p>Keep <code class="docutils literal notranslate"><span class="pre">result.json</span></code> as the canonical scientific publication. Terminal export
+evidence can exist for a failed/aborted protocol and does not make it an
+eligible successful child or run-plan input. Old manifests remain readable in
+the viewer; do not assume every archive has schema 0.2 evidence files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Metadata writes are coalesced off the event loop. Terminal completion and
+orderly shutdown wait for pending writes, and failed/pending persistence
+prevents runtime evidence retirement. This is not a power-loss/fsync
+guarantee. During a live run, referenced evidence can still be pending;
+preserve the complete terminal directory for reproducibility.</p>
+</div>
 <p>Parents aggregate observations appropriate to their output contract. The logical
 6-by-6 matrix belongs to the pair-polarization observation. A fidelity parent
 can refer to that child rather than duplicate the raw matrix under another
 namespace; retain the child evidence for reproducibility.</p>
+</section>
 </section>
 <section id="check-execution-and-scientific-meaning-separately">
 <h2>Check execution and scientific meaning separately<a class="headerlink" href="#check-execution-and-scientific-meaning-separately" title="Link to this heading">¶</a></h2>
@@ -564,8 +641,8 @@ received a run input instead of a network. <code class="docutils literal notrans
 working directory. On Unix, <code class="docutils literal notranslate"><span class="pre">/NodeEnginePack/...</span></code> is an absolute root path,
 not the local repository directory.</p>
 <p>An enum/type/unknown-property error means the input differs from the catalog
-contract. Compare the cookbook and executable versions, check renames, then
-edit the input. Do not bypass validation by changing protected definitions.</p>
+contract. Compare the protocol catalog with the executable version, then
+edit the input. Do not bypass validation by changing built-in definitions.</p>
 </section>
 <section id="device-not-ready-or-no-handshake">
 <h3>Device not ready or no handshake<a class="headerlink" href="#device-not-ready-or-no-handshake" title="Link to this heading">¶</a></h3>
@@ -591,6 +668,27 @@ If a latch occurred and recovered, the affected window can be repeated under
 the declared budget. Recovery failure or repeated contamination is recorded
 explicitly. Verify flux, detector settings and health wiring; do not simply
 switch to <code class="docutils literal notranslate"><span class="pre">disabled</span></code> to produce a successful result.</p>
+<p>Photec’s <code class="docutils literal notranslate"><span class="pre">recoveryStatus</span></code> describes the current health read: after a
+successful automatic recovery, a later healthy read normally says
+<code class="docutils literal notranslate"><span class="pre">NOT_NEEDED</span></code>. The <code class="docutils literal notranslate"><span class="pre">ReadDetectorHealth</span></code> result also retains <code class="docutils literal notranslate"><span class="pre">lastRecovery</span></code>
+with its <code class="docutils literal notranslate"><span class="pre">latchEventCount</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code> (<code class="docutils literal notranslate"><span class="pre">RECOVERED</span></code> or <code class="docutils literal notranslate"><span class="pre">FAILED</span></code>),
+<code class="docutils literal notranslate"><span class="pre">timestampEpoch</span></code> and the existing attempt/channel/timing details. Resetting
+latch tracking or reconfiguring channels clears that history. A manual
+stop/start command alone does not certify successful recovery.</p>
+<p>When a window’s latch counter increases, NodeEngine always discards that
+window. With valid final health, it may retry after a recovery reported by the
+final read, or after a retained successful recovery whose event counter exactly
+matches the final counter. A stale, missing or failed report does not authorize
+a retry. The report’s <code class="docutils literal notranslate"><span class="pre">recoveryStatusByDevice</span></code> is this interpreted outcome;
+the original readings remain in <code class="docutils literal notranslate"><span class="pre">healthBeforeByDevice</span></code> and
+<code class="docutils literal notranslate"><span class="pre">healthAfterByDevice</span></code>. Thus a final <code class="docutils literal notranslate"><span class="pre">NOT_NEEDED</span></code> and an interpreted
+<code class="docutils literal notranslate"><span class="pre">RECOVERED</span></code> can legitimately coexist.</p>
+<p><code class="docutils literal notranslate"><span class="pre">maxWindowRetries:</span> <span class="pre">2</span></code> permits the initial window plus at most two repetitions,
+with health checked again before each one. <code class="docutils literal notranslate"><span class="pre">annotate</span></code> reports the same
+recovery evidence but never retries or accepts a latch-contaminated window.
+Older Photec drivers do not retain this evidence: update DeviceOS and the
+matching NodeEngine driver manifest together. This change does not alter bias,
+latch thresholds, recovery timing or the meaning of the detector’s counters.</p>
 </section>
 <section id="flat-polarization-or-unexpectedly-large-background">
 <h3>Flat polarization or unexpectedly large background<a class="headerlink" href="#flat-polarization-or-unexpectedly-large-background" title="Link to this heading">¶</a></h3>
@@ -634,6 +732,29 @@ plots, device-side file manifests and the relevant host logs. Record whether
 the guard was disabled, whether calibration was persisted and which analyzer
 tables were used. Never include the license activation file in a public issue.</p>
 </section>
+<section id="operator-storage-and-backup">
+<h2>Operator storage and backup<a class="headerlink" href="#operator-storage-and-backup" title="Link to this heading">¶</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">--serve</span></code>, <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> selects the operator data directory
+(default <code class="docutils literal notranslate"><span class="pre">OperatorData</span></code>). Its <code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> records named experiment
+and network revisions, immutable submissions, effective-input provenance,
+queue state and run history. Scientific evidence is stored separately under
+<code class="docutils literal notranslate"><span class="pre">runs/&lt;UUID&gt;/</span></code> with its stage/iteration/operation directories. CLI results
+normally remain under <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code>; a browser-local draft or Grafana
+configuration is not part of the operator database.</p>
+<p>To back up the complete operator record, stop NodeEngine deliberately and copy
+the whole operator data directory, including <code class="docutils literal notranslate"><span class="pre">runs/</span></code>. A live copy of only
+<code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> can omit its write-ahead log and be inconsistent. An
+administrator using SQLite’s backup API must also arrange a coherent copy of
+the artifact/evidence directories; a database backup alone is not a scientific
+archive. Do not stop an active experiment merely to obtain a backup without
+coordinating its termination and cleanup.</p>
+<p>After restart, stored active runs are <strong>INTERRUPTED</strong>, queued runs remain and
+the queue is paused. History is bound to inventory identity/endpoints, not an
+invented experiment identity for old CLI runs. Restore a complete backup into a
+compatible installation and inspect its state before resuming queued work.
+See <a class="reference internal" href="browser-interface.html"><span class="doc">Use the browser interface</span></a> for timeline, revisions, grouped downloads and
+parameter reuse.</p>
+</section>
 </section>
 
         </article>
@@ -641,12 +762,12 @@ tables were used. Never include the license activation file in a public issue.</
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="protocols/index.html">
+          <a class="next-page" href="writing-meta-protocols.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Built-in protocol catalog</div>
+                <div class="title"><span class="section-number">10. </span>Writing a meta-protocol</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -657,7 +778,7 @@ tables were used. Never include the license activation file in a public issue.</
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">5. Experimental recipes</div>
+                <div class="title"><span class="section-number">8. </span>Experimental recipes</div>
                 
               </div>
             </a>
@@ -685,7 +806,7 @@ tables were used. Never include the license activation file in a public issue.</
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

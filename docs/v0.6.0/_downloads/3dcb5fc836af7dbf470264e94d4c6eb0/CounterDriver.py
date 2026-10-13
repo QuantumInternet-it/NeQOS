@@ -9,35 +9,49 @@ import time
 class CounterDriver:
     NEQOS_DEVICE_DRIVER_API_VERSION = "0.6.0"
 
+    DEVICE_CONTRACT = {
+        "schemaVersion": 1,
+        "deviceKind": "generic",
+        "configurationScope": "inventory-1",
+        "hardwareConfig": {
+            "initialValue": {"type": "int", "default": 0},
+        },
+    }
+    _PARAMETER_SPECS = {
+        "value": {"type": "int", "description": "Current counter value."},
+    }
+    _SIGNAL_SPECS = {}
+    _TASK_SPECS = {
+        "Increment": {
+            "taskClass": "foreground",
+            "admissionPolicy": "sync",
+            "pausable": False,
+            "description": "Increment a software counter and return the new value.",
+            "resultSchema": {
+                "status": {
+                    "type": "str", "required": True, "values": ["OK"],
+                    "description": "Task outcome.",
+                },
+                "value": {
+                    "type": "int", "required": True,
+                    "description": "Counter after incrementing.",
+                },
+            },
+        }
+    }
+
     def __init__(self, deviceId, hardwareConfig=None):
         self.deviceId = deviceId
         config = dict(hardwareConfig or {})
         if set(config) - {"initialValue"}:
             raise ValueError("CounterDriver only supports hardwareConfig.initialValue")
-        self._value = self._integer(config.get("initialValue", 0))
+        self._value = self._integer(config.get("initialValue", self.DEVICE_CONTRACT["hardwareConfig"]["initialValue"]["default"]))
         self._connected = False
         self._initialized = False
         self._ready = False
         self._reason = "Not connected"
         self.driverIOLock = asyncio.Lock()
-        self._taskRegistry = {
-            "Increment": {
-                "taskClass": "foreground",
-                "admissionPolicy": "sync",
-                "pausable": False,
-                "description": "Increment a software counter and return the new value.",
-                "resultSchema": {
-                    "status": {
-                        "type": "str", "required": True, "values": ["OK"],
-                        "description": "Task outcome.",
-                    },
-                    "value": {
-                        "type": "int", "required": True,
-                        "description": "Counter after incrementing.",
-                    },
-                },
-            }
-        }
+        self._taskRegistry = deepcopy(self._TASK_SPECS)
 
     @staticmethod
     def _integer(value):
@@ -107,9 +121,10 @@ class CounterDriver:
         return None
 
     def GetCapabilities(self):
-        return {"parameters": {"value": {"type": "int", "default": self._value,
-                    "description": "Current counter value."}}, "signals": {},
-                "commands": ["INITIALIZE", "SET_READY", "CLEAR_READY", "DISCONNECT"],
+        parameters = deepcopy(self._PARAMETER_SPECS)
+        parameters["value"]["default"] = self._value
+        return {"parameters": parameters, "signals": deepcopy(self._SIGNAL_SPECS),
+                "commands": ["INITIALIZE", "SET_READY", "CLEAR_READY", "DISCONNECT", "GET_PARAMETER", "SET_PARAMETER"],
                 "foregroundTasks": deepcopy(self._taskRegistry), "backgroundTasks": {}}
 
     def BuildStateSnapshot(self):

@@ -9,7 +9,9 @@ ReadPolarizationAnalyzerOpticalConfiguration
 
 Read a PA1000 or PA2000 analyzer optical configuration and waveplate axes.
 
-:bdg:`foreground` :bdg:`timeout 30 s`
+:bdg:`foreground` :bdg:`declared timeout 30 s`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``deviceId``.
 
@@ -21,7 +23,8 @@ Reads one PA1000 or PA2000 polarization-analyzer channel's cached DeviceOS optic
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -51,7 +54,9 @@ Reads one PA1000 or PA2000 polarization-analyzer channel's cached DeviceOS optic
      ]
    }
 
-:download:`Download minimal input.json <ReadPolarizationAnalyzerOpticalConfiguration.minimal.json>`
+:download:`Download ReadPolarizationAnalyzerOpticalConfiguration.minimal.json <ReadPolarizationAnalyzerOpticalConfiguration.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ReadPolarizationAnalyzerOpticalConfiguration/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ReadPolarizationAnalyzerOpticalConfiguration/RunExample/network.json>`.
 
@@ -61,7 +66,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ReadPolarizationAnalyzerOpticalConfiguration.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -88,20 +93,7 @@ Every declared key is present after successful completion; its value may be null
 
 No optional inputs are declared.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ReadPolarizationAnalyzerOpticalConfiguration/RunExample/input.json>`
-
-      No additional input overrides.
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

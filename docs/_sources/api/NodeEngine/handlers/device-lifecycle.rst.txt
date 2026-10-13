@@ -18,16 +18,16 @@ Device tasks and cleanup
       :link: RunSingleTaskStage
       :link-type: doc
 
-      Run one DeviceOS task and fail unless its reply is explicitly successful.
+      Run one device task; by default, fail unless its outer reply status is OK.
 
    .. grid-item-card:: RegisterTerminalCleanupTaskStage
       :link: RegisterTerminalCleanupTaskStage
       :link-type: doc
 
-      Register an idempotent device task for terminal protocol cleanup.
+      Register an idempotent device task for terminal cleanup.
 
    .. grid-item-card:: ClearTerminalCleanupTaskStage
       :link: ClearTerminalCleanupTaskStage
       :link-type: doc
 
-      Remove a cleanup task once its normal compensating action completed.
+      Remove a cleanup registration after successful normal restoration.

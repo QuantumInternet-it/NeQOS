@@ -131,7 +131,7 @@ Estimates per-link polarization compensation from source-prepared or entangled H
      ]
    }
 
-:download:`Download minimal input.json <EstimateLinkPolarizationCompensationFromHDProbes.minimal.json>`
+:download:`Download EstimateLinkPolarizationCompensationFromHDProbes.minimal.json <EstimateLinkPolarizationCompensationFromHDProbes.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/EstimateLinkPolarizationCompensationFromHDProbes/RunExample/input.json>`.
 
@@ -143,7 +143,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./EstimateLinkPolarizationCompensationFromHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

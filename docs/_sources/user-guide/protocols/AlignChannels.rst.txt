@@ -9,7 +9,9 @@ AlignChannels
 
 Measure relative channel timing offsets and optionally apply the derived input delays.
 
-:bdg:`foreground` :bdg:`timeout 30 min`
+:bdg:`foreground` :bdg:`declared timeout 30 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** none of its own; child protocols lease the devices they use.
 
@@ -21,7 +23,8 @@ Measure correlations from a reference channel to target channels, estimate their
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -33,11 +36,8 @@ Measure correlations from a reference channel to target channels, estimate their
      - integer >= 1
      - Physical channel used as the temporal reference.
    * - ``targetChannels``
-     - integer[] (items >= 1)
-     - Physical channels aligned to the reference channel.
-   * - ``targetChannels[]``
-     - integer >= 1
-     - Physical Time Tagger channel number.
+     - integer[] (items >= 1; each >= 1)
+     - Physical channels aligned to the reference channel. Each item: Physical Time Tagger channel number.
 
 .. code-block:: json
 
@@ -63,7 +63,7 @@ Measure correlations from a reference channel to target channels, estimate their
      ]
    }
 
-:download:`Download minimal input.json <AlignChannels.minimal.json>`
+:download:`Download AlignChannels.minimal.json <AlignChannels.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/network.json>`.
 
@@ -73,7 +73,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./AlignChannels.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -107,68 +107,69 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
      - Allowed
      - Meaning
    * - ``acquisition``
-     - structured value (see Technical details)
+     - see fields below
      - —
      - Correlation acquisition passes and histogram settings.
    * - ``acquisition.mode``
      - "coarseFine"
      - "single" \| "coarseFine"
-     - Acquisition workflow. With coarseFine and delayCorrection.apply=false, acquisition.single is used for one measurement-only pass. Required when the containing object or array item is supplied.
+     - Acquisition workflow. With coarseFine and delayCorrection.apply=false, acquisition.single is used for one measurement-only pass.
    * - ``acquisition.clear``
      - true
      - —
-     - Clear measurements before acquisition. Required when the containing object or array item is supplied.
+     - Clear measurements before acquisition.
    * - ``acquisition.single``
-     - {"binCount": null, "binWidthPs": 10, "durationSec": 30}
+     - see fields below
      - —
      - Single-pass acquisition settings. Required only for acquisition.mode='single' or delayCorrection.apply=false; unused otherwise.
    * - ``acquisition.single.durationSec``
      - 30
-     - —
-     - Integration duration in seconds. Required when the containing object or array item is supplied.
+     - > 0
+     - Integration duration in seconds.
    * - ``acquisition.single.binWidthPs``
      - 10
      - >= 1
-     - Histogram bin width in picoseconds. Required when the containing object or array item is supplied.
+     - Histogram bin width in picoseconds.
    * - ``acquisition.single.binCount``
      - null
      - >= 1
      - Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.
    * - ``acquisition.coarse``
-     - {"binCount": null, "binWidthPs": 100, "durationSec": 10}
+     - see fields below
      - —
      - Coarse correction acquisition settings.
    * - ``acquisition.coarse.durationSec``
      - 10
-     - —
-     - Integration duration in seconds. Required when the containing object or array item is supplied.
+     - > 0
+     - Integration duration in seconds.
    * - ``acquisition.coarse.binWidthPs``
      - 100
      - >= 1
-     - Histogram bin width in picoseconds. Required when the containing object or array item is supplied.
+     - Histogram bin width in picoseconds.
    * - ``acquisition.coarse.binCount``
      - null
      - >= 1
      - Histogram bin count; if null, acquisition.pumpFrequencyMHz is required to derive it.
    * - ``acquisition.fine``
-     - {"binCount": null, "binWidthPs": 10, "durationSec": 30}
+     - see fields below
      - —
      - Fine verification acquisition settings.
    * - ``acquisition.fine.durationSec``
      - 30
-     - —
-     - Integration duration in seconds. Required when the containing object or array item is supplied.
+     - > 0
+     - Integration duration in seconds.
    * - ``acquisition.fine.binWidthPs``
      - 10
      - >= 1
-     - Histogram bin width in picoseconds. Required when the containing object or array item is supplied.
+     - Histogram bin width in picoseconds.
    * - ``acquisition.fine.binCount``
      - null
      - >= 1
@@ -178,17 +179,17 @@ Every declared key is present after successful completion; its value may be null
      - >= 0
      - Pump frequency used to derive any omitted bin counts; required whenever the selected pass has binCount null.
    * - ``delayCorrection``
-     - {"apply": true, "basePs": null, "settleSec": 0.2, "sign": 1}
+     - see fields below
      - —
      - Policy for applying estimated input delays after reading the live Time Tagger baseline.
    * - ``delayCorrection.apply``
      - true
      - —
-     - Apply estimated offsets as Time Tagger input delays. Required when the containing object or array item is supplied.
+     - Apply estimated offsets as Time Tagger input delays.
    * - ``delayCorrection.sign``
      - 1
      - —
-     - Sign applied to each estimated offset. Required when the containing object or array item is supplied.
+     - Sign applied to each estimated offset.
    * - ``delayCorrection.basePs``
      - null
      - —
@@ -196,15 +197,15 @@ Every declared key is present after successful completion; its value may be null
    * - ``delayCorrection.settleSec``
      - 0.2
      - >= 0
-     - Delay after applying a correction round, in seconds. Required when the containing object or array item is supplied.
+     - Delay after applying a correction round, in seconds.
    * - ``peakSelection``
-     - structured value (see Technical details)
+     - see fields below
      - —
      - Rules used to choose and qualify correlation peaks.
    * - ``peakSelection.mode``
      - "dominant"
      - "dominant" \| "rank" \| "index" \| "nth" \| "closest" \| "nearest"
-     - Rule used to select a correlation peak. Required when the containing object or array item is supplied.
+     - Rule used to select a correlation peak.
    * - ``peakSelection.rank``
      - 1
      - >= 1
@@ -224,7 +225,7 @@ Every declared key is present after successful completion; its value may be null
    * - ``peakSelection.gaussianFitMinRelativeHeight``
      - 0.2
      - >= 0
-     - Minimum relative height for local Gaussian fitting. Required when the containing object or array item is supplied.
+     - Minimum relative height for local Gaussian fitting.
    * - ``peakSelection.gaussianFitMaxHalfWidthPs``
      - null
      - —
@@ -232,70 +233,57 @@ Every declared key is present after successful completion; its value may be null
    * - ``peakSelection.diagnosticMaxPeaks``
      - 20
      - >= 0
-     - Maximum locally selected diagnostic peaks to retain; zero retains all after minSeparationPs filtering. Required when the containing object or array item is supplied.
+     - Maximum locally selected diagnostic peaks to retain; zero retains all after minSeparationPs filtering.
    * - ``peakSelection.minSeparationPs``
      - 100
      - >= 0
-     - Minimum separation between diagnostic peaks in picoseconds. Required when the containing object or array item is supplied.
+     - Minimum separation between diagnostic peaks in picoseconds.
    * - ``peakSelection.minCoincidences``
      - 1
      - >= 0
-     - Minimum coincidences required for a selected peak. Required when the containing object or array item is supplied.
+     - Minimum coincidences required for a selected peak.
 
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-39
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "acquisition": {
-             "mode": "coarseFine",
-             "clear": true,
-             "single": {
-               "durationSec": 5.0,
-               "binWidthPs": 10,
-               "binCount": 2000
-             },
-             "coarse": {
-               "durationSec": 10.0,
-               "binWidthPs": 1000,
-               "binCount": 100000
-             },
-             "fine": {
-               "durationSec": 30.0,
-               "binWidthPs": 10,
-               "binCount": 1000
-             },
-             "pumpFrequencyMHz": null
-           },
-           "delayCorrection": {
-             "apply": true,
-             "sign": 1.0,
-             "basePs": null,
-             "settleSec": 0.0
-           },
-           "peakSelection": {
-             "mode": "dominant",
-             "rank": 1,
-             "targetDelayPs": null,
-             "rejectCenterPs": null,
-             "rejectHalfWidthPs": null,
-             "gaussianFitMinRelativeHeight": 0.2,
-             "gaussianFitMaxHalfWidthPs": null,
-             "diagnosticMaxPeaks": 20,
-             "minSeparationPs": 100.0,
-             "minCoincidences": 1.0
-           }
+.. code-block:: json
+   :emphasize-lines: 2-19
+
+   {
+     "sharedParams": {
+       "acquisition": {
+         "single": {
+           "durationSec": 5.0,
+           "binCount": 2000
+         },
+         "coarse": {
+           "binWidthPs": 1000,
+           "binCount": 100000
+         },
+         "fine": {
+           "binCount": 1000
          }
+       },
+       "delayCorrection": {
+         "settleSec": 0.0
+       }
+     }
+   }
 
 5 How it is built
 -----------------

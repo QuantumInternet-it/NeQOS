@@ -73,7 +73,7 @@ Acquire a declared number of complete count-rate windows and return the ordered 
      ]
    }
 
-:download:`Download minimal input.json <MonitorCountRates.minimal.json>`
+:download:`Download MonitorCountRates.minimal.json <MonitorCountRates.minimal.json>`
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
@@ -85,7 +85,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MonitorCountRates.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -143,6 +143,17 @@ Every declared key is present after successful completion; its value may be null
 Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/input.json>`
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
 .. code-block:: json
    :emphasize-lines: 2-5

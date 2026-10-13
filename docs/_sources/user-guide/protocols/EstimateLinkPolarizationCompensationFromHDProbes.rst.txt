@@ -9,7 +9,9 @@ EstimateLinkPolarizationCompensationFromHDProbes
 
 Estimate link compensation from existing H/D observations and calibrated analyzer axes.
 
-:bdg:`foreground` :bdg:`timeout 30 s`
+:bdg:`foreground` :bdg:`declared timeout 30 s`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** no device resources.
 
@@ -21,7 +23,8 @@ Estimates per-link polarization compensation from source-prepared or entangled H
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -128,7 +131,9 @@ Estimates per-link polarization compensation from source-prepared or entangled H
      ]
    }
 
-:download:`Download minimal input.json <EstimateLinkPolarizationCompensationFromHDProbes.minimal.json>`
+:download:`Download EstimateLinkPolarizationCompensationFromHDProbes.minimal.json <EstimateLinkPolarizationCompensationFromHDProbes.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/EstimateLinkPolarizationCompensationFromHDProbes/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/EstimateLinkPolarizationCompensationFromHDProbes/RunExample/network.json>`.
 
@@ -138,7 +143,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./EstimateLinkPolarizationCompensationFromHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -164,7 +169,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -175,25 +181,7 @@ Every declared key is present after successful completion; its value may be null
      - >= 0
      - Minimum sum of the six logical tomography counts required independently for each H or D probe, regardless of preparation.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/EstimateLinkPolarizationCompensationFromHDProbes/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-2
-
-         {
-           "minTotalCounts": 1
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

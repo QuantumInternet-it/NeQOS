@@ -1,0 +1,392 @@
+Writing a hardware driver
+==========================
+
+DeviceOS hosts a DeviceEngine and one selected driver. DeviceEngine admits,
+schedules and controls tasks, transports commands and publishes lifecycle and
+telemetry messages. The driver implements vendor I/O, validates hardware values,
+declares capabilities and reports authoritative connection/readiness state.
+NodeEngine orchestrates protocols and leases; it does not replace either layer.
+
+An Open source driver can be loaded beside a compiled DeviceOS without
+rebuilding it. The supported contract is version ``0.6.0``. Vendor SDKs, native
+libraries and trusted Python dependencies must be available on that host; do
+not assume a standalone executable can use packages from your activated Conda
+environment. Support depends on the vendor runtime and release platform, not
+just the absence of NeQOS source files.
+
+1 Register and select the driver
+--------------------------------
+
+Download :download:`CounterDriver.py <../examples/CounterDriver.py>` and its
+:download:`OpenDrivers.json <../examples/CounterOpenDrivers.json>` and
+:download:`CounterDriver.contract.json <../examples/CounterDriver.contract.json>`. Keep them in
+the same directory. This is a software-only implementation of the entire
+contract, not a vendor hardware adapter or a subclass of a private base class.
+
+.. literalinclude:: ../examples/CounterOpenDrivers.json
+   :language: json
+
+``modulePath`` is relative to the registry file; ``deviceType`` matches the
+network device entry. A built-in type selects its compiled implementation, not
+an Open replacement. ``requiresSerialPort: true`` additionally requires the
+constructor's ``serialPort`` argument. The constructor must accept ``deviceId``;
+matching, explicitly named ``driverConfig`` arguments are forwarded, and
+``hardwareConfig`` is forwarded when the constructor declares it. Arbitrary
+``**kwargs`` is not a substitute for explicitly named configuration arguments.
+
+.. code-block:: json
+
+   {
+     "deviceId": "Counter-1",
+     "deviceType": "AuthoringCounter",
+     "driverConfig": {},
+     "hardwareConfig": {
+       "initialValue": 0
+     }
+   }
+
+This fragment belongs in a node's device list, with its network endpoints.
+See :doc:`network` for the full network description. Launch the selected device:
+
+.. code-block:: bash
+
+   python3 -m DeviceOSPack.DeviceOS \
+     --configFile /path/to/network.json \
+     --deviceId Counter-1 \
+     --openDriversFile /path/to/OpenDrivers.json \
+     --licenseFile /path/to/license.json
+
+With a standalone release, replace the Python module invocation with its
+DeviceOS executable. Loading the registry module executes trusted local Python
+code with DeviceOS process permissions. Do not import untrusted plugins.
+
+.. _writing-hardware-driver-inventory:
+
+Inventory metadata without importing the driver
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For ``inventory-1``, declare a static ``DEVICE_CONTRACT`` in the driver class.
+It describes its kind, boot-only ``hardwareConfig`` fields and optional
+experiment activation policy. Counter declares:
+
+.. literalinclude:: ../examples/CounterDriver.py
+   :language: python
+   :start-at:     DEVICE_CONTRACT =
+   :end-before:     _PARAMETER_SPECS =
+
+Keep parameters and signals in ``_PARAMETER_SPECS`` and ``_SIGNAL_SPECS``;
+build runtime capabilities from these same dictionaries. Declare tasks through
+the base-class decorators or a static ``_TASK_SPECS`` dictionary used to build
+``_taskRegistry``. Do not copy them into ``DEVICE_CONTRACT``. Explicit constructor
+arguments supply the ``driverConfig`` fields. Use static literal declarations:
+the extractor rejects Python calls instead of executing them. Drivers with
+dynamically assembled metadata must expose these declarations before using
+inventory validation.
+
+Generate the manifest from a source checkout, then check it after driver edits:
+
+.. code-block:: bash
+
+   python -m CommonFiles.DriverContractSource --open-drivers-file /path/to/OpenDrivers.json
+   python -m CommonFiles.DriverContractSource --open-drivers-file /path/to/OpenDrivers.json --check
+
+``contractPath`` names the generated JSON relative to the registry. It is a
+derived artifact, not another file to maintain by hand. Generation and offline
+validation do not import the driver or its SDK. Distribute the registry and
+manifest to the NodeEngine host; only the DeviceOS host needs the driver module
+and vendor dependencies. The bundled runtime also needs its
+``CommonFiles/driver_contracts`` data directory.
+
+Pass the registry to NodeEngine and to the offline validator:
+
+.. code-block:: bash
+
+   python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --nodeId ExampleNodeId --licenseFile config/license.json --openDriversFile /path/to/OpenDrivers.json --serve
+   python -m NodeEnginePack.NetworkConfiguration.ValidateNetwork --inventory lab-inventory.json --openDriversFile /path/to/OpenDrivers.json experiment.json
+
+For a device without an explicit policy, experiment ``settings`` name parameters
+declared writable in the manifest, for example Counter's ``value`` or Fake's
+``gain``. To restrict the experiment-facing interface, declare
+``experimentSettings`` (exact names) and optionally
+``experimentSettingPatterns`` (names of existing ``_PARAMETER_PATTERNS``).
+An empty ``experimentSettings`` list permits no direct settings unless a
+declared pattern or structured activation rule supplies them. Parameter types
+and ranges come from the existing specifications; do not duplicate them.
+
+``activation`` describes how to translate settings into the existing driver
+operations. The same policies are available to built-in and Open drivers:
+
+.. list-table::
+   :header-rows: 1
+   :class: api-table
+
+   * - Field
+     - Meaning
+   * - ``parameterCopies``
+     - Copy one explicitly supplied setting to additional parameters. DV1550AA
+       applies ``defaultAttenuationDb`` to ``attenuation`` as well.
+   * - ``parametersLast``
+     - Move named parameter writes to the end of that device's parameter list.
+       EPS puts ``outputMode`` after its attenuation settings.
+   * - ``storedSettings``
+     - Typed metadata retained in the experiment projection, without a device
+       write. EPS traffic calibration values are consumed by protocols.
+   * - ``channelParameters``
+     - Map a channel object and optional aliases to existing parameter patterns.
+       ``setting`` names the object, ``fields`` maps each field to a pattern,
+       ``aliases`` maps alternative objects to fields, and ``boundRole`` names
+       bindings that require an explicit channel entry. Swabian uses
+       ``channels`` with trigger/delay parameter patterns.
+   * - ``channelSelection``
+     - Configure a complete current vector, channel selection and guard
+       selection with one synchronous task. Declare the task/input/read-back
+       names, vector width, current scale and register range, optional setting
+       aliases, and an optional trigger-vector task. Photec declares these in
+       its own contract. Channels leaving the selection are disabled in phase
+       0; ordinary writes and triggers run in phase 1; the final selection runs
+       in phase 2. Quantized read-back uses the declared scale.
+   * - ``linkWavelengthParameter``
+     - Existing parameter pattern receiving a wavelength derived by NodeEngine
+       from link lineage and DWDM. PaX000 uses ``channel<N>WavelengthNm``.
+       The wavelength is derived before explicit waveplate settings.
+   * - ``parameterLimits``
+     - Name the boot-only hardware field containing per-parameter limits and
+       optional parameter-name aliases. Live limits are still checked.
+
+For example, the attenuator's complete static policy is declared here:
+
+.. literalinclude:: ../../DeviceOSPack/Dv1550AADriver.py
+   :language: python
+   :start-at:     DEVICE_CONTRACT =
+   :end-before:     _DOCUMENTATION =
+
+Activation plans are built without importing the driver. The generator rejects
+references to absent parameters, patterns or tasks; atomic tasks must be
+synchronous foreground tasks with matching input/read-back parameters. Before
+activation, NodeEngine also checks live parameters, commands and limits.
+This policy concerns network activation; direct task, signal and parameter
+operations retain their existing runtime checks. Supplied boot configuration
+and experiment values are checked offline; constructor defaults are not
+automatically inserted into the inventory.
+
+``deviceKind`` supplies the optical
+classification to NodeEngine, offline validation and the browser. Use ``generic``
+for devices without one of the existing optical functions; these include
+``source``, ``attenuator``, ``polarizationAnalyzer``, ``polarizationAligner``,
+``snspd`` and ``timeTagger``. Roles in ``linkBindings`` still describe each
+device's function on a particular link. Do not add a kind field to network files.
+
+The browser receives the server's catalog, including registered Open drivers.
+The read-only viewer accepts the same ``--openDriversFile`` option. Optional
+``topologyAliases`` preserve historical type names for topology lookup only;
+they do not register additional DeviceOS implementations. Conflicting names are
+rejected. ``FiberSplitter`` remains a passive topology element, not a driver.
+
+Optical classification alone does not guarantee protocol compatibility. An Open
+detector used as a latch guard must implement the ``ReadDetectorHealth`` task and
+its expected result contract; a time tagger must implement the acquisition tasks
+the selected protocol calls. Photec-specific telemetry controls are not enabled
+merely by declaring ``snspd``. Static manifests cannot know connected channels or
+instance-specific calibration limits; these remain part of live capabilities.
+
+At startup, DeviceOS derives a contract fingerprint from the loaded driver's
+class declarations and signatures, before constructing the driver. This needs
+no Python source file and does not read the generated manifest. ``PING`` reports
+the identity in ``driverContract``; NodeEngine compares it with its catalog
+during handshake and experiment activation. For a registered type, a missing
+or different identity blocks use of the device. Regenerate the manifests from
+the matching sources, distribute them with NodeEngine (and any Open catalog),
+and update/restart DeviceOS with the corresponding driver. Older DeviceOS
+versions that do not report this identity must also be updated.
+
+The fingerprint covers declared metadata, not implementation bytes or hardware
+behavior. The launch ``configFingerprint`` remains a separate check of startup
+configuration, not a hash of current parameter values. A legacy Open driver
+without ``DEVICE_CONTRACT`` remains usable outside inventory mode when its type
+is not registered in NodeEngine's contract catalog.
+
+2 Implement the lifecycle contract
+----------------------------------
+
+Set ``NEQOS_DEVICE_DRIVER_API_VERSION = "0.6.0"`` and initialize
+``_connected``, ``_initialized`` and ``_ready`` to booleans, plus ``_taskRegistry``
+to a dictionary. Implement the async and sync methods listed in the
+:doc:`driver contract reference </api/DeviceOS/DriverContract>`.
+
+.. list-table::
+   :header-rows: 1
+   :class: api-table
+
+   * - Operation
+     - State responsibility
+   * - ``Connect``
+     - Establish transport; this alone does not make the device ready.
+   * - ``Initialize``
+     - Requires a connection; apply and verify device configuration before setting initialized.
+   * - ``SetReady`` / ``ClearReady``
+     - Ready requires connected and initialized; give a current human-readable reason for both ready and not ready.
+   * - ``Disconnect``
+     - Clear connected, initialized and ready. Best-effort release vendor resources.
+   * - ``RecoverTransport``
+     - Recover transport and report the actual state. Never silently claim initialization/readiness was restored when it was not.
+   * - ``ProbeConnection``
+     - Verify connectivity without racing active I/O. Define the complete probe timeout budget.
+
+``BuildStateSnapshot`` returns at least ``connected``, ``initialized``, ``ready``,
+``reason`` and ``timestamp``. ``ReadTelemetry`` returns the driver payload,
+conventionally ``parameters``, ``signals``, ``status`` and ``timestamp``.
+DeviceEngine's periodic publisher adds authoritative health and queue snapshots
+around that payload. A signal can appear in telemetry without a declared
+background task; Photec's health reads are an example of this distinction.
+
+``EmergencyAbortIO`` must interrupt stuck transport/vendor I/O without waiting
+for the same lock held by that I/O. A no-op is appropriate only when there is
+no transport to interrupt, as in the downloadable software counter.
+
+3 Declare tasks, parameters and signals
+---------------------------------------
+
+Every entry in ``_taskRegistry`` must name a callable async task method on the
+driver. DeviceEngine injects ``context`` as a keyword argument. For a driver
+using ``HardwareDriver``, the decorators build this registry automatically:
+
+.. code-block:: python
+
+   @HardwareDriver.foreground_task(
+       admissionPolicy="sync",
+       pausable=False,
+       description="Read one device value.",
+       resultSchema={
+           "value": {"type": "float", "required": True,
+                     "description": "Measured value."}
+       },
+   )
+   async def ReadValue(self, context=None):
+       async with self.driverIOLock:
+           value = await asyncio.to_thread(self.device.read_value)
+       return {"value": value}
+
+   @HardwareDriver.background_task(
+       blocking=True,
+       frequencyHz=1.0,
+       maxRepetitions=10,
+       description="Read one periodic sample.",
+   )
+   async def Sample(self, context=None):
+       async with self.driverIOLock:
+           return {"value": await asyncio.to_thread(self.device.read_value)}
+
+These snippets assume an imported base class, ``asyncio`` and an initialized
+vendor adapter. The complete counter instead declares registry entries directly
+and requires no NeQOS import. The shipped FakeDriver illustrates decorators,
+background tasks and pause/resume when the compiled base class is available.
+
+.. list-table::
+   :header-rows: 1
+   :class: api-table protocol-input-table
+
+   * - Task attribute
+     - Behavior
+   * - Foreground ``admissionPolicy: "sync"``
+     - Synchronous command path; the reply contains the completed operation. Task methods are still ``async def``.
+   * - Foreground ``admissionPolicy: "async"``
+     - Asynchronous admission; completion/result arrives via ``TASK_EVENT`` and NodeEngine waits for it.
+   * - ``pausable``
+     - Requires async foreground admission and working PauseTask/ResumeTask hooks; not a claim that arbitrary vendor I/O can be paused.
+   * - Background ``blocking``
+     - Each iteration coordinates with DeviceEngine's operation lock. It is not a global Python-thread lock or permission to omit the driver's I/O lock.
+   * - ``frequencyHz``
+     - Positive iteration cadence. A background method performs one iteration; DeviceEngine owns repetition.
+   * - ``maxRepetitions`` / ``expiresAfterSec``
+     - Optional positive iteration count / elapsed lifetime. If omitted, no such limit applies; background tasks are abort-only, not pausable.
+   * - ``description`` / ``resultSchema``
+     - Human-readable purpose and optional field metadata for the task-specific result, not the transport envelope.
+
+``GetCapabilities`` advertises ``parameters``, ``signals``, ``commands``,
+``foregroundTasks`` and ``backgroundTasks``. Configurable parameters implement
+Get/SetParameter; read-only observations implement ReadSignal. Parameter metadata
+uses Python-style type names, units (``unit`` or ``units``), min/max/default and
+description; ``values`` or ``enum`` describes a fixed choice. These capability
+dictionaries are not the protocol input/output schemas.
+
+For base-class drivers, the documentation generator reads ``_PARAMETER_SPECS``
+(or ``_BASE_PARAMETER_SPECS``), ``_PARAMETER_PATTERNS``, ``_SIGNAL_SPECS``, task
+decorators, signatures and Google-style ``Args:`` docstrings. Describe purpose,
+units, errors and nullable results there. Add ``resultSchema`` for task results.
+Dynamic channel names need parameter patterns; deployment-specific limits must
+be read from runtime capabilities, not invented from an empty documentation
+cell. The bundled generator discovers base-class subclasses; a plain-contract
+Open driver is valid at runtime but is not automatically discovered by that
+static scan.
+
+4 Locking, cancellation and error results
+-----------------------------------------
+
+DeviceEngine serializes foreground work and coordinates blocking background
+iterations. The driver must serialize transport/vendor access across tasks,
+parameters, signals, probes and telemetry using its own I/O lock. Avoid nested
+acquisition of that lock; run blocking vendor calls in a worker thread and
+provide a real interruption/timeout strategy. A thread wrapper alone does not
+make an uninterruptible call safe. Apply a single-call timeout after acquiring
+the lock, rather than consuming its budget while waiting for another operation.
+
+``TaskContext`` supplies ``protocolId``, ``taskName``, ``leaseRootProtocolId``,
+``cancelled`` and ``reason``. Check cancellation cooperatively during long work.
+``PAUSE`` means save resumable progress; ``ABORT`` means stop and restore safe
+state. For pausable tasks implement ``PauseTask(protocolId, taskName, params)``
+and ``ResumeTask(protocolId, taskName, params, pauseState)``. The scheduler
+fallback uses ``_deferToDeviceEngineRequeue: true`` and passes ``_pauseState``
+to the resumed task. Do not declare pausable until this works end to end.
+
+Task events report ``PENDING``, ``RUNNING``, ``PAUSED``, ``COMPLETED``, ``FAILED``
+or ``ABORTED``. Driver exceptions yield an error reply/failed lifecycle unless
+cooperative cancellation is already in progress. Cancellation context, not a
+returned string alone, determines abort/pause. Returning
+``{"status": "ERROR"}`` is still a normal Python return: DeviceEngine can
+complete that task with an error-bearing payload. Raise for failed operations,
+and handlers must also inspect any task-specific status. ``task`` is not a
+mandatory result key; ``reply``, ``errorType`` and ``errorMessage`` belong to
+the normalized outer reply, not a required driver payload.
+
+5 Configuration and persistent activities
+------------------------------------------
+
+Keep transport constructor arguments in ``driverConfig``; device settings,
+physical limits and calibration choices belong in ``hardwareConfig`` in the
+network description. Host SDK paths belong in local runtime configuration,
+not the network file. See :doc:`the hardware configuration reference
+</api/DeviceOS/HardwareConfiguration>` and
+:doc:`runtime setup </api/DeviceOS/RuntimeSetup>`.
+
+A foreground start task can leave a vendor object active after it returns.
+That is persistent device state, not a background task automatically owned by
+DeviceEngine. The enclosing protocol must retain its lease, register a terminal
+compensation, explicitly stop the activity, verify the final artifact/state and
+clear the compensation on success. See :doc:`writing-meta-protocols`.
+
+Raw time-tag artifacts live below the device artifact root selected by
+``NEQOS_DEVICE_ARTIFACT_DIR``, or the default DeviceArtifacts log directory.
+``hardwareConfig.recordingDirectory`` is constrained to that root. Do not
+publish an active file as finalized: inspect recording/artifact-write status,
+verify the stopped file and transfer it using the supported file-pull API.
+Unclaimed recovery artifacts are evidence for explicit recovery, not successful
+protocol outputs. Refer to :doc:`the Time Tagger task contracts
+</api/DeviceOS/SwabianTT/foreground-tasks>` for those result fields.
+
+6 Verify before hardware
+-------------------------
+
+The counter source demonstrates lifecycle methods, registry metadata, parameter
+access, telemetry, cooperative cancellation and I/O locking:
+
+.. dropdown:: Complete software-only driver
+
+   .. literalinclude:: ../examples/CounterDriver.py
+      :language: python
+
+Test invalid registry/API versions and types, disconnected initialization,
+readiness gates, unknown fields, task exceptions, cancellation without a
+mutation, concurrent operations, and telemetry while a task is running. Test
+pause/resume and background limits only for drivers advertising those features.
+Validate the driver against the compiled release as well as source development;
+then test vendor recovery and hardware safety on the supported host platform.

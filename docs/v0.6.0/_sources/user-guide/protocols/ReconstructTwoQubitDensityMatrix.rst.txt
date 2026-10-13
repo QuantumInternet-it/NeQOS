@@ -90,7 +90,7 @@ Reconstructs a physical two-qubit density matrix from a complete background-corr
      ]
    }
 
-:download:`Download minimal input.json <ReconstructTwoQubitDensityMatrix.minimal.json>`
+:download:`Download ReconstructTwoQubitDensityMatrix.minimal.json <ReconstructTwoQubitDensityMatrix.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input.json>`.
 
@@ -104,7 +104,18 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./input-fidelity-sequence.json" \
+     --waitProtocol --verboseRunFolders
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./ReconstructTwoQubitDensityMatrix.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

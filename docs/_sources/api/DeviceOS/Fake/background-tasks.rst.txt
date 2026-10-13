@@ -11,8 +11,8 @@ Fake Background Tasks
    :Task class: Background
    :Blocking: No
    :Frequency: ``1.0`` Hz
-   :Maximum repetitions: —
-   :Expires after: — s
+   :Maximum repetitions: Unlimited
+   :Expires after: Never
    :Lifecycle: abort-only (no pause/resume).
 
    .. rubric:: Parameters
@@ -63,8 +63,8 @@ Fake Background Tasks
    :Task class: Background
    :Blocking: No
    :Frequency: ``1.0 / 1.3`` Hz
-   :Maximum repetitions: —
-   :Expires after: — s
+   :Maximum repetitions: Unlimited
+   :Expires after: Never
    :Lifecycle: abort-only (no pause/resume).
 
    .. rubric:: Parameters
@@ -116,7 +116,7 @@ Fake Background Tasks
    :Blocking: Yes
    :Frequency: ``1.0`` Hz
    :Maximum repetitions: ``8``
-   :Expires after: — s
+   :Expires after: Never
    :Lifecycle: abort-only (no pause/resume).
 
    .. rubric:: Parameters

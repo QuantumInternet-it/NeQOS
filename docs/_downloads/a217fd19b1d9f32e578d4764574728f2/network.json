@@ -44,7 +44,7 @@
         },
         {
           "deviceId": "ExamplePolarizationAnalyzerId",
-          "deviceType": "PA1000",
+          "deviceType": "PaX000",
           "enabled": true,
           "linkBindings": [
             {

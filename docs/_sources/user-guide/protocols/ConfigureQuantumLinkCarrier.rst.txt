@@ -9,7 +9,9 @@ ConfigureQuantumLinkCarrier
 
 Select a source output mode and configure total attenuation on its emitted links.
 
-:bdg:`foreground` :bdg:`timeout 1 min`
+:bdg:`foreground` :bdg:`declared timeout 1 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,17 +23,15 @@ Selects a source output mode and applies the requested total attenuation on ever
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Identifiers of the source and every inline attenuator that can be configured by this run.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device identifier reserved for this configuration.
+     - string[] (items >= 1; each length >= 1)
+     - Identifiers of the source and every inline attenuator that can be configured by this run. Each item: One device identifier reserved for this configuration.
    * - ``sourceDeviceId``
      - string length >= 1
      - Entangled-photon source whose emitted links are configured.
@@ -62,7 +62,7 @@ Selects a source output mode and applies the requested total attenuation on ever
      ]
    }
 
-:download:`Download minimal input.json <ConfigureQuantumLinkCarrier.minimal.json>`
+:download:`Download ConfigureQuantumLinkCarrier.minimal.json <ConfigureQuantumLinkCarrier.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
 
@@ -72,7 +72,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ConfigureQuantumLinkCarrier.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -98,26 +98,27 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
      - Allowed
      - Meaning
    * - ``attenuation``
-     - {"mode": "preserve"}
+     - see fields below
      - —
      - Total attenuation requested on each emitted link. The runtime applies the largest common source contribution possible and uses inline attenuators only for link-specific residual attenuation; every bound inline attenuator declares its supported attenuation grid in network.json.
    * - ``attenuation.mode``
      - "preserve"
      - "preserve" \| "networkConfigured" \| "maximumSource" \| "maximumAvailable" \| "common" \| "perLink"
-     - preserve changes only output mode; networkConfigured uses the nominal HH or DD targets in network.json; maximumSource sets source attenuation to its maximum and inline attenuators to zero; maximumAvailable sets every available source and inline attenuation component to its maximum; common applies commonDb to every link; perLink applies perLinkDb to every link. Required when the containing object or array item is supplied.
+     - preserve changes only output mode; networkConfigured uses the nominal HH or DD targets in network.json; maximumSource sets source attenuation to its maximum and inline attenuators to zero; maximumAvailable sets every available source and inline attenuation component to its maximum; common applies commonDb to every link; perLink applies perLinkDb to every link.
    * - ``attenuation.commonDb``
-     - not declared
+     - —
      - >= 0
      - Total attenuation requested on every emitted link when mode is common.
    * - ``attenuation.perLinkDb``
-     - not declared
+     - —
      - —
      - Total attenuation requested for each source link when mode is perLink; it must contain every source link exactly once.
    * - ``settleSec``
@@ -128,60 +129,102 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
 .. tab-set::
 
-   .. tab-item:: input / step 1
+   .. tab-item:: Options
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
+
+      This run plan executes all 4 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
-         :emphasize-lines: 2-6
+         :emphasize-lines: 2-7
 
          {
-           "attenuation": {
-             "mode": "common",
-             "commonDb": 20.0
-           },
-           "settleSec": 0.2
+           "sharedParams": {
+             "attenuation": {
+               "mode": "common",
+               "commonDb": 20.0
+             }
+           }
          }
 
-   .. tab-item:: input / step 2
+   .. tab-item:: Options 2
 
       :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
+
+      This run plan executes all 4 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
+
+      .. code-block:: json
+         :emphasize-lines: 2-11
+
+         {
+           "sharedParams": {
+             "outputMode": "HH",
+             "attenuation": {
+               "mode": "perLink",
+               "perLinkDb": {
+                 "ExampleQuantumLinkOneId": 50.0,
+                 "ExampleQuantumLinkTwoId": 60.0
+               }
+             }
+           }
+         }
+
+   .. tab-item:: Options 3
+
+      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
+
+      Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/network.json>`.
+
+      This run plan executes all 4 steps.
+
+      .. code-block:: bash
+
+         python NodeEnginePack/NodeEngine.py \
+           --licenseFile "./config/license.json" \
+           --configFile "./network.json" \
+           --nodeId "ExampleNodeId" \
+           --metaProtocolRun "./input.json" \
+           --waitProtocol --verboseRunFolders
 
       .. code-block:: json
          :emphasize-lines: 2-10
 
          {
-           "outputMode": "HH",
-           "attenuation": {
-             "mode": "perLink",
-             "perLinkDb": {
-               "ExampleQuantumLinkOneId": 50.0,
-               "ExampleQuantumLinkTwoId": 60.0
+           "sharedParams": {
+             "attenuation": {
+               "mode": "perLink",
+               "perLinkDb": {
+                 "ExampleQuantumLinkOneId": 10.0,
+                 "ExampleQuantumLinkTwoId": 20.0
+               }
              }
-           },
-           "settleSec": 0.2
-         }
-
-   .. tab-item:: input / step 3
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/configuration/ConfigureQuantumLinkCarrier/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-9
-
-         {
-           "attenuation": {
-             "mode": "perLink",
-             "perLinkDb": {
-               "ExampleQuantumLinkOneId": 10.0,
-               "ExampleQuantumLinkTwoId": 20.0
-             }
-           },
-           "settleSec": 0.2
+           }
          }
 
 5 How it is built

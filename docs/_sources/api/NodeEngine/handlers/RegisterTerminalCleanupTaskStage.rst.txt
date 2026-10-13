@@ -3,15 +3,62 @@
 RegisterTerminalCleanupTaskStage
 ================================
 
-Register an idempotent device task for terminal protocol cleanup.
+Register an idempotent device task for terminal cleanup.
+
+Parameters
+----------
+
+.. list-table::
+   :header-rows: 1
+   :width: 100%
+   :widths: 20 17 10 15 38
+   :class: api-table protocol-input-table
+
+   * - Input
+     - Type
+     - Required
+     - Default
+     - Meaning
+   * - ``deviceId``
+     - ``string``
+     - Yes
+     - —
+     - Device on which the compensating task will run.
+   * - ``taskName``
+     - ``string``
+     - Yes
+     - —
+     - Idempotent restoring task name.
+   * - ``taskParams``
+     - ``object``
+     - No
+     - ``{}``
+     - Arguments for the restoring task, retained for exact matching.
 
 Behavior
 --------
 
-The task is executed by NodeEngine while the lease root is still valid if
-the current protocol aborts, fails, or is forcibly released.  It is useful
-for a declared child workflow which temporarily opens device-side state
-that must be closed before the physical device lease is relinquished.
+Register before opening reversible device state. NodeEngine attempts the task on
+failure, abort, forced recovery or shutdown while the active lease permits it.
+Successful completion does not automatically execute pending cleanup. On the
+normal path, verify restoration and clear the matching registration explicitly.
+Shared and scratch references are resolved at handler execution.
+
+State and results
+-----------------
+
+Registers an executeTask action and persists it in run-manifest.json. Exact
+normalized duplicates are deduplicated. No device task runs at registration;
+the stage advances. Failed terminal attempts remain visible for recovery.
+
+Failure conditions
+------------------
+
+Missing/empty deviceId or taskName, invalid taskParams or unresolved references
+fail. An unknown current runtime protocol fails at registration. Registration
+does not verify that a future hardware restoration will succeed.
+
+:doc:`Runtime context, decisions and leases </api/NodeEngine/StageRuntime>`.
 
 Declared stage example
 ----------------------
@@ -40,17 +87,29 @@ From :doc:`CaptureRawTimeTagStream </user-guide/protocols/CaptureRawTimeTagStrea
 
    .. code-block:: python
 
-      async def RegisterTerminalCleanupTaskStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult
-
-   .. code-block:: python
-
       async def RegisterTerminalCleanupTaskStage(ctx: StageContext, params: Dict[str, Any]) -> StageResult:
-          """Register an idempotent device task for terminal protocol cleanup.
+          """Register an idempotent device task for terminal cleanup.
       
-          The task is executed by NodeEngine while the lease root is still valid if
-          the current protocol aborts, fails, or is forcibly released.  It is useful
-          for a declared child workflow which temporarily opens device-side state
-          that must be closed before the physical device lease is relinquished.
+          Register before opening reversible device state. NodeEngine attempts the task on
+          failure, abort, forced recovery or shutdown while the active lease permits it.
+          Successful completion does not automatically execute pending cleanup. On the
+          normal path, verify restoration and clear the matching registration explicitly.
+          Shared and scratch references are resolved at handler execution.
+      
+          Parameters:
+              deviceId (string; required): Device on which the compensating task will run.
+              taskName (string; required): Idempotent restoring task name.
+              taskParams (object; default: {}): Arguments for the restoring task, retained for exact matching.
+      
+          State and results:
+              Registers an executeTask action and persists it in run-manifest.json. Exact
+              normalized duplicates are deduplicated. No device task runs at registration;
+              the stage advances. Failed terminal attempts remain visible for recovery.
+      
+          Failure conditions:
+              Missing/empty deviceId or taskName, invalid taskParams or unresolved references
+              fail. An unknown current runtime protocol fails at registration. Registration
+              does not verify that a future hardware restoration will succeed.
           """
           try:
               resolvedParams = _ResolveSharedReferences(params, ctx)

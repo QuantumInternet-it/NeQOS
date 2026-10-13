@@ -1,5 +1,5 @@
-3. First run without hardware
-=============================
+First run without hardware
+==========================
 
 The FakeDeviceExamples Open library exercises DeviceOS, NodeEngine, child submission
 and result publication without optical hardware. It still requires a valid

@@ -95,11 +95,22 @@ Compensates each of the two selected emitted links of one entangled-photon sourc
      ]
    }
 
-:download:`Download minimal input.json <CompensateSourcePolarizationFromSeparableHDProbes.minimal.json>`
+:download:`Download CompensateSourcePolarizationFromSeparableHDProbes.minimal.json <CompensateSourcePolarizationFromSeparableHDProbes.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input.json>`.
 
 Shipped run plan: :download:`Compensate then measure entangled fidelity <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input-compensate-then-measure-entangled-fidelity.json>`.
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input-compensate-then-measure-entangled-fidelity.json" \
+     --waitProtocol --verboseRunFolders
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
@@ -111,7 +122,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CompensateSourcePolarizationFromSeparableHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

@@ -1,6 +1,6 @@
 {
   "protocolId": "FAKE-COMPOSED-SWEEP-LEAF",
-  "description": "Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.",
+  "description": "Leaf protocol that runs a short FakeDriver task and publishes the value received from its parent sweep.",
   "privilegeLevel": "NORMAL",
   "dependencies": [],
   "executionMode": "foreground",

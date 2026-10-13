@@ -9,7 +9,9 @@ ConfigureEntangledPhotonSources
 
 Configure entangled-photon sources, associated attenuators and clock settings.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,17 +23,15 @@ Applies the requested operating configuration to entangled-photon sources, assoc
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Identifiers of every source, attenuator, and clock device locked for this configuration.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device identifier reserved for this configuration.
+     - string[] (items >= 1; each length >= 1)
+     - Identifiers of every source, attenuator, and clock device locked for this configuration. Each item: One device identifier reserved for this configuration.
 
 .. code-block:: json
 
@@ -52,7 +52,7 @@ Applies the requested operating configuration to entangled-photon sources, assoc
      ]
    }
 
-:download:`Download minimal input.json <ConfigureEntangledPhotonSources.minimal.json>`
+:download:`Download ConfigureEntangledPhotonSources.minimal.json <ConfigureEntangledPhotonSources.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureEntangledPhotonSources/RunExample/network.json>`.
 
@@ -62,7 +62,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ConfigureEntangledPhotonSources.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -90,7 +90,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -98,20 +99,12 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``sources``
      - []
-     - —
-     - Entangled-photon source device configurations to apply. Null or omission means no sources requested. Non-null entries require deviceId; paired clockOutputFrequencyMHz/clockOutputAttenuationDb must both be supplied, or clockOutput must contain frequencyMHz and attenuationDb (clockFrequencyMHz/clockAttenuationDb aliases are also accepted). Dynamic parameters remain driver-owned.
-   * - ``sources[]``
-     - not declared
-     - —
-     - One source device and its requested operating parameters. Required when the containing object or array item is supplied.
+     - each object
+     - Entangled-photon source device configurations to apply. Null or omission means no sources requested. Non-null entries require deviceId; paired clockOutputFrequencyMHz/clockOutputAttenuationDb must both be supplied, or clockOutput must contain frequencyMHz and attenuationDb (clockFrequencyMHz/clockAttenuationDb aliases are also accepted). Dynamic parameters remain driver-owned. Each item: One source device and its requested operating parameters.
    * - ``attenuators``
      - []
-     - —
-     - Attenuator device configurations associated with the sources. Null or omission means no attenuators requested. Every non-null entry requires deviceId; a missing/null attenuation requests no change.
-   * - ``attenuators[]``
-     - not declared
-     - —
-     - One attenuator device and its requested parameter value. Required when the containing object or array item is supplied.
+     - each object
+     - Attenuator device configurations associated with the sources. Null or omission means no attenuators requested. Every non-null entry requires deviceId; a missing/null attenuation requests no change. Each item: One attenuator device and its requested parameter value.
    * - ``clock``
      - {}
      - —
@@ -124,32 +117,38 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureEntangledPhotonSources/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureEntangledPhotonSources/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ConfigureEntangledPhotonSources/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-14
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
+.. code-block:: json
+   :emphasize-lines: 2-13
+
+   {
+     "sharedParams": {
+       "sources": [
          {
-           "sources": [
-             {
-               "deviceId": "ExampleEntangledPhotonSource2Id",
-               "referenceFrequencyMHz": 100.0,
-               "pumpFrequencyMHz": 100.0,
-               "outputMode": "ENTANGLED",
-               "entangledOutputAttenuationDb": 20.0,
-               "splittingRatioPercent": 50.0
-             }
-           ],
-           "attenuators": [],
-           "clock": {},
-           "settleSec": 1.0
+           "deviceId": "ExampleEntangledPhotonSource2Id",
+           "referenceFrequencyMHz": 100.0,
+           "pumpFrequencyMHz": 100.0,
+           "outputMode": "ENTANGLED",
+           "entangledOutputAttenuationDb": 20.0,
+           "splittingRatioPercent": 50.0
          }
+       ]
+     }
+   }
 
 5 How it is built
 -----------------

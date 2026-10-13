@@ -62,7 +62,7 @@ Apply an explicit temporal-delay map to the input channels of a Time Tagger.
      ]
    }
 
-:download:`Download minimal input.json <ApplyChannelDelays.minimal.json>`
+:download:`Download ApplyChannelDelays.minimal.json <ApplyChannelDelays.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/ApplyChannelDelays/RunExample/input.json>`.
 
@@ -74,7 +74,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ApplyChannelDelays.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

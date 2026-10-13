@@ -17,6 +17,10 @@ Notes:
 - This driver is intentionally simple and does not attempt to model real device I/O.
 - Connection probing is provided via `ProbeConnection()` for monitor-loop testing.
 
+:ref:`Network hardware configuration <hardware-config-fake>`.
+
+:doc:`Driver extension and lifecycle rules </user-guide/writing-hardware-driver>`.
+
 .. toctree::
    :maxdepth: 1
 

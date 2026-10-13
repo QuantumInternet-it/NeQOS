@@ -9,7 +9,9 @@ CompensateLinkPolarizationFromSeparableHDProbes
 
 Estimate and install one link compensation table from separable H/D probes.
 
-:bdg:`foreground` :bdg:`timeout 30 min`
+:bdg:`foreground` :bdg:`declared timeout 30 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Compensates one analyzer-equipped link from factory-state H/D singles tomography
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -33,11 +36,8 @@ Compensates one analyzer-equipped link from factory-state H/D singles tomography
      - string length >= 1
      - Source device that emits linkId.
    * - ``resourceDeviceIds``
-     - string[] (items >= 3)
-     - Exact lease union: emitting source, every inline attenuator that its carrier configuration may write, the resolved TimeTagger, and the resolved polarization analyzer.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One unique device identifier in the link-compensation lease union.
+     - string[] (items >= 3; each length >= 1)
+     - Exact lease union: emitting source, every inline attenuator that its carrier configuration may write, the resolved TimeTagger, and the resolved polarization analyzer. Each item: One unique device identifier in the link-compensation lease union.
    * - ``probeAttenuation``
      - object
      - Total attenuation request used for both H and D probe traffic, in the ConfigureQuantumLinkCarrier attenuation form. Use mode perLink with every emitted source link when their required totals differ; the carrier distributes each total between the source and its inline attenuator.
@@ -91,7 +91,9 @@ Compensates one analyzer-equipped link from factory-state H/D singles tomography
      ]
    }
 
-:download:`Download minimal input.json <CompensateLinkPolarizationFromSeparableHDProbes.minimal.json>`
+:download:`Download CompensateLinkPolarizationFromSeparableHDProbes.minimal.json <CompensateLinkPolarizationFromSeparableHDProbes.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/input.json>`.
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
@@ -103,7 +105,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CompensateLinkPolarizationFromSeparableHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -137,23 +139,28 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
      - Allowed
      - Meaning
+   * - **probeAttenuation**
+     - see Minimal run
+     - —
+     - Optional fields of this required input.
    * - ``probeAttenuation.commonDb``
-     - not declared
+     - —
      - >= 0
      - Total attenuation on every source-emitted link when mode is common.
    * - ``probeAttenuation.perLinkDb``
-     - not declared
+     - —
      - —
      - Total attenuation by source-emitted link when mode is perLink. The carrier requires every emitted source link exactly once.
    * - ``measurementDurationSec``
      - 2
-     - —
+     - > 0
      - Finite duration of each singles acquisition window, in seconds.
    * - ``settleSec``
      - 1
@@ -168,28 +175,7 @@ Every declared key is present after successful completion; its value may be null
      - —
      - Persist the installed compensation table on the analyzer DeviceOS host by default; set false for a nonpersistent installation. Persistence does not imply a physical acceptance gate.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-5
-
-         {
-           "measurementDurationSec": 2,
-           "settleSec": 1,
-           "minTotalCounts": 1,
-           "persist": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 May call, depending on the inputs:

@@ -7,7 +7,7 @@ Library: ``fake-device-examples``
 
 Very small FakeDriver foreground protocol: set the gain, then run a short synchronous task.
 
-:bdg:`foreground` :bdg:`timeout 30 s`
+:bdg:`foreground` :bdg:`declared timeout 30 s`
 
 **Lease:** ``FakeDeviceId``.
 
@@ -37,7 +37,7 @@ Catalog defaults satisfy the input schema; no input overrides are required.
    * - ``summary.durationSec``
      - Duration confirmed by the foreground check in seconds.
 
-Declared keys are present after successful completion; values may be null or empty. See :doc:`/user-guide/results`.
+Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
 3 Options
 ---------
@@ -45,7 +45,8 @@ Declared keys are present after successful completion; values may be null or emp
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -71,43 +72,64 @@ Declared keys are present after successful completion; values may be null or emp
 4 Run examples
 --------------
 
-Library folders resolve relative to the run input. Keep the pack's directory layout when using its shipped input and network.
+Library folders resolve relative to the run input. Keep the library's directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow :doc:`/user-guide/quickstart`: DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary. These commands execute the run, not an offline validation.
 
-For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+:download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/simple/input.json>`
 
-.. tab-set::
+Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`.
 
-   .. tab-item:: simple
+Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.
 
-      :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/simple/input.json>`
+**FakeDeviceId** (``Fake`` driver):
 
-      Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`.
+.. code-block:: bash
 
-      .. code-block:: json
+   python3 -m DeviceOSPack.DeviceOS \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
+     --nodeId FakeNodeId \
+     --deviceId FakeDeviceId \
+     --licenseFile /path/to/license.json \
+     --openDriversFile ./DeviceOSPack/OpenDrivers/OpenDrivers.json
 
-         {
-           "schemaVersion": "0.4",
-           "metaProtocolLibrary": {
-             "libraryId": "fake-device-examples",
-             "folder": "../.."
-           },
-           "steps": [
-             {
-               "protocolId": "FAKE-SIMPLE",
-               "sharedParams": {
-                 "fakeDeviceId": "FakeDeviceId",
-                 "gain": 2.5,
-                 "taskDurationSec": 1.0,
-                 "tickSec": 0.5
-               }
-             }
-           ]
-         }
+Then start NodeEngine:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
+     --nodeId FakeNodeId \
+     --licenseFile /path/to/license.json \
+     --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/simple/input.json \
+     --waitProtocol
+
+.. dropdown:: Run plan JSON
+   :class-container: protocol-technical
+
+   .. code-block:: json
+
+      {
+        "schemaVersion": "0.4",
+        "metaProtocolLibrary": {
+          "libraryId": "fake-device-examples",
+          "folder": "../.."
+        },
+        "steps": [
+          {
+            "protocolId": "FAKE-SIMPLE",
+            "sharedParams": {
+              "fakeDeviceId": "FakeDeviceId",
+              "gain": 2.5,
+              "taskDurationSec": 1.0,
+              "tickSec": 0.5
+            }
+          }
+        ]
+      }
 
 5 Composition
 -------------
 
-No child submissions are declared in the stage list. Runtime submissions, if any, are owned by the bound handlers.
+No child submissions were found in the declared stages or local handlers.
 
 :doc:`Child submission and waiting </api/NodeEngine/MetaProtocolHandlers>`.
 
@@ -117,73 +139,6 @@ No child submissions are declared in the stage list. Runtime submissions, if any
    Definition: :download:`protocol.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsDef/FAKE-SIMPLE/protocol.json>`.
 
    Source: ``NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsDef/FAKE-SIMPLE/protocol.json``.
-
-   Catalog defaults:
-
-   .. code-block:: json
-
-      {
-        "fakeDeviceId": "FakeDeviceId",
-        "gain": 2.5,
-        "taskDurationSec": 1.0,
-        "tickSec": 0.5
-      }
-
-   Stages, in declared order:
-
-   .. code-block:: json
-
-      [
-        {
-          "stageId": "00-FAKE-SIMPLE-SetGain",
-          "handler": "RunSingleTaskStage",
-          "params": {
-            "deviceId": "$shared.fakeDeviceId",
-            "taskName": "SetGainTask",
-            "taskParams": {
-              "value": "$shared.gain"
-            },
-            "resultKey": "simple.setGain"
-          }
-        },
-        {
-          "stageId": "01-FAKE-SIMPLE-ShortCheck",
-          "handler": "RunSingleTaskStage",
-          "params": {
-            "deviceId": "$shared.fakeDeviceId",
-            "taskName": "ForegroundShortTask",
-            "taskParams": {
-              "durationSec": "$shared.taskDurationSec",
-              "tickSec": "$shared.tickSec"
-            },
-            "resultKey": "simple.shortCheck"
-          }
-        },
-        {
-          "stageId": "02-FAKE-SIMPLE-PublishResult",
-          "handler": "PublishResultStage",
-          "params": {
-            "exports": [
-              {
-                "from": "simple.shortCheck.reply.result.status",
-                "as": "summary.status"
-              },
-              {
-                "from": "simple.shortCheck.deviceId",
-                "as": "summary.deviceId"
-              },
-              {
-                "from": "simple.setGain.reply.result.gain",
-                "as": "summary.gain"
-              },
-              {
-                "from": "simple.shortCheck.reply.result.durationSec",
-                "as": "summary.durationSec"
-              }
-            ]
-          }
-        }
-      ]
 
    Protocol definition:
 

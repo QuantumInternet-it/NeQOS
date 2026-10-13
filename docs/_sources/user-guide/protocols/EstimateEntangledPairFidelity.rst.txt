@@ -9,7 +9,9 @@ EstimateEntangledPairFidelity
 
 Estimate lab-frame fidelity and fully entangled fraction from a density matrix.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** no device resources.
 
@@ -21,7 +23,8 @@ Estimates Phi+ lab-frame fidelity, the fully entangled fraction over local unita
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -67,7 +70,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -82,12 +86,7 @@ Every declared key is present after successful completion; its value may be null
      - —
      - Optional deterministic seed for the numerical local-unitary diagnostic.
 
-4 Examples with options
------------------------
-
-No standalone option examples are shipped.
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

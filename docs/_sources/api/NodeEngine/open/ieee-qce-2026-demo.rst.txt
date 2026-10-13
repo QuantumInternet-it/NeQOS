@@ -3,11 +3,56 @@
 IEEE QCE 2026 Demo
 ==================
 
-Open meta-protocol example that invokes NeQOS's exported protected MPC optimization template.
+Open library example invoking the public built-in protocol AlignSNSPDInputPolarization for MPC320 count-rate optimization on one quantum link.
 
 Library ID: ``ieee-qce-2026-demo``
 
-For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary.
+Run the shipped examples
+------------------------
+
+Use the matching release and a valid license. Commands below are for a source checkout, from the repository root. For compiled distributions, follow :doc:`/user-guide/quickstart`: DeviceOS uses ``OpenDrivers/OpenDrivers.json`` beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying ``NodeEnginePack`` into DeviceOS is unnecessary. Hardware examples can initialize devices and change their state: review serial numbers, optical powers and detector wiring first.
+
+.. dropdown:: countsMaximization
+
+   :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/input.json>`
+
+   Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json>`.
+
+   Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.
+
+   **MPC-1** (``Mpc320`` driver):
+
+   .. code-block:: bash
+
+      python3 -m DeviceOSPack.DeviceOS \
+        --configFile ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json \
+        --nodeId NODE-MPC \
+        --deviceId MPC-1 \
+        --licenseFile /path/to/license.json
+
+   **TT-1** (``SwabianTT`` driver):
+
+   .. code-block:: bash
+
+      python3 -m DeviceOSPack.DeviceOS \
+        --configFile ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json \
+        --nodeId NODE-MPC \
+        --deviceId TT-1 \
+        --licenseFile /path/to/license.json
+
+   Then start NodeEngine:
+
+   .. code-block:: bash
+
+      python3 -m NodeEnginePack.NodeEngine \
+        --configFile ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json \
+        --nodeId NODE-MPC \
+        --licenseFile /path/to/license.json \
+        --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/input.json \
+        --waitProtocol
+
+Protocols
+---------
 
 .. toctree::
    :hidden:
@@ -38,5 +83,5 @@ For compiled distributions, follow :doc:`/user-guide/quickstart`. DeviceOS uses 
             "definitionFile": "MetaProtocolsDef/MPC320CountsMaximization/protocol.json"
           }
         ],
-        "description": "Open meta-protocol example that invokes NeQOS's exported protected MPC optimization template."
+        "description": "Open library example invoking the public built-in protocol AlignSNSPDInputPolarization for MPC320 count-rate optimization on one quantum link."
       }

@@ -1,5 +1,5 @@
-4. Run and customize a protocol
-===============================
+Run and customize a protocol
+============================
 
 Copy the input and network together
 -----------------------------------
@@ -56,9 +56,9 @@ For a direct count-rate measurement of Time Tagger channels 1 and 2:
      ]
    }
 
-This explicitly chooses an unguarded measurement. To enable protection, change
-``mode`` to ``required``, supply a retry budget and add the network-resolved
-health-device union to ``resourceDeviceIds``. Do not copy the unguarded choice
+This explicitly chooses an unguarded measurement, with the TimeTagger as its
+only resource. For a guarded counterpart and the exact device union to declare,
+see :ref:`latch-guard-resource-declarations`. Do not copy the unguarded choice
 into a protected experiment by omission or accident.
 
 For an Open library, the library additionally declares ``folder``. Use the library's
@@ -371,9 +371,9 @@ and
 :download:`experiment network <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`
 demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
 compensation, independent coincidence background, fidelity, detected distillable
-rate and the common summary. Replace the distributed network placeholders before
-use. The shared laboratory counterpart uses EPS-2, PA-1A/PA-1B, ATT-1/ATT-2,
-TT-2 channels 1/2 and Photec-2.
+rate and the common summary. Replace the distributed network placeholders with
+your verified device identities, endpoints and physical channel/link bindings
+before use; use the paired input and network together.
 
 Fidelity imports the separately acquired background through ``$steps.background``.
 Rate and summary import the unchanged declared observation, reconstruction and

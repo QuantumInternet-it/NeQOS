@@ -1,5 +1,5 @@
-5. Experimental recipes
-=======================
+Experimental recipes
+====================
 
 Use these recipes to choose an operation and the checks around it. The linked
 protocol sheets provide the exact current input/network templates and every

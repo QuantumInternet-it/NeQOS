@@ -1,5 +1,5 @@
-1. Install the software
-=======================
+Install the software
+====================
 
 Choose a matching distribution
 ------------------------------
@@ -13,6 +13,8 @@ Choose a matching distribution
    example ``C:\NeQOS`` on Windows. Keep the executable, libraries, contracts
    and example directories together. Copying just the executable is not an
    installation.
+   If Windows reports an extraction path-length error, see
+   :ref:`windows-zip-path-too-long` before using a partial distribution.
 3. Obtain a valid license for the installation. License/evaluation enquiries:
    ``info@quantuminternet.it``. Place the license outside a public repository,
    for example ``C:\NeQOSConfig\license.json``. Do not publish activation

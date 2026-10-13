@@ -9,7 +9,9 @@ LoadPolarizationAnalyzerCompensation
 
 Load stored analyzer compensation tables and optionally apply a state.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``polarizationAnalyzerDeviceId``.
 
@@ -21,7 +23,8 @@ Loads persisted compensated tomography states for selected or every stored chann
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -47,7 +50,7 @@ Loads persisted compensated tomography states for selected or every stored chann
      ]
    }
 
-:download:`Download minimal input.json <LoadPolarizationAnalyzerCompensation.minimal.json>`
+:download:`Download LoadPolarizationAnalyzerCompensation.minimal.json <LoadPolarizationAnalyzerCompensation.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/network.json>`.
 
@@ -57,7 +60,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./LoadPolarizationAnalyzerCompensation.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -83,7 +86,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -91,12 +95,8 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``polarizationAnalyzerChannels``
      - null
-     - items >= 1
-     - Optional non-empty list of analyzer channels to load. When omitted, loads every channel persisted on this DeviceOS host; MPC320 supports only channel 1.
-   * - ``polarizationAnalyzerChannels[]``
-     - not declared
-     - >= 1
-     - One analyzer channel to load. Required when the containing object or array item is supplied.
+     - items >= 1; each integer (>= 1)
+     - Optional non-empty list of analyzer channels to load. When omitted, loads every channel persisted on this DeviceOS host; MPC320 supports only channel 1. Each item: One analyzer channel to load.
    * - ``applyTomographyState``
      - null
      - —
@@ -105,23 +105,32 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-5
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "polarizationAnalyzerChannels": [
-             1
-           ],
-           "applyTomographyState": "H"
-         }
+.. code-block:: json
+   :emphasize-lines: 2-7
+
+   {
+     "sharedParams": {
+       "polarizationAnalyzerChannels": [
+         1
+       ],
+       "applyTomographyState": "H"
+     }
+   }
 
 5 How it is built
 -----------------

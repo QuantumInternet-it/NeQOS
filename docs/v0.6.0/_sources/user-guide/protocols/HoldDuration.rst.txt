@@ -50,7 +50,7 @@ Wait for a declared duration without issuing device commands, then report the co
      ]
    }
 
-:download:`Download minimal input.json <HoldDuration.minimal.json>`
+:download:`Download HoldDuration.minimal.json <HoldDuration.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/input.json>`.
 
@@ -62,7 +62,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./HoldDuration.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

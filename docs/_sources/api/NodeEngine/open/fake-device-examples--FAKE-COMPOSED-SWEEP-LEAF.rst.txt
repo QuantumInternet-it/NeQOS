@@ -5,9 +5,9 @@ FAKE-COMPOSED-SWEEP-LEAF
 
 Library: ``fake-device-examples``
 
-Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.
+Leaf protocol that runs a short FakeDriver task and publishes the value received from its parent sweep.
 
-:bdg:`foreground` :bdg:`timeout 10 s`
+:bdg:`foreground` :bdg:`declared timeout 10 s`
 
 **Lease:** ``FakeDeviceId``.
 
@@ -31,7 +31,7 @@ Catalog defaults satisfy the input schema; no input overrides are required.
    * - ``test.leaf``
      - Iteration and deterministic value produced by this leaf.
 
-Declared keys are present after successful completion; values may be null or empty. See :doc:`/user-guide/results`.
+Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
 3 Options
 ---------
@@ -39,7 +39,8 @@ Declared keys are present after successful completion; values may be null or emp
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -70,7 +71,7 @@ No standalone run input is shipped. This template can be submitted by a parent p
 5 Composition
 -------------
 
-No child submissions are declared in the stage list. Runtime submissions, if any, are owned by the bound handlers.
+No child submissions were found in the declared stages or local handlers.
 
 :doc:`Child submission and waiting </api/NodeEngine/MetaProtocolHandlers>`.
 
@@ -83,64 +84,13 @@ No child submissions are declared in the stage list. Runtime submissions, if any
 
    Local handlers: :download:`Handlers.py <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsDef/FAKE-COMPOSED-SWEEP-LEAF/Handlers.py>`.
 
-   Catalog defaults:
-
-   .. code-block:: json
-
-      {
-        "value": 0,
-        "iteration": 1,
-        "fakeDeviceId": "FakeDeviceId",
-        "fakeTaskDurationSec": 0.05
-      }
-
-   Stages, in declared order:
-
-   .. code-block:: json
-
-      [
-        {
-          "stageId": "00-FAKE-COMPOSED-SWEEP-LEAF-RunFakeTask",
-          "handler": "RunSingleTaskStage",
-          "params": {
-            "deviceId": "$shared.fakeDeviceId",
-            "taskName": "ForegroundShortTask",
-            "taskParams": {
-              "durationSec": "$shared.fakeTaskDurationSec",
-              "tickSec": 0.01
-            },
-            "resultKey": "test.fakeTask"
-          }
-        },
-        {
-          "stageId": "01-FAKE-COMPOSED-SWEEP-LEAF-ProduceValue",
-          "handler": "FakeComposedSweepProduceValueStage",
-          "params": {
-            "value": "$shared.value",
-            "iteration": "$shared.iteration"
-          }
-        },
-        {
-          "stageId": "02-FAKE-COMPOSED-SWEEP-LEAF-PublishResult",
-          "handler": "PublishResultStage",
-          "params": {
-            "exports": [
-              {
-                "from": "test.leaf",
-                "as": "test.leaf"
-              }
-            ]
-          }
-        }
-      ]
-
    Protocol definition:
 
    .. code-block:: json
 
       {
         "protocolId": "FAKE-COMPOSED-SWEEP-LEAF",
-        "description": "Fake-device leaf which runs a short FakeDriver task and exports the value received from its parent sweep.",
+        "description": "Leaf protocol that runs a short FakeDriver task and publishes the value received from its parent sweep.",
         "privilegeLevel": "NORMAL",
         "dependencies": [],
         "executionMode": "foreground",

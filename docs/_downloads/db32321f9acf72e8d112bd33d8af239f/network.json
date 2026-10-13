@@ -1,0 +1,11 @@
+{
+  "networkId": "authoring-example",
+  "nodes": [
+    {
+      "nodeId": "AuthoringNode",
+      "host": "127.0.0.1",
+      "devices": []
+    }
+  ],
+  "quantumLinks": []
+}

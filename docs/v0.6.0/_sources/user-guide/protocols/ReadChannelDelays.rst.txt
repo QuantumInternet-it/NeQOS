@@ -57,17 +57,19 @@ Read the live temporal input-delay settings of selected Time Tagger channels.
      ]
    }
 
-:download:`Download minimal input.json <ReadChannelDelays.minimal.json>`
+:download:`Download ReadChannelDelays.minimal.json <ReadChannelDelays.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/ReadChannelDelays/RunExample/input.json>`.
+
+No network is shipped for this run plan. Supply your configured network and node ID.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
-     --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --configFile "/path/to/network.json" \
+     --nodeId "YOUR_NODE_ID" \
+     --metaProtocolRun "./ReadChannelDelays.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

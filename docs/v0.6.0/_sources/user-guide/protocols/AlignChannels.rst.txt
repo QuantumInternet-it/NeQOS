@@ -63,7 +63,7 @@ Measure correlations from a reference channel to target channels, estimate their
      ]
    }
 
-:download:`Download minimal input.json <AlignChannels.minimal.json>`
+:download:`Download AlignChannels.minimal.json <AlignChannels.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/network.json>`.
 
@@ -73,7 +73,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./AlignChannels.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -249,6 +249,17 @@ Every declared key is present after successful completion; its value may be null
 Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/input.json>`
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/AlignChannels/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
 .. code-block:: json
    :emphasize-lines: 2-19

@@ -9,7 +9,9 @@ CompensateSourcePolarizationFromSeparableHDProbes
 
 Compensate both source links from separable H/D tomography and install their tables.
 
-:bdg:`foreground` :bdg:`timeout 120 min`
+:bdg:`foreground` :bdg:`declared timeout 2 h`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Compensates each of the two selected emitted links of one entangled-photon sourc
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -30,17 +33,11 @@ Compensates each of the two selected emitted links of one entangled-photon sourc
      - string length >= 1
      - Entangled-photon source whose two emitted links are compensated.
    * - ``linkIds``
-     - string[2]
-     - Exactly two distinct source-emitted analyzer-equipped links to compensate as one source campaign.
-   * - ``linkIds[]``
-     - string length >= 1
-     - One emitted link identifier belonging to deviceId.
+     - string[2] (each length >= 1)
+     - Exactly two distinct source-emitted analyzer-equipped links to compensate as one source campaign. Each item: One emitted link identifier belonging to deviceId.
    * - ``resourceDeviceIds``
-     - string[] (items >= 4)
-     - Exact source-campaign lease union: source, every source inline attenuator that carrier changes may write, each resolved analyzer, and each resolved TimeTagger.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One unique device identifier in the source-campaign lease union.
+     - string[] (items >= 4; each length >= 1)
+     - Exact source-campaign lease union: source, every source inline attenuator that carrier changes may write, each resolved analyzer, and each resolved TimeTagger. Each item: One unique device identifier in the source-campaign lease union.
    * - ``probeAttenuation``
      - object
      - Total H/D probe attenuation request forwarded unchanged to each composed link campaign in ConfigureQuantumLinkCarrier form. Use perLink to specify the source's two emitted links independently.
@@ -98,7 +95,22 @@ Compensates each of the two selected emitted links of one entangled-photon sourc
      ]
    }
 
-:download:`Download minimal input.json <CompensateSourcePolarizationFromSeparableHDProbes.minimal.json>`
+:download:`Download CompensateSourcePolarizationFromSeparableHDProbes.minimal.json <CompensateSourcePolarizationFromSeparableHDProbes.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input.json>`.
+
+Shipped run plan: :download:`Compensate then measure entangled fidelity <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input-compensate-then-measure-entangled-fidelity.json>`.
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input-compensate-then-measure-entangled-fidelity.json" \
+     --waitProtocol --verboseRunFolders
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
@@ -110,7 +122,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CompensateSourcePolarizationFromSeparableHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -126,23 +138,23 @@ See :doc:`How to run a protocol </user-guide/running>` for launch setup, default
    * - Export key
      - Content
    * - link.polarizationCompensation.\ **plan**\ .sourceCampaign
-     - Resolved source/link roles and resources with explicit probeTraffic.
+     - Source, two emitted links, analyzer/Time Tagger bindings and lease resources for the separable H/D campaign, with probeTraffic=classical.
    * - link.polarizationCompensation.\ **observation**\ .hdProbesByLink
-     - Background, H/D counts, raw child observations and latch evidence indexed by estimated link; no invented reference observation.
+     - Separable H/D counts, background observations, tomography scans and latch evidence keyed by source-emitted link.
    * - link.polarizationCompensation.\ **estimate**\ .compensationByLink
-     - H/D compensation estimates indexed only by estimated link.
+     - Independent H/D compensation estimates for the source-emitted links whose estimation completed.
    * - link.polarizationCompensation.\ **applied**\ .linkCampaigns
-     - Confirmed table installations with link identity and target/reference role; partial successful writes are retained.
+     - Completed per-link table installations with linkId and childProtocolId; every entry has role=target, and earlier completed installations remain listed if a later link fails.
    * - link.polarizationCompensation.\ **applied**\ .referenceFactoryCompensation
-     - Confirmed reference-only factory-equivalent table reset, or null when not performed.
+     - Always null for separable H/D probes; this protocol does not reset a reference analyzer.
    * - link.polarizationCompensation.\ **status**\ .campaign
-     - Operational outcome, failures, child identities and final analyzer state; completion does not certify polarization quality.
+     - Campaign outcome, failure reason, requested/completed link counts, child runs and final compensated-H state confirmations; no post-installation quality gate is applied.
    * - link.polarizationCompensation.\ **status**\ .carrierRestoration
-     - Exact source/ATT snapshot restoration evidence, including partial or unknown outcomes.
+     - Per-link outcomes of restoring the source and inline-attenuator snapshots; includes RESTORED, FAILED or UNKNOWN status.
    * - link.polarizationCompensation.\ **artifact**\ .sourceCampaignReport
-     - Detailed common JSON campaign report, or null if writing failed.
+     - Path to the separable H/D source-campaign JSON report, or null if publication failed.
    * - link.polarizationCompensation.\ **artifact**\ .sourceCampaignCompactReport
-     - Common Markdown summary, or null if writing failed.
+     - Path to the separable H/D source-campaign Markdown summary, or null if publication failed.
 
 Every declared key is present after successful completion; its value may be null or empty. Read the keys under ``outputs`` in ``result.json``; see :doc:`/user-guide/results`.
 
@@ -152,23 +164,28 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
      - Allowed
      - Meaning
+   * - **probeAttenuation**
+     - see Minimal run
+     - —
+     - Optional fields of this required input.
    * - ``probeAttenuation.commonDb``
-     - not declared
+     - —
      - >= 0
      - Total attenuation on every emitted source link when mode is common.
    * - ``probeAttenuation.perLinkDb``
-     - not declared
+     - —
      - —
      - Total attenuation by emitted source link when mode is perLink.
    * - ``measurementDurationSec``
      - 2
-     - —
+     - > 0
      - Finite duration of every singles window used by each link campaign, in seconds.
    * - ``settleSec``
      - 1
@@ -183,42 +200,7 @@ Every declared key is present after successful completion; its value may be null
      - —
      - Persist each installed analyzer compensation table on its owning DeviceOS host by default; set false for nonpersistent installations. Persistence does not imply a physical acceptance gate.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-5
-
-         {
-           "measurementDurationSec": 2,
-           "settleSec": 1,
-           "minTotalCounts": 1,
-           "persist": true
-         }
-
-   .. tab-item:: input-compensate-then-measure-entangled-fidelity
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input-compensate-then-measure-entangled-fidelity.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-5
-
-         {
-           "measurementDurationSec": 2,
-           "settleSec": 1,
-           "minTotalCounts": 1,
-           "persist": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 May call, depending on the inputs:

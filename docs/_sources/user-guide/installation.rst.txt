@@ -1,5 +1,5 @@
-1. Install the software
-=======================
+Install the software
+====================
 
 Choose a matching distribution
 ------------------------------
@@ -13,6 +13,8 @@ Choose a matching distribution
    example ``C:\NeQOS`` on Windows. Keep the executable, libraries, contracts
    and example directories together. Copying just the executable is not an
    installation.
+   If Windows reports an extraction path-length error, see
+   :ref:`windows-zip-path-too-long` before using a partial distribution.
 3. Obtain a valid license for the installation. License/evaluation enquiries:
    ``info@quantuminternet.it``. Place the license outside a public repository,
    for example ``C:\NeQOSConfig\license.json``. Do not publish activation
@@ -23,7 +25,7 @@ Choose a matching distribution
    hardware. If a documented option is missing, check the distribution version.
 
 Standalone executables do not require a development Python environment for
-their compiled code. External Open drivers/packs and vendor SDKs can still
+their compiled code. External Open drivers/libraries and vendor SDKs can still
 require their own runtime files. Install those only on the host that uses them.
 License validation may need network access; do not assume an evaluation license
 works offline.
@@ -112,14 +114,15 @@ Install the hardware runtime on the DeviceOS host
 -------------------------------------------------
 
 The vendor runtime is not installed by copying NeQOS. Examples include the
-Swabian Time Tagger Python/native driver and Thorlabs Kinesis for MPC320.
+Swabian Instruments Time Tagger Python/native driver and Thorlabs Kinesis for MPC320.
 Serial devices need a working serial interface and the correct COM/TTY path.
 The NodeEngine host does not need another device's vendor SDK merely to
 orchestrate it over the network.
 
-Start from the shipped ``config/DeviceOS.local.json.example`` and save your
-machine-specific copy as ``config/DeviceOS.local.json`` beside DeviceOS, or
-select a different file with ``--localConfigFile``. Follow
+Create or adapt ``config/DeviceOS.local.json`` below ``DeviceOS.dist``, or
+select a host-local file elsewhere with ``--localConfigFile``. If an older
+archive supplies only a ``.example`` file, copy it to that active filename;
+the ``.example`` name is not loaded automatically. Follow
 :doc:`../api/DeviceOS/RuntimeSetup` for the exact supported environment keys
 and driver-specific search paths. Keep vendor paths out of portable
 ``network.json`` files.
@@ -135,6 +138,11 @@ and driver-specific search paths. Keep vendor paths out of portable
 
 Check the installed vendor directory before using these illustrative paths.
 An SDK load error and a NodeEngine connectivity error are different problems.
+For Swabian, both settings must be read from the JSON file; setting only shell
+variables with these names does not satisfy DeviceOS's local configuration
+check. A missing-key error means the settings were not loaded, while a
+path-does-not-exist error means the loaded directory is invalid. Correct the
+file/path before considering recompilation.
 
 Choose writable per-PC data directories
 ---------------------------------------
@@ -154,26 +162,36 @@ For a Windows Command Prompt ``.bat`` file:
    if not exist "%NEQOS_CALIBRATION_DIR%" mkdir "%NEQOS_CALIBRATION_DIR%"
    C:\NeQOS\DeviceOS.dist\DeviceOS.exe ^
      --licenseFile "C:\NeQOSConfig\license.json" ^
-     --configFile "C:\NeQOSConfig\network.json" ^
+     --configFile "C:\NeQOSConfig\lab-inventory.json" ^
+     --localConfigFile "C:\NeQOSConfig\DeviceOS.local.json" ^
      --deviceId ExampleTimeTaggerId
    pause
 
 If directory creation fails, correct permissions or the path before launching.
 Use a separate launcher per device or pass its identifier explicitly.
 Environment variables set with ``setlocal`` apply to the launched process, not
-to other terminals. A machine-local runtime configuration may also supply
-environment settings: avoid conflicting values for the same key.
+to other terminals. ``DeviceOS.local.json`` applies only the two Swabian SDK
+paths and ``THORLABS_KINESIS_PATH``; it does not apply the three ``NEQOS_*``
+directory variables shown above. Set those in the launcher/process environment.
 
-``NEQOS_LOG_DIR`` selects log files, not the NodeEngine result-tree root.
+``NEQOS_LOG_DIR`` selects log files, not the NodeEngine execution-record directory.
 ``NEQOS_DEVICE_ARTIFACT_DIR`` selects device-created artifacts such as raw
 Time Tagger files. ``NEQOS_CALIBRATION_DIR`` selects compensation storage on
-the DeviceOS host. NodeEngine runs currently write under
-``MetaProtocolResults`` in its working directory. See :doc:`results` before
+the DeviceOS host. CLI NodeEngine runs write under ``MetaProtocolResults`` in
+its working directory; operator runs use ``--operatorData``. See :doc:`results` before
 looking for a file on the wrong computer.
 
 A local writable data directory is a useful troubleshooting baseline. You may
 choose a shared/synchronized directory, but a console logging error is not
 proof that synchronization caused a failure.
+
+For shared calibration storage, set an absolute path such as
+``NEQOS_CALIBRATION_DIR=G:\NeQOS-shared\calibration`` before DeviceOS starts.
+Retain or explicitly copy the existing tables; changing the variable does not
+move them. An absolute compensation-file path configured for a device overrides
+this default directory for that file. Avoid concurrent writes to the same file:
+cloud synchronization does not coordinate device ownership. See
+:doc:`upgrading-0.6.0` for the complete launcher migration checklist.
 
 Source-checkout alternative
 ---------------------------

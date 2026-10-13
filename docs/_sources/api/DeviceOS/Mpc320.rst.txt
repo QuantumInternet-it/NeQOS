@@ -51,9 +51,14 @@ documentation: ``_PARAMETER_SPECS`` defines configurable parameters,
 ``_SIGNAL_SPECS`` defines readable signals, and ``@foreground_task``
 declares the exported tasks together with their admission policy.
 
+:ref:`Network hardware configuration <hardware-config-mpc320>`.
+
+:doc:`Driver extension and lifecycle rules </user-guide/writing-hardware-driver>`.
+
 .. toctree::
    :maxdepth: 1
 
    Parameters <Mpc320/parameters>
    Signals <Mpc320/signals>
    Foreground Tasks <Mpc320/foreground-tasks>
+   Background Tasks <Mpc320/background-tasks>

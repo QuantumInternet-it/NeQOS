@@ -54,7 +54,7 @@ Reads one PA1000 or PA2000 polarization-analyzer channel's cached DeviceOS optic
      ]
    }
 
-:download:`Download minimal input.json <ReadPolarizationAnalyzerOpticalConfiguration.minimal.json>`
+:download:`Download ReadPolarizationAnalyzerOpticalConfiguration.minimal.json <ReadPolarizationAnalyzerOpticalConfiguration.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/ReadPolarizationAnalyzerOpticalConfiguration/RunExample/input.json>`.
 
@@ -66,7 +66,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ReadPolarizationAnalyzerOpticalConfiguration.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

@@ -9,7 +9,9 @@ MeasureCountRates
 
 Acquire one finite window of channel counts and count rates.
 
-:bdg:`foreground` :bdg:`timeout 2 min`
+:bdg:`foreground` :bdg:`declared timeout 2 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Acquire one finite count-rate observation for the requested device channels and 
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -30,17 +33,11 @@ Acquire one finite count-rate observation for the requested device channels and 
      - string length >= 1
      - Device that acquires the requested count-rate measurements.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device needed by this finite acquisition.
+     - string[] (items >= 1; each length >= 1)
+     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required. Each item: One device needed by this finite acquisition.
    * - ``channelRefs``
-     - integer[] (items >= 1)
-     - Unique physical or logical channel references measured in one acquisition window.
-   * - ``channelRefs[]``
-     - integer >= 0
-     - One channel reference accepted by the acquisition device.
+     - integer[] (items >= 1; each >= 0)
+     - Unique physical or logical channel references measured in one acquisition window. Each item: One channel reference accepted by the acquisition device.
    * - ``latchGuard``
      - object
      - Explicit finite-window detector-latch policy; disabled permits an unguarded observation, while required validates network-declared detector-health guards and retries only the invalid window.
@@ -79,7 +76,9 @@ Acquire one finite count-rate observation for the requested device channels and 
      ]
    }
 
-:download:`Download minimal input.json <MeasureCountRates.minimal.json>`
+:download:`Download MeasureCountRates.minimal.json <MeasureCountRates.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MeasureCountRates/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MeasureCountRates/RunExample/network.json>`.
 
@@ -89,7 +88,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureCountRates.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -121,7 +120,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -129,33 +129,14 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``durationSec``
      - 1
-     - —
+     - > 0
      - Finite integration duration of the observation window, in seconds.
    * - ``clear``
      - true
      - —
      - Whether the device clears each measurement accumulation before the window.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MeasureCountRates/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-3
-
-         {
-           "durationSec": 1.0,
-           "clear": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

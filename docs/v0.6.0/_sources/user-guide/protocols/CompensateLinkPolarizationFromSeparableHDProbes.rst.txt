@@ -91,7 +91,7 @@ Compensates one analyzer-equipped link from factory-state H/D singles tomography
      ]
    }
 
-:download:`Download minimal input.json <CompensateLinkPolarizationFromSeparableHDProbes.minimal.json>`
+:download:`Download CompensateLinkPolarizationFromSeparableHDProbes.minimal.json <CompensateLinkPolarizationFromSeparableHDProbes.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/input.json>`.
 
@@ -105,7 +105,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CompensateLinkPolarizationFromSeparableHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

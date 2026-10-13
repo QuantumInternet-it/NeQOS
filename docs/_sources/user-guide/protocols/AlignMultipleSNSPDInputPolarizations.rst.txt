@@ -9,7 +9,9 @@ AlignMultipleSNSPDInputPolarizations
 
 Align multiple SNSPD input polarizations using parallel MPC320 scans and count-rate feedback.
 
-:bdg:`foreground` :bdg:`timeout 40 min`
+:bdg:`foreground` :bdg:`declared timeout 40 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``deviceIds``.
 
@@ -21,17 +23,15 @@ Align the input polarizations incident on multiple SNSPDs by scanning their asso
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``deviceIds``
-     - string[] (items >= 2)
-     - Device identifiers of the MPC320 controllers, each bound to one SNSPD-associated quantum-link sink in the active network.
-   * - ``deviceIds[]``
-     - string length >= 1
-     - One MPC320 controller identifier.
+     - string[] (items >= 2; each length >= 1)
+     - Device identifiers of the MPC320 controllers, each bound to one SNSPD-associated quantum-link sink in the active network. Each item: One MPC320 controller identifier.
 
 .. code-block:: json
 
@@ -53,7 +53,7 @@ Align the input polarizations incident on multiple SNSPDs by scanning their asso
      ]
    }
 
-:download:`Download minimal input.json <AlignMultipleSNSPDInputPolarizations.minimal.json>`
+:download:`Download AlignMultipleSNSPDInputPolarizations.minimal.json <AlignMultipleSNSPDInputPolarizations.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationAlignment/AlignMultipleSNSPDInputPolarizations/RunExample/network.json>`.
 
@@ -63,7 +63,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./AlignMultipleSNSPDInputPolarizations.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -97,7 +97,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -105,7 +106,7 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``measurementDurationSec``
      - 0.2
-     - —
+     - > 0
      - Integration duration for each simultaneous count sample, in seconds.
    * - ``optimizationMode``
      - "maximize"
@@ -117,12 +118,8 @@ Every declared key is present after successful completion; its value may be null
      - Whether all selected paddles are moved to initialAnglesDeg before scanning, or remain at their current positions until their individual coarse scans begin.
    * - ``paddles``
      - [0, 1, 2]
-     - items >= 1
-     - MPC320 paddle indices to scan on every selected controller.
-   * - ``paddles[]``
-     - not declared
-     - >= 0
-     - One MPC320 paddle index. Required when the containing object or array item is supplied.
+     - items >= 1; each integer (>= 0)
+     - MPC320 paddle indices to scan on every selected controller. Each item: One MPC320 paddle index.
    * - ``initialAnglesDeg``
      - [0, 0, 0]
      - items >= 1
@@ -133,24 +130,20 @@ Every declared key is present after successful completion; its value may be null
      - Final scan angle for each selected paddle, in degrees.
    * - ``stepDeg``
      - 10
-     - —
+     - > 0
      - Coarse scan angular increment in degrees.
    * - ``refinements``
      - []
-     - —
-     - Ordered optional whole-controller passes; each pass scans every selected paddle around the corresponding preceding-pass optimum and is bounded by the coarse scan endpoints.
-   * - ``refinements[]``
-     - not declared
-     - —
-     - One refinement-pass configuration applied to every selected paddle on every controller. Required when the containing object or array item is supplied.
+     - each object
+     - Ordered optional whole-controller passes; each pass scans every selected paddle around the corresponding preceding-pass optimum and is bounded by the coarse scan endpoints. Each item: One refinement-pass configuration applied to every selected paddle on every controller.
    * - ``refinements[].halfRangeDeg``
-     - not declared
-     - >= 0
-     - Half-width of each paddle scan around its preceding-pass optimum, in degrees. Required when the containing object or array item is supplied.
-   * - ``refinements[].stepDeg``
-     - not declared
      - —
-     - Angular increment for this local scan, in degrees. Required when the containing object or array item is supplied.
+     - >= 0
+     - Half-width of each paddle scan around its preceding-pass optimum, in degrees. Include this field in each ``refinements`` item.
+   * - ``refinements[].stepDeg``
+     - —
+     - > 0
+     - Angular increment for this local scan, in degrees. Include this field in each ``refinements`` item.
    * - ``settleAfterMoveSec``
      - 0.2
      - >= 0
@@ -163,50 +156,43 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationAlignment/AlignMultipleSNSPDInputPolarizations/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationAlignment/AlignMultipleSNSPDInputPolarizations/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationAlignment/AlignMultipleSNSPDInputPolarizations/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-32
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
+.. code-block:: json
+   :emphasize-lines: 2-18
+
+   {
+     "sharedParams": {
+       "finalAnglesDeg": [
+         20.0,
+         20.0,
+         20.0
+       ],
+       "refinements": [
          {
-           "measurementDurationSec": 0.2,
-           "optimizationMode": "maximize",
-           "initialPositionMode": "explicit",
-           "paddles": [
-             0,
-             1,
-             2
-           ],
-           "initialAnglesDeg": [
-             0.0,
-             0.0,
-             0.0
-           ],
-           "finalAnglesDeg": [
-             20.0,
-             20.0,
-             20.0
-           ],
-           "stepDeg": 10.0,
-           "refinements": [
-             {
-               "halfRangeDeg": 5.0,
-               "stepDeg": 2.5
-             },
-             {
-               "halfRangeDeg": 1.0,
-               "stepDeg": 0.5
-             }
-           ],
-           "settleAfterMoveSec": 0.2,
-           "moveTimeoutSec": 30.0
+           "halfRangeDeg": 5.0,
+           "stepDeg": 2.5
+         },
+         {
+           "halfRangeDeg": 1.0,
+           "stepDeg": 0.5
          }
+       ]
+     }
+   }
 
 5 How it is built
 -----------------

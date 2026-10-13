@@ -10,7 +10,6 @@
   "dependencies": [],
   "executionMode": "foreground",
   "preemptive": false,
-  "timeoutSec": 120,
   "resourceRequests": [
     "$shared.deviceId"
   ],

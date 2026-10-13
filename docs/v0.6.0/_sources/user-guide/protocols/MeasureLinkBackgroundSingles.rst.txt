@@ -72,7 +72,7 @@ Measures the finite singles background on one or more semantic quantum links. Th
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkBackgroundSingles.minimal.json>`
+:download:`Download MeasureLinkBackgroundSingles.minimal.json <MeasureLinkBackgroundSingles.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkBackgroundSingles/RunExample/input.json>`.
 
@@ -84,7 +84,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkBackgroundSingles.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

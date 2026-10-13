@@ -36,7 +36,7 @@
     "parameters": {
       "linkPairIds": {
         "type": "array",
-        "description": "Exactly two distinct entangled-pair link identifiers, defining row and column order in the returned matrix. They must resolve to two distinct analyzer channels, which may belong to one PA2000/MPC320 device or two separate devices.",
+        "description": "Exactly two distinct entangled-pair link identifiers, defining row and column order in the returned matrix. They must resolve to two distinct analyzer channels: channels 1 and 2 of one PA2000, or one channel on each of two separate analyzers. Each MPC320 supports only logical channel 1.",
         "required": true,
         "minItems": 2,
         "maxItems": 2,
@@ -49,7 +49,7 @@
       },
       "polarizationAnalyzerDeviceIds": {
         "type": "array",
-        "description": "Unique analyzer device identifiers resolved from the selected link arms and leased for the whole matrix. Supports two PA1000 or two MPC320 devices, or one two-channel PA2000/MPC320; each resolved channel may use a polarizer or PBS topology declared in network.json.",
+        "description": "Unique analyzer device identifiers resolved from the selected link arms and leased for the whole matrix. Use one two-channel PA2000 or two separate analyzer devices, for example two PA1000 or two MPC320 devices. MPC320 supports only logical channel 1; each selected channel uses the polarizer or PBS topology declared in network.json.",
         "required": true,
         "minItems": 1,
         "items": {

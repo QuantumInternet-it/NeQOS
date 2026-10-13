@@ -407,6 +407,9 @@ Photec Foreground Tasks
    invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
    The returned payload includes readingValid, invalidatesMeasurements,
    latchEventCount, recoveryStatus, counts, and any alert details.
+   lastRecovery persists across subsequent reads and identifies the latest
+   automatic recovery outcome by latchEventCount. It is not a guarantee
+   that a measurement spanning that event is valid.
 
    :Task class: Foreground
    :Admission policy: ``sync``
@@ -492,7 +495,7 @@ Photec Foreground Tasks
         - ``str``
         - Yes
         - ``—``
-        - Automatic recovery state.
+        - Recovery outcome of this health read; a later healthy read returns NOT_NEEDED.
       * - ``lastValidCounts``
         - ``object``
         - Yes
@@ -517,7 +520,7 @@ Photec Foreground Tasks
         - ``object``
         - No
         - ``—``
-        - Last automatic recovery report.
+        - Persistent last automatic recovery report, with latchEventCount, status (RECOVERED or FAILED), timestampEpoch, attempt, channels, offSec and settleSec. Cleared when latch tracking or channel configuration is reset.
       * - ``errorType``
         - ``str``
         - No

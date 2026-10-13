@@ -59,7 +59,7 @@ Transfer a completed device-side file or file set to the NodeEngine host and ver
      ]
    }
 
-:download:`Download minimal input.json <TransferDeviceFileToNode.minimal.json>`
+:download:`Download TransferDeviceFileToNode.minimal.json <TransferDeviceFileToNode.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/input.json>`.
 
@@ -71,7 +71,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./TransferDeviceFileToNode.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

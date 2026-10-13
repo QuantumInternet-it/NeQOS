@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "deviceKind": "generic",
+  "configurationScope": "inventory-1",
+  "hardwareConfig": {
+    "initialValue": {
+      "type": "int",
+      "default": 0
+    }
+  },
+  "driverConfig": {},
+  "driverApiVersion": "0.6.0",
+  "deviceType": "AuthoringCounter",
+  "className": "CounterDriver",
+  "parameters": {
+    "value": {
+      "type": "int",
+      "description": "Current counter value."
+    }
+  },
+  "parameterPatterns": {},
+  "signals": {},
+  "tasks": {
+    "Increment": {
+      "taskClass": "foreground",
+      "admissionPolicy": "sync",
+      "pausable": false,
+      "description": "Increment a software counter and return the new value.",
+      "resultSchema": {
+        "status": {
+          "type": "str",
+          "required": true,
+          "values": [
+            "OK"
+          ],
+          "description": "Task outcome."
+        },
+        "value": {
+          "type": "int",
+          "required": true,
+          "description": "Counter after incrementing."
+        }
+      },
+      "inputs": {
+        "amount": {
+          "annotation": "int",
+          "required": false,
+          "default": 1
+        },
+        "durationSec": {
+          "annotation": "float",
+          "required": false,
+          "default": 0.0
+        }
+      }
+    }
+  },
+  "fingerprint": "a96b4868024379907a0d9c4571d0d7790d101f432d904a4bd66b50b957c211c1"
+}

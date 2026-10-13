@@ -9,7 +9,9 @@ MeasureLinkBackgroundSingles
 
 Measure link singles background while preserving and restoring the carrier state.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,23 +23,18 @@ Measures the finite singles background on one or more semantic quantum links. Th
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
      - Meaning
    * - ``targetLinkIds``
-     - string[] (items >= 1)
-     - Quantum links whose H TimeTagger sink channels are measured after their resolved sources are parked.
-   * - ``targetLinkIds[]``
-     - string length >= 1
-     - One target quantum-link identifier resolved from network.json.
+     - string[] (items >= 1; each length >= 1)
+     - Quantum links whose H TimeTagger sink channels are measured after their resolved sources are parked. Each item: One target quantum-link identifier resolved from network.json.
    * - ``resourceDeviceIds``
-     - string[] (items >= 2)
-     - Exactly the sources resolved from targetLinkIds, every inline attenuator on their source-emitted links, and their one TimeTagger; this reserves the complete safe park/measurement/restore bracket.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One resolved source, its bound inline attenuator, or TimeTagger device identifier.
+     - string[] (items >= 2; each length >= 1)
+     - Exactly the sources resolved from targetLinkIds, every inline attenuator on their source-emitted links, and their one TimeTagger; this reserves the complete safe park/measurement/restore bracket. Each item: One resolved source, its bound inline attenuator, or TimeTagger device identifier.
    * - ``latchGuard``
      - object
      - Explicit finite-window latch policy propagated to background and tomography acquisitions. required rejects invalid windows and retries only after detector recovery; disabled deliberately acquires without latch protection.
@@ -75,7 +72,9 @@ Measures the finite singles background on one or more semantic quantum links. Th
      ]
    }
 
-:download:`Download minimal input.json <MeasureLinkBackgroundSingles.minimal.json>`
+:download:`Download MeasureLinkBackgroundSingles.minimal.json <MeasureLinkBackgroundSingles.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkBackgroundSingles/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkBackgroundSingles/RunExample/network.json>`.
 
@@ -85,7 +84,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureLinkBackgroundSingles.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -117,7 +116,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -125,7 +125,7 @@ Every declared key is present after successful completion; its value may be null
      - Meaning
    * - ``measurementDurationSec``
      - 1
-     - —
+     - > 0
      - Finite integration duration of the background singles acquisition, in seconds.
    * - ``settleSec``
      - 0.2
@@ -140,28 +140,7 @@ Every declared key is present after successful completion; its value may be null
      - —
      - Whether the finite singles acquisition clears its stable count-rate measurements first.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkBackgroundSingles/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-5
-
-         {
-           "measurementDurationSec": 1,
-           "settleSec": 0.2,
-           "restoreSettleSec": 0.2,
-           "clear": true
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 May call, depending on the inputs:

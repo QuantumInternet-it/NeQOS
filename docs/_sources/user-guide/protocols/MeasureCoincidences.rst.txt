@@ -9,7 +9,9 @@ MeasureCoincidences
 
 Acquire coincidence counts and rates for selected channel combinations.
 
-:bdg:`foreground` :bdg:`timeout 2 min`
+:bdg:`foreground` :bdg:`declared timeout 2 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``resourceDeviceIds``.
 
@@ -21,7 +23,8 @@ Acquire finite count-rate observations for AND logical channels formed from two 
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -30,26 +33,17 @@ Acquire finite count-rate observations for AND logical channels formed from two 
      - string length >= 1
      - TimeTagger device that creates the logical channels and acquires their count-rate measurements.
    * - ``resourceDeviceIds``
-     - string[] (items >= 1)
-     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required.
-   * - ``resourceDeviceIds[]``
-     - string length >= 1
-     - One device needed by this finite acquisition.
+     - string[] (items >= 1; each length >= 1)
+     - Exact lease union: only the TimeTagger when latchGuard is disabled, or that TimeTagger plus every network-resolved detector-health guard when it is required. Each item: One device needed by this finite acquisition.
    * - ``observations``
      - object[] (items >= 1)
-     - Unique AND-logical coincidence observations acquired together in one finite window.
-   * - ``observations[]``
-     - object
-     - One named logical coincidence definition.
+     - Unique AND-logical coincidence observations acquired together in one finite window. Each item: One named logical coincidence definition.
    * - ``observations[].observationId``
      - string length >= 1
      - Caller-stable identifier used as the output-map key.
    * - ``observations[].inputRefs``
-     - integer[] (items >= 2)
-     - At least two physical TimeTagger channel references joined by AND.
-   * - ``observations[].inputRefs[]``
-     - integer >= 0
-     - One physical TimeTagger channel reference.
+     - integer[] (items >= 2; each >= 0)
+     - At least two physical TimeTagger channel references joined by AND. Each item: One physical TimeTagger channel reference.
    * - ``observations[].coincidenceWindowPs``
      - integer >= 1
      - Coincidence window applied by the AND logical channel, in picoseconds.
@@ -98,7 +92,7 @@ Acquire finite count-rate observations for AND logical channels formed from two 
      ]
    }
 
-:download:`Download minimal input.json <MeasureCoincidences.minimal.json>`
+:download:`Download MeasureCoincidences.minimal.json <MeasureCoincidences.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/coincidence/MeasureCoincidences/RunExample/network.json>`.
 
@@ -108,7 +102,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureCoincidences.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -144,19 +138,24 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
      - Allowed
      - Meaning
+   * - **observations**
+     - see Minimal run
+     - —
+     - Optional fields of this required input.
    * - ``observations[].logicalOperator``
-     - not declared
-     - "AND"
+     - —
+     - Fixed: "AND"
      - Logical operation used to form the channel.
    * - ``durationSec``
      - 1
-     - —
+     - > 0
      - Finite integration duration of the shared coincidence observation window, in seconds.
    * - ``clear``
      - true
@@ -166,32 +165,39 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/coincidence/MeasureCoincidences/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/coincidence/MeasureCoincidences/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/coincidence/MeasureCoincidences/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-14
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
+.. code-block:: json
+   :emphasize-lines: 2-14
+
+   {
+     "sharedParams": {
+       "observations": [
          {
-           "observations": [
-             {
-               "observationId": "examplePair",
-               "inputRefs": [
-                 1,
-                 2
-               ],
-               "logicalOperator": "AND",
-               "coincidenceWindowPs": 1000
-             }
+           "observationId": "examplePair",
+           "inputRefs": [
+             1,
+             2
            ],
-           "durationSec": 1.0,
-           "clear": true
+           "logicalOperator": "AND",
+           "coincidenceWindowPs": 1000
          }
+       ]
+     }
+   }
 
 5 How it is built
 -----------------

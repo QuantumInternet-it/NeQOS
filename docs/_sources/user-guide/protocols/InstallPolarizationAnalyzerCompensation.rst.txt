@@ -9,7 +9,9 @@ InstallPolarizationAnalyzerCompensation
 
 Install a validated compensated tomography-state table on an analyzer.
 
-:bdg:`foreground` :bdg:`timeout 5 min`
+:bdg:`foreground` :bdg:`declared timeout 5 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``polarizationAnalyzerDeviceId``.
 
@@ -21,7 +23,8 @@ Installs a validated compensated tomography-state table on one PA X000 or MPC320
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -82,7 +85,7 @@ Installs a validated compensated tomography-state table on one PA X000 or MPC320
      ]
    }
 
-:download:`Download minimal input.json <InstallPolarizationAnalyzerCompensation.minimal.json>`
+:download:`Download InstallPolarizationAnalyzerCompensation.minimal.json <InstallPolarizationAnalyzerCompensation.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/InstallPolarizationAnalyzerCompensation/RunExample/network.json>`.
 
@@ -92,7 +95,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./InstallPolarizationAnalyzerCompensation.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -120,7 +123,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -150,25 +154,32 @@ Every declared key is present after successful completion; its value may be null
 4 Examples with options
 -----------------------
 
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
+Each example lists only the inputs it adds to or changes in the minimal run.
 
-.. tab-set::
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/InstallPolarizationAnalyzerCompensation/RunExample/input.json>`
 
-   .. tab-item:: input
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/InstallPolarizationAnalyzerCompensation/RunExample/network.json>`.
 
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/InstallPolarizationAnalyzerCompensation/RunExample/input.json>`
+.. code-block:: bash
 
-      .. code-block:: json
-         :emphasize-lines: 2-7
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
-         {
-           "polarizationAnalyzerChannel": 1,
-           "persist": true,
-           "finalTomographyState": "H",
-           "sourceReport": {
-             "purpose": "Example compensated MPC320 tomography table"
-           }
-         }
+.. code-block:: json
+   :emphasize-lines: 2-7
+
+   {
+     "sharedParams": {
+       "finalTomographyState": "H",
+       "sourceReport": {
+         "purpose": "Example compensated MPC320 tomography table"
+       }
+     }
+   }
 
 5 How it is built
 -----------------

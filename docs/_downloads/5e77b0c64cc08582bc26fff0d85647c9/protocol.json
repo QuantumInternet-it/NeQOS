@@ -1,6 +1,6 @@
 {
   "protocolId": "FAKE-COMPOSED-SWEEP",
-  "description": "Hardware-free root meta-protocol. It submits one branch which submits a configurable number of leaf runs from the same stage.",
+  "description": "Parent meta-protocol on the software-only FakeDriver: submits one branch that runs sweepCount leaf protocols and publishes their aggregated results.",
   "privilegeLevel": "NORMAL",
   "dependencies": [],
   "executionMode": "foreground",

@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="How NeQOS works" href="how-neqos-works.html"><link rel="prev" title="NeQOS documentation" href="../index.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="1. How NeQOS works" href="how-neqos-works.html"><link rel="prev" title="NeQOS documentation" href="../index.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
         <title>NeQOS User Guide - NeQOS documentation</title>
@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=05b004e2" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4887f515" />
     
     
 
@@ -39,7 +39,7 @@
   }
 </style><!-- neqos-doc-versioning:start -->
 <link rel="stylesheet" href="../_versioning/selector.css">
-<script defer src="../_versioning/selector.js" data-neqos-version="v0.5.0" data-neqos-page="user-guide/index.html"></script>
+<script defer src="../_versioning/selector.js" data-neqos-version="v0.6.0" data-neqos-page="user-guide/index.html"></script>
 <!-- neqos-doc-versioning:end -->
 </head>
   <body>
@@ -200,14 +200,18 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the bench</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">Built-in protocol catalog</a><input aria-label="Toggle navigation of Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">1. How NeQOS works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">2. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">4. Describe the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">5. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">6. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">7. Use the browser interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html">8. Experimental recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html">9. Read results and diagnose failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">10. Writing a meta-protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html">11. Writing a hardware driver</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">12. Built-in protocol catalog</a><input aria-label="Toggle navigation of 12. Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
@@ -324,6 +328,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="common-issues.html">13. Common issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -334,7 +339,7 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/NodeEngine/index.html">NodeEngine API</a><input aria-label="Toggle navigation of NodeEngine API" class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open Meta-protocols</a><input aria-label="Toggle navigation of Open Meta-protocols" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/OpenMetaProtocols.html">Open libraries</a><input aria-label="Toggle navigation of Open libraries" class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency.html">External Python Package Dependency</a><input aria-label="Toggle navigation of External Python Package Dependency" class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/open/external-python-package-dependency--EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST.html">EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</a></li>
 </ul>
@@ -354,7 +359,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Meta-protocol Handlers</a><input aria-label="Toggle navigation of Meta-protocol Handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/NodeEngine/MetaProtocolHandlers.html">Built-in stage handlers</a><input aria-label="Toggle navigation of Built-in stage handlers" class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/NodeEngine/handlers/composition.html">Child protocols</a><input aria-label="Toggle navigation of Child protocols" class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/SubmitMicroProtocolStage.html">SubmitMicroProtocolStage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/NodeEngine/handlers/WaitMicroProtocolStage.html">WaitMicroProtocolStage</a></li>
@@ -373,40 +378,50 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/NodeEngine/StageRuntime.html">Stage handler runtime</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/DeviceOS/index.html">DeviceOS API</a><input aria-label="Toggle navigation of DeviceOS API" class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Eps1000W.html">NuCrypt EPS1000W Entangled-Photon Source</a><input aria-label="Toggle navigation of NuCrypt EPS1000W Entangled-Photon Source" class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Eps1000W/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/PaX000.html">NuCrypt PA1000/PA2000 Polarization Controller</a><input aria-label="Toggle navigation of NuCrypt PA1000/PA2000 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/PaX000/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Photec.html">Photec SNSPD Controller</a><input aria-label="Toggle navigation of Photec SNSPD Controller" class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Photec/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/SwabianTT.html">Swabian Instruments Time Tagger</a><input aria-label="Toggle navigation of Swabian Instruments Time Tagger" class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/SwabianTT/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Dv1550AA.html">Thorlabs DV1550AA Variable Optical Attenuator</a><input aria-label="Toggle navigation of Thorlabs DV1550AA Variable Optical Attenuator" class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/parameters.html">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Dv1550AA/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Mpc320.html">Thorlabs MPC320 Polarization Controller</a><input aria-label="Toggle navigation of Thorlabs MPC320 Polarization Controller" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/parameters.html">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/signals.html">Signals</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/foreground-tasks.html">Foreground Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Mpc320/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Fake.html">Fake Driver (Software-only Evaluation)</a><input aria-label="Toggle navigation of Fake Driver (Software-only Evaluation)" class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -416,6 +431,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Fake/background-tasks.html">Background Tasks</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/DriverContract.html">Open driver contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/HardwareConfiguration.html">Network hardware configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/DeviceOS/RuntimeSetup.html">Runtime setup</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/DeviceOS/Examples/index.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/DeviceOS/Examples/parameters.html">Parameters</a></li>
@@ -470,6 +487,8 @@ follow the installation, configuration and execution chapters for a first run.
 Use <a class="reference internal" href="protocols/index.html"><span class="doc">Built-in protocol catalog</span></a> to select an operation and inspect its declared
 inputs, defaults and outputs. The API Reference covers driver task surfaces
 and protocol implementation stages.</p>
+<p>Already using 0.5.0? Start with <a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a>. For current launch
+commands, choose <a class="reference internal" href="running.html#headless-inventory-run"><span class="std std-ref">Run without a browser</span></a> or <a class="reference internal" href="running.html#browser-inventory-run"><span class="std std-ref">Operate from a browser</span></a>.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Use matching NodeEngine, DeviceOS, contracts and examples for this release.
@@ -478,7 +497,7 @@ serial numbers and detector wiring against your network.</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="how-neqos-works.html">1. How NeQOS works</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html#compose-extend-operate-record">Compose, extend, operate, record</a></li>
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html#two-design-principles">Two design principles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html#the-runtime">The runtime</a></li>
@@ -492,31 +511,47 @@ serial numbers and detector wiring against your network.</p>
 <li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html#further-reading">Further reading</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">1. Install the software</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Install the software</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#choose-a-matching-distribution">Choose a matching distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standalone-directory-layout">Standalone directory layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#windows-unsigned-builds-and-smart-app-control">Windows: unsigned builds and Smart App Control</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-the-hardware-runtime-on-the-deviceos-host">Install the hardware runtime on the DeviceOS host</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#choose-writable-per-pc-data-directories">Choose writable per-PC data directories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#source-checkout-alternative">Source-checkout alternative</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="network.html">2. Describe the bench</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#what-changes-in-everyday-use">What changes in everyday use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#preserve-the-existing-installation-and-data">1 Preserve the existing installation and data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#separate-equipment-experiment-and-host-local-settings">2 Separate equipment, experiment and host-local settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#update-each-deviceos-launcher">3 Update each DeviceOS launcher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#choose-the-nodeengine-workflow">4 Choose the NodeEngine workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html#review-wiring-and-retained-data">5 Review wiring and retained data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">4. Describe the network</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="network.html#lab-inventory-and-experiment-networks">Lab inventory and experiment networks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html#nodes-devices-and-addresses">Nodes, devices and addresses</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html#link-bindings-are-physical-declarations">Link bindings are physical declarations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network.html#declare-detector-health-wiring">Declare detector-health wiring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#wiring-and-readout">Wiring and readout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#latch-guard-policy-and-lease-resources">Latch-guard policy and lease resources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network.html#hardware-limits-are-not-global-attenuation-requests">Hardware limits are not global attenuation requests</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. First run without hardware</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">5. First run without hardware</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#prepare-two-terminals">Prepare two terminals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#windows-standalone-distributions">Windows standalone distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#macos-nodeengine-with-a-remote-deviceos">macOS NodeEngine with a remote DeviceOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#source-checkout">Source checkout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#what-to-look-for">What to look for</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#if-it-fails">If it fails</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="running.html">4. Run and customize a protocol</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="running.html">6. Run and customize a protocol</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="running.html#copy-the-input-and-network-together">Copy the input and network together</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html#a-minimal-run-plan-shape">A minimal run-plan shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html#launch-deviceos-then-nodeengine">Launch DeviceOS, then NodeEngine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html#declared-timeouts-and-async-completion-waits">Declared timeouts and async completion waits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html#choose-command-line-or-browser-operation">Choose command-line or browser operation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html#complete-entanglement-distribution-sequence">Complete entanglement-distribution sequence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="running.html#understand-defaults-and-constraints">Understand defaults and constraints</a></li>
@@ -524,9 +559,24 @@ serial numbers and detector wiring against your network.</p>
 <li class="toctree-l2"><a class="reference internal" href="running.html#extend-a-raw-recording-bracket">Extend a raw-recording bracket</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="recipes.html">5. Experimental recipes</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="browser-interface.html">7. Use the browser interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#connect-to-the-operator">Connect to the operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#inspect-the-network-and-devices">Inspect the network and devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#compose-and-validate-a-run">Compose and validate a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#protocols-accepted-by-the-operator">Protocols accepted by the operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#what-is-available-during-execution">What is available during execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#observe-and-abort">Observe and abort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#history-revisions-and-parameter-reuse">History, revisions and parameter reuse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#reconnect-and-authentication">Reconnect and authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#photec-count-rates">Photec count rates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#configure-external-grafana-dashboards">Configure external Grafana dashboards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html#use-the-offline-viewer">Use the offline viewer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">8. Experimental recipes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#finite-detector-observations">Finite detector observations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#align-detector-timing-before-narrow-window-coincidences">Align detector timing before narrow-window coincidences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#ieee-qce-2026-align-snspd-input-polarization">IEEE QCE 2026: align SNSPD input polarization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#capture-and-transfer-raw-time-tags">Capture and transfer raw time tags</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#measure-background-without-leaving-the-source-parked">Measure background without leaving the source parked</a></li>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#single-link-and-two-link-polarization-acquisition">Single-link and two-link polarization acquisition</a></li>
@@ -536,15 +586,34 @@ serial numbers and detector wiring against your network.</p>
 <li class="toctree-l2"><a class="reference internal" href="recipes.html#calibration-and-alignment-utilities">Calibration and alignment utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="results.html">6. Read results and diagnose failures</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="results.html">9. Read results and diagnose failures</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="results.html#find-the-right-host-and-directory">Find the right host and directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="results.html#understand-the-execution-tree">Understand the execution tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html#read-the-execution-record">Read the execution record</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html#check-execution-and-scientific-meaning-separately">Check execution and scientific meaning separately</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html#troubleshooting-in-order">Troubleshooting in order</a></li>
 <li class="toctree-l2"><a class="reference internal" href="results.html#what-to-retain-for-a-reproducible-report">What to retain for a reproducible report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="results.html#operator-storage-and-backup">Operator storage and backup</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="protocols/index.html">Built-in protocol catalog</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="writing-meta-protocols.html">10. Writing a meta-protocol</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html#define-an-open-library">1 Define an Open library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html#declare-the-contract">2 Declare the contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html#submit-and-wait-declaratively">3 Submit and wait declaratively</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html#submit-and-wait-from-a-handler">4 Submit and wait from a handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html#resources-replies-and-cleanup">5 Resources, replies and cleanup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html#publish-and-test">6 Publish and test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writing-hardware-driver.html">11. Writing a hardware driver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html#register-and-select-the-driver">1 Register and select the driver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html#implement-the-lifecycle-contract">2 Implement the lifecycle contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html#declare-tasks-parameters-and-signals">3 Declare tasks, parameters and signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html#locking-cancellation-and-error-results">4 Locking, cancellation and error results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html#configuration-and-persistent-activities">5 Configuration and persistent activities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html#verify-before-hardware">6 Verify before hardware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="protocols/index.html">12. Built-in protocol catalog</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="protocols/index.html#acquisition">Acquisition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols/index.html#device">Device</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols/index.html#entanglement">Entanglement</a></li>
@@ -552,6 +621,10 @@ serial numbers and detector wiring against your network.</p>
 <li class="toctree-l2"><a class="reference internal" href="protocols/index.html#link">Link</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols/index.html#timing">Timing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols/index.html#tomography">Tomography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common-issues.html">13. Common issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common-issues.html#windows-zip-extraction-fails-path-too-long">Windows ZIP extraction fails: path too long</a></li>
 </ul>
 </li>
 </ul>
@@ -563,10 +636,13 @@ serial numbers and detector wiring against your network.</p>
 <strong>DeviceEngine</strong> and hardware driver. The driver declares the device’s task
 surface; the DeviceEngine exposes it, admits and schedules device tasks,
 and reports their lifecycle.</p></li>
-<li><p><strong>NodeEngine</strong> coordinates the devices of one selected network node,
+<li><p><strong>NodeEngine</strong> coordinates the configured devices (across inventory nodes
+in inventory mode),
 schedules protocols, manages device leases and writes the execution record.</p></li>
 <li><p>The <strong>network description</strong> (<code class="docutils literal notranslate"><span class="pre">network.json</span></code>) declares device identities,
-endpoints, channels, link roles and physical limits.</p></li>
+endpoints, channels, link roles and physical limits.
+Inventory mode separates stable equipment from the experiment’s topology
+and operating settings; see <a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a>.</p></li>
 <li><p>The <strong>run plan</strong> (<code class="docutils literal notranslate"><span class="pre">input.json</span></code>) selects a library and an ordered list of
 protocols with their input overrides. It does not replace the network
 description.</p></li>
@@ -596,7 +672,7 @@ handlers, see <a class="reference internal" href="../api/NodeEngine/index.html">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">How NeQOS works</div>
+                <div class="title"><span class="section-number">1. </span>How NeQOS works</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -635,7 +711,7 @@ handlers, see <a class="reference internal" href="../api/NodeEngine/index.html">
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

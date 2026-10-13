@@ -3,16 +3,16 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Writing a meta-protocol" href="writing-meta-protocols.html"><link rel="prev" title="5. Experimental recipes" href="recipes.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="10. Writing a meta-protocol" href="writing-meta-protocols.html"><link rel="prev" title="8. Experimental recipes" href="recipes.html">
 
     <!-- Generated with Sphinx 8.3.0 and Furo 2025.12.19 -->
-        <title>6. Read results and diagnose failures - NeQOS documentation</title>
+        <title>9. Read results and diagnose failures - NeQOS documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b26db2b9" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4887f515" />
     
     
 
@@ -200,18 +200,18 @@
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">NeQOS User Guide</a><input aria-label="Toggle navigation of NeQOS User Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">How NeQOS works</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html">1. Install the software</a></li>
-<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">Move from 0.5.0 to 0.6.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="network.html">2. Describe the network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">3. First run without hardware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running.html">4. Run and customize a protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">Use the browser interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="recipes.html">5. Experimental recipes</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">6. Read results and diagnose failures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">Writing a meta-protocol</a></li>
-<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html">Writing a hardware driver</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">Built-in protocol catalog</a><input aria-label="Toggle navigation of Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-neqos-works.html">1. How NeQOS works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">2. Install the software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="upgrading-0.6.0.html">3. Move from 0.5.0 to 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">4. Describe the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">5. First run without hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running.html">6. Run and customize a protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="browser-interface.html">7. Use the browser interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html">8. Experimental recipes</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">9. Read results and diagnose failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-meta-protocols.html">10. Writing a meta-protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-hardware-driver.html">11. Writing a hardware driver</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="protocols/index.html">12. Built-in protocol catalog</a><input aria-label="Toggle navigation of 12. Built-in protocol catalog" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="protocols/acquisition/index.html">Acquisition</a><input aria-label="Toggle navigation of Acquisition" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l4 has-children"><a class="reference internal" href="protocols/acquisition/coincidence/index.html">Coincidence</a><input aria-label="Toggle navigation of Coincidence" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="protocols/MeasureCoincidences.html">MeasureCoincidences</a></li>
@@ -328,6 +328,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="common-issues.html">13. Common issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../llm-authoring.html">LLM Authoring Guide</a><input aria-label="Toggle navigation of LLM Authoring Guide" class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -480,7 +481,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="read-results-and-diagnose-failures">
-<h1>6. Read results and diagnose failures<a class="headerlink" href="#read-results-and-diagnose-failures" title="Link to this heading">¶</a></h1>
+<h1><span class="section-number">9. </span>Read results and diagnose failures<a class="headerlink" href="#read-results-and-diagnose-failures" title="Link to this heading">¶</a></h1>
 <section id="find-the-right-host-and-directory">
 <h2>Find the right host and directory<a class="headerlink" href="#find-the-right-host-and-directory" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper docutils container">
@@ -667,6 +668,27 @@ If a latch occurred and recovered, the affected window can be repeated under
 the declared budget. Recovery failure or repeated contamination is recorded
 explicitly. Verify flux, detector settings and health wiring; do not simply
 switch to <code class="docutils literal notranslate"><span class="pre">disabled</span></code> to produce a successful result.</p>
+<p>Photec’s <code class="docutils literal notranslate"><span class="pre">recoveryStatus</span></code> describes the current health read: after a
+successful automatic recovery, a later healthy read normally says
+<code class="docutils literal notranslate"><span class="pre">NOT_NEEDED</span></code>. The <code class="docutils literal notranslate"><span class="pre">ReadDetectorHealth</span></code> result also retains <code class="docutils literal notranslate"><span class="pre">lastRecovery</span></code>
+with its <code class="docutils literal notranslate"><span class="pre">latchEventCount</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code> (<code class="docutils literal notranslate"><span class="pre">RECOVERED</span></code> or <code class="docutils literal notranslate"><span class="pre">FAILED</span></code>),
+<code class="docutils literal notranslate"><span class="pre">timestampEpoch</span></code> and the existing attempt/channel/timing details. Resetting
+latch tracking or reconfiguring channels clears that history. A manual
+stop/start command alone does not certify successful recovery.</p>
+<p>When a window’s latch counter increases, NodeEngine always discards that
+window. With valid final health, it may retry after a recovery reported by the
+final read, or after a retained successful recovery whose event counter exactly
+matches the final counter. A stale, missing or failed report does not authorize
+a retry. The report’s <code class="docutils literal notranslate"><span class="pre">recoveryStatusByDevice</span></code> is this interpreted outcome;
+the original readings remain in <code class="docutils literal notranslate"><span class="pre">healthBeforeByDevice</span></code> and
+<code class="docutils literal notranslate"><span class="pre">healthAfterByDevice</span></code>. Thus a final <code class="docutils literal notranslate"><span class="pre">NOT_NEEDED</span></code> and an interpreted
+<code class="docutils literal notranslate"><span class="pre">RECOVERED</span></code> can legitimately coexist.</p>
+<p><code class="docutils literal notranslate"><span class="pre">maxWindowRetries:</span> <span class="pre">2</span></code> permits the initial window plus at most two repetitions,
+with health checked again before each one. <code class="docutils literal notranslate"><span class="pre">annotate</span></code> reports the same
+recovery evidence but never retries or accepts a latch-contaminated window.
+Older Photec drivers do not retain this evidence: update DeviceOS and the
+matching NodeEngine driver manifest together. This change does not alter bias,
+latch thresholds, recovery timing or the meaning of the detector’s counters.</p>
 </section>
 <section id="flat-polarization-or-unexpectedly-large-background">
 <h3>Flat polarization or unexpectedly large background<a class="headerlink" href="#flat-polarization-or-unexpectedly-large-background" title="Link to this heading">¶</a></h3>
@@ -745,7 +767,7 @@ parameter reuse.</p>
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Writing a meta-protocol</div>
+                <div class="title"><span class="section-number">10. </span>Writing a meta-protocol</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -756,7 +778,7 @@ parameter reuse.</p>
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">5. Experimental recipes</div>
+                <div class="title"><span class="section-number">8. </span>Experimental recipes</div>
                 
               </div>
             </a>

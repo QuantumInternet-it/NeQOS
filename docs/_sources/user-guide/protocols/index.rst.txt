@@ -5,6 +5,8 @@ Built-in protocol catalog
 
 :doc:`How to run a protocol </user-guide/running>`
 
+Every protocol listed here is a public built-in protocol, marked ``exported: true`` in its definition and callable from an Open library.
+
 .. toctree::
    :hidden:
    :maxdepth: 3

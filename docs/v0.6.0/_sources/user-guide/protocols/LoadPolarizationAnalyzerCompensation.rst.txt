@@ -50,7 +50,7 @@ Loads persisted compensated tomography states for selected or every stored chann
      ]
    }
 
-:download:`Download minimal input.json <LoadPolarizationAnalyzerCompensation.minimal.json>`
+:download:`Download LoadPolarizationAnalyzerCompensation.minimal.json <LoadPolarizationAnalyzerCompensation.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/network.json>`.
 
@@ -60,7 +60,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./LoadPolarizationAnalyzerCompensation.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -108,6 +108,17 @@ Every declared key is present after successful completion; its value may be null
 Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/input.json>`
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/LoadPolarizationAnalyzerCompensation/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
 .. code-block:: json
    :emphasize-lines: 2-7

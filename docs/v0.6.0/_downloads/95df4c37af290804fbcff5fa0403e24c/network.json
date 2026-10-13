@@ -18,7 +18,7 @@
       "devices": [
         {
           "deviceId": "ExampleAnalyzerA",
-          "deviceType": "PolarizationAnalyzer",
+          "deviceType": "PaX000",
           "enabled": true,
           "linkBindings": [
             {
@@ -40,7 +40,7 @@
         },
         {
           "deviceId": "ExampleAnalyzerB",
-          "deviceType": "PolarizationAnalyzer",
+          "deviceType": "PaX000",
           "enabled": true,
           "linkBindings": [
             {

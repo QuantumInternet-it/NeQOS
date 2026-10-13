@@ -71,7 +71,7 @@ Validates an already applied link-polarization compensation from complete H and 
      ]
    }
 
-:download:`Download minimal input.json <ValidateLinkPolarizationCompensation.minimal.json>`
+:download:`Download ValidateLinkPolarizationCompensation.minimal.json <ValidateLinkPolarizationCompensation.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/ValidateLinkPolarizationCompensation/RunExample/input.json>`.
 
@@ -83,7 +83,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ValidateLinkPolarizationCompensation.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

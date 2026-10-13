@@ -58,7 +58,7 @@ Resolve a link's TimeTagger channels from the active network, then declaratively
      ]
    }
 
-:download:`Download minimal input.json <CaptureRawTimeTagStream.minimal.json>`
+:download:`Download CaptureRawTimeTagStream.minimal.json <CaptureRawTimeTagStream.minimal.json>`
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/network.json>`.
 
@@ -68,7 +68,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./CaptureRawTimeTagStream.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -138,6 +138,17 @@ Every declared key is present after successful completion; its value may be null
 Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/input.json>`
+
+Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/rawStream/CaptureRawTimeTagStream/RunExample/network.json>`.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --configFile "./network.json" \
+     --nodeId "ExampleNodeId" \
+     --metaProtocolRun "./input.json" \
+     --waitProtocol --verboseRunFolders
 
 .. code-block:: json
    :emphasize-lines: 2-9

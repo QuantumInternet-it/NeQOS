@@ -1,5 +1,5 @@
-6. Read results and diagnose failures
-=====================================
+Read results and diagnose failures
+==================================
 
 Find the right host and directory
 ---------------------------------
@@ -182,6 +182,30 @@ If a latch occurred and recovered, the affected window can be repeated under
 the declared budget. Recovery failure or repeated contamination is recorded
 explicitly. Verify flux, detector settings and health wiring; do not simply
 switch to ``disabled`` to produce a successful result.
+
+Photec's ``recoveryStatus`` describes the current health read: after a
+successful automatic recovery, a later healthy read normally says
+``NOT_NEEDED``. The ``ReadDetectorHealth`` result also retains ``lastRecovery``
+with its ``latchEventCount``, ``status`` (``RECOVERED`` or ``FAILED``),
+``timestampEpoch`` and the existing attempt/channel/timing details. Resetting
+latch tracking or reconfiguring channels clears that history. A manual
+stop/start command alone does not certify successful recovery.
+
+When a window's latch counter increases, NodeEngine always discards that
+window. With valid final health, it may retry after a recovery reported by the
+final read, or after a retained successful recovery whose event counter exactly
+matches the final counter. A stale, missing or failed report does not authorize
+a retry. The report's ``recoveryStatusByDevice`` is this interpreted outcome;
+the original readings remain in ``healthBeforeByDevice`` and
+``healthAfterByDevice``. Thus a final ``NOT_NEEDED`` and an interpreted
+``RECOVERED`` can legitimately coexist.
+
+``maxWindowRetries: 2`` permits the initial window plus at most two repetitions,
+with health checked again before each one. ``annotate`` reports the same
+recovery evidence but never retries or accepts a latch-contaminated window.
+Older Photec drivers do not retain this evidence: update DeviceOS and the
+matching NodeEngine driver manifest together. This change does not alter bias,
+latch thresholds, recovery timing or the meaning of the detector's counters.
 
 Flat polarization or unexpectedly large background
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

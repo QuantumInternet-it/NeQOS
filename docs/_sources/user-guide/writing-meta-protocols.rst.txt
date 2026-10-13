@@ -1,0 +1,240 @@
+Writing a meta-protocol
+=======================
+
+An Open library adds protocols to NodeEngine without rebuilding the executable.
+Use declared child protocols for reusable operations; write a local handler when
+the sequence depends on observations or needs a loop. Both micro-protocols and
+meta-protocols use the same contract and handler interface.
+
+Start with the hardware-free example below. NodeEngine itself still loads the
+selected network and may initialize its configured devices: use an empty test
+node, not a laboratory network, for this exercise.
+
+1 Define an Open library
+------------------------
+
+The example contains a declarative parent and a parent with a local handler.
+Both invoke :doc:`HoldDuration <protocols/HoldDuration>`, a public built-in
+protocol, and publish its declared hold result.
+
+.. code-block:: text
+
+   HoldExamples/
+     manifest.json
+     MetaProtocolsDef/
+       HOLD-STATIC/protocol.json
+       HOLD-DYNAMIC/protocol.json
+       HOLD-DYNAMIC/Handlers.py
+     MetaProtocolsRun/
+       input.json
+     network.json
+
+Download :download:`the complete example library <../examples/HoldExamples.zip>`
+and keep this layout. The individual
+:download:`manifest <../examples/HoldExamples/manifest.json>`,
+:download:`run plan <../examples/HoldExamples/MetaProtocolsRun/input.json>` and
+:download:`empty-node network <../examples/HoldExamples/network.json>` are also
+available.
+
+.. literalinclude:: ../examples/HoldExamples/manifest.json
+   :language: json
+
+``schemaVersion: "0.5"`` is the library manifest version. Each definition and
+handler path is relative to the manifest directory. Optional
+``sharedHandlerFiles`` lists reusable handler modules loaded once for the library;
+``handlerFiles`` belongs to one protocol. A module exports a ``HANDLERS`` mapping
+from stage-handler name to callable. Avoid collisions with built-in handlers.
+Python handlers are trusted local code and execute with NodeEngine's permissions.
+
+An Open parent can invoke protocols from its own library and built-in protocols
+marked ``exported: true``. This flag means **Open-library callable**, not a
+published result. Do not add it to Open definitions. Inspect the bundled
+``protocol.json`` when selecting a built-in child; an internal built-in service
+is not an extension API.
+
+2 Declare the contract
+-----------------------
+
+The :download:`static definition <../examples/HoldExamples/MetaProtocolsDef/HOLD-STATIC/protocol.json>`
+declares defaults in ``sharedParams`` and constraints in ``inputSchema``.
+``outputSchema`` lists the public export paths. Stages execute in list order.
+``summary`` is the one-line catalog description; ``description`` explains the
+operation. No ``effects``, ``group`` or per-output ``presence`` fields are needed.
+
+.. literalinclude:: ../examples/HoldExamples/MetaProtocolsDef/HOLD-STATIC/protocol.json
+   :language: json
+   :start-at: "sharedParams"
+   :end-before: "stages"
+
+.. note::
+
+   This excerpt is part of a definition, not standalone JSON. The download is
+   the complete, validated definition.
+
+Input and output schemas use ``schemaVersion: "0.1"``. They are NeQOS contracts,
+not arbitrary JSON Schema documents. Supported value types are ``string``,
+``integer``, ``number``, ``boolean``, ``array`` and ``object``; boolean values
+are not integers. Each value specification needs ``type`` and ``description``.
+
+.. list-table::
+   :header-rows: 1
+   :class: api-table protocol-input-table
+
+   * - Keyword
+     - Meaning
+   * - ``required``
+     - The effective value must be non-null. Defaults count; callers need not repeat them. Missing optional values and optional nulls are accepted.
+   * - ``minimum``, ``exclusiveMinimum``, ``maximum``
+     - Inclusive lower bound, strict lower bound and inclusive upper bound for numbers.
+   * - ``enum``
+     - Allowed non-null values.
+   * - ``minLength``, ``maxLength``
+     - String length bounds.
+   * - ``minItems``, ``maxItems``, ``items``
+     - Array size and per-item contract. Set ``items.required: true`` when null elements are not allowed.
+   * - ``properties``
+     - Recursive object contract. When declared, unknown properties are rejected. An object without properties permits arbitrary contents.
+   * - ``role``
+     - Output meaning: ``plan``, ``applied``, ``observation``, ``estimate``, ``calibration``, ``artifact`` or ``status``.
+   * - ``artifact``
+     - Optional output documentation with ``path`` and ``format``; it does not create or transfer a file.
+
+Defaults belong in ``sharedParams``, not a schema ``default`` field. Overrides
+recursively merge objects and replace lists/scalars. Required descendants apply
+when their object is non-null. Conditional requirements enforced by a handler
+must also be satisfied: passing schema validation does not validate all hardware
+or scientific preconditions.
+
+Top-level ``inputSchema.parameters`` names must match ``sharedParams`` exactly.
+Unknown schema keywords are rejected. Do not add JSON Schema constructs such as
+``oneOf`` or ``additionalProperties`` that this release does not implement.
+
+Every declared output key must exist on successful completion; a value may be
+null or empty unless its own contract forbids that. Exporting an object does not
+guarantee every undeclared internal field. Keep scratchpad implementation state
+private and publish only the declared, domain-namespaced outputs.
+
+3 Submit and wait declaratively
+--------------------------------
+
+The static parent uses three stages: submit, wait/import, then publish.
+
+.. literalinclude:: ../examples/HoldExamples/MetaProtocolsDef/HOLD-STATIC/protocol.json
+   :language: json
+   :start-at: "stages"
+
+``SubmitMicroProtocolStage`` returns immediately and saves the runtime ID under
+``_mp_hold``. ``WaitMicroProtocolStage`` uses the same ``protocolKey`` and
+requeues while the child is active. It advances only after ``COMPLETED`` and
+fails for ``FAILED`` or ``ABORTED``. Imports require a declared child output
+path, or an existing nested path under a declared object export; missing and
+undeclared paths fail. ``templateId`` on Wait is a fallback for ``protocolKey``
+and a diagnostic label, not another submission.
+
+Whole-value references such as ``"$shared.durationSec"`` preserve their JSON
+type. They are not interpolation or expressions. Runtime resolves shared
+references in effective stage parameters; the composition and publication
+handlers additionally resolve ``$scratch.<path>`` at execution time. A custom
+handler should use ``ctx.get(...)`` for scratch data, not assume all handlers
+resolve ``$scratch`` automatically. ``$steps.<stepId>.<exportPath>`` is a
+separate reference mechanism for sequential top-level run-plan steps.
+
+Child submission accepts ``sharedParamOverrides``, ``commonStageParams`` and
+``stageParamOverrides``. ``scratchImports`` copies selected parent scratchpad
+paths to a child's initial scratchpad; it is not a public result import.
+Leave ``resourceRequests`` omitted to use the child's declaration. An explicit
+list replaces it; ``[]`` does not grant access to a parent's devices.
+
+4 Submit and wait from a handler
+--------------------------------
+
+Use this path when the child or inputs depend on a measured value. The
+:download:`dynamic definition <../examples/HoldExamples/MetaProtocolsDef/HOLD-DYNAMIC/protocol.json>`
+passes shared inputs to the handler and finishes with the same publication
+stage as the static example.
+
+.. literalinclude:: ../examples/HoldExamples/MetaProtocolsDef/HOLD-DYNAMIC/Handlers.py
+   :language: python
+
+The runtime ID is persisted in the scratchpad, so re-entering the stage does
+not submit a duplicate child. ``ctx.submit_microprotocol(...)`` is synchronous.
+Polling and ``ctx.child_output(...)`` are also synchronous; device operations
+and ``ctx.abort_microprotocol(...)`` must be awaited. See the generated
+:doc:`StageContext and StageResult reference </api/NodeEngine/StageRuntime>`
+for every method, signature and decision.
+
+Use ``requeue`` to wait without holding a handler coroutine in a polling loop.
+``repeat`` executes the same stage again within the running protocol; it does
+not return to scheduling. Check unknown IDs explicitly rather than polling
+forever. Propagate child failure instead of importing partial or private data.
+
+5 Resources, replies and cleanup
+--------------------------------
+
+A **lease root** is the first runtime protocol that acquires a device. It
+retains external ownership until it ends or deliberately yields the lease.
+A foreground descendant that declares the same device gets a delegated lease
+and the **active turn**, meaning it alone may operate that device. Siblings
+serialize; the parent may poll but cannot send device operations while its
+child holds the turn. Completion returns the turn to the nearest live ancestor.
+
+Default requeue retains owned/delegated leases, including between consecutive
+children. ``StageResult("requeue", releaseResources=True)`` deliberately yields
+them and breaks that uninterrupted ownership. A resource-less intermediary
+does not need to declare the root device if it never operates it, but its leaf
+must declare the device it uses. Delegated background work is forbidden.
+Separate top-level steps do not share a lease merely because one imports an
+earlier step's result.
+
+Before reading task data, check the normalized outer ``status`` and, where the
+task defines one, ``result.status``. A handler returning ``advance`` after an
+error does not make the device operation successful. ``ctx.run_task`` records
+the reply, but does not turn every driver-specific error payload into a failed
+stage for you.
+
+Register an idempotent compensation **before** opening reversible device-side
+state. Use ``ctx.register_terminal_cleanup_task`` or the more general
+``register_terminal_cleanup_action`` for an ``executeTask`` or ``setParameter``
+restoration. On failure, abort, forced recovery or shutdown, NodeEngine attempts
+registered actions before releasing the active lease. Failed attempts remain
+visible in ``run-manifest.json``.
+
+On the normal path, run and verify the restoring operation, then clear its
+exact registration. Successful completion does **not** automatically execute
+pending cleanup actions. Do not rely on terminal cleanup as the normal close
+operation; persistent activities, such as a recording opened by a start task,
+need an explicit stop while the lease is still valid.
+
+6 Publish and test
+------------------
+
+Finish with ``PublishResultStage``: it validates the declared output contract,
+writes ``result.json`` in the run directory, then exposes the exports.
+``writeSummary: true`` also writes ``summary.md``; ``fileName`` can select a
+plain relative result filename. ``ExportScratchStage`` validates and exposes
+exports but writes no result artifact; use publication for the final result.
+
+``failIfScratchPath`` allows publication of evidence before a scientific
+failure. The artifact remains available to an operator, but a parent using
+Wait or ``child_output`` cannot import a failed child's exports as a successful
+result.
+
+From the downloaded library directory, run:
+
+.. code-block:: bash
+
+   python3 -m NodeEnginePack.NodeEngine \
+     --configFile network.json \
+     --nodeId AuthoringNode \
+     --licenseFile /path/to/license.json \
+     --metaProtocolRun MetaProtocolsRun/input.json \
+     --waitProtocol
+
+With a standalone release, use its NodeEngine executable with the same flags.
+The run plan selects the Open library relative to the input file. No DeviceOS
+process is required for these two holds. See :doc:`running` for launch modes.
+
+Test default and overridden inputs, all successful output keys, child failure
+and abort, repeated entry without duplicate submission, and cleanup before
+release. Use mocks/FakeDriver first; a valid definition is not approval to run
+unreviewed optical powers or detector settings on hardware.

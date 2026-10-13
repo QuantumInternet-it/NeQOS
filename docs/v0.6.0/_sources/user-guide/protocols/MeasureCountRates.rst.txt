@@ -76,7 +76,7 @@ Acquire one finite count-rate observation for the requested device channels and 
      ]
    }
 
-:download:`Download minimal input.json <MeasureCountRates.minimal.json>`
+:download:`Download MeasureCountRates.minimal.json <MeasureCountRates.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MeasureCountRates/RunExample/input.json>`.
 
@@ -88,7 +88,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./MeasureCountRates.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.

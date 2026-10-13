@@ -9,7 +9,9 @@ ApplyChannelDelays
 
 Apply an explicit input-delay map to Time Tagger channels.
 
-:bdg:`foreground` :bdg:`timeout 2 min`
+:bdg:`foreground` :bdg:`declared timeout 2 min`
+
+:bdg:`Callable from Open libraries`
 
 **Lease:** devices selected by ``timeTaggerDeviceId``.
 
@@ -21,7 +23,8 @@ Apply an explicit temporal-delay map to the input channels of a Time Tagger.
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 28 22 50
+   :class: api-table protocol-input-table
 
    * - Input
      - Type
@@ -59,7 +62,9 @@ Apply an explicit temporal-delay map to the input channels of a Time Tagger.
      ]
    }
 
-:download:`Download minimal input.json <ApplyChannelDelays.minimal.json>`
+:download:`Download ApplyChannelDelays.minimal.json <ApplyChannelDelays.minimal.json>`
+
+Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/ApplyChannelDelays/RunExample/input.json>`.
 
 Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/ApplyChannelDelays/RunExample/network.json>`.
 
@@ -69,7 +74,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./ApplyChannelDelays.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
@@ -95,7 +100,8 @@ Every declared key is present after successful completion; its value may be null
 .. list-table::
    :header-rows: 1
    :width: 100%
-   :class: api-table
+   :widths: 27 18 17 38
+   :class: api-table protocol-input-table
 
    * - Input
      - Default
@@ -106,25 +112,7 @@ Every declared key is present after successful completion; its value may be null
      - >= 0
      - Delay after applying the channel settings, in seconds.
 
-4 Examples with options
------------------------
-
-These overrides are added to the minimal run. Changed required values are included when an example selects a different target.
-
-.. tab-set::
-
-   .. tab-item:: input
-
-      :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/ApplyChannelDelays/RunExample/input.json>`
-
-      .. code-block:: json
-         :emphasize-lines: 2-2
-
-         {
-           "settleSec": 0.2
-         }
-
-5 How it is built
+4 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.

@@ -253,6 +253,85 @@ Photec Foreground Tasks
         - Readback bias currents keyed by one-based channel.
 
 
+.. _deviceos-photec-configurechannels:
+
+.. admonition:: ``ConfigureChannels``
+   :class: driver-overview task-reference
+
+   Apply a complete channel selection under the driver I/O lock.
+
+   :Task class: Foreground
+   :Admission policy: ``sync``
+   :Pausable: No
+
+   .. rubric:: Parameters
+      :class: invocation-heading
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-parameter-table
+      :widths: 14 23 10 14 39
+
+      * - Parameter
+        - Type
+        - Required
+        - Default
+        - Description
+      * - ``biasCurrentsUa``
+        - —
+        - Yes
+        - —
+        - —
+      * - ``biasChannels``
+        - —
+        - No
+        - ``None``
+        - —
+      * - ``latchGuardChannels``
+        - —
+        - No
+        - ``None``
+        - —
+
+   .. rubric:: Result payload
+      :class: invocation-heading
+
+   The task-specific value exposed as ``result`` in the NodeEngine execution envelope.
+
+   .. list-table::
+      :header-rows: 1
+      :width: 100%
+      :class: api-table api-task-result-table
+      :widths: 16 20 10 18 36
+
+      * - Key
+        - Type
+        - Required
+        - Values / unit
+        - Description
+      * - ``status``
+        - ``str``
+        - Yes
+        - ``—``
+        - —
+      * - ``biasCurrentsUa``
+        - ``object``
+        - Yes
+        - ``—``
+        - —
+      * - ``biasChannels``
+        - ``list``
+        - Yes
+        - ``—``
+        - —
+      * - ``latchGuardChannels``
+        - ``list``
+        - Yes
+        - ``—``
+        - —
+
+
 .. _deviceos-photec-settriggerlevels:
 
 .. admonition:: ``SetTriggerLevels``
@@ -328,6 +407,9 @@ Photec Foreground Tasks
    invalid reads trigger up to maxRecoveryAttempts stop/start recoveries.
    The returned payload includes readingValid, invalidatesMeasurements,
    latchEventCount, recoveryStatus, counts, and any alert details.
+   lastRecovery persists across subsequent reads and identifies the latest
+   automatic recovery outcome by latchEventCount. It is not a guarantee
+   that a measurement spanning that event is valid.
 
    :Task class: Foreground
    :Admission policy: ``sync``
@@ -413,7 +495,7 @@ Photec Foreground Tasks
         - ``str``
         - Yes
         - ``—``
-        - Automatic recovery state.
+        - Recovery outcome of this health read; a later healthy read returns NOT_NEEDED.
       * - ``lastValidCounts``
         - ``object``
         - Yes
@@ -438,7 +520,7 @@ Photec Foreground Tasks
         - ``object``
         - No
         - ``—``
-        - Last automatic recovery report.
+        - Persistent last automatic recovery report, with latchEventCount, status (RECOVERED or FAILED), timestampEpoch, attempt, channels, offSec and settleSec. Cleared when latch tracking or channel configuration is reset.
       * - ``errorType``
         - ``str``
         - No

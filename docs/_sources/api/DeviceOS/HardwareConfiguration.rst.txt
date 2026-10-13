@@ -1,0 +1,212 @@
+Hardware configuration
+======================
+
+In a complete, single-file network, device configuration is declared under
+``hardwareConfig``. In inventory-based operation, only boot-only keys belong
+in the inventory's ``hardwareConfig``; supported operating values belong in
+the experiment's ``settings`` and are applied during network activation.
+These are not task arguments, host SDK paths or NodeEngine shared parameters.
+Constructor transport options belong in ``driverConfig``;
+:doc:`RuntimeSetup` covers host-local SDK paths. See
+:doc:`/user-guide/network` for the two configuration workflows and
+:doc:`/user-guide/writing-hardware-driver` when adding a new configuration surface.
+
+The driver validates and applies the configuration it supports. Catalog input
+validation does not substitute for these device checks. Values controlling
+optical power, bias current or calibration must be reviewed for the actual
+hardware before startup.
+
+.. _hardware-config-eps1000w:
+
+Eps1000W
+--------
+
+Scalar settings are ``entangledOutputAttenuation``, ``classicOutputAttenuation``,
+``splittingRatioPercent``, ``pumpFrequency``, ``clockFrequency``,
+``clockAttenuation``, ``pumpPhase`` and ``referenceFrequency``. Their units are in
+:doc:`Eps1000W/parameters`. ``outputMode`` is ``HH``, ``DD`` or ``ENTANGLED``.
+``clockOutput`` is an object containing ``frequencyMHz`` and ``attenuationDb``.
+
+``parameterLimits`` maps supported numeric parameter names to ``min`` and/or
+``max``. Limits and startup values are deployment-specific; without an explicit
+limit, ``splittingRatioPercent`` retains the built-in range 0 to 100 percent.
+There is no implicit safe optical-power configuration.
+
+``hTrafficTargetAttenuationDb``, ``dTrafficTargetAttenuationDb``,
+``hTrafficEquivalentAttenuationDb`` and ``dTrafficEquivalentAttenuationDb`` are
+traffic-calibration metadata consumed by protocol logic, not driver boot writes.
+Unsupported configuration keys are rejected.
+
+.. _hardware-config-dv1550aa:
+
+Dv1550AA
+--------
+
+``defaultAttenuationDb`` selects the startup attenuation and the home value;
+without it the default is 0.0 dB, not a hardware-safe recommendation.
+``mode`` and ``wavelength`` use the driver parameter choices in
+:doc:`Dv1550AA/parameters`.
+
+When ``parameterLimits`` is supplied, it must contain the ``attenuation`` object
+with ``min``, ``max`` and ``minStep``. These limits must remain within the device
+range; ``minStep`` must be positive and compatible with the hardware step.
+Unsupported configuration and limit fields are rejected.
+
+.. _hardware-config-mpc320:
+
+Mpc320
+------
+
+Names in :doc:`Mpc320/parameters` can provide startup parameter values. Dynamic
+``channel1Waveplate1AngleDeg``, ``channel1Waveplate2AngleDeg`` and
+``channel1Waveplate3AngleDeg`` set paddle angles for the single logical channel.
+The velocity capability is an integer; the vendor setter stores an integer even
+when a task accepts a numeric override. Do not infer fractional velocity from
+the float notation of its advertised bounds.
+
+``factoryTomographyStates`` maps ``H``, ``V``, ``D``, ``A``, ``R`` and ``L`` to
+objects keyed by paddle numbers ``"1"``, ``"2"`` and ``"3"``. Each defined state
+needs all three angles, between 0 and 160 degrees. Complete sets are required
+by operations that request all tomography states; these are calibrated hardware
+values, not portable example constants.
+
+``compensatedTomographyFile`` selects the persisted compensated-state JSON.
+A relative filename is resolved inside the driver's calibration directory,
+selected by ``NEQOS_CALIBRATION_DIR`` or its default; a relative calibration
+directory is rooted beside the driver module, not the process working directory.
+Without an explicit filename the driver uses its device-specific JSON there.
+Tomography tasks use logical channel 1. Installed compensated states
+are stored on the DeviceOS host, not automatically on the NodeEngine host.
+
+.. note::
+
+   Unavailable paddle position reads return null. Absolute out-of-range targets
+   are rejected. Relative moves may clamp a target within the driver's small
+   boundary tolerance before validation; larger excursions are rejected.
+
+.. _hardware-config-pax000:
+
+PaX000
+------
+
+.. rubric:: Inventory-based operation
+
+The inventory's ``hardwareConfig`` accepts only ``compensatedTomographyFile``,
+``compensatedTomographyChannels`` and ``loadPersistedCompensatedTomographyAtBoot``
+for PaX000. Changing these boot-only values requires restarting the affected
+DeviceOS with the updated inventory; do not put them in experiment ``settings``.
+
+``channel<N>Waveplate<M>AngleDeg`` belongs in experiment ``settings`` for
+channels and waveplates discovered on the device. NodeEngine applies these
+values during activation, after the channel's derived wavelength. Use the
+advertised parameter bounds; do not invent channels or waveplates that the
+connected analyzer does not expose.
+
+``channel<N>WavelengthNm`` is neither an inventory boot setting nor an
+experiment setting. NodeEngine derives it from the selected channel's
+``linkBindings`` and the link's DWDM channel, following parent-link lineage.
+Declare a channel on each analyzer binding and a resolvable DWDM channel in
+the link topology. Missing or conflicting wavelengths are rejected during
+NodeEngine network validation. The live wavelength parameter remains part of the driver
+API; see :doc:`PaX000/parameters` for its bounds.
+
+.. rubric:: Single-file operation
+
+In a complete network supplied with ``--configFile``,
+``channel<N>Waveplate<M>AngleDeg`` can be declared in ``hardwareConfig`` and
+is applied during driver initialization. Initialization resets waveplate
+retardances and selects H (using loaded compensated H states when available),
+then applies the declared angle overrides.
+
+The driver ignores ``channel<N>WavelengthNm`` entries in ``hardwareConfig``;
+they are not startup wavelength overrides. NodeEngine derives wavelengths
+from the same link/DWDM topology after device readiness in this mode too.
+Unlike inventory activation, this legacy activation applies derived wavelengths
+only; it does not reapply the angle overrides already used at initialization.
+Activation reports a compensation warning when a wavelength changes; this
+does not establish that the calibration is physically valid for that wavelength.
+
+.. rubric:: Calibration storage and boot loading
+
+``compensatedTomographyFile`` selects the device-host JSON; relative filenames
+are resolved inside the driver's calibration directory, not the process working
+directory. ``NEQOS_CALIBRATION_DIR`` selects that directory; a relative directory
+is rooted beside the driver module.
+``loadPersistedCompensatedTomographyAtBoot`` enables automatic loading; the
+current default is false. ``compensatedTomographyChannels`` is an object keyed
+by channel number; each channel may override ``loadAtBoot`` (or the full
+``loadPersistedCompensatedTomographyAtBoot`` name). Explicit
+``loadPersistedCompensatedTomographyStates`` tasks load the requested channels
+without applying that boot-selection filter.
+
+For each compensated tomography state, supply every available waveplate among
+the first three, with angles from 0 to 360 degrees. A channel with fewer
+waveplates does not require non-existent ones.
+
+.. _hardware-config-photec:
+
+Photec
+------
+
+The driver supports up to 16 detector channels, addressed by IDs 1 through 16.
+A particular unit may have fewer populated detector channels, with
+non-contiguous IDs. Keep the physical channel IDs; do not renumber a subset
+into consecutive positions or assume that every address has a detector.
+
+``biasCurrentsUa`` and ``triggerLevels`` accept a channel-number object, a
+16-element list, or one scalar expanded to all 16 vector positions. The vector
+width is fixed even when fewer detector channels are populated: an eight-value
+list is not accepted. Prefer a channel-number object for a sparse population.
+``biasChannels`` selects biased channels; ``inUseChannels`` and ``latchGuardChannels`` participate
+in health-channel selection. ``currentScale`` defaults to 110.0 and converts
+configured microampere bias values for the controller.
+
+Use explicit channel selections matching the installed detectors. If
+``biasChannels`` is omitted, the driver selects every channel with a positive
+configured bias value; a positive scalar therefore selects all 16 addresses.
+
+``integrationTimeMs``, ``autoRecoverOnLatch``, ``maxRecoveryAttempts``,
+``zeroConsecutiveLimit``, ``zeroCountThreshold``, ``recoveryOffSec``,
+``recoverySettleSec``, ``healthLogEnabled`` and ``healthLogFrequencyHz`` configure
+health reads, latch detection, recovery and logging. See :doc:`Photec/parameters`
+for published defaults and limits; assess recovery policy before operating
+detectors. Unsupported keys and duplicate keys after alias normalization fail.
+
+Trigger levels are integer controller values between 0 and 65535. The source
+does not establish an electrical unit or justify calling them DAC counts;
+do not label them volts without the vendor specification.
+
+.. _hardware-config-swabiantt:
+
+SwabianTT
+---------
+
+``serialNumber`` selects the Time Tagger when no constructor serial is supplied.
+``channels`` maps channel-number strings to ``triggerLevelVolt`` and
+``inputDelayPs``. The legacy top-level ``triggerLevels`` and ``inputDelays`` maps
+are still accepted and applied after the channel objects; prefer one canonical
+representation to avoid overlapping settings.
+
+``recordingDirectory`` selects a subdirectory of the device artifact root.
+Relative paths are rooted there; paths outside it are ignored with a warning.
+The root is ``NEQOS_DEVICE_ARTIFACT_DIR`` when configured, otherwise the
+DeviceArtifacts log directory. See :doc:`SwabianTT/foreground-tasks` for finalized
+recording metadata and file-transfer requirements.
+
+.. _hardware-config-fake:
+
+Fake and Open drivers
+---------------------
+
+The shipped FakeDriver has no ``hardwareConfig`` constructor argument. A new
+Open driver defines and validates its own keys; the tutorial CounterDriver
+supports only ``initialValue``. Declaring a key in the network description does
+not make a driver implement it.
+
+Verified sources
+----------------
+
+This reference is checked against constructor/configuration, tomography and
+artifact code in ``DeviceOSPack``. Vendor classifications and electrical units
+are not inferred from Python method names. Use the matching release's sources
+and runtime capabilities when reviewing deployment-specific values.

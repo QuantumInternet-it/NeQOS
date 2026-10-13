@@ -155,7 +155,7 @@ Estimates detected pair throughput and a best-direction one-way hashing lower bo
      ]
    }
 
-:download:`Download minimal input.json <EstimateEntangledPairDistillableEntanglementRate.minimal.json>`
+:download:`Download EstimateEntangledPairDistillableEntanglementRate.minimal.json <EstimateEntangledPairDistillableEntanglementRate.minimal.json>`
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/distillation/EstimateEntangledPairDistillableEntanglementRate/RunExample/input.json>`.
 
@@ -167,7 +167,7 @@ Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/
      --licenseFile "./config/license.json" \
      --configFile "./network.json" \
      --nodeId "ExampleNodeId" \
-     --metaProtocolRun "./input.json" \
+     --metaProtocolRun "./EstimateEntangledPairDistillableEntanglementRate.minimal.json" \
      --waitProtocol --verboseRunFolders
 
 See :doc:`How to run a protocol </user-guide/running>` for launch setup, defaults, null handling and runtime conditions.
