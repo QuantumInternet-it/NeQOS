@@ -62,6 +62,14 @@ simulation does not replace packaged-build and hardware regression.
 2 Separate equipment, experiment and host-local settings
 --------------------------------------------------------
 
+In 0.5.0, a single ``network.json`` combined device startup configuration with
+optical topology and operating settings. In 0.6.0, these declarations are split
+between the lab inventory and the experiment network. Together they remain one
+logical network-description input; the run plan is the other declarative input.
+This separation lets NodeEngine validate and activate another experiment
+without restarting DeviceOS, provided the equipment and its startup
+configuration remain unchanged.
+
 Prepare a validated inventory and experiment as described in :doc:`network`.
 Renaming a previous ``network.json`` to ``lab-inventory.json`` does not perform
 the conversion. Both new documents must follow their respective schemas and

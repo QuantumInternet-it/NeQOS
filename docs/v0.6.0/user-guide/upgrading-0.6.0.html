@@ -563,6 +563,13 @@ simulation does not replace packaged-build and hardware regression.</p>
 </section>
 <section id="separate-equipment-experiment-and-host-local-settings">
 <h2>2 Separate equipment, experiment and host-local settings<a class="headerlink" href="#separate-equipment-experiment-and-host-local-settings" title="Link to this heading">¶</a></h2>
+<p>In 0.5.0, a single <code class="docutils literal notranslate"><span class="pre">network.json</span></code> combined device startup configuration with
+optical topology and operating settings. In 0.6.0, these declarations are split
+between the lab inventory and the experiment network. Together they remain one
+logical network-description input; the run plan is the other declarative input.
+This separation lets NodeEngine validate and activate another experiment
+without restarting DeviceOS, provided the equipment and its startup
+configuration remain unchanged.</p>
 <p>Prepare a validated inventory and experiment as described in <a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a>.
 Renaming a previous <code class="docutils literal notranslate"><span class="pre">network.json</span></code> to <code class="docutils literal notranslate"><span class="pre">lab-inventory.json</span></code> does not perform
 the conversion. Both new documents must follow their respective schemas and

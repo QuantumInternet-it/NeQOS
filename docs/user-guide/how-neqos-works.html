@@ -657,10 +657,9 @@ separates information with different lifetimes.</p>
 <section id="the-network-description">
 <h3>The network description<a class="headerlink" href="#the-network-description" title="Link to this heading">¶</a></h3>
 <p>Starting the laboratory equipment and configuring an experiment are separate
-operations. The earlier, single-file <code class="docutils literal notranslate"><span class="pre">network.json</span></code> combined device startup
-configuration with optical topology and operating settings. These declarations
-now live in the inventory and experiment files, which together provide the
-network description.</p>
+operations. The inventory declares the equipment and its startup configuration;
+the experiment network declares the optical topology and operating settings.
+Together, these files provide the network description.</p>
 <p>This separation lets an operator send a new experiment network to an already
 running NodeEngine, validate it and activate its settings without restarting
 the DeviceOS processes. The inventory describes what equipment is available;

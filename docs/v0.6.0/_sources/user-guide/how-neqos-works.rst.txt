@@ -177,10 +177,9 @@ The network description
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Starting the laboratory equipment and configuring an experiment are separate
-operations. The earlier, single-file ``network.json`` combined device startup
-configuration with optical topology and operating settings. These declarations
-now live in the inventory and experiment files, which together provide the
-network description.
+operations. The inventory declares the equipment and its startup configuration;
+the experiment network declares the optical topology and operating settings.
+Together, these files provide the network description.
 
 This separation lets an operator send a new experiment network to an already
 running NodeEngine, validate it and activate its settings without restarting
