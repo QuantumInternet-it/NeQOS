@@ -502,12 +502,12 @@ unattended with calibration expressed as reusable protocols.</p>
 principles, the processes that implement them, the two declarative inputs every
 run uses, how a service is composed and executed, and what a run leaves behind.
 The rest of the documentation assumes these terms.</p>
-<figure class="align-default" id="id6">
+<figure class="align-default" id="id8">
 <a class="reference external image-reference" href="../_static/how-neqos-works-architecture.svg"><img alt="A run plan, the network description and the protocol catalog enter the NodeEngine. The NodeEngine exchanges tasks, events and telemetry with one DeviceOS process per device; each DeviceOS process hosts a DeviceEngine and a hardware driver that talks to the physical device. The NodeEngine writes the execution record." src="../_images/how-neqos-works-architecture.svg" style="width: 100%;" />
 </a>
 <figcaption>
 <p><span class="caption-text">NeQOS turns a service request, a declared network and a catalog of reusable
-protocols into coordinated device operations, and records every run.</span><a class="headerlink" href="#id6" title="Link to this image">¶</a></p>
+protocols into coordinated device operations, and records every run.</span><a class="headerlink" href="#id8" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <section id="compose-extend-operate-record">
@@ -574,7 +574,8 @@ at run time from reusable micro-protocols, around the quantum resource being
 produced or measured.</p>
 <p>For the scientific basis of this micro-protocol/meta-protocol model, see
 <a class="reference external" href="https://github.com/QuantumInternet-it/NeQOS#theoretical-foundations">Theoretical foundations in the NeQOS repository</a>,
-including the protocol-suite paper <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> and the architecture Internet-Draft <a class="footnote-reference brackets" href="#id5" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+including the protocol-suite paper <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, the quantum-native architecture and
+routing paper <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, and the architecture Internet-Draft <a class="footnote-reference brackets" href="#id7" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
 <p>Polarization compensation shows why. In a classical link it would be a
 physical-layer function. In an entanglement-distribution network it needs
 source setup, temporal alignment of the detectors, background estimation,
@@ -665,12 +666,12 @@ running NodeEngine, validate it and activate its settings without restarting
 the DeviceOS processes. The inventory describes what equipment is available;
 the experiment network describes how to use it; the run plan describes what
 to do with it.</p>
-<figure class="align-default" id="id7">
+<figure class="align-default" id="id9">
 <a class="reference external image-reference" href="../_static/inventory-experiment-lifecycle.svg"><img alt="Inventory supplies process startup; experiment networks are chosen, validated and activated while idle before scientific runs." src="../_images/inventory-experiment-lifecycle.svg" style="width: 100%;" />
 </a>
 <figcaption>
 <p><span class="caption-text">Start the equipment from the inventory, then activate experiment networks
-through NodeEngine while the DeviceOS processes remain running.</span><a class="headerlink" href="#id7" title="Link to this image">¶</a></p>
+through NodeEngine while the DeviceOS processes remain running.</span><a class="headerlink" href="#id9" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>The three JSON listings below form a small software-only example with one
@@ -1156,15 +1157,22 @@ signals and telemetry.</p>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id4" role="doc-footnote">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
 <p>A. S. Cacciapuoti and M. Caleffi,
 <a class="reference external" href="https://doi.org/10.1109/TNSE.2026.3679795">A Quantum Internet Protocol Suite Beyond Layering</a>,
 <em>IEEE Transactions on Network Science and Engineering</em> 13,
 9170-9187 (2026).</p>
 </aside>
-<aside class="footnote brackets" id="id5" role="doc-footnote">
+<aside class="footnote brackets" id="id6" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>M. Caleffi and A. S. Cacciapuoti,
+<a class="reference external" href="https://doi.org/10.1109/TCOMM.2025.3650397">Quantum Internet Architecture: Unlocking Quantum-Native Routing via Quantum Addressing</a>,
+<em>IEEE Transactions on Communications</em> 74,
+3577-3599 (2026).</p>
+</aside>
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
 <p>A. S. Cacciapuoti et al.,
 <a class="reference external" href="https://datatracker.ietf.org/doc/draft-cacciapuoti-qirg-quantum-native-architecture/">Quantum-Native Architectural Tenets and Philosophy for the Quantum Internet</a>,
 IETF Internet-Draft, work in progress (2026).</p>

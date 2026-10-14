@@ -83,7 +83,8 @@ produced or measured.
 For the scientific basis of this micro-protocol/meta-protocol model, see
 `Theoretical foundations in the NeQOS repository
 <https://github.com/QuantumInternet-it/NeQOS#theoretical-foundations>`_,
-including the protocol-suite paper [1]_ and the architecture Internet-Draft [2]_.
+including the protocol-suite paper [1]_, the quantum-native architecture and
+routing paper [2]_, and the architecture Internet-Draft [3]_.
 
 Polarization compensation shows why. In a classical link it would be a
 physical-layer function. In an entanglement-distribution network it needs
@@ -692,7 +693,13 @@ References
    *IEEE Transactions on Network Science and Engineering* 13,
    9170-9187 (2026).
 
-.. [2] A. S. Cacciapuoti et al.,
+.. [2] M. Caleffi and A. S. Cacciapuoti,
+   `Quantum Internet Architecture: Unlocking Quantum-Native Routing via Quantum Addressing
+   <https://doi.org/10.1109/TCOMM.2025.3650397>`_,
+   *IEEE Transactions on Communications* 74,
+   3577-3599 (2026).
+
+.. [3] A. S. Cacciapuoti et al.,
    `Quantum-Native Architectural Tenets and Philosophy for the Quantum Internet
    <https://datatracker.ietf.org/doc/draft-cacciapuoti-qirg-quantum-native-architecture/>`_,
    IETF Internet-Draft, work in progress (2026).
