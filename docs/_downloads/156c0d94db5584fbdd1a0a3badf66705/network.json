@@ -1,40 +1,14 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-configure-entangled-photon-source-2-inventory",
   "networkId": "example-configure-entangled-photon-source-2",
-  "telemetryDefaults": {
-    "periodSec": 1.0,
-    "ttlMs": 2500
-  },
-  "nodes": [
+  "quantumLinks": [],
+  "devices": [
     {
-      "nodeId": "ExampleNodeId",
+      "deviceId": "ExampleEntangledPhotonSource2Id",
       "enabled": true,
-      "host": "127.0.0.1",
-      "devices": [
-        {
-          "deviceId": "ExampleEntangledPhotonSource2Id",
-          "deviceType": "Eps1000W",
-          "enabled": true,
-          "linkBindings": [],
-          "deviceEngine": {
-            "ip": "192.0.2.20",
-            "syncCmdPort": 19101,
-            "asyncCmdPort": 19102,
-            "telemetryPort": 19103
-          },
-          "hardwareConfig": {
-            "parameterLimits": {
-              "classicOutputAttenuation": {
-                "min": 0.0,
-                "max": 44.9542
-              },
-              "entangledOutputAttenuation": {
-                "min": 0.0,
-                "max": 83.3
-              }
-            }
-          }
-        }
-      ]
+      "linkBindings": [],
+      "settings": {}
     }
   ]
 }

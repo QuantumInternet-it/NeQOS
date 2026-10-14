@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -535,8 +541,8 @@ automatically; an explicit override is <code class="docutils literal notranslate
 <span class="pre">&quot;./OpenDrivers/OpenDrivers.json&quot;</span></code> from inside <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>.</p>
 <p>Open meta-protocol libraries belong to
 <code class="docutils literal notranslate"><span class="pre">NodeEngine.dist/NodeEnginePack/OpenMetaProtocols/</span></code>. DeviceOS needs the
-network JSON selected by <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>, not the NodeEngine library folder.
-Point both executables to the same network, or use matching copies on separate
+inventory JSON selected by <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>, not the NodeEngine library folder.
+Point both executables to the same inventory, or use matching copies on separate
 hosts. See <a class="reference internal" href="quickstart.html"><span class="doc">First run without hardware</span></a> for exact Windows commands that use the network
 in a sibling NodeEngine distribution without copying any directory.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> or <code class="docutils literal notranslate"><span class="pre">FakeDriver.py</span></code> is missing, check that
@@ -622,7 +628,7 @@ For a Windows Command Prompt <code class="docutils literal notranslate"><span cl
 <span class="k">if</span> <span class="k">not</span> <span class="k">exist</span> <span class="s2">&quot;</span><span class="nv">%NEQOS_CALIBRATION_DIR%</span><span class="s2">&quot;</span> <span class="k">mkdir</span> <span class="s2">&quot;</span><span class="nv">%NEQOS_CALIBRATION_DIR%</span><span class="s2">&quot;</span>
 C<span class="p">:</span><span class="nl">\NeQOS\DeviceOS.dist\DeviceOS.exe</span><span class="c1"> ^</span>
   --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --inventoryFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --localConfigFile <span class="s2">&quot;C:\NeQOSConfig\DeviceOS.local.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --deviceId ExampleTimeTaggerId
 <span class="k">pause</span>
@@ -638,7 +644,7 @@ directory variables shown above. Set those in the launcher/process environment.<
 <code class="docutils literal notranslate"><span class="pre">NEQOS_DEVICE_ARTIFACT_DIR</span></code> selects device-created artifacts such as raw
 Time Tagger files. <code class="docutils literal notranslate"><span class="pre">NEQOS_CALIBRATION_DIR</span></code> selects compensation storage on
 the DeviceOS host. CLI NodeEngine runs write under <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code> in
-its working directory; operator runs use <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code>. See <a class="reference internal" href="results.html"><span class="doc">Read results and diagnose failures</span></a> before
+its working directory; browser runs use <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code>. See <a class="reference internal" href="results.html"><span class="doc">Read results and diagnose failures</span></a> before
 looking for a file on the wrong computer.</p>
 <p>A local writable data directory is a useful troubleshooting baseline. You may
 choose a shared/synchronized directory, but a console logging error is not
@@ -715,7 +721,8 @@ setup page for the specific driver you need.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

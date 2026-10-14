@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -501,12 +507,20 @@ corresponding executable instead of <code class="docutils literal notranslate"><
 in inventory mode also requires <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--serve</span></code> and <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code> are alternatives; repeatable
 <code class="docutils literal notranslate"><span class="pre">--openLibrary</span></code> is available with <code class="docutils literal notranslate"><span class="pre">--serve</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> is a persistent directory on the NodeEngine host for
+<li><p><code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code> is a persistent directory on the NodeEngine host for
 operator history, saved experiments and its database, not an input file.
-Its identity is bound to the inventory and endpoint set (or legacy network).
-Use a separate directory for a different inventory, not for each run plan.</p></li>
-<li><p>DeviceOS currently uses <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> for either a lab inventory or a
-legacy complete network. <code class="docutils literal notranslate"><span class="pre">--nodeId</span></code> is an optional disambiguation when
+Its identity is bound to <code class="docutils literal notranslate"><span class="pre">inventoryId</span></code> and device endpoints (IP and
+synchronous-command port), or to the network ID/endpoints in legacy mode.
+Reuse it across experiment networks and executions. Use a separate directory
+for a different identity, not for each run plan. The default is
+<code class="docutils literal notranslate"><span class="pre">./inventoryDataDir</span></code>, relative to the terminal’s working directory;
+this flag does not rename or move existing directories or automatically
+select a different archive for each inventory.
+Point the flag explicitly to an existing <code class="docutils literal notranslate"><span class="pre">OperatorData</span></code> archive to
+retain that history after upgrading.</p></li>
+<li><p>DeviceOS uses only <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> for an <code class="docutils literal notranslate"><span class="pre">inventory-1</span></code> document.
+The old <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> flag is rejected, and renaming a legacy complete
+network does not convert it. <code class="docutils literal notranslate"><span class="pre">--nodeId</span></code> is an optional disambiguation when
 deriving its device configuration.</p></li>
 <li><p>DeviceOS command-line identity and transport defaults apply only without
 a shared configuration file. SDK paths belong to <code class="docutils literal notranslate"><span class="pre">--localConfigFile</span></code>;
@@ -572,13 +586,13 @@ it does not establish hardware readiness or optical safety.</p></li>
 <td><p><code class="docutils literal notranslate"><span class="pre">8766</span></code></p></td>
 <td><p>Loopback HTTP port for the authenticated browser operator.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--operatorData</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">OperatorData</span></code></p></td>
-<td><p>Persistent operator archive directory: database, saved experiments and history, bound to the inventory/network and endpoint identity.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">inventoryDataDir</span></code></p></td>
+<td><p>Persistent browser data directory for this inventory: database, saved networks, run history and artifacts. Reuse across experiments and runs; default: ./inventoryDataDir.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--telemetryRecordings</span></code></p></td>
 <td><p>none</p></td>
-<td><p>Photec recordings directory (default: operatorData/TelemetryRecordings)</p></td>
+<td><p>Photec recordings directory (default: &lt;inventoryDataDir&gt;/TelemetryRecordings)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--openLibrary</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">[]</span></code></p></td>
@@ -616,8 +630,8 @@ it does not establish hardware readiness or optical safety.</p></li>
 </table>
 </div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: NodeEngine.py [-h] [--version] (--configFile CONFIGFILE | --inventoryFile INVENTORYFILE) [--networkFile NETWORKFILE] [--openDriversFile OPENDRIVERSFILE] --nodeId NODEID [--logLevel LOGLEVEL] [--serve]
-                     [--operatorPort OPERATORPORT] [--operatorData OPERATORDATA] [--telemetryRecordings TELEMETRYRECORDINGS] [--openLibrary OPENLIBRARY] --licenseFile LICENSEFILE [--metaProtocolRun METAPROTOCOLRUN]
-                     [--waitProtocol] [--verboseRunFolders] [--holdSec HOLDSEC] [--dashboard] [--dashboardIntervalSec DASHBOARDINTERVALSEC]
+                     [--operatorPort OPERATORPORT] [--inventoryDataDir INVENTORYDATADIR] [--telemetryRecordings TELEMETRYRECORDINGS] [--openLibrary OPENLIBRARY] --licenseFile LICENSEFILE
+                     [--metaProtocolRun METAPROTOCOLRUN] [--waitProtocol] [--verboseRunFolders] [--holdSec HOLDSEC] [--dashboard] [--dashboardIntervalSec DASHBOARDINTERVALSEC]
 </pre></div>
 </div>
 </section>
@@ -644,9 +658,9 @@ it does not establish hardware readiness or optical safety.</p></li>
 <td><p>none</p></td>
 <td><p>show program’s version number and exit</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--configFile</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code></p></td>
 <td><p>none</p></td>
-<td><p>Shared network configuration file.</p></td>
+<td><p>Stable lab inventory JSON file (schemaVersion inventory-1); no experiment settings.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--nodeId</span></code></p></td>
 <td><p>none</p></td>
@@ -703,9 +717,9 @@ it does not establish hardware readiness or optical safety.</p></li>
 </tbody>
 </table>
 </div>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: DeviceOS.py [-h] [--version] [--configFile CONFIGFILE] [--nodeId NODEID] [--deviceType DEVICETYPE] [--deviceId DEVICEID] [--logLevel {DEBUG,INFO,WARNING,ERROR}] [--serverIp SERVERIP] [--syncCmdPort SYNCCMDPORT]
-                   [--asyncCmdPort ASYNCCMDPORT] [--telemetryPort TELEMETRYPORT] [--serialPort SERIALPORT] [--serialTrace] [--localConfigFile LOCALCONFIGFILE] [--openDriversFile OPENDRIVERSFILE]
-                   --licenseFile LICENSEFILE
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: DeviceOS.py [-h] [--version] [--inventoryFile INVENTORYFILE] [--nodeId NODEID] [--deviceType DEVICETYPE] [--deviceId DEVICEID] [--logLevel {DEBUG,INFO,WARNING,ERROR}] [--serverIp SERVERIP]
+                   [--syncCmdPort SYNCCMDPORT] [--asyncCmdPort ASYNCCMDPORT] [--telemetryPort TELEMETRYPORT] [--serialPort SERIALPORT] [--serialTrace] [--localConfigFile LOCALCONFIGFILE]
+                   [--openDriversFile OPENDRIVERSFILE] --licenseFile LICENSEFILE
 </pre></div>
 </div>
 </section>
@@ -814,16 +828,20 @@ it does not establish hardware readiness or optical safety.</p></li>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--network</span></code></p></td>
 <td><p>none</p></td>
-<td><p>Optional network.json to offer in the viewer</p></td>
+<td><p>Optional experiment network to offer in the viewer</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--inventory</span></code></p></td>
+<td><p>none</p></td>
+<td><p>Lab inventory required with an experiment-1 –network</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code></p></td>
 <td><p>none</p></td>
 <td><p>Open driver registry with metadata-only contractPath manifests</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: server.py [-h] [--port PORT] [--repository REPOSITORY] [--results RESULTS] [--network NETWORK] [--openDriversFile OPENDRIVERSFILE]
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: server.py [-h] [--port PORT] [--repository REPOSITORY] [--results RESULTS] [--network NETWORK] [--inventory INVENTORY] [--openDriversFile OPENDRIVERSFILE]
 </pre></div>
 </div>
 </section>
@@ -878,7 +896,8 @@ it does not establish hardware readiness or optical safety.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

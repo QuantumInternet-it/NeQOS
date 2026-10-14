@@ -7,12 +7,9 @@
     {
       "protocolId": "TransferDeviceFileToNode",
       "sharedParams": {
-        "deviceId": "ExampleDeviceId",
+        "deviceId": "TT-2",
         "deviceArtifact": {
-          "localPath": "/device/path/example.bin",
-          "fileName": "example.bin",
-          "sizeBytes": 1,
-          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          "localPath": "/path/on/device/closed-recording.ttbin"
         }
       }
     }

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "example-measure-link-coincidences-inventory",
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 19101,
+            "asyncCmdPort": 19102,
+            "telemetryPort": 19103
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

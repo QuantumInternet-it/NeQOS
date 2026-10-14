@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -490,6 +496,10 @@
 <p>Transfer completed device files to the NodeEngine host and verify them.</p>
 <p><span class="sd-sphinx-override sd-badge">foreground</span> <span class="sd-sphinx-override sd-badge">declared timeout 2 min</span></p>
 <p><span class="sd-sphinx-override sd-badge">Callable from Open libraries</span></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The standalone input is a template: replace localPath with an existing closed file on TT-2’s DeviceOS host. The Record then transfer run plan first records a one-second stream, then imports its real device artifact, including size/digest metadata, into this protocol. Adapt the example inventory endpoint and verify Time Tagger channel 1 before hardware use. It is not a copy of the laboratory inventory.</p>
+</div>
 <p><strong>Lease:</strong> devices selected by <code class="docutils literal notranslate"><span class="pre">deviceId</span></code>.</p>
 <p>Transfer a completed device-side file or file set to the NodeEngine host and verify every declared member.</p>
 <section id="minimal-run">
@@ -528,12 +538,9 @@
 <span class="w">    </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;protocolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TransferDeviceFileToNode&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExampleDeviceId&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TT-2&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;deviceArtifact&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;localPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/device/path/example.bin&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;fileName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example.bin&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;sizeBytes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;sha256&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+<span class="w">          </span><span class="nt">&quot;localPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/on/device/closed-recording.ttbin&quot;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -543,11 +550,13 @@
 </div>
 <p><a class="reference download internal" download="" href="../../_downloads/e82957478e892a8fc4e700b6ffe42a8a/TransferDeviceFileToNode.minimal.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">TransferDeviceFileToNode.minimal.json</span></code></a></p>
 <p>Shipped run plan: <a class="reference download internal" download="" href="../../_downloads/e553fe214c4a3b007b80b4d664685a04/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Options</span></code></a>.</p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/fe196f0acd13d69b9cdc07ee22406f30/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/0934112e2bc8942c5c42ea3a57100921/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/fe196f0acd13d69b9cdc07ee22406f30/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;nodeTest&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./TransferDeviceFileToNode.minimal.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
 </pre></div>
@@ -599,9 +608,34 @@
 </table>
 </div>
 </section>
+<section id="examples-with-options">
+<h2>4 Examples with options<a class="headerlink" href="#examples-with-options" title="Link to this heading">¶</a></h2>
+<p>Each example lists only the inputs it adds to or changes in the minimal run.</p>
+<p><a class="reference download internal" download="" href="../../_downloads/25f47d02ffa949d4debbd350d38675b4/input-record-then-transfer.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/0934112e2bc8942c5c42ea3a57100921/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/fe196f0acd13d69b9cdc07ee22406f30/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>This run plan executes all 2 steps.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;nodeTest&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./input-record-then-transfer.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">&quot;deviceArtifact&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$steps.recording.acquisition.rawStream.artifact.deviceFile&quot;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
 <section id="how-it-is-built">
-<h2>4 How it is built<a class="headerlink" href="#how-it-is-built" title="Link to this heading">¶</a></h2>
+<h2>5 How it is built<a class="headerlink" href="#how-it-is-built" title="Link to this heading">¶</a></h2>
 <p>Runs directly on supplied data or device tasks.</p>
+<p><strong>Typically run after</strong> (shipped multi-step plans): <a class="reference internal" href="RecordTimeTagStream.html"><span class="doc">RecordTimeTagStream</span></a>.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 protocol-technical">
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">Technical details</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
@@ -697,7 +731,8 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

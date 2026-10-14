@@ -29,7 +29,8 @@ Use the matching release and a valid license. Commands below are for a source ch
 
    :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsRun/humanize/input.json>`
 
-   Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json>`.
+   Inventory: :download:`lab-inventory.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/lab-inventory.json>`.
+   Experiment network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json>`.
 
    This shipped network declares no devices; no DeviceOS process is required.
 
@@ -38,7 +39,8 @@ Use the matching release and a valid license. Commands below are for a source ch
    .. code-block:: bash
 
       python3 -m NodeEnginePack.NodeEngine \
-        --configFile ./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json \
+        --inventoryFile ./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/lab-inventory.json \
+        --networkFile ./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json \
         --nodeId EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST \
         --licenseFile /path/to/license.json \
         --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsRun/humanize/input.json \

@@ -1,37 +1,29 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-measure-link-singles-inventory",
   "networkId": "example-measure-link-singles",
   "quantumLinks": [
     {
       "linkId": "ExampleTargetLinkId"
     }
   ],
-  "nodes": [
+  "devices": [
     {
-      "nodeId": "ExampleNodeId",
+      "deviceId": "ExampleTimeTaggerId",
       "enabled": true,
-      "host": "127.0.0.1",
-      "devices": [
+      "linkBindings": [
         {
-          "deviceId": "ExampleTimeTaggerId",
-          "deviceType": "SwabianTT",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleTargetLinkId",
-              "role": "sink",
-              "inputPort": "H",
-              "channel": 2
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.10",
-            "syncCmdPort": 19101,
-            "asyncCmdPort": 19102,
-            "telemetryPort": 19103
-          },
-          "hardwareConfig": {}
+          "linkId": "ExampleTargetLinkId",
+          "role": "sink",
+          "inputPort": "H",
+          "channel": 2
         }
-      ]
+      ],
+      "settings": {
+        "channels": {
+          "2": {}
+        }
+      }
     }
   ]
 }

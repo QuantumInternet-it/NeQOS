@@ -13,6 +13,10 @@ Transfer completed device files to the NodeEngine host and verify them.
 
 :bdg:`Callable from Open libraries`
 
+.. note::
+
+   The standalone input is a template: replace localPath with an existing closed file on TT-2's DeviceOS host. The Record then transfer run plan first records a one-second stream, then imports its real device artifact, including size/digest metadata, into this protocol. Adapt the example inventory endpoint and verify Time Tagger channel 1 before hardware use. It is not a copy of the laboratory inventory.
+
 **Lease:** devices selected by ``deviceId``.
 
 Transfer a completed device-side file or file set to the NodeEngine host and verify every declared member.
@@ -47,12 +51,9 @@ Transfer a completed device-side file or file set to the NodeEngine host and ver
        {
          "protocolId": "TransferDeviceFileToNode",
          "sharedParams": {
-           "deviceId": "ExampleDeviceId",
+           "deviceId": "TT-2",
            "deviceArtifact": {
-             "localPath": "/device/path/example.bin",
-             "fileName": "example.bin",
-             "sizeBytes": 1,
-             "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+             "localPath": "/path/on/device/closed-recording.ttbin"
            }
          }
        }
@@ -63,14 +64,16 @@ Transfer a completed device-side file or file set to the NodeEngine host and ver
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/input.json>`.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
-     --nodeId "ExampleNodeId" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
+     --nodeId "nodeTest" \
      --metaProtocolRun "./TransferDeviceFileToNode.minimal.json" \
      --waitProtocol --verboseRunFolders
 
@@ -109,10 +112,43 @@ Every declared key is present after successful completion; its value may be null
      - length >= 1
      - Optional NodeEngine-host destination directory; defaults to this protocol run directory.
 
-4 How it is built
+4 Examples with options
+-----------------------
+
+Each example lists only the inputs it adds to or changes in the minimal run.
+
+:download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/input-record-then-transfer.json>`
+
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/fileTransfer/TransferDeviceFileToNode/RunExample/network.json>`.
+
+This run plan executes all 2 steps.
+
+.. code-block:: bash
+
+   python NodeEnginePack/NodeEngine.py \
+     --licenseFile "./config/license.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
+     --nodeId "nodeTest" \
+     --metaProtocolRun "./input-record-then-transfer.json" \
+     --waitProtocol --verboseRunFolders
+
+.. code-block:: json
+   :emphasize-lines: 2-4
+
+   {
+     "sharedParams": {
+       "deviceArtifact": "$steps.recording.acquisition.rawStream.artifact.deviceFile"
+     }
+   }
+
+5 How it is built
 -----------------
 
 Runs directly on supplied data or device tasks.
+
+**Typically run after** (shipped multi-step plans): :doc:`RecordTimeTagStream </user-guide/protocols/RecordTimeTagStream>`.
 
 .. dropdown:: Technical details
    :class-container: protocol-technical

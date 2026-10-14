@@ -52,13 +52,15 @@ Sets one PA X000 or MPC320 polarization-analyzer channel to a named factory or c
 
 :download:`Download SetPolarizationAnalyzerTomographyState.minimal.json <SetPolarizationAnalyzerTomographyState.minimal.json>`
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./SetPolarizationAnalyzerTomographyState.minimal.json" \
      --waitProtocol --verboseRunFolders
@@ -113,13 +115,15 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/input.json>`
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/configuration/SetPolarizationAnalyzerTomographyState/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./input.json" \
      --waitProtocol --verboseRunFolders

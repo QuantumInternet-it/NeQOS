@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -559,13 +565,35 @@ and device readiness.</p></li>
 intended network active; a draft or validation alone does not.</p></li>
 </ol>
 <p>With a lab inventory, <strong>Load experiment network</strong> immediately shows the declared
-topology as <strong>Draft · not validated · not active</strong>, including when devices are
+topology as <strong>Draft · not validated · not yet activated</strong>, including when devices are
 offline. Opening a saved network provides the same preview. This uses only the
 inventory and experiment document; it does not query or configure hardware.
 <strong>Validate network</strong> then checks device readiness and reads current settings.
 <strong>Activate network</strong> applies the validated configuration. A failed validation
-leaves the draft visible but unavailable for activation. <strong>Show draft topology</strong>
-returns to the candidate after viewing the active network.</p>
+leaves the draft visible but unavailable for activation. Without a loaded draft,
+Validate and Activate are disabled. Loading a draft disables file, saved-network
+and last-active selectors until <strong>Clear selected network</strong> clears that selection.
+Successful validation disables Validate and enables Activate; activation
+consumes that validation. Once a network is active, selecting or validating
+another network is disabled: first deactivate the current network, then load the
+replacement. Controls remain locked during execution and cleanup.</p>
+<p><strong>Clear selected network</strong> is available for a selected, not-yet-active network;
+it returns to the inventory view without deleting a saved network or changing
+device settings. <strong>Deactivate network</strong> is a separate action available only
+when there are no queued/active runs, protocol executions, cleanup operations,
+or held device leases. It clears the active topology from NodeEngine and
+returns to the inventory view, but it does not restore or change physical
+device settings. The warning is shown before confirmation. Runs remain blocked
+until another network is activated. To keep a candidate for later without
+activating it, use <strong>More → Save draft to saved networks</strong>, even before device
+validation. Saving checks the document against the inventory but does not
+validate device readiness, activate a network, or change hardware settings.
+Activation also saves the network. Topology preview is automatic; there is no
+separate Show button. <strong>Validated draft · not yet activated</strong> means validation
+succeeded but the draft has not been activated. <strong>No device setting changes
+required</strong> means the requested settings already match; <strong>Activate network</strong> is
+still required to select this topology for experiments. No empty changes table
+is shown in this case.</p>
 <figure class="align-default" id="id3">
 <a class="reference external image-reference" href="../_static/browser-guide/activation-validation.png"><img alt="Simulated Choose, Validate, Activate workflow and configuration-changes table." class="browser-guide-image" src="../_images/activation-validation.png" />
 </a>
@@ -730,7 +758,10 @@ Missing historical evidence remains unknown. The <strong>Runs</strong> column is
 timeline and includes a filter and <strong>Follow the active run</strong>. While execution
 or cleanup is in progress, only the current run is available. When idle,
 selecting another run turns Follow off. Queue Pause/Resume is idle-only;
-<strong>Abort run</strong> belongs to the selected active run’s header.</p>
+<strong>Abort run</strong> appears in the active run’s header and on <strong>Network &amp; devices</strong>
+while a run is in progress. Both controls invoke the same run-level abort and
+pause the queue; after the run and cleanup finish, the network action changes
+to <strong>Deactivate network</strong> when a network is active.</p>
 <p>Run names use the saved experiment name, a network-activation label, or the
 first and last protocol names. The short run ID remains in the header and the
 full runtime identities remain in technical details. <strong>Open plan</strong> is read-only;
@@ -815,10 +846,14 @@ through the standalone viewer or folder import.</p>
 </section>
 <section id="reconnect-and-authentication">
 <h2>Reconnect and authentication<a class="headerlink" href="#reconnect-and-authentication" title="Link to this heading">¶</a></h2>
-<p>The browser receives authenticated full state replacements. A reconnect does
-not authorize a new run or terminate one. Expired sessions require the startup
-token again; a server restart also reloads configuration. Tokens stay out of
-URLs, browser storage and archived run inputs. Treat them as credentials.</p>
+<p>The <strong>GUI reconnect</strong> button immediately reopens the browser’s authenticated
+live connection; normal automatic retry continues if the connection is still
+unavailable. It does not restart NodeEngine or devices, activate a network or
+change device settings. The browser receives authenticated full state
+replacements. A reconnect does not authorize a new run or terminate one.
+Expired sessions require the startup token again; a server restart also reloads
+configuration. Tokens stay out of URLs, browser storage and archived run
+inputs. Treat them as credentials.</p>
 <p>The service binds to loopback and checks Host/Origin, sessions and command
 requests. For another computer, use the SSH tunnel in <a class="reference internal" href="running.html"><span class="doc">Run and customize a protocol</span></a>; direct
 remote exposure, multiuser roles and force-lease recovery are not available.
@@ -835,6 +870,15 @@ channel selection, <strong>Visible time</strong> and <strong>Maximum plotted poi
 use zoom buttons, the mouse wheel or a horizontal drag to explore time. Arrow
 keys and <code class="docutils literal notranslate"><span class="pre">+</span></code> / <code class="docutils literal notranslate"><span class="pre">-</span></code> work when the chart has focus. <strong>Live</strong> returns to the
 current interval.</p>
+<p><strong>X scale</strong> and <strong>Y scale</strong> independently select <strong>Linear</strong> (the default) or
+<strong>Logarithmic</strong>, for live traces and loaded recordings. Logarithmic X shows
+elapsed seconds from the start of the visible window, not the logarithm of a
+clock timestamp; its origin is stated below the chart. The sample at elapsed
+time zero cannot be plotted. Logarithmic Y plots only positive rates: zero or
+negative values stay in the data and numerical readouts, but break the trace.
+The chart reports readings omitted by the logarithmic scales. Scale selection
+is a display-only operation, remains available during runs, and does not change
+hardware integration, recordings, or exports. The compact monitor stays linear.</p>
 <ol class="arabic simple">
 <li><p>Open <strong>Detectors</strong> and select the intended local Photec.</p></li>
 <li><p>Choose its declared channels and inspect timestamped counts and health.</p></li>
@@ -874,14 +918,15 @@ remain available. This changes the runtime setting, not saved inventory or
 experiment documents.</p>
 <p><strong>Start recording</strong> captures subsequent telemetry on NodeEngine independently
 of the browser, until <strong>Stop recording</strong> or NodeEngine shutdown. <strong>Save displayed
-data</strong> saves only the samples currently plotted, including recorded validity,
+data</strong> saves the samples in the displayed interval, including values omitted
+by logarithmic scales, recorded validity,
 integration, run ID and reported channel health. New recording CSV files append
 <code class="docutils literal notranslate"><span class="pre">healthJson</span></code> after the sixteen count columns; older recordings without that
 column show health as not recorded. The live buffer holds at most 3600 samples per device;
 expired samples must be refreshed before saving.</p>
 <p>Each save creates a timestamped folder containing <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>,
 <code class="docutils literal notranslate"><span class="pre">samples.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">samples.offsets</span></code>. By default it is stored in
-<code class="docutils literal notranslate"><span class="pre">&lt;operatorData&gt;/TelemetryRecordings</span></code>; set <code class="docutils literal notranslate"><span class="pre">--telemetryRecordings</span></code> to use
+<code class="docutils literal notranslate"><span class="pre">&lt;inventoryDataDir&gt;/TelemetryRecordings</span></code>; set <code class="docutils literal notranslate"><span class="pre">--telemetryRecordings</span></code> to use
 another directory. The panel displays the directory on the NodeEngine computer.
 <strong>Open recording</strong>, <strong>Load</strong> and <strong>Export CSV</strong> are available while idle. A
 recording must be stopped before loading or exporting it. DeviceOS must supply
@@ -907,6 +952,7 @@ health measurements, and the example configuration contains placeholder URLs:
 <h2>Use the offline viewer<a class="headerlink" href="#use-the-offline-viewer" title="Link to this heading">¶</a></h2>
 <p>From a source checkout with Python 3.10 or newer:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.BrowserUI.server<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventory<span class="w"> </span>/absolute/path/lab-inventory.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--network<span class="w"> </span>/absolute/path/network.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--results<span class="w"> </span>/absolute/path/MetaProtocolResults<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--port<span class="w"> </span><span class="m">8765</span>
@@ -914,7 +960,8 @@ health measurements, and the example configuration contains placeholder URLs:
 </div>
 <p>Open <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8765</span></code>. The viewer uses Python’s standard library and
 browser modules; it starts neither engine and executes no Python handler.
-The network/results arguments are optional: they supply files to offer in the
+The network/results arguments are optional; an <code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> network
+requires its matching <code class="docutils literal notranslate"><span class="pre">--inventory</span></code>. They supply files to offer in the
 viewer, not a request to connect to those devices.
 Load networks, saved run folders or exported state snapshots to inspect recorded
 topology and execution. Snapshots are historical observations, not live device
@@ -983,7 +1030,8 @@ Browser-local Grafana configuration is separate from run files and drafts.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

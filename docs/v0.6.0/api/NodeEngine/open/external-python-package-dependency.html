@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -504,11 +510,13 @@
 <summary class="sd-summary-title sd-card-header">
 <span class="sd-summary-text">humanize</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <p class="sd-card-text"><a class="reference download internal" download="" href="../../../_downloads/d37681e667c602c6a773cbc43300491b/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">shipped</span> <span class="pre">input.json</span></code></a></p>
-<p class="sd-card-text">Network: <a class="reference download internal" download="" href="../../../_downloads/ac2ecd47c275f2c9963c652d6e039155/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p class="sd-card-text">Inventory: <a class="reference download internal" download="" href="../../../_downloads/9910aa6d4f4c7f1140e7d03281509e5a/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../../_downloads/ac2ecd47c275f2c9963c652d6e039155/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <p class="sd-card-text">This shipped network declares no devices; no DeviceOS process is required.</p>
 <p class="sd-card-text">Then start NodeEngine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.NodeEngine<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/lab-inventory.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/network.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span>/path/to/license.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/ExternalPythonPackageDependency/MetaProtocolsRun/humanize/input.json<span class="w"> </span><span class="se">\</span>
@@ -608,7 +616,8 @@ EXTERNAL-PYTHON-PACKAGE-DEPENDENCY-TEST</div>
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

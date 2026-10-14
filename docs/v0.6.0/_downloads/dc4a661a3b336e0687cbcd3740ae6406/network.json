@@ -1,36 +1,25 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-capture-raw-time-tag-stream-inventory",
   "networkId": "example-capture-raw-time-tag-stream",
-  "telemetryDefaults": {
-    "periodSec": 1.0,
-    "ttlMs": 2500
-  },
-  "nodes": [
+  "quantumLinks": [],
+  "devices": [
     {
-      "nodeId": "ExampleNodeId",
+      "deviceId": "ExampleTimeTaggerId",
       "enabled": true,
-      "host": "127.0.0.1",
-      "devices": [
+      "linkBindings": [
         {
-          "deviceId": "ExampleTimeTaggerId",
-          "deviceType": "SwabianTT",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleLinkId",
-              "role": "sink",
-              "inputPort": "H",
-              "channel": 1
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.10",
-            "syncCmdPort": 19001,
-            "asyncCmdPort": 19002,
-            "telemetryPort": 19003
-          },
-          "hardwareConfig": {}
+          "linkId": "ExampleLinkId",
+          "role": "sink",
+          "inputPort": "H",
+          "channel": 1
         }
-      ]
+      ],
+      "settings": {
+        "channels": {
+          "1": {}
+        }
+      }
     }
   ]
 }

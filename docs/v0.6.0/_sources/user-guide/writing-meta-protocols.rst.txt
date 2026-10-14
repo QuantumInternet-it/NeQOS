@@ -27,13 +27,15 @@ protocol, and publish its declared hold result.
        HOLD-DYNAMIC/Handlers.py
      MetaProtocolsRun/
        input.json
+     lab-inventory.json
      network.json
 
 Download :download:`the complete example library <../examples/HoldExamples.zip>`
 and keep this layout. The individual
 :download:`manifest <../examples/HoldExamples/manifest.json>`,
-:download:`run plan <../examples/HoldExamples/MetaProtocolsRun/input.json>` and
-:download:`empty-node network <../examples/HoldExamples/network.json>` are also
+:download:`run plan <../examples/HoldExamples/MetaProtocolsRun/input.json>`,
+:download:`empty-node inventory <../examples/HoldExamples/lab-inventory.json>` and
+:download:`experiment network <../examples/HoldExamples/network.json>` are also
 available.
 
 .. literalinclude:: ../examples/HoldExamples/manifest.json
@@ -224,7 +226,8 @@ From the downloaded library directory, run:
 .. code-block:: bash
 
    python3 -m NodeEnginePack.NodeEngine \
-     --configFile network.json \
+     --inventoryFile lab-inventory.json \
+     --networkFile network.json \
      --nodeId AuthoringNode \
      --licenseFile /path/to/license.json \
      --metaProtocolRun MetaProtocolsRun/input.json \

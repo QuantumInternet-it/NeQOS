@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -762,13 +768,19 @@ tables were used. Never include the license activation file in a public issue.</
 </section>
 <section id="operator-storage-and-backup">
 <h2>Operator storage and backup<a class="headerlink" href="#operator-storage-and-backup" title="Link to this heading">¶</a></h2>
-<p>With <code class="docutils literal notranslate"><span class="pre">--serve</span></code>, <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> selects the operator data directory
-(default <code class="docutils literal notranslate"><span class="pre">OperatorData</span></code>). Its <code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> records named experiment
+<p>With <code class="docutils literal notranslate"><span class="pre">--serve</span></code>, <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code> selects the persistent browser data directory
+(default <code class="docutils literal notranslate"><span class="pre">./inventoryDataDir</span></code>, relative to the terminal’s working directory).
+Its <code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> records named experiment
 and network revisions, immutable submissions, effective-input provenance,
 queue state and run history. Scientific evidence is stored separately under
 <code class="docutils literal notranslate"><span class="pre">runs/&lt;UUID&gt;/</span></code> with its stage/iteration/operation directories. CLI results
 normally remain under <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code>; a browser-local draft or Grafana
 configuration is not part of the operator database.</p>
+<p>Keep the same directory for successive runs and different experiment networks
+using the same inventory. Its identity is <code class="docutils literal notranslate"><span class="pre">inventoryId</span></code> plus the device
+endpoint set (IP and synchronous-command port); a different identity requires
+a separate directory. This is not the inventory JSON’s location, a calibration
+directory or a directory that must change for every execution.</p>
 <p>To back up the complete operator record, stop NodeEngine deliberately and copy
 the whole operator data directory, including <code class="docutils literal notranslate"><span class="pre">runs/</span></code>. A live copy of only
 <code class="docutils literal notranslate"><span class="pre">operator.sqlite3</span></code> can omit its write-ahead log and be inconsistent. An
@@ -834,7 +846,8 @@ parameter reuse.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

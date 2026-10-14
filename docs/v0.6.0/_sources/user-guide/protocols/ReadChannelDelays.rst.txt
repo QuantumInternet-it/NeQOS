@@ -61,13 +61,14 @@ Read the live temporal input-delay settings of selected Time Tagger channels.
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/timing/alignment/ReadChannelDelays/RunExample/input.json>`.
 
-No network is shipped for this run plan. Supply your configured network and node ID.
+No inventory/experiment pair is shipped for this run plan. Supply your configured inventory, experiment and node ID.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "/path/to/network.json" \
+     --inventoryFile "/path/to/lab-inventory.json" \
+     --networkFile "/path/to/network.json" \
      --nodeId "YOUR_NODE_ID" \
      --metaProtocolRun "./ReadChannelDelays.minimal.json" \
      --waitProtocol --verboseRunFolders

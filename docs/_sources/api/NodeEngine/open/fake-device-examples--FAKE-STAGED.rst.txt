@@ -94,7 +94,8 @@ Library folders resolve relative to the run input. Keep the library's directory 
 
 :download:`Download shipped input.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/staged/input.json>`
 
-Network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`.
 
 Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.
 
@@ -103,7 +104,7 @@ Start one DeviceOS process for each enabled device below, on its configured host
 .. code-block:: bash
 
    python3 -m DeviceOSPack.DeviceOS \
-     --configFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
+     --inventoryFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json \
      --nodeId FakeNodeId \
      --deviceId FakeDeviceId \
      --licenseFile /path/to/license.json \
@@ -114,10 +115,12 @@ Then start NodeEngine:
 .. code-block:: bash
 
    python3 -m NodeEnginePack.NodeEngine \
-     --configFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
+     --inventoryFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json \
+     --networkFile ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json \
      --nodeId FakeNodeId \
      --licenseFile /path/to/license.json \
      --metaProtocolRun ./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/staged/input.json \
+     --openDriversFile ./DeviceOSPack/OpenDrivers/OpenDrivers.json \
      --waitProtocol
 
 .. dropdown:: Run plan JSON

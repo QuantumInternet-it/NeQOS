@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -535,10 +541,10 @@ matching, explicitly named <code class="docutils literal notranslate"><span clas
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This fragment belongs in a node’s device list, with its network endpoints.
+<p>This fragment belongs in an inventory node’s device list, with its endpoints.
 See <a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a> for the full network description. Launch the selected device:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>DeviceOSPack.DeviceOS<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span>/path/to/network.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span>/path/to/lab-inventory.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--deviceId<span class="w"> </span>Counter-1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--openDriversFile<span class="w"> </span>/path/to/OpenDrivers.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span>/path/to/license.json
@@ -1115,7 +1121,8 @@ then test vendor recovery and hardware safety on the supported host platform.</p
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

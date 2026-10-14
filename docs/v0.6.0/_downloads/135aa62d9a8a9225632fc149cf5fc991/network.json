@@ -1,15 +1,7 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-estimate-link-polarization-compensation-from-hd-probes-inventory",
   "networkId": "example-estimate-link-polarization-compensation-from-hd-probes",
-  "telemetryDefaults": {
-    "periodSec": 1,
-    "ttlMs": 2500
-  },
-  "nodes": [
-    {
-      "nodeId": "ExampleNodeId",
-      "enabled": true,
-      "host": "192.0.2.10",
-      "devices": []
-    }
-  ]
+  "quantumLinks": [],
+  "devices": []
 }

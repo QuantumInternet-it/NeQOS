@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -559,10 +565,12 @@
 </div>
 <p><a class="reference download internal" download="" href="../../_downloads/2d5539a94fa06afda12301704e84792d/MeasureLinkBackgroundSingles.minimal.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">MeasureLinkBackgroundSingles.minimal.json</span></code></a></p>
 <p>Shipped run plan: <a class="reference download internal" download="" href="../../_downloads/9d7005242314907b051aca5d74d83aa8/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Options</span></code></a>.</p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/b533c919caf3ab31ebab20f8aa15cc4c/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/ba6a194a15da81344ae8cf3579c65869/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/b533c919caf3ab31ebab20f8aa15cc4c/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./MeasureLinkBackgroundSingles.minimal.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -762,7 +770,8 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

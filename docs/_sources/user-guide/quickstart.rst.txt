@@ -12,8 +12,8 @@ Use the instructions for your installation below. Source-checkout paths and
 standalone paths differ; changing only ``python`` to the executable name is
 not sufficient.
 
-The library's network uses ``FakeNodeId`` and ``FakeDeviceId`` with localhost
-endpoints. Leave those identities consistent across the network and input.
+The library's inventory uses ``FakeNodeId`` and ``FakeDeviceId`` with localhost
+endpoints. Keep those identities consistent across inventory, experiment and input.
 
 First browser run with a Fake inventory
 ---------------------------------------
@@ -36,7 +36,7 @@ inventory's path rather than an experiment network or a run plan:
 
    python -m DeviceOSPack.DeviceOS \
      --licenseFile "/path/to/license-DeviceOS.json" \
-     --configFile "./DocumentationFolder/examples/InventoryFake/lab-inventory.json" \
+     --inventoryFile "./DocumentationFolder/examples/InventoryFake/lab-inventory.json" \
      --deviceId FakeDeviceId \
      --openDriversFile "./DeviceOSPack/OpenDrivers/OpenDrivers.json"
 
@@ -49,7 +49,7 @@ In terminal B:
      --inventoryFile "./DocumentationFolder/examples/InventoryFake/lab-inventory.json" \
      --nodeId FakeNodeId \
      --serve --operatorPort 8768 \
-     --operatorData "./OperatorData-FakeInventory"
+     --inventoryDataDir "./inventoryDataDir-FakeInventory"
 
 The quoted paths are placeholders except for the repository examples.
 For downloaded files, replace the example paths with their absolute paths.
@@ -97,6 +97,7 @@ for example:
      NodeEngine.dist\
        NodeEngine.exe
        NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\
+         lab-inventory.json
          network.json
          MetaProtocolsRun\composedSweep\input.json
 
@@ -109,7 +110,7 @@ the network directly from the sibling NodeEngine distribution:
 .. code-block:: bat
 
    cd "C:\NeQOS\DeviceOS.dist"
-   .\DeviceOS.exe --licenseFile "C:\NeQOSConfig\license-DeviceOS.json" --configFile "..\NodeEngine.dist\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json" --nodeId FakeNodeId --deviceId FakeDeviceId --openDriversFile ".\OpenDrivers\OpenDrivers.json"
+   .\DeviceOS.exe --licenseFile "C:\NeQOSConfig\license-DeviceOS.json" --inventoryFile "..\NodeEngine.dist\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\lab-inventory.json" --nodeId FakeNodeId --deviceId FakeDeviceId --openDriversFile ".\OpenDrivers\OpenDrivers.json"
 
 After DeviceOS reaches connected, initialized and ready state (``111``), enter
 ``NodeEngine.dist`` in terminal B and start the run:
@@ -117,27 +118,29 @@ After DeviceOS reaches connected, initialized and ready state (``111``), enter
 .. code-block:: bat
 
    cd "C:\NeQOS\NodeEngine.dist"
-   .\NodeEngine.exe --licenseFile "C:\NeQOSConfig\license-NodeEngine.json" --configFile ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json" --nodeId FakeNodeId --metaProtocolRun ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\MetaProtocolsRun\composedSweep\input.json" --waitProtocol --verboseRunFolders
+   .\NodeEngine.exe --licenseFile "C:\NeQOSConfig\license-NodeEngine.json" --inventoryFile ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\lab-inventory.json" --networkFile ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json" --nodeId FakeNodeId --metaProtocolRun ".\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\MetaProtocolsRun\composedSweep\input.json" --waitProtocol --verboseRunFolders
 
-Both processes read the same network. ``NodeEnginePack`` belongs to NodeEngine;
+Both processes read the same inventory; only NodeEngine reads the experiment.
+``NodeEnginePack`` belongs to NodeEngine;
 there is no need to copy it into DeviceOS. In ``DeviceOS.dist``, the shipped
 driver registry is ``OpenDrivers/OpenDrivers.json``. DeviceOS also finds that
 registry automatically when ``--openDriversFile`` is omitted.
 
 An alternative is to download
-:download:`the example network <../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`
-to a shared working directory and pass its full path to both processes. If your
-DeviceOS archive includes ``config/network-Fake.json``, it is another copy of
-this network; use it only while its identities and endpoints agree with the
-network supplied to NodeEngine. A relative ``--configFile`` or
+:download:`the example inventory <../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json>`
+and :download:`experiment <../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json>`
+to a shared working directory. Pass the inventory to both processes and the
+experiment to NodeEngine. Old ``config/network-Fake.json`` complete networks
+cannot be passed to DeviceOS: use the new inventory/experiment pair instead.
+A relative ``--inventoryFile``, ``--networkFile`` or
 ``--openDriversFile`` always resolves from the terminal's current directory.
 
 macOS NodeEngine with a remote DeviceOS
 ----------------------------------------
 
 Use the matching Windows DeviceOS distribution on its host. Download or copy
-only the network JSON to that host, and change ``deviceEngine.ip`` from
-``127.0.0.1`` to the DeviceOS host's reachable IP in both network copies.
+only the inventory JSON to that host, and change ``deviceEngine.ip`` from
+``127.0.0.1`` to the DeviceOS host's reachable IP in both inventory copies.
 Keep ``FakeNodeId``, ``FakeDeviceId`` and the ports consistent. The unedited
 localhost example assumes both processes run on one computer.
 
@@ -147,14 +150,15 @@ On the Mac, enter the extracted ``NodeEngine.dist`` directory and run:
 
    ./NodeEngine.bin \
      --licenseFile "/path/to/license-NodeEngine.json" \
-     --configFile "/path/to/network-Fake.json" \
+     --inventoryFile "/path/to/lab-inventory.json" \
+     --networkFile "/path/to/network.json" \
      --nodeId FakeNodeId \
      --metaProtocolRun "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json" \
      --waitProtocol \
      --verboseRunFolders
 
 On the Windows host, start ``DeviceOS.exe`` with its copy of the same edited
-network, its license and ``--deviceId FakeDeviceId``. Use
+inventory through ``--inventoryFile``, its license and ``--deviceId FakeDeviceId``. Use
 ``OpenDrivers/OpenDrivers.json`` from that DeviceOS distribution.
 
 Source checkout
@@ -166,7 +170,7 @@ From the repository root, start DeviceOS in terminal A:
 
    python DeviceOSPack/DeviceOS.py \
      --licenseFile "./config/license.json" \
-     --configFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json" \
+     --inventoryFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json" \
      --nodeId FakeNodeId \
      --deviceId FakeDeviceId \
      --openDriversFile "./DeviceOSPack/OpenDrivers/OpenDrivers.json"
@@ -177,7 +181,8 @@ In terminal B, start NodeEngine:
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json" \
+     --inventoryFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json" \
+     --networkFile "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json" \
      --nodeId FakeNodeId \
      --metaProtocolRun "./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json" \
      --waitProtocol \
@@ -207,8 +212,9 @@ If it fails
 -----------
 
 Check paths first, then licensing, then endpoint/port conflicts. A missing
-input file is not a driver failure. A file that lacks a top-level ``nodes``
-list is probably a run input passed as ``--configFile``. See :doc:`results`
+input file is not a driver failure. ``--inventoryFile`` requires an
+``inventory-1`` document; ``--networkFile`` requires its matching
+``experiment-1`` document, not a run plan. See :doc:`results`
 for the full troubleshooting sequence.
 
 After this run succeeds, move to a single finite hardware acquisition. Do not

@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -585,10 +591,12 @@
 </pre></div>
 </div>
 <p><a class="reference download internal" download="" href="../../_downloads/c1ede2c737c81cbc31e378e0aa489ad8/MeasureEntangledPairFidelity.minimal.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">MeasureEntangledPairFidelity.minimal.json</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/c590a20e630c52428ebf03002a670e1f/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/ecb6c48b55af41150dbd36a87edd375a/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/c590a20e630c52428ebf03002a670e1f/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./MeasureEntangledPairFidelity.minimal.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -726,10 +734,12 @@
 <label class="sd-tab-label" for="sd-tab-item-0">
 Simultaneous</label><div class="sd-tab-content docutils">
 <p><a class="reference download internal" download="" href="../../_downloads/a2cdd2470e948d50d44e158e9e8e664c/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/c590a20e630c52428ebf03002a670e1f/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/ecb6c48b55af41150dbd36a87edd375a/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/c590a20e630c52428ebf03002a670e1f/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./input.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -749,10 +759,12 @@ Simultaneous</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" for="sd-tab-item-1">
 Pbs Symmetrized</label><div class="sd-tab-content docutils">
 <p><a class="reference download internal" download="" href="../../_downloads/b2bbd4f90f89fab00c8a43ee64f5eaf1/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/9c9bd7ff6bcd9c2e83057208aa178bfe/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/36c29b4ea3c9f1ffeadbf6d0290762b7/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/9c9bd7ff6bcd9c2e83057208aa178bfe/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./input.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -773,11 +785,13 @@ Pbs Symmetrized</label><div class="sd-tab-content docutils">
 <label class="sd-tab-label" for="sd-tab-item-2">
 Entanglement Distribution</label><div class="sd-tab-content docutils">
 <p><a class="reference download internal" download="" href="../../_downloads/c1eb05aa31a1542af1658ba38218063f/experiment-input-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/db71d977551c962035c83e6cebca5e81/experiment-network-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment-network-EntanglementDistribution.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/64f837ee563938b5abfc536b8e394c4e/lab-inventory-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory-EntanglementDistribution.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/db71d977551c962035c83e6cebca5e81/experiment-network-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment-network-EntanglementDistribution.json</span></code></a>.</p>
 <p>This run plan executes all 7 steps.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./experiment-network-EntanglementDistribution.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory-EntanglementDistribution.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./experiment-network-EntanglementDistribution.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./experiment-input-EntanglementDistribution.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -1053,7 +1067,8 @@ Entanglement Distribution</label><div class="sd-tab-content docutils">
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

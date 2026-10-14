@@ -54,13 +54,15 @@ Replaces one analyzer channel's compensated table with its six applied factory s
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/ResetPolarizationAnalyzerCompensationToFactory/RunExample/input.json>`.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/ResetPolarizationAnalyzerCompensationToFactory/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/ResetPolarizationAnalyzerCompensationToFactory/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/device/calibrationStore/ResetPolarizationAnalyzerCompensationToFactory/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./ResetPolarizationAnalyzerCompensationToFactory.minimal.json" \
      --waitProtocol --verboseRunFolders

@@ -438,13 +438,15 @@ Derives a unified fidelity and detected-throughput summary, verifies matrix-to-m
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/input.json>`.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/DeriveEntangledPairFidelitySummary/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./DeriveEntangledPairFidelitySummary.minimal.json" \
      --waitProtocol --verboseRunFolders

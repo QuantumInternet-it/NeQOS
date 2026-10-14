@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "authoring-example-inventory",
+  "nodes": [
+    {
+      "nodeId": "AuthoringNode",
+      "host": "127.0.0.1",
+      "devices": []
+    }
+  ]
+}

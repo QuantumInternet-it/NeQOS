@@ -101,26 +101,30 @@ Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtoc
 
 Shipped run plan: :download:`Compensate then measure entangled fidelity <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/input-compensate-then-measure-entangled-fidelity.json>`.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./input-compensate-then-measure-entangled-fidelity.json" \
      --waitProtocol --verboseRunFolders
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateSourcePolarizationFromSeparableHDProbes/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./CompensateSourcePolarizationFromSeparableHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders

@@ -77,13 +77,15 @@ Acquire a declared number of complete count-rate windows and return the ordered 
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./MonitorCountRates.minimal.json" \
      --waitProtocol --verboseRunFolders
@@ -144,13 +146,15 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/input.json>`
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/acquisition/countrate/MonitorCountRates/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./input.json" \
      --waitProtocol --verboseRunFolders

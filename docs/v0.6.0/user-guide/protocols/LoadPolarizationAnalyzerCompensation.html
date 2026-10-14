@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -532,10 +538,12 @@
 </pre></div>
 </div>
 <p><a class="reference download internal" download="" href="../../_downloads/d8a54b77a8ec623b55643df78bef0610/LoadPolarizationAnalyzerCompensation.minimal.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">LoadPolarizationAnalyzerCompensation.minimal.json</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/baf23489e74d54c1b52efb965c54db0b/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/bbee0cc08e345bc29689c67589c819f7/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/baf23489e74d54c1b52efb965c54db0b/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./LoadPolarizationAnalyzerCompensation.minimal.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -597,10 +605,12 @@
 <h2>4 Examples with options<a class="headerlink" href="#examples-with-options" title="Link to this heading">¶</a></h2>
 <p>Each example lists only the inputs it adds to or changes in the minimal run.</p>
 <p><a class="reference download internal" download="" href="../../_downloads/28962a096de5e78780cd81eb2c88dcbd/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Full</span> <span class="pre">run</span> <span class="pre">plan</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../_downloads/baf23489e74d54c1b52efb965c54db0b/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../_downloads/bbee0cc08e345bc29689c67589c819f7/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../_downloads/baf23489e74d54c1b52efb965c54db0b/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span><span class="s2">&quot;ExampleNodeId&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./input.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span>--verboseRunFolders
@@ -715,7 +725,8 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -283,13 +283,20 @@ tables were used. Never include the license activation file in a public issue.
 Operator storage and backup
 ---------------------------
 
-With ``--serve``, ``--operatorData`` selects the operator data directory
-(default ``OperatorData``). Its ``operator.sqlite3`` records named experiment
+With ``--serve``, ``--inventoryDataDir`` selects the persistent browser data directory
+(default ``./inventoryDataDir``, relative to the terminal's working directory).
+Its ``operator.sqlite3`` records named experiment
 and network revisions, immutable submissions, effective-input provenance,
 queue state and run history. Scientific evidence is stored separately under
 ``runs/<UUID>/`` with its stage/iteration/operation directories. CLI results
 normally remain under ``MetaProtocolResults``; a browser-local draft or Grafana
 configuration is not part of the operator database.
+
+Keep the same directory for successive runs and different experiment networks
+using the same inventory. Its identity is ``inventoryId`` plus the device
+endpoint set (IP and synchronous-command port); a different identity requires
+a separate directory. This is not the inventory JSON's location, a calibration
+directory or a directory that must change for every execution.
 
 To back up the complete operator record, stop NodeEngine deliberately and copy
 the whole operator data directory, including ``runs/``. A live copy of only

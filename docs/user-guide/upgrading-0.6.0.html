@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -488,8 +494,8 @@
 <h1>Move from 0.5.0 to 0.6.0<a class="headerlink" href="#move-from-0-5-0-to-0-6-0" title="Link to this heading">¶</a></h1>
 <p>Use this checklist when replacing existing DeviceOS/NodeEngine launchers.
 The browser is optional: a run plan can still execute entirely from the
-command line. The inventory split is also optional for current-format
-single-file examples; it is the workflow for a persistent laboratory setup.
+command line. All shipped network examples now use a separate inventory and
+experiment. DeviceOS requires an <code class="docutils literal notranslate"><span class="pre">inventory-1</span></code> document.
 See <a class="reference internal" href="running.html#choose-nodeengine-operation"><span class="std std-ref">Choose command-line or browser operation</span></a> for complete Windows and macOS commands.</p>
 <section id="what-changes-in-everyday-use">
 <h2>What changes in everyday use<a class="headerlink" href="#what-changes-in-everyday-use" title="Link to this heading">¶</a></h2>
@@ -510,7 +516,7 @@ See <a class="reference internal" href="running.html#choose-nodeengine-operation
 <tbody>
 <tr class="row-even"><td><p>Start DeviceOS</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">--configFile</span> <span class="pre">network.json</span> <span class="pre">--deviceId</span> <span class="pre">...</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--configFile</span> <span class="pre">lab-inventory.json</span> <span class="pre">--deviceId</span> <span class="pre">...</span></code>. The option name stays the same.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--inventoryFile</span> <span class="pre">lab-inventory.json</span> <span class="pre">--deviceId</span> <span class="pre">...</span></code>. DeviceOS no longer accepts <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p>Select the NodeEngine configuration</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">--configFile</span> <span class="pre">network.json</span></code></p></td>
@@ -530,7 +536,7 @@ See <a class="reference internal" href="running.html#choose-nodeengine-operation
 </tr>
 <tr class="row-odd"><td><p>Select results</p></td>
 <td><p>CLI execution records under <code class="docutils literal notranslate"><span class="pre">MetaProtocolResults</span></code>.</p></td>
-<td><p>CLI keeps that location; operator history and artifacts use <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code>.</p></td>
+<td><p>CLI keeps that location; browser history and artifacts use <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -561,6 +567,9 @@ simulation does not replace packaged-build and hardware regression.</p>
 Renaming a previous <code class="docutils literal notranslate"><span class="pre">network.json</span></code> to <code class="docutils literal notranslate"><span class="pre">lab-inventory.json</span></code> does not perform
 the conversion. Both new documents must follow their respective schemas and
 share the same <code class="docutils literal notranslate"><span class="pre">inventoryId</span></code>.</p>
+<p>Each shipped <code class="docutils literal notranslate"><span class="pre">network.json</span></code> is now an <code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> document accompanied
+by <code class="docutils literal notranslate"><span class="pre">lab-inventory.json</span></code>. Named variants include a matching named inventory.
+Copy both files; do not reuse a complete network from an older distribution.</p>
 <ul class="simple">
 <li><p><strong>Inventory:</strong> device IDs, endpoints, driver constructor configuration,
 boot-only hardware settings and limits. Use the same content on each host.</p></li>
@@ -584,13 +593,14 @@ the inventory or run an experiment.</p>
 </section>
 <section id="update-each-deviceos-launcher">
 <h2>3 Update each DeviceOS launcher<a class="headerlink" href="#update-each-deviceos-launcher" title="Link to this heading">¶</a></h2>
-<p>DeviceOS still takes the inventory through <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>. Keep the same
-<code class="docutils literal notranslate"><span class="pre">--deviceId</span></code> only if it exists in the new inventory. Do not give DeviceOS
-<code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>, <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> or the experiment file.</p>
+<p>DeviceOS takes the inventory through <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>. Update old launchers:
+<code class="docutils literal notranslate"><span class="pre">--configFile</span></code> has been removed, with no alias. Keep the same
+<code class="docutils literal notranslate"><span class="pre">--deviceId</span></code> only if it exists in the inventory. Do not give DeviceOS
+<code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> or the experiment file.</p>
 <p>Pass the host-local SDK configuration explicitly with <code class="docutils literal notranslate"><span class="pre">--localConfigFile</span></code>
 to avoid accidentally loading a file from another working directory:</p>
 <div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;C:\NeQOSv0.6.0\DeviceOS.dist\DeviceOS.exe&quot;</span> <span class="se">^</span>
-<span class="se"> </span> --configFile <span class="s2">&quot;G:\NeQOS-shared\networks\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --inventoryFile <span class="s2">&quot;G:\NeQOS-shared\networks\lab-inventory.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --localConfigFile <span class="s2">&quot;C:\NeQOSConfig\DeviceOS.local.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --deviceId YOUR_DEVICE_ID <span class="se">^</span>
 <span class="se"> </span> --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span>
@@ -640,13 +650,22 @@ SQLite timeline in this mode.</p>
 the startup token, activate an experiment and compose/validate/start a run.
 Do not start the read-only viewer as a second live server. Do not combine
 <code class="docutils literal notranslate"><span class="pre">--serve</span></code> and <code class="docutils literal notranslate"><span class="pre">--metaProtocolRun</span></code> or start a competing CLI engine.</p>
-<p>Keep an absolute, stable <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> directory for history. Closing the
+<p>Keep an absolute, stable <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code> directory for history. Closing the
 browser does not stop the experiment. During execution/cleanup, new plans,
 network changes and historical browsing are blocked; observing or aborting
 the current run remains available. An abort leaves the queue paused after
 cleanup. Restart does not resume an interrupted experiment or automatically
 activate the last network; activate it explicitly (or supply <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code>
 at startup). See <a class="reference internal" href="browser-interface.html"><span class="doc">Use the browser interface</span></a> for supported planner coverage.</p>
+<p>Update launchers that used <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> to <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code>;
+the old flag has no alias. The default is now <code class="docutils literal notranslate"><span class="pre">./inventoryDataDir</span></code>,
+relative to the terminal’s working directory. To retain an existing
+<code class="docutils literal notranslate"><span class="pre">OperatorData</span></code> archive, pass its path explicitly, for example
+<code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span> <span class="pre">&quot;/path/OperatorData&quot;</span></code>. No database conversion or
+automatic folder move is performed. Omitting the flag selects the new
+default directory, not the old archive.
+Reuse that archive across experiment networks and runs of the same inventory;
+do not create a new archive for each execution.</p>
 <p>DeviceOS, NodeEngine and the browser need not share one PC. Device endpoints
 must be reachable; the browser operator binds to loopback and uses the
 <a class="reference internal" href="running.html#use-a-browser-on-another-computer"><span class="std std-ref">remote SSH procedure</span></a> when accessed
@@ -729,7 +748,8 @@ for the experiment’s chosen calibration defaults.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

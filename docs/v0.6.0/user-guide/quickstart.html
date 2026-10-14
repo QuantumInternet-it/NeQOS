@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -494,8 +500,8 @@ license. Use it before diagnosing vendor SDKs or laboratory wiring.</p>
 <p>Use the instructions for your installation below. Source-checkout paths and
 standalone paths differ; changing only <code class="docutils literal notranslate"><span class="pre">python</span></code> to the executable name is
 not sufficient.</p>
-<p>The library’s network uses <code class="docutils literal notranslate"><span class="pre">FakeNodeId</span></code> and <code class="docutils literal notranslate"><span class="pre">FakeDeviceId</span></code> with localhost
-endpoints. Leave those identities consistent across the network and input.</p>
+<p>The library’s inventory uses <code class="docutils literal notranslate"><span class="pre">FakeNodeId</span></code> and <code class="docutils literal notranslate"><span class="pre">FakeDeviceId</span></code> with localhost
+endpoints. Keep those identities consistent across inventory, experiment and input.</p>
 </section>
 <section id="first-browser-run-with-a-fake-inventory">
 <h2>First browser run with a Fake inventory<a class="headerlink" href="#first-browser-run-with-a-fake-inventory" title="Link to this heading">¶</a></h2>
@@ -513,7 +519,7 @@ need the matching Fake driver and its registry on the DeviceOS host.</p>
 inventory’s path rather than an experiment network or a run plan:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>DeviceOSPack.DeviceOS<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/to/license-DeviceOS.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./DocumentationFolder/examples/InventoryFake/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./DocumentationFolder/examples/InventoryFake/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--deviceId<span class="w"> </span>FakeDeviceId<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--openDriversFile<span class="w"> </span><span class="s2">&quot;./DeviceOSPack/OpenDrivers/OpenDrivers.json&quot;</span>
 </pre></div>
@@ -524,7 +530,7 @@ inventory’s path rather than an experiment network or a run plan:</p>
 <span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./DocumentationFolder/examples/InventoryFake/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>FakeNodeId<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--serve<span class="w"> </span>--operatorPort<span class="w"> </span><span class="m">8768</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--operatorData<span class="w"> </span><span class="s2">&quot;./OperatorData-FakeInventory&quot;</span>
+<span class="w">  </span>--inventoryDataDir<span class="w"> </span><span class="s2">&quot;./inventoryDataDir-FakeInventory&quot;</span>
 </pre></div>
 </div>
 <p>The quoted paths are placeholders except for the repository examples.
@@ -569,6 +575,7 @@ for example:</p>
   NodeEngine.dist\
     NodeEngine.exe
     NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\
+      lab-inventory.json
       network.json
       MetaProtocolsRun\composedSweep\input.json
 </pre></div>
@@ -578,38 +585,41 @@ below are single lines and work in both Command Prompt and PowerShell.</p>
 <p>In terminal A, enter <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code> and start the fake device. DeviceOS reads
 the network directly from the sibling NodeEngine distribution:</p>
 <div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">cd</span> <span class="s2">&quot;C:\NeQOS\DeviceOS.dist&quot;</span>
-.\DeviceOS.exe --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license-DeviceOS.json&quot;</span> --configFile <span class="s2">&quot;..\NodeEngine.dist\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json&quot;</span> --nodeId FakeNodeId --deviceId FakeDeviceId --openDriversFile <span class="s2">&quot;.\OpenDrivers\OpenDrivers.json&quot;</span>
+.\DeviceOS.exe --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license-DeviceOS.json&quot;</span> --inventoryFile <span class="s2">&quot;..\NodeEngine.dist\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\lab-inventory.json&quot;</span> --nodeId FakeNodeId --deviceId FakeDeviceId --openDriversFile <span class="s2">&quot;.\OpenDrivers\OpenDrivers.json&quot;</span>
 </pre></div>
 </div>
 <p>After DeviceOS reaches connected, initialized and ready state (<code class="docutils literal notranslate"><span class="pre">111</span></code>), enter
 <code class="docutils literal notranslate"><span class="pre">NodeEngine.dist</span></code> in terminal B and start the run:</p>
 <div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">cd</span> <span class="s2">&quot;C:\NeQOS\NodeEngine.dist&quot;</span>
-.\NodeEngine.exe --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license-NodeEngine.json&quot;</span> --configFile <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json&quot;</span> --nodeId FakeNodeId --metaProtocolRun <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\MetaProtocolsRun\composedSweep\input.json&quot;</span> --waitProtocol --verboseRunFolders
+.\NodeEngine.exe --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license-NodeEngine.json&quot;</span> --inventoryFile <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\lab-inventory.json&quot;</span> --networkFile <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\network.json&quot;</span> --nodeId FakeNodeId --metaProtocolRun <span class="s2">&quot;.\NodeEnginePack\OpenMetaProtocols\FakeDeviceExamples\MetaProtocolsRun\composedSweep\input.json&quot;</span> --waitProtocol --verboseRunFolders
 </pre></div>
 </div>
-<p>Both processes read the same network. <code class="docutils literal notranslate"><span class="pre">NodeEnginePack</span></code> belongs to NodeEngine;
+<p>Both processes read the same inventory; only NodeEngine reads the experiment.
+<code class="docutils literal notranslate"><span class="pre">NodeEnginePack</span></code> belongs to NodeEngine;
 there is no need to copy it into DeviceOS. In <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>, the shipped
 driver registry is <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code>. DeviceOS also finds that
 registry automatically when <code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code> is omitted.</p>
 <p>An alternative is to download
-<a class="reference download internal" download="" href="../_downloads/8b04646deb0d8da97f825f79ade0a3e2/network.json"><code class="xref download docutils literal notranslate"><span class="pre">the</span> <span class="pre">example</span> <span class="pre">network</span></code></a>
-to a shared working directory and pass its full path to both processes. If your
-DeviceOS archive includes <code class="docutils literal notranslate"><span class="pre">config/network-Fake.json</span></code>, it is another copy of
-this network; use it only while its identities and endpoints agree with the
-network supplied to NodeEngine. A relative <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> or
+<a class="reference download internal" download="" href="../_downloads/9d74137be0f2cdca16040358cd706e1b/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">the</span> <span class="pre">example</span> <span class="pre">inventory</span></code></a>
+and <a class="reference download internal" download="" href="../_downloads/8b04646deb0d8da97f825f79ade0a3e2/network.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment</span></code></a>
+to a shared working directory. Pass the inventory to both processes and the
+experiment to NodeEngine. Old <code class="docutils literal notranslate"><span class="pre">config/network-Fake.json</span></code> complete networks
+cannot be passed to DeviceOS: use the new inventory/experiment pair instead.
+A relative <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>, <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> or
 <code class="docutils literal notranslate"><span class="pre">--openDriversFile</span></code> always resolves from the terminal’s current directory.</p>
 </section>
 <section id="macos-nodeengine-with-a-remote-deviceos">
 <h2>macOS NodeEngine with a remote DeviceOS<a class="headerlink" href="#macos-nodeengine-with-a-remote-deviceos" title="Link to this heading">¶</a></h2>
 <p>Use the matching Windows DeviceOS distribution on its host. Download or copy
-only the network JSON to that host, and change <code class="docutils literal notranslate"><span class="pre">deviceEngine.ip</span></code> from
-<code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> to the DeviceOS host’s reachable IP in both network copies.
+only the inventory JSON to that host, and change <code class="docutils literal notranslate"><span class="pre">deviceEngine.ip</span></code> from
+<code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> to the DeviceOS host’s reachable IP in both inventory copies.
 Keep <code class="docutils literal notranslate"><span class="pre">FakeNodeId</span></code>, <code class="docutils literal notranslate"><span class="pre">FakeDeviceId</span></code> and the ports consistent. The unedited
 localhost example assumes both processes run on one computer.</p>
 <p>On the Mac, enter the extracted <code class="docutils literal notranslate"><span class="pre">NodeEngine.dist</span></code> directory and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./NodeEngine.bin<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/to/license-NodeEngine.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;/path/to/network-Fake.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;/path/to/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;/path/to/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>FakeNodeId<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span><span class="se">\</span>
@@ -617,7 +627,7 @@ localhost example assumes both processes run on one computer.</p>
 </pre></div>
 </div>
 <p>On the Windows host, start <code class="docutils literal notranslate"><span class="pre">DeviceOS.exe</span></code> with its copy of the same edited
-network, its license and <code class="docutils literal notranslate"><span class="pre">--deviceId</span> <span class="pre">FakeDeviceId</span></code>. Use
+inventory through <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>, its license and <code class="docutils literal notranslate"><span class="pre">--deviceId</span> <span class="pre">FakeDeviceId</span></code>. Use
 <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> from that DeviceOS distribution.</p>
 </section>
 <section id="source-checkout">
@@ -625,7 +635,7 @@ network, its license and <code class="docutils literal notranslate"><span class=
 <p>From the repository root, start DeviceOS in terminal A:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>DeviceOSPack/DeviceOS.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>FakeNodeId<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--deviceId<span class="w"> </span>FakeDeviceId<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--openDriversFile<span class="w"> </span><span class="s2">&quot;./DeviceOSPack/OpenDrivers/OpenDrivers.json&quot;</span>
@@ -634,7 +644,8 @@ network, its license and <code class="docutils literal notranslate"><span class=
 <p>In terminal B, start NodeEngine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>NodeEnginePack/NodeEngine.py<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;./config/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/lab-inventory.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/network.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>FakeNodeId<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span><span class="s2">&quot;./NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/composedSweep/input.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--waitProtocol<span class="w"> </span><span class="se">\</span>
@@ -664,8 +675,9 @@ external instruction to disconnect the hardware.</p>
 <section id="if-it-fails">
 <h2>If it fails<a class="headerlink" href="#if-it-fails" title="Link to this heading">¶</a></h2>
 <p>Check paths first, then licensing, then endpoint/port conflicts. A missing
-input file is not a driver failure. A file that lacks a top-level <code class="docutils literal notranslate"><span class="pre">nodes</span></code>
-list is probably a run input passed as <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>. See <a class="reference internal" href="results.html"><span class="doc">Read results and diagnose failures</span></a>
+input file is not a driver failure. <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> requires an
+<code class="docutils literal notranslate"><span class="pre">inventory-1</span></code> document; <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> requires its matching
+<code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> document, not a run plan. See <a class="reference internal" href="results.html"><span class="doc">Read results and diagnose failures</span></a>
 for the full troubleshooting sequence.</p>
 <p>After this run succeeds, move to a single finite hardware acquisition. Do not
 start with compensation: first prove detector mapping and safe light levels.</p>
@@ -721,7 +733,8 @@ start with compensation: first prove detector mapping and safe light levels.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -1,4 +1,6 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-measure-link-polarization-singles-inventory",
   "networkId": "example-measure-link-polarization-singles",
   "quantumLinks": [
     {
@@ -6,55 +8,38 @@
       "dwdmChannel": 44
     }
   ],
-  "nodes": [
+  "devices": [
     {
-      "nodeId": "ExampleNodeId",
+      "deviceId": "ExampleTimeTaggerId",
       "enabled": true,
-      "host": "127.0.0.1",
-      "devices": [
+      "linkBindings": [
         {
-          "deviceId": "ExampleTimeTaggerId",
-          "deviceType": "SwabianTT",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleTargetLinkId",
-              "role": "sink",
-              "inputPort": "H",
-              "channel": 1
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.10",
-            "syncCmdPort": 19101,
-            "asyncCmdPort": 19102,
-            "telemetryPort": 19103
-          },
-          "hardwareConfig": {}
-        },
-        {
-          "deviceId": "ExamplePolarizationAnalyzerId",
-          "deviceType": "PaX000",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleTargetLinkId",
-              "role": "polarizationAnalyzer",
-              "outputPort": "H",
-              "channel": 1,
-              "measurementTopology": "polarizer",
-              "detectorConnected": true
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.10",
-            "syncCmdPort": 19201,
-            "asyncCmdPort": 19202,
-            "telemetryPort": 19203
-          },
-          "hardwareConfig": {}
+          "linkId": "ExampleTargetLinkId",
+          "role": "sink",
+          "inputPort": "H",
+          "channel": 1
         }
-      ]
+      ],
+      "settings": {
+        "channels": {
+          "1": {}
+        }
+      }
+    },
+    {
+      "deviceId": "ExamplePolarizationAnalyzerId",
+      "enabled": true,
+      "linkBindings": [
+        {
+          "linkId": "ExampleTargetLinkId",
+          "role": "polarizationAnalyzer",
+          "outputPort": "H",
+          "channel": 1,
+          "measurementTopology": "polarizer",
+          "detectorConnected": true
+        }
+      ],
+      "settings": {}
     }
   ]
 }

@@ -3,8 +3,8 @@
 Describe the network
 ====================
 
-Start from the network shipped with the protocol you intend to run. Preserve
-its schema and replace anonymized identities, addresses and hardware settings
+Start from the inventory and experiment shipped with the protocol you intend
+to run. Preserve their schemas and replace anonymized identities, addresses and hardware settings
 with verified testbed values. Documentation/example addresses such as
 ``192.0.2.10`` are placeholders, not reachable laboratory hosts.
 
@@ -23,13 +23,13 @@ generated manifest offline and the loaded driver's identity and live limits
 before activation. Update DeviceOS drivers and their NodeEngine manifests
 together when these declarations change.
 
-For a long-running laboratory session, separate the stable equipment inventory
-from the experiment. A ``schemaVersion: inventory-1`` file contains an
+Separate the stable equipment inventory from the experiment.
+A ``schemaVersion: inventory-1`` file contains an
 ``inventoryId``, nodes, enabled active devices, endpoints, driver configuration
 and boot-only hardware settings. It contains no optical bindings, operating
 values or passive splitters. Start each DeviceOS once with that inventory::
 
-   python -m DeviceOSPack.DeviceOS --configFile lab-inventory.json --deviceId ExampleDetectorId --licenseFile config/license.json
+   python -m DeviceOSPack.DeviceOS --inventoryFile lab-inventory.json --deviceId ExampleDetectorId --licenseFile config/license.json
 
 The IDs and paths in these commands are placeholders. Replace
 ``ExampleDetectorId`` and ``ExampleNodeId`` with enabled device and node IDs
@@ -78,9 +78,8 @@ For a headless run, activate the network before the plan::
    python -m NodeEnginePack.NodeEngine --inventoryFile lab-inventory.json --networkFile experiment.json --nodeId ExampleNodeId --licenseFile config/license.json --metaProtocolRun input.json --waitProtocol
 
 Supplying ``--networkFile`` explicitly authorizes boot activation, including
-its recorded warnings. The legacy single-file ``--configFile`` workflow remains
-available, but it cannot be combined with ``--inventoryFile``. Legacy analyzer
-wavelengths are now applied by NodeEngine after device readiness too.
+its recorded warnings. DeviceOS requires an inventory; a legacy complete
+network is not accepted under ``--inventoryFile``.
 
 Offline validation does not start drivers or contact equipment::
 
@@ -89,8 +88,8 @@ Offline validation does not start drivers or contact equipment::
 Nodes, devices and addresses
 ----------------------------
 
-In the single-file format, ``network.json`` must contain a top-level ``nodes``
-list. In inventory mode this list belongs to the inventory, not the experiment.
+The top-level ``nodes`` list belongs to ``lab-inventory.json``, not the
+``experiment-1`` network.
 Select an existing
 ``nodeId`` when launching NodeEngine. Each declared device has a globally unique
 ``deviceId`` and a supported ``deviceType``. For an enabled active device, ``deviceEngine`` gives the
@@ -100,7 +99,7 @@ the relevant hosts; device processes sharing an IP must not bind conflicting
 ports.
 
 The ``nodeId`` passed to DeviceOS is an optional disambiguator when deriving
-the device from a shared network. NodeEngine's ``--nodeId`` is required.
+the device from the inventory. NodeEngine's ``--nodeId`` is required.
 ``127.0.0.1`` means the current host: it cannot address DeviceOS running on
 another PC. ``serialPort`` and vendor hardware identity/serial settings belong
 to the device configuration on the host that physically owns it.
@@ -108,8 +107,7 @@ to the device configuration on the host that physically owns it.
 Check in this order:
 
 1. The intended node and device are enabled.
-2. NodeEngine and DeviceOS use the same inventory content (or the same edited
-   single-file network when not using inventory mode).
+2. NodeEngine and DeviceOS use the same inventory content.
 3. Device identity, physical serial/COM port and DeviceOS instance agree.
 4. The command/telemetry endpoints match and firewall rules permit access.
 5. DeviceOS reports connected, initialized and ready before a measurement.
@@ -216,10 +214,6 @@ runtime connections and operations. Passive device IDs cannot appear in
 The browser presents authoritative classifications, chains and diagnostics;
 offline imports use a parity-tested read-only fallback.
 
-Validate a complete, single-file network without connecting hardware::
-
-   python3 -m NodeEnginePack.NetworkConfiguration.ValidateNetwork /path/to/network.json
-
 An ``experiment-1`` network requires ``--inventory`` so device types, endpoints
 and boot-only configuration can be resolved before checking its settings and
 optical topology. Without that argument the CLI reports an error, rather than
@@ -274,9 +268,77 @@ Full topology example with one splitter and a PBS analyzer:
    The JSON below declares this schematic. Optical paths and electrical
    readout pairing are distinct; SNSPD and TT each remain one physical device.
 
+Inventory (lab-inventory.json)
+
 .. code-block:: json
 
    {
+     "schemaVersion": "inventory-1",
+     "inventoryId": "splitter-pbs-example-inventory",
+     "nodes": [
+       {
+         "nodeId": "Bench",
+         "devices": [
+           {
+             "deviceId": "EPS",
+             "deviceType": "Eps1000W",
+             "enabled": true,
+             "deviceEngine": {
+               "ip": "192.0.2.10",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             },
+             "hardwareConfig": {}
+           },
+           {
+             "deviceId": "PA",
+             "deviceType": "PaX000",
+             "enabled": true,
+             "deviceEngine": {
+               "ip": "192.0.2.20",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             },
+             "hardwareConfig": {}
+           },
+           {
+             "deviceId": "SNSPD",
+             "deviceType": "Photec",
+             "enabled": true,
+             "deviceEngine": {
+               "ip": "192.0.2.30",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             },
+             "hardwareConfig": {}
+           },
+           {
+             "deviceId": "TT",
+             "deviceType": "SwabianTT",
+             "enabled": true,
+             "deviceEngine": {
+               "ip": "192.0.2.40",
+               "syncCmdPort": 19001,
+               "asyncCmdPort": 19002,
+               "telemetryPort": 19003
+             },
+             "hardwareConfig": {}
+           }
+         ]
+       }
+     ]
+   }
+
+Experiment (network.json)
+
+.. code-block:: json
+
+   {
+     "schemaVersion": "experiment-1",
+     "inventoryId": "splitter-pbs-example-inventory",
      "networkId": "splitter-pbs-example",
      "quantumLinks": [
        {
@@ -292,143 +354,121 @@ Full topology example with one splitter and a PBS analyzer:
          "parentLinkId": "ROOT"
        }
      ],
-     "nodes": [
+     "devices": [
        {
-         "nodeId": "Bench",
-         "devices": [
+         "deviceId": "EPS",
+         "enabled": true,
+         "linkBindings": [
            {
-             "deviceId": "EPS",
-             "deviceType": "Eps1000W",
-             "enabled": true,
-             "linkBindings": [
-               {
-                 "linkId": "ROOT",
-                 "role": "source",
-                 "outputPort": 1
-               }
-             ],
-             "deviceEngine": {
-               "ip": "192.0.2.10",
-               "syncCmdPort": 19001,
-               "asyncCmdPort": 19002,
-               "telemetryPort": 19003
-             }
-           },
-           {
-             "deviceId": "SPLIT",
-             "deviceType": "FiberSplitter",
-             "enabled": true,
-             "linkBindings": [
-               {
-                 "linkId": "ROOT",
-                 "role": "splitterInput"
-               },
-               {
-                 "linkId": "ROOT-1",
-                 "role": "splitterOutput",
-                 "outputPort": 1
-               },
-               {
-                 "linkId": "ROOT-2",
-                 "role": "splitterOutput",
-                 "outputPort": 2
-               }
-             ],
-             "hardwareConfig": {
-               "splitRatio": [
-                 0.5,
-                 0.5
-               ]
-             }
-           },
-           {
-             "deviceId": "PA",
-             "deviceType": "PaX000",
-             "enabled": true,
-             "linkBindings": [
-               {
-                 "linkId": "ROOT-1",
-                 "role": "polarizationAnalyzer",
-                 "channel": 1,
-                 "outputPort": "H",
-                 "measurementTopology": "pbs"
-               },
-               {
-                 "linkId": "ROOT-1",
-                 "role": "polarizationAnalyzer",
-                 "channel": 1,
-                 "outputPort": "V",
-                 "measurementTopology": "pbs"
-               }
-             ],
-             "deviceEngine": {
-               "ip": "192.0.2.20",
-               "syncCmdPort": 19001,
-               "asyncCmdPort": 19002,
-               "telemetryPort": 19003
-             }
-           },
-           {
-             "deviceId": "SNSPD",
-             "deviceType": "Photec",
-             "enabled": true,
-             "linkBindings": [
-               {
-                 "linkId": "ROOT-1",
-                 "role": "sink",
-                 "channel": 5,
-                 "inputPort": "H"
-               },
-               {
-                 "linkId": "ROOT-1",
-                 "role": "sink",
-                 "channel": 6,
-                 "inputPort": "V"
-               },
-               {
-                 "linkId": "ROOT-2",
-                 "role": "sink",
-                 "channel": 7
-               }
-             ],
-             "deviceEngine": {
-               "ip": "192.0.2.30",
-               "syncCmdPort": 19001,
-               "asyncCmdPort": 19002,
-               "telemetryPort": 19003
-             }
-           },
-           {
-             "deviceId": "TT",
-             "deviceType": "SwabianTT",
-             "enabled": true,
-             "linkBindings": [
-               {
-                 "linkId": "ROOT-1",
-                 "role": "sink",
-                 "channel": 6,
-                 "inputPort": "H"
-               },
-               {
-                 "linkId": "ROOT-1",
-                 "role": "sink",
-                 "channel": 7,
-                 "inputPort": "V"
-               },
-               {
-                 "linkId": "ROOT-2",
-                 "role": "sink",
-                 "channel": 8
-               }
-             ],
-             "deviceEngine": {
-               "ip": "192.0.2.40",
-               "syncCmdPort": 19001,
-               "asyncCmdPort": 19002,
-               "telemetryPort": 19003
-             }
+             "linkId": "ROOT",
+             "role": "source",
+             "outputPort": 1
            }
-         ]
+         ],
+         "settings": {}
+       },
+       {
+         "deviceId": "PA",
+         "enabled": true,
+         "linkBindings": [
+           {
+             "linkId": "ROOT-1",
+             "role": "polarizationAnalyzer",
+             "channel": 1,
+             "outputPort": "H",
+             "measurementTopology": "pbs"
+           },
+           {
+             "linkId": "ROOT-1",
+             "role": "polarizationAnalyzer",
+             "channel": 1,
+             "outputPort": "V",
+             "measurementTopology": "pbs"
+           }
+         ],
+         "settings": {}
+       },
+       {
+         "deviceId": "SNSPD",
+         "enabled": true,
+         "linkBindings": [
+           {
+             "linkId": "ROOT-1",
+             "role": "sink",
+             "channel": 5,
+             "inputPort": "H"
+           },
+           {
+             "linkId": "ROOT-1",
+             "role": "sink",
+             "channel": 6,
+             "inputPort": "V"
+           },
+           {
+             "linkId": "ROOT-2",
+             "role": "sink",
+             "channel": 7
+           }
+         ],
+         "settings": {}
+       },
+       {
+         "deviceId": "TT",
+         "enabled": true,
+         "linkBindings": [
+           {
+             "linkId": "ROOT-1",
+             "role": "sink",
+             "channel": 6,
+             "inputPort": "H"
+           },
+           {
+             "linkId": "ROOT-1",
+             "role": "sink",
+             "channel": 7,
+             "inputPort": "V"
+           },
+           {
+             "linkId": "ROOT-2",
+             "role": "sink",
+             "channel": 8
+           }
+         ],
+         "settings": {
+           "channels": {
+             "6": {},
+             "7": {},
+             "8": {}
+           }
+         }
+       },
+       {
+         "deviceId": "SPLIT",
+         "enabled": true,
+         "deviceType": "FiberSplitter",
+         "ownerNodeId": "Bench",
+         "linkBindings": [
+           {
+             "linkId": "ROOT",
+             "role": "splitterInput"
+           },
+           {
+             "linkId": "ROOT-1",
+             "role": "splitterOutput",
+             "outputPort": 1
+           },
+           {
+             "linkId": "ROOT-2",
+             "role": "splitterOutput",
+             "outputPort": 2
+           }
+         ],
+         "settings": {
+           "splitRatio": [
+             0.5,
+             0.5
+           ]
+         }
        }
      ]
    }

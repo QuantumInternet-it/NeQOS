@@ -56,8 +56,8 @@ automatically; an explicit override is ``--openDriversFile
 
 Open meta-protocol libraries belong to
 ``NodeEngine.dist/NodeEnginePack/OpenMetaProtocols/``. DeviceOS needs the
-network JSON selected by ``--configFile``, not the NodeEngine library folder.
-Point both executables to the same network, or use matching copies on separate
+inventory JSON selected by ``--inventoryFile``, not the NodeEngine library folder.
+Point both executables to the same inventory, or use matching copies on separate
 hosts. See :doc:`quickstart` for exact Windows commands that use the network
 in a sibling NodeEngine distribution without copying any directory.
 
@@ -162,7 +162,7 @@ For a Windows Command Prompt ``.bat`` file:
    if not exist "%NEQOS_CALIBRATION_DIR%" mkdir "%NEQOS_CALIBRATION_DIR%"
    C:\NeQOS\DeviceOS.dist\DeviceOS.exe ^
      --licenseFile "C:\NeQOSConfig\license.json" ^
-     --configFile "C:\NeQOSConfig\lab-inventory.json" ^
+     --inventoryFile "C:\NeQOSConfig\lab-inventory.json" ^
      --localConfigFile "C:\NeQOSConfig\DeviceOS.local.json" ^
      --deviceId ExampleTimeTaggerId
    pause
@@ -178,7 +178,7 @@ directory variables shown above. Set those in the launcher/process environment.
 ``NEQOS_DEVICE_ARTIFACT_DIR`` selects device-created artifacts such as raw
 Time Tagger files. ``NEQOS_CALIBRATION_DIR`` selects compensation storage on
 the DeviceOS host. CLI NodeEngine runs write under ``MetaProtocolResults`` in
-its working directory; operator runs use ``--operatorData``. See :doc:`results` before
+its working directory; browser runs use ``--inventoryDataDir``. See :doc:`results` before
 looking for a file on the wrong computer.
 
 A local writable data directory is a useful troubleshooting baseline. You may

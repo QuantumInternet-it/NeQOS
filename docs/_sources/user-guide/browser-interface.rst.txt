@@ -81,13 +81,36 @@ Activate an experiment network
    intended network active; a draft or validation alone does not.
 
 With a lab inventory, **Load experiment network** immediately shows the declared
-topology as **Draft · not validated · not active**, including when devices are
+topology as **Draft · not validated · not yet activated**, including when devices are
 offline. Opening a saved network provides the same preview. This uses only the
 inventory and experiment document; it does not query or configure hardware.
 **Validate network** then checks device readiness and reads current settings.
 **Activate network** applies the validated configuration. A failed validation
-leaves the draft visible but unavailable for activation. **Show draft topology**
-returns to the candidate after viewing the active network.
+leaves the draft visible but unavailable for activation. Without a loaded draft,
+Validate and Activate are disabled. Loading a draft disables file, saved-network
+and last-active selectors until **Clear selected network** clears that selection.
+Successful validation disables Validate and enables Activate; activation
+consumes that validation. Once a network is active, selecting or validating
+another network is disabled: first deactivate the current network, then load the
+replacement. Controls remain locked during execution and cleanup.
+
+**Clear selected network** is available for a selected, not-yet-active network;
+it returns to the inventory view without deleting a saved network or changing
+device settings. **Deactivate network** is a separate action available only
+when there are no queued/active runs, protocol executions, cleanup operations,
+or held device leases. It clears the active topology from NodeEngine and
+returns to the inventory view, but it does not restore or change physical
+device settings. The warning is shown before confirmation. Runs remain blocked
+until another network is activated. To keep a candidate for later without
+activating it, use **More → Save draft to saved networks**, even before device
+validation. Saving checks the document against the inventory but does not
+validate device readiness, activate a network, or change hardware settings.
+Activation also saves the network. Topology preview is automatic; there is no
+separate Show button. **Validated draft · not yet activated** means validation
+succeeded but the draft has not been activated. **No device setting changes
+required** means the requested settings already match; **Activate network** is
+still required to select this topology for experiments. No empty changes table
+is shown in this case.
 
 .. figure:: /_static/browser-guide/activation-validation.png
    :alt: Simulated Choose, Validate, Activate workflow and configuration-changes table.
@@ -244,7 +267,10 @@ Missing historical evidence remains unknown. The **Runs** column is the run
 timeline and includes a filter and **Follow the active run**. While execution
 or cleanup is in progress, only the current run is available. When idle,
 selecting another run turns Follow off. Queue Pause/Resume is idle-only;
-**Abort run** belongs to the selected active run's header.
+**Abort run** appears in the active run's header and on **Network & devices**
+while a run is in progress. Both controls invoke the same run-level abort and
+pause the queue; after the run and cleanup finish, the network action changes
+to **Deactivate network** when a network is active.
 
 Run names use the saved experiment name, a network-activation label, or the
 first and last protocol names. The short run ID remains in the header and the
@@ -341,10 +367,14 @@ through the standalone viewer or folder import.
 Reconnect and authentication
 ----------------------------
 
-The browser receives authenticated full state replacements. A reconnect does
-not authorize a new run or terminate one. Expired sessions require the startup
-token again; a server restart also reloads configuration. Tokens stay out of
-URLs, browser storage and archived run inputs. Treat them as credentials.
+The **GUI reconnect** button immediately reopens the browser's authenticated
+live connection; normal automatic retry continues if the connection is still
+unavailable. It does not restart NodeEngine or devices, activate a network or
+change device settings. The browser receives authenticated full state
+replacements. A reconnect does not authorize a new run or terminate one.
+Expired sessions require the startup token again; a server restart also reloads
+configuration. Tokens stay out of URLs, browser storage and archived run
+inputs. Treat them as credentials.
 
 The service binds to loopback and checks Host/Origin, sessions and command
 requests. For another computer, use the SSH tunnel in :doc:`running`; direct
@@ -363,6 +393,16 @@ channel selection, **Visible time** and **Maximum plotted points**;
 use zoom buttons, the mouse wheel or a horizontal drag to explore time. Arrow
 keys and ``+`` / ``-`` work when the chart has focus. **Live** returns to the
 current interval.
+
+**X scale** and **Y scale** independently select **Linear** (the default) or
+**Logarithmic**, for live traces and loaded recordings. Logarithmic X shows
+elapsed seconds from the start of the visible window, not the logarithm of a
+clock timestamp; its origin is stated below the chart. The sample at elapsed
+time zero cannot be plotted. Logarithmic Y plots only positive rates: zero or
+negative values stay in the data and numerical readouts, but break the trace.
+The chart reports readings omitted by the logarithmic scales. Scale selection
+is a display-only operation, remains available during runs, and does not change
+hardware integration, recordings, or exports. The compact monitor stays linear.
 
 1. Open **Detectors** and select the intended local Photec.
 2. Choose its declared channels and inspect timestamped counts and health.
@@ -406,7 +446,8 @@ experiment documents.
 
 **Start recording** captures subsequent telemetry on NodeEngine independently
 of the browser, until **Stop recording** or NodeEngine shutdown. **Save displayed
-data** saves only the samples currently plotted, including recorded validity,
+data** saves the samples in the displayed interval, including values omitted
+by logarithmic scales, recorded validity,
 integration, run ID and reported channel health. New recording CSV files append
 ``healthJson`` after the sixteen count columns; older recordings without that
 column show health as not recorded. The live buffer holds at most 3600 samples per device;
@@ -414,7 +455,7 @@ expired samples must be refreshed before saving.
 
 Each save creates a timestamped folder containing ``metadata.json``,
 ``samples.csv`` and ``samples.offsets``. By default it is stored in
-``<operatorData>/TelemetryRecordings``; set ``--telemetryRecordings`` to use
+``<inventoryDataDir>/TelemetryRecordings``; set ``--telemetryRecordings`` to use
 another directory. The panel displays the directory on the NodeEngine computer.
 **Open recording**, **Load** and **Export CSV** are available while idle. A
 recording must be stopped before loading or exporting it. DeviceOS must supply
@@ -447,13 +488,15 @@ From a source checkout with Python 3.10 or newer:
 .. code-block:: bash
 
    python3 -m NodeEnginePack.BrowserUI.server \
+     --inventory /absolute/path/lab-inventory.json \
      --network /absolute/path/network.json \
      --results /absolute/path/MetaProtocolResults \
      --port 8765
 
 Open ``http://127.0.0.1:8765``. The viewer uses Python's standard library and
 browser modules; it starts neither engine and executes no Python handler.
-The network/results arguments are optional: they supply files to offer in the
+The network/results arguments are optional; an ``experiment-1`` network
+requires its matching ``--inventory``. They supply files to offer in the
 viewer, not a request to connect to those devices.
 Load networks, saved run folders or exported state snapshots to inspect recorded
 topology and execution. Snapshots are historical observations, not live device

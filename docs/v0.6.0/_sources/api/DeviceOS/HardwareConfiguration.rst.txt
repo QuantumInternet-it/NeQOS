@@ -1,14 +1,13 @@
 Hardware configuration
 ======================
 
-In a complete, single-file network, device configuration is declared under
-``hardwareConfig``. In inventory-based operation, only boot-only keys belong
-in the inventory's ``hardwareConfig``; supported operating values belong in
+Only boot-only keys belong in the inventory's ``hardwareConfig``;
+supported operating values belong in
 the experiment's ``settings`` and are applied during network activation.
 These are not task arguments, host SDK paths or NodeEngine shared parameters.
 Constructor transport options belong in ``driverConfig``;
 :doc:`RuntimeSetup` covers host-local SDK paths. See
-:doc:`/user-guide/network` for the two configuration workflows and
+:doc:`/user-guide/network` for inventory and experiment configuration and
 :doc:`/user-guide/writing-hardware-driver` when adding a new configuration surface.
 
 The driver validates and applies the configuration it supports. Catalog input
@@ -110,19 +109,9 @@ the link topology. Missing or conflicting wavelengths are rejected during
 NodeEngine network validation. The live wavelength parameter remains part of the driver
 API; see :doc:`PaX000/parameters` for its bounds.
 
-.. rubric:: Single-file operation
-
-In a complete network supplied with ``--configFile``,
-``channel<N>Waveplate<M>AngleDeg`` can be declared in ``hardwareConfig`` and
-is applied during driver initialization. Initialization resets waveplate
-retardances and selects H (using loaded compensated H states when available),
-then applies the declared angle overrides.
-
-The driver ignores ``channel<N>WavelengthNm`` entries in ``hardwareConfig``;
-they are not startup wavelength overrides. NodeEngine derives wavelengths
-from the same link/DWDM topology after device readiness in this mode too.
-Unlike inventory activation, this legacy activation applies derived wavelengths
-only; it does not reapply the angle overrides already used at initialization.
+Initialization resets waveplate retardances and selects H (using loaded
+compensated H states when available). Experiment angle overrides are applied
+by NodeEngine during activation, not supplied to DeviceOS as operating settings.
 Activation reports a compensation warning when a wavelength changes; this
 does not establish that the calibration is physically valid for that wavelength.
 

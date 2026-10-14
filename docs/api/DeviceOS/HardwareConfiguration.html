@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -486,14 +492,13 @@
         <article role="main" id="furo-main-content">
           <section id="hardware-configuration">
 <h1>Hardware configuration<a class="headerlink" href="#hardware-configuration" title="Link to this heading">¶</a></h1>
-<p>In a complete, single-file network, device configuration is declared under
-<code class="docutils literal notranslate"><span class="pre">hardwareConfig</span></code>. In inventory-based operation, only boot-only keys belong
-in the inventory’s <code class="docutils literal notranslate"><span class="pre">hardwareConfig</span></code>; supported operating values belong in
+<p>Only boot-only keys belong in the inventory’s <code class="docutils literal notranslate"><span class="pre">hardwareConfig</span></code>;
+supported operating values belong in
 the experiment’s <code class="docutils literal notranslate"><span class="pre">settings</span></code> and are applied during network activation.
 These are not task arguments, host SDK paths or NodeEngine shared parameters.
 Constructor transport options belong in <code class="docutils literal notranslate"><span class="pre">driverConfig</span></code>;
 <a class="reference internal" href="RuntimeSetup.html"><span class="doc">DeviceOS Runtime Setup</span></a> covers host-local SDK paths. See
-<a class="reference internal" href="../../user-guide/network.html"><span class="doc">Describe the network</span></a> for the two configuration workflows and
+<a class="reference internal" href="../../user-guide/network.html"><span class="doc">Describe the network</span></a> for inventory and experiment configuration and
 <a class="reference internal" href="../../user-guide/writing-hardware-driver.html"><span class="doc">Writing a hardware driver</span></a> when adding a new configuration surface.</p>
 <p>The driver validates and applies the configuration it supports. Catalog input
 validation does not substitute for these device checks. Values controlling
@@ -572,17 +577,9 @@ Declare a channel on each analyzer binding and a resolvable DWDM channel in
 the link topology. Missing or conflicting wavelengths are rejected during
 NodeEngine network validation. The live wavelength parameter remains part of the driver
 API; see <a class="reference internal" href="PaX000/parameters.html"><span class="doc">PaX000 Parameters</span></a> for its bounds.</p>
-<p class="rubric">Single-file operation</p>
-<p>In a complete network supplied with <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>,
-<code class="docutils literal notranslate"><span class="pre">channel&lt;N&gt;Waveplate&lt;M&gt;AngleDeg</span></code> can be declared in <code class="docutils literal notranslate"><span class="pre">hardwareConfig</span></code> and
-is applied during driver initialization. Initialization resets waveplate
-retardances and selects H (using loaded compensated H states when available),
-then applies the declared angle overrides.</p>
-<p>The driver ignores <code class="docutils literal notranslate"><span class="pre">channel&lt;N&gt;WavelengthNm</span></code> entries in <code class="docutils literal notranslate"><span class="pre">hardwareConfig</span></code>;
-they are not startup wavelength overrides. NodeEngine derives wavelengths
-from the same link/DWDM topology after device readiness in this mode too.
-Unlike inventory activation, this legacy activation applies derived wavelengths
-only; it does not reapply the angle overrides already used at initialization.
+<p>Initialization resets waveplate retardances and selects H (using loaded
+compensated H states when available). Experiment angle overrides are applied
+by NodeEngine during activation, not supplied to DeviceOS as operating settings.
 Activation reports a compensation warning when a wavelength changes; this
 does not establish that the calibration is physically valid for that wavelength.</p>
 <p class="rubric">Calibration storage and boot loading</p>
@@ -704,7 +701,8 @@ and runtime capabilities when reviewing deployment-specific values.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

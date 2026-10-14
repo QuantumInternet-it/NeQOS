@@ -54,13 +54,15 @@ Wait for a declared duration without issuing device commands, then report the co
 
 Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/input.json>`.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./HoldDuration.minimal.json" \
      --waitProtocol --verboseRunFolders

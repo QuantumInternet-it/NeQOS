@@ -97,13 +97,15 @@ Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtoc
 
 Mode-dependent inputs from the shipped example are retained alongside schema-required inputs.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/polarizationCompensation/CompensateLinkPolarizationFromSeparableHDProbes/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./CompensateLinkPolarizationFromSeparableHDProbes.minimal.json" \
      --waitProtocol --verboseRunFolders

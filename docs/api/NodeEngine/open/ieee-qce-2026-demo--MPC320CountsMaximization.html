@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -609,11 +615,12 @@
 <h2>4 Run examples<a class="headerlink" href="#run-examples" title="Link to this heading">¶</a></h2>
 <p>Library folders resolve relative to the run input. Keep the library’s directory layout when using its shipped input and network. Commands below are for a source checkout, from the repository root. For compiled distributions, follow <a class="reference internal" href="../../../user-guide/quickstart.html"><span class="doc">First run without hardware</span></a>: DeviceOS uses <code class="docutils literal notranslate"><span class="pre">OpenDrivers/OpenDrivers.json</span></code> beside its executable and reads the network using an explicit path to the NodeEngine distribution or a shared JSON. Copying <code class="docutils literal notranslate"><span class="pre">NodeEnginePack</span></code> into DeviceOS is unnecessary. These commands execute the run, not an offline validation.</p>
 <p><a class="reference download internal" download="" href="../../../_downloads/2788ec368d0037f13d1e9037214bee3d/input.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">shipped</span> <span class="pre">input.json</span></code></a></p>
-<p>Network: <a class="reference download internal" download="" href="../../../_downloads/8a44bbc7957977a2e39431c26194d31a/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
+<p>Inventory: <a class="reference download internal" download="" href="../../../_downloads/56129ec6675e0911b86c01d1c63d42ad/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.
+Experiment network: <a class="reference download internal" download="" href="../../../_downloads/8a44bbc7957977a2e39431c26194d31a/network.json"><code class="xref download docutils literal notranslate"><span class="pre">network.json</span></code></a>.</p>
 <p>Start one DeviceOS process for each enabled device below, on its configured host. Wait for connected, initialized and ready state before starting NodeEngine.</p>
 <p><strong>MPC-1</strong> (<code class="docutils literal notranslate"><span class="pre">Mpc320</span></code> driver):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>DeviceOSPack.DeviceOS<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/lab-inventory.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>NODE-MPC<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--deviceId<span class="w"> </span>MPC-1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span>/path/to/license.json
@@ -621,7 +628,7 @@
 </div>
 <p><strong>TT-1</strong> (<code class="docutils literal notranslate"><span class="pre">SwabianTT</span></code> driver):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>DeviceOSPack.DeviceOS<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/lab-inventory.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>NODE-MPC<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--deviceId<span class="w"> </span>TT-1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span>/path/to/license.json
@@ -629,7 +636,8 @@
 </div>
 <p>Then start NodeEngine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>NodeEnginePack.NodeEngine<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--configFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inventoryFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/lab-inventory.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--networkFile<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/network.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--nodeId<span class="w"> </span>NODE-MPC<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span>/path/to/license.json<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--metaProtocolRun<span class="w"> </span>./NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo/MetaProtocolsRun/countsMaximization/input.json<span class="w"> </span><span class="se">\</span>
@@ -938,7 +946,8 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../../../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

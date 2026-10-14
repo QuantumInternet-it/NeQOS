@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "example-compensate-source-polarization-separable-hd-probes-inventory",
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "192.0.2.10",
+      "devices": [
+        {
+          "deviceId": "ExampleEntangledPhotonSourceId",
+          "deviceType": "Eps1000W",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45041,
+            "asyncCmdPort": 45042,
+            "telemetryPort": 45043
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "entangledOutputAttenuation": {
+                "min": 0,
+                "max": 83.3
+              },
+              "classicOutputAttenuation": {
+                "min": 0,
+                "max": 44.9542
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleInlineAttenuatorOneId",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45051,
+            "asyncCmdPort": 45052,
+            "telemetryPort": 45053
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0,
+                "max": 34,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleInlineAttenuatorTwoId",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45061,
+            "asyncCmdPort": 45062,
+            "telemetryPort": 45063
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0,
+                "max": 34,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExamplePolarizationAnalyzerOneId",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45101,
+            "asyncCmdPort": 45102,
+            "telemetryPort": 45103
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExamplePolarizationAnalyzerTwoId",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45111,
+            "asyncCmdPort": 45112,
+            "telemetryPort": 45113
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45201,
+            "asyncCmdPort": 45202,
+            "telemetryPort": 45203
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleDetectorHealthId",
+          "deviceType": "Photec",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45211,
+            "asyncCmdPort": 45212,
+            "telemetryPort": 45213
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

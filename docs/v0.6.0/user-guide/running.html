@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8d19e006" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
     
     
 
@@ -44,6 +44,12 @@
 </head>
   <body>
     
+<nav class="documentation-repository" aria-label="Project repository">
+  <a href="https://github.com/QuantumInternet-it/NeQOS">
+    NeQOS GitHub repository
+  </a>
+</nav>
+
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
@@ -486,14 +492,14 @@
         <article role="main" id="furo-main-content">
           <section id="run-and-customize-a-protocol">
 <h1><span class="section-number">5. </span>Run and customize a protocol<a class="headerlink" href="#run-and-customize-a-protocol" title="Link to this heading">¶</a></h1>
-<section id="copy-the-input-and-network-together">
-<h2>Copy the input and network together<a class="headerlink" href="#copy-the-input-and-network-together" title="Link to this heading">¶</a></h2>
+<section id="copy-the-input-inventory-and-experiment-together">
+<h2>Copy the input, inventory and experiment together<a class="headerlink" href="#copy-the-input-inventory-and-experiment-together" title="Link to this heading">¶</a></h2>
 <p>Open <a class="reference internal" href="protocols/index.html"><span class="doc">Built-in protocol catalog</span></a> and choose the capability by the data or outcome
-you need. Download its input and network, or find them in:</p>
+you need. Download its input, inventory and experiment network, or find them in:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NodeEnginePack/ReservedMetaProtocols/&lt;domain&gt;/&lt;function&gt;/&lt;ProtocolId&gt;/RunExample/
 </pre></div>
 </div>
-<p>Copy them to your working directory. Edit the network as described in
+<p>Copy all three to your working directory. Edit them as described in
 <a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a>, then make the input’s device/link identities match. Inspect
 <strong>all</strong> <code class="docutils literal notranslate"><span class="pre">steps</span></code>: some shipped inputs demonstrate multiple modes and will
 execute more than once. Keep only the intended step for a single-protocol test.</p>
@@ -547,8 +553,8 @@ folder.</p>
 <h2>Launch DeviceOS, then NodeEngine<a class="headerlink" href="#launch-deviceos-then-nodeengine" title="Link to this heading">¶</a></h2>
 <p>Start one DeviceOS per enabled active inventory device on its hardware host,
 then start one NodeEngine in the mode described in
-<a class="reference internal" href="#choose-nodeengine-operation"><span class="std std-ref">Choose command-line or browser operation</span></a> below. For the single-file examples shipped
-with protocols, use <a class="reference internal" href="#single-file-operation"><span class="std std-ref">Continue using a single-file network</span></a> instead. Do not pass an
+<a class="reference internal" href="#choose-nodeengine-operation"><span class="std std-ref">Choose command-line or browser operation</span></a> below. Every shipped network example now
+has a matching inventory. Do not pass an
 <code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> file directly to DeviceOS.</p>
 <p>There is no <code class="docutils literal notranslate"><span class="pre">--protocolId</span></code> selector: select protocols inside the run input.
 Keep DeviceOS processes alive through terminal cleanup. If upgrading existing
@@ -637,14 +643,14 @@ IDs below are placeholders. A shared file path does not configure networking:
 device endpoints must be reachable from NodeEngine.</p>
 <p>On Windows, from <code class="docutils literal notranslate"><span class="pre">DeviceOS.dist</span></code>, start one process per enabled active device:</p>
 <div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\DeviceOS.exe <span class="se">^</span>
-<span class="se"> </span> --configFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
+<span class="se"> </span> --inventoryFile <span class="s2">&quot;C:\NeQOSConfig\lab-inventory.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --localConfigFile <span class="s2">&quot;C:\NeQOSConfig\DeviceOS.local.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --deviceId YOUR_DEVICE_ID <span class="se">^</span>
 <span class="se"> </span> --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span>
 </pre></div>
 </div>
-<p>DeviceOS still uses <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> for the inventory; it does not use
-NodeEngine’s <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> or <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> options. Prepare the SDK
+<p>DeviceOS uses <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> for the inventory. It does not accept
+<code class="docutils literal notranslate"><span class="pre">--configFile</span></code> or NodeEngine’s <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> option. Prepare the SDK
 paths and calibration environment as described in <a class="reference internal" href="installation.html"><span class="doc">Install the software</span></a>.
 Wait for connected, initialized and ready state before starting the experiment.
 Passive splitters have no DeviceOS process.</p>
@@ -703,7 +709,7 @@ experiment yet. Windows:</p>
 <span class="se"> </span> --nodeId YOUR_NODE_ID <span class="se">^</span>
 <span class="se"> </span> --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> <span class="se">^</span>
 <span class="se"> </span> --serve --operatorPort 8766 <span class="se">^</span>
-<span class="se"> </span> --operatorData <span class="s2">&quot;C:\NeQOSData\OperatorData&quot;</span>
+<span class="se"> </span> --inventoryDataDir <span class="s2">&quot;C:\NeQOSData\inventoryDataDir&quot;</span>
 </pre></div>
 </div>
 <p>macOS:</p>
@@ -712,7 +718,7 @@ experiment yet. Windows:</p>
 <span class="w">  </span>--nodeId<span class="w"> </span>YOUR_NODE_ID<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--licenseFile<span class="w"> </span><span class="s2">&quot;/path/license.json&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--serve<span class="w"> </span>--operatorPort<span class="w"> </span><span class="m">8766</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--operatorData<span class="w"> </span><span class="s2">&quot;/path/OperatorData&quot;</span>
+<span class="w">  </span>--inventoryDataDir<span class="w"> </span><span class="s2">&quot;/path/inventoryDataDir&quot;</span>
 </pre></div>
 </div>
 <ol class="arabic simple">
@@ -732,12 +738,24 @@ After abort, wait for cleanup; the queue remains paused until you resume it.</p>
 <p>For composition, planner coverage, saved experiments, abort and history, see
 <a class="reference internal" href="browser-interface.html"><span class="doc">Use the browser interface</span></a>. Unsupported browser plans are rejected before
 submission; CLI availability does not imply operator-planner coverage.</p>
-<p>Keep <code class="docutils literal notranslate"><span class="pre">--operatorData</span></code> stable across restarts to retain the SQLite registry,
+<p>Keep <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code> stable across restarts to retain the SQLite registry,
 saved experiments and run artifacts. On restart, interrupted active records
 remain evidence and the queue is paused. Re-activate the intended network;
 there is no automatic mid-run resume. You may add <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> to the
 startup command to authorize boot activation explicitly instead of selecting
 it in the UI. Use <a class="reference internal" href="results.html"><span class="doc">Read results and diagnose failures</span></a> for backup instructions.</p>
+<p>Reuse the same directory when changing the experiment network or run plan:
+each execution has its own record. The archive is bound to <code class="docutils literal notranslate"><span class="pre">inventoryId</span></code>
+and the set of device endpoints (IP and synchronous-command port), not to
+the complete inventory JSON or an individual run. A different inventory ID
+or endpoint set requires a separate directory. The default directory is
+<code class="docutils literal notranslate"><span class="pre">inventoryDataDir</span></code>; existing archives are not moved or renamed.
+If the flag is omitted with <code class="docutils literal notranslate"><span class="pre">--serve</span></code>, NodeEngine uses
+<code class="docutils literal notranslate"><span class="pre">./inventoryDataDir</span></code> relative to the terminal’s working directory, not the
+inventory file’s directory. It does not choose a different folder automatically
+for each inventory; pass an explicit path for a different archive.
+To keep using a previous <code class="docutils literal notranslate"><span class="pre">OperatorData</span></code> archive, pass that existing path
+explicitly with <code class="docutils literal notranslate"><span class="pre">--inventoryDataDir</span></code>.</p>
 <p>For a source checkout, replace the executable with
 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">NodeEnginePack.NodeEngine</span></code> (or <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">DeviceOSPack.DeviceOS</span></code>)
 from the repository root. Before source-mode browser use, install its optional
@@ -758,23 +776,15 @@ NodeEngine process, which must remain running. Operator mode does not attach
 to an existing NodeEngine process; stop that process deliberately before
 changing modes instead of launching a second engine for the same devices.</p>
 </section>
-<section id="continue-using-a-single-file-network">
-<span id="single-file-operation"></span><h3>Continue using a single-file network<a class="headerlink" href="#continue-using-a-single-file-network" title="Link to this heading">¶</a></h3>
-<p>The existing single-file workflow remains supported for current-format
-networks and shipped RunExamples. DeviceOS uses <code class="docutils literal notranslate"><span class="pre">--configFile</span> <span class="pre">network.json</span></code>.
-On NodeEngine, replace the inventory/experiment pair with <code class="docutils literal notranslate"><span class="pre">--configFile</span></code>:</p>
-<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\NodeEngine.exe --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> --nodeId YOUR_NODE_ID --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> --metaProtocolRun <span class="s2">&quot;C:\NeQOSConfig\input.json&quot;</span> --waitProtocol
-</pre></div>
-</div>
-<p>For browser operation on that fixed network:</p>
-<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>.\NodeEngine.exe --configFile <span class="s2">&quot;C:\NeQOSConfig\network.json&quot;</span> --nodeId YOUR_NODE_ID --licenseFile <span class="s2">&quot;C:\NeQOSConfig\license.json&quot;</span> --serve --operatorPort 8766 --operatorData <span class="s2">&quot;C:\NeQOSData\OperatorData&quot;</span>
-</pre></div>
-</div>
-<p>Do not combine <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> with <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>. <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code>
-requires <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code>. An <code class="docutils literal notranslate"><span class="pre">experiment-1</span></code> document is not a complete
-single-file network. Use inventory mode for changing experiments while
-keeping the stable equipment inventory connected. See <a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a>
-for renamed detector fields and the files to review before upgrading.</p>
+<section id="migrate-an-old-single-file-example">
+<span id="single-file-operation"></span><h3>Migrate an old single-file example<a class="headerlink" href="#migrate-an-old-single-file-example" title="Link to this heading">¶</a></h3>
+<p>DeviceOS no longer accepts <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> or a complete legacy network
+passed under the new flag. Split equipment and experiment configuration,
+then use <code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> for DeviceOS and
+<code class="docutils literal notranslate"><span class="pre">--inventoryFile</span></code> + <code class="docutils literal notranslate"><span class="pre">--networkFile</span></code> for a headless NodeEngine run.
+The protocol’s run-plan format is unchanged. See <a class="reference internal" href="upgrading-0.6.0.html"><span class="doc">Move from 0.5.0 to 0.6.0</span></a>.</p>
+<p>NodeEngine retains <code class="docutils literal notranslate"><span class="pre">--configFile</span></code> for legacy tooling, but it is not the
+launch path for the migrated examples or a replacement for a DeviceOS inventory.</p>
 </section>
 <section id="use-a-browser-on-another-computer">
 <span id="id1"></span><h3>Use a browser on another computer<a class="headerlink" href="#use-a-browser-on-another-computer" title="Link to this heading">¶</a></h3>
@@ -806,11 +816,12 @@ and network configuration before operational use.</p>
 <a class="reference download internal" download="" href="../_downloads/c1eb05aa31a1542af1658ba38218063f/experiment-input-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment</span> <span class="pre">input</span></code></a>
 and
 <a class="reference download internal" download="" href="../_downloads/db71d977551c962035c83e6cebca5e81/experiment-network-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">experiment</span> <span class="pre">network</span></code></a>
+and <a class="reference download internal" download="" href="../_downloads/64f837ee563938b5abfc536b8e394c4e/lab-inventory-EntanglementDistribution.json"><code class="xref download docutils literal notranslate"><span class="pre">paired</span> <span class="pre">inventory</span></code></a>
 demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
 compensation, independent coincidence background, fidelity, detected distillable
 rate and the common summary. Replace the distributed network placeholders with
 your verified device identities, endpoints and physical channel/link bindings
-before use; use the paired input and network together.</p>
+before use; keep all three paired files together.</p>
 <p>Fidelity imports the separately acquired background through <code class="docutils literal notranslate"><span class="pre">$steps.background</span></code>.
 Rate and summary import the unchanged declared observation, reconstruction and
 fidelity exports; no second tomography or optimization is performed. A failed
@@ -993,7 +1004,8 @@ cleanup stage contracts when developing such a library.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div>
+<script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

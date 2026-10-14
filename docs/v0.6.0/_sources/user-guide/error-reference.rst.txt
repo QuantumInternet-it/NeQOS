@@ -60,9 +60,11 @@ that the entire monitoring protocol failed or that zero counts prove a latch.
 Operator and configuration failures
 ------------------------------------
 
-* **Operator data belongs to another network**: the persistent data directory
-  belongs to a different inventory/network and endpoint identity. Choose a
-  separate directory; do not delete a laboratory archive to run a Fake test.
+* **Inventory data directory belongs to another inventory, network or device endpoint set**:
+  the archive is bound to ``inventoryId`` and device endpoints; changing the
+  experiment network alone does not change that identity. Legacy single-file
+  mode uses the network ID instead. Choose a separate ``--inventoryDataDir``
+  for a different identity; do not delete a laboratory archive to run a Fake test.
 * **Configuration drift**: a failed activation left settings unresolved.
   Inspect its changes and replies, then validate and activate the intended
   network before submitting scientific runs.

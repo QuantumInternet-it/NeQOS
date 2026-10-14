@@ -64,13 +64,15 @@ Measures finite reference-target coincidence counts and rates across logical ana
 
 :download:`Download MeasureLinkPolarizationCoincidences.minimal.json <MeasureLinkPolarizationCoincidences.minimal.json>`
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./MeasureLinkPolarizationCoincidences.minimal.json" \
      --waitProtocol --verboseRunFolders
@@ -193,13 +195,15 @@ Each example lists only the inputs it adds to or changes in the minimal run.
 
 :download:`Full run plan <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/input.json>`
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/link/characterization/MeasureLinkPolarizationCoincidences/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./input.json" \
      --waitProtocol --verboseRunFolders

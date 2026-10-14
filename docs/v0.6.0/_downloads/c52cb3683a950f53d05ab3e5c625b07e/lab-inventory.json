@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "example-measure-link-background-coincidences-inventory",
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleEntangledPhotonSourceId",
+          "deviceType": "Eps1000W",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 45041,
+            "asyncCmdPort": 45042,
+            "telemetryPort": 45043
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "classicOutputAttenuation": {
+                "min": 0.0,
+                "max": 44.95
+              },
+              "entangledOutputAttenuation": {
+                "min": 0.0,
+                "max": 83.3
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.10",
+            "syncCmdPort": 19101,
+            "asyncCmdPort": 19102,
+            "telemetryPort": 19103
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

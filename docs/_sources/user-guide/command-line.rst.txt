@@ -18,12 +18,20 @@ Operating-mode constraints
   in inventory mode also requires ``--networkFile``.
 * ``--serve`` and ``--metaProtocolRun`` are alternatives; repeatable
   ``--openLibrary`` is available with ``--serve``.
-* ``--operatorData`` is a persistent directory on the NodeEngine host for
+* ``--inventoryDataDir`` is a persistent directory on the NodeEngine host for
   operator history, saved experiments and its database, not an input file.
-  Its identity is bound to the inventory and endpoint set (or legacy network).
-  Use a separate directory for a different inventory, not for each run plan.
-* DeviceOS currently uses ``--configFile`` for either a lab inventory or a
-  legacy complete network. ``--nodeId`` is an optional disambiguation when
+  Its identity is bound to ``inventoryId`` and device endpoints (IP and
+  synchronous-command port), or to the network ID/endpoints in legacy mode.
+  Reuse it across experiment networks and executions. Use a separate directory
+  for a different identity, not for each run plan. The default is
+  ``./inventoryDataDir``, relative to the terminal's working directory;
+  this flag does not rename or move existing directories or automatically
+  select a different archive for each inventory.
+  Point the flag explicitly to an existing ``OperatorData`` archive to
+  retain that history after upgrading.
+* DeviceOS uses only ``--inventoryFile`` for an ``inventory-1`` document.
+  The old ``--configFile`` flag is rejected, and renaming a legacy complete
+  network does not convert it. ``--nodeId`` is an optional disambiguation when
   deriving its device configuration.
 * DeviceOS command-line identity and transport defaults apply only without
   a shared configuration file. SDK paths belong to ``--localConfigFile``;

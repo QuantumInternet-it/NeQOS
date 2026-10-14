@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "lab-qnet-inventory",
+  "nodes": [
+    {
+      "nodeId": "NODE-MPC",
+      "host": "127.0.0.1",
+      "enabled": true,
+      "devices": [
+        {
+          "deviceId": "MPC-1",
+          "deviceType": "Mpc320",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "127.0.0.1",
+            "syncCmdPort": 5811,
+            "asyncCmdPort": 5812,
+            "telemetryPort": 5813
+          },
+          "driverConfig": {
+            "serialNumber": "38507244"
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "TT-1",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "127.0.0.1",
+            "syncCmdPort": 5801,
+            "asyncCmdPort": 5802,
+            "telemetryPort": 5803
+          },
+          "driverConfig": {},
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

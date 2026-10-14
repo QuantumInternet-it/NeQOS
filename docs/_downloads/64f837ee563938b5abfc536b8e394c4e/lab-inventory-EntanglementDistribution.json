@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "example-experiment-entanglement-distribution-inventory",
+  "telemetryDefaults": {
+    "periodSec": 1,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleEntangledPhotonSourceId",
+          "deviceType": "Eps1000W",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.11",
+            "syncCmdPort": 39041,
+            "asyncCmdPort": 39042,
+            "telemetryPort": 39043
+          },
+          "driverConfig": {
+            "serialPort": "COM11",
+            "probeTimeoutSec": 5,
+            "probeBeforeInitialize": false,
+            "probeFailureThreshold": 3
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "entangledOutputAttenuation": {
+                "min": 0,
+                "max": 83.3099
+              },
+              "classicOutputAttenuation": {
+                "min": 0,
+                "max": 44.9542
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAttenuatorA",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.12",
+            "syncCmdPort": 39111,
+            "asyncCmdPort": 39112,
+            "telemetryPort": 39113
+          },
+          "driverConfig": {
+            "serialPort": "COM12"
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0,
+                "max": 34,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAttenuatorB",
+          "deviceType": "Dv1550AA",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.13",
+            "syncCmdPort": 39121,
+            "asyncCmdPort": 39122,
+            "telemetryPort": 39123
+          },
+          "driverConfig": {
+            "serialPort": "COM13"
+          },
+          "hardwareConfig": {
+            "parameterLimits": {
+              "attenuation": {
+                "min": 0,
+                "max": 34,
+                "minStep": 0.01
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAnalyzerA",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.14",
+            "syncCmdPort": 39031,
+            "asyncCmdPort": 39032,
+            "telemetryPort": 39033
+          },
+          "driverConfig": {
+            "serialPort": "COM14"
+          },
+          "hardwareConfig": {
+            "loadPersistedCompensatedTomographyAtBoot": false,
+            "compensatedTomographyChannels": {
+              "1": {
+                "loadAtBoot": false
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleAnalyzerB",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.15",
+            "syncCmdPort": 39061,
+            "asyncCmdPort": 39062,
+            "telemetryPort": 39063
+          },
+          "driverConfig": {
+            "serialPort": "COM15"
+          },
+          "hardwareConfig": {
+            "loadPersistedCompensatedTomographyAtBoot": false,
+            "compensatedTomographyChannels": {
+              "1": {
+                "loadAtBoot": false
+              }
+            }
+          }
+        },
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.16",
+            "syncCmdPort": 39001,
+            "asyncCmdPort": 39002,
+            "telemetryPort": 39003
+          },
+          "driverConfig": {
+            "serialNumber": "EXAMPLE-TIME-TAGGER-SERIAL"
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleDetectorHealthId",
+          "deviceType": "Photec",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.17",
+            "syncCmdPort": 39021,
+            "asyncCmdPort": 39022,
+            "telemetryPort": 39023
+          },
+          "driverConfig": {
+            "serialPort": "COM17"
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

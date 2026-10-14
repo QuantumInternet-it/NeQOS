@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "example-measure-entangled-pair-fidelity-inventory",
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleAnalyzerA",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.11",
+            "syncCmdPort": 19111,
+            "asyncCmdPort": 19112,
+            "telemetryPort": 19113
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleAnalyzerB",
+          "deviceType": "PaX000",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.12",
+            "syncCmdPort": 19121,
+            "asyncCmdPort": 19122,
+            "telemetryPort": 19123
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleTimeTaggerId",
+          "deviceType": "SwabianTT",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.13",
+            "syncCmdPort": 19131,
+            "asyncCmdPort": 19132,
+            "telemetryPort": 19133
+          },
+          "hardwareConfig": {}
+        },
+        {
+          "deviceId": "ExampleDetectorHealthId",
+          "deviceType": "Photec",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.14",
+            "syncCmdPort": 19141,
+            "asyncCmdPort": 19142,
+            "telemetryPort": 19143
+          },
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

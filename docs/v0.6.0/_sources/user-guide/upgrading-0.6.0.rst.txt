@@ -3,8 +3,8 @@ Move from 0.5.0 to 0.6.0
 
 Use this checklist when replacing existing DeviceOS/NodeEngine launchers.
 The browser is optional: a run plan can still execute entirely from the
-command line. The inventory split is also optional for current-format
-single-file examples; it is the workflow for a persistent laboratory setup.
+command line. All shipped network examples now use a separate inventory and
+experiment. DeviceOS requires an ``inventory-1`` document.
 See :ref:`choose-nodeengine-operation` for complete Windows and macOS commands.
 
 What changes in everyday use
@@ -19,7 +19,7 @@ What changes in everyday use
      - 0.6.0 inventory workflow
    * - Start DeviceOS
      - ``--configFile network.json --deviceId ...``
-     - ``--configFile lab-inventory.json --deviceId ...``. The option name stays the same.
+     - ``--inventoryFile lab-inventory.json --deviceId ...``. DeviceOS no longer accepts ``--configFile``.
    * - Select the NodeEngine configuration
      - ``--configFile network.json``
      - ``--inventoryFile lab-inventory.json`` plus experiment activation.
@@ -34,7 +34,7 @@ What changes in everyday use
      - Keep DeviceOS on the stable inventory; validate and activate another experiment while idle.
    * - Select results
      - CLI execution records under ``MetaProtocolResults``.
-     - CLI keeps that location; operator history and artifacts use ``--operatorData``.
+     - CLI keeps that location; browser history and artifacts use ``--inventoryDataDir``.
 
 The software version ``0.6.0`` is not the version of every JSON format. The
 inventory uses ``inventory-1``, an experiment uses ``experiment-1``, run plans
@@ -67,6 +67,10 @@ Renaming a previous ``network.json`` to ``lab-inventory.json`` does not perform
 the conversion. Both new documents must follow their respective schemas and
 share the same ``inventoryId``.
 
+Each shipped ``network.json`` is now an ``experiment-1`` document accompanied
+by ``lab-inventory.json``. Named variants include a matching named inventory.
+Copy both files; do not reuse a complete network from an older distribution.
+
 * **Inventory:** device IDs, endpoints, driver constructor configuration,
   boot-only hardware settings and limits. Use the same content on each host.
 * **Experiment:** active device selection, optical links and passive splitters,
@@ -92,9 +96,10 @@ the inventory or run an experiment.
 3 Update each DeviceOS launcher
 -------------------------------
 
-DeviceOS still takes the inventory through ``--configFile``. Keep the same
-``--deviceId`` only if it exists in the new inventory. Do not give DeviceOS
-``--inventoryFile``, ``--networkFile`` or the experiment file.
+DeviceOS takes the inventory through ``--inventoryFile``. Update old launchers:
+``--configFile`` has been removed, with no alias. Keep the same
+``--deviceId`` only if it exists in the inventory. Do not give DeviceOS
+``--networkFile`` or the experiment file.
 
 Pass the host-local SDK configuration explicitly with ``--localConfigFile``
 to avoid accidentally loading a file from another working directory:
@@ -102,7 +107,7 @@ to avoid accidentally loading a file from another working directory:
 .. code-block:: bat
 
    "C:\NeQOSv0.6.0\DeviceOS.dist\DeviceOS.exe" ^
-     --configFile "G:\NeQOS-shared\networks\lab-inventory.json" ^
+     --inventoryFile "G:\NeQOS-shared\networks\lab-inventory.json" ^
      --localConfigFile "C:\NeQOSConfig\DeviceOS.local.json" ^
      --deviceId YOUR_DEVICE_ID ^
      --licenseFile "C:\NeQOSConfig\license.json"
@@ -159,13 +164,23 @@ the startup token, activate an experiment and compose/validate/start a run.
 Do not start the read-only viewer as a second live server. Do not combine
 ``--serve`` and ``--metaProtocolRun`` or start a competing CLI engine.
 
-Keep an absolute, stable ``--operatorData`` directory for history. Closing the
+Keep an absolute, stable ``--inventoryDataDir`` directory for history. Closing the
 browser does not stop the experiment. During execution/cleanup, new plans,
 network changes and historical browsing are blocked; observing or aborting
 the current run remains available. An abort leaves the queue paused after
 cleanup. Restart does not resume an interrupted experiment or automatically
 activate the last network; activate it explicitly (or supply ``--networkFile``
 at startup). See :doc:`browser-interface` for supported planner coverage.
+
+Update launchers that used ``--operatorData`` to ``--inventoryDataDir``;
+the old flag has no alias. The default is now ``./inventoryDataDir``,
+relative to the terminal's working directory. To retain an existing
+``OperatorData`` archive, pass its path explicitly, for example
+``--inventoryDataDir "/path/OperatorData"``. No database conversion or
+automatic folder move is performed. Omitting the flag selects the new
+default directory, not the old archive.
+Reuse that archive across experiment networks and runs of the same inventory;
+do not create a new archive for each execution.
 
 DeviceOS, NodeEngine and the browser need not share one PC. Device endpoints
 must be reachable; the browser operator binds to loopback and uses the

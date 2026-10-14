@@ -1,17 +1,17 @@
 Run and customize a protocol
 ============================
 
-Copy the input and network together
------------------------------------
+Copy the input, inventory and experiment together
+-------------------------------------------------
 
 Open :doc:`protocols/index` and choose the capability by the data or outcome
-you need. Download its input and network, or find them in:
+you need. Download its input, inventory and experiment network, or find them in:
 
 .. code-block:: text
 
    NodeEnginePack/ReservedMetaProtocols/<domain>/<function>/<ProtocolId>/RunExample/
 
-Copy them to your working directory. Edit the network as described in
+Copy all three to your working directory. Edit them as described in
 :doc:`network`, then make the input's device/link identities match. Inspect
 **all** ``steps``: some shipped inputs demonstrate multiple modes and will
 execute more than once. Keep only the intended step for a single-protocol test.
@@ -71,8 +71,8 @@ Launch DeviceOS, then NodeEngine
 
 Start one DeviceOS per enabled active inventory device on its hardware host,
 then start one NodeEngine in the mode described in
-:ref:`choose-nodeengine-operation` below. For the single-file examples shipped
-with protocols, use :ref:`single-file-operation` instead. Do not pass an
+:ref:`choose-nodeengine-operation` below. Every shipped network example now
+has a matching inventory. Do not pass an
 ``experiment-1`` file directly to DeviceOS.
 
 There is no ``--protocolId`` selector: select protocols inside the run input.
@@ -164,13 +164,13 @@ On Windows, from ``DeviceOS.dist``, start one process per enabled active device:
 .. code-block:: bat
 
    .\DeviceOS.exe ^
-     --configFile "C:\NeQOSConfig\lab-inventory.json" ^
+     --inventoryFile "C:\NeQOSConfig\lab-inventory.json" ^
      --localConfigFile "C:\NeQOSConfig\DeviceOS.local.json" ^
      --deviceId YOUR_DEVICE_ID ^
      --licenseFile "C:\NeQOSConfig\license.json"
 
-DeviceOS still uses ``--configFile`` for the inventory; it does not use
-NodeEngine's ``--inventoryFile`` or ``--networkFile`` options. Prepare the SDK
+DeviceOS uses ``--inventoryFile`` for the inventory. It does not accept
+``--configFile`` or NodeEngine's ``--networkFile`` option. Prepare the SDK
 paths and calibration environment as described in :doc:`installation`.
 Wait for connected, initialized and ready state before starting the experiment.
 Passive splitters have no DeviceOS process.
@@ -245,7 +245,7 @@ experiment yet. Windows:
      --nodeId YOUR_NODE_ID ^
      --licenseFile "C:\NeQOSConfig\license.json" ^
      --serve --operatorPort 8766 ^
-     --operatorData "C:\NeQOSData\OperatorData"
+     --inventoryDataDir "C:\NeQOSData\inventoryDataDir"
 
 macOS:
 
@@ -256,7 +256,7 @@ macOS:
      --nodeId YOUR_NODE_ID \
      --licenseFile "/path/license.json" \
      --serve --operatorPort 8766 \
-     --operatorData "/path/OperatorData"
+     --inventoryDataDir "/path/inventoryDataDir"
 
 1. Open `http://127.0.0.1:8766 <http://127.0.0.1:8766>`_ on the NodeEngine PC
    and enter the token printed in its terminal. Do not put the token in a URL.
@@ -275,12 +275,25 @@ For composition, planner coverage, saved experiments, abort and history, see
 :doc:`browser-interface`. Unsupported browser plans are rejected before
 submission; CLI availability does not imply operator-planner coverage.
 
-Keep ``--operatorData`` stable across restarts to retain the SQLite registry,
+Keep ``--inventoryDataDir`` stable across restarts to retain the SQLite registry,
 saved experiments and run artifacts. On restart, interrupted active records
 remain evidence and the queue is paused. Re-activate the intended network;
 there is no automatic mid-run resume. You may add ``--networkFile`` to the
 startup command to authorize boot activation explicitly instead of selecting
 it in the UI. Use :doc:`results` for backup instructions.
+
+Reuse the same directory when changing the experiment network or run plan:
+each execution has its own record. The archive is bound to ``inventoryId``
+and the set of device endpoints (IP and synchronous-command port), not to
+the complete inventory JSON or an individual run. A different inventory ID
+or endpoint set requires a separate directory. The default directory is
+``inventoryDataDir``; existing archives are not moved or renamed.
+If the flag is omitted with ``--serve``, NodeEngine uses
+``./inventoryDataDir`` relative to the terminal's working directory, not the
+inventory file's directory. It does not choose a different folder automatically
+for each inventory; pass an explicit path for a different archive.
+To keep using a previous ``OperatorData`` archive, pass that existing path
+explicitly with ``--inventoryDataDir``.
 
 For a source checkout, replace the executable with
 ``python -m NodeEnginePack.NodeEngine`` (or ``python -m DeviceOSPack.DeviceOS``)
@@ -308,28 +321,17 @@ changing modes instead of launching a second engine for the same devices.
 
 .. _single-file-operation:
 
-Continue using a single-file network
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Migrate an old single-file example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The existing single-file workflow remains supported for current-format
-networks and shipped RunExamples. DeviceOS uses ``--configFile network.json``.
-On NodeEngine, replace the inventory/experiment pair with ``--configFile``:
+DeviceOS no longer accepts ``--configFile`` or a complete legacy network
+passed under the new flag. Split equipment and experiment configuration,
+then use ``--inventoryFile`` for DeviceOS and
+``--inventoryFile`` + ``--networkFile`` for a headless NodeEngine run.
+The protocol's run-plan format is unchanged. See :doc:`upgrading-0.6.0`.
 
-.. code-block:: bat
-
-   .\NodeEngine.exe --configFile "C:\NeQOSConfig\network.json" --nodeId YOUR_NODE_ID --licenseFile "C:\NeQOSConfig\license.json" --metaProtocolRun "C:\NeQOSConfig\input.json" --waitProtocol
-
-For browser operation on that fixed network:
-
-.. code-block:: bat
-
-   .\NodeEngine.exe --configFile "C:\NeQOSConfig\network.json" --nodeId YOUR_NODE_ID --licenseFile "C:\NeQOSConfig\license.json" --serve --operatorPort 8766 --operatorData "C:\NeQOSData\OperatorData"
-
-Do not combine ``--configFile`` with ``--inventoryFile``. ``--networkFile``
-requires ``--inventoryFile``. An ``experiment-1`` document is not a complete
-single-file network. Use inventory mode for changing experiments while
-keeping the stable equipment inventory connected. See :doc:`upgrading-0.6.0`
-for renamed detector fields and the files to review before upgrading.
+NodeEngine retains ``--configFile`` for legacy tooling, but it is not the
+launch path for the migrated examples or a replacement for a DeviceOS inventory.
 
 .. _use-a-browser-on-another-computer:
 
@@ -369,11 +371,12 @@ The paired
 :download:`experiment input <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-input-EntanglementDistribution.json>`
 and
 :download:`experiment network <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/experiment-network-EntanglementDistribution.json>`
+and :download:`paired inventory <../../NodeEnginePack/ReservedMetaProtocols/entanglement/fidelity/MeasureEntangledPairFidelity/RunExample/lab-inventory-EntanglementDistribution.json>`
 demonstrate seven public steps: carrier setup, channel alignment, entangled-probe
 compensation, independent coincidence background, fidelity, detected distillable
 rate and the common summary. Replace the distributed network placeholders with
 your verified device identities, endpoints and physical channel/link bindings
-before use; use the paired input and network together.
+before use; keep all three paired files together.
 
 Fidelity imports the separately acquired background through ``$steps.background``.
 Rate and summary import the unchanged declared observation, reconstruction and

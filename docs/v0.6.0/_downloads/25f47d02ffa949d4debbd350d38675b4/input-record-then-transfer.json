@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.4",
+  "metaProtocolLibrary": {
+    "libraryId": "neqos-protected"
+  },
+  "steps": [
+    {
+      "stepId": "recording",
+      "protocolId": "RecordTimeTagStream",
+      "sharedParams": {
+        "deviceId": "TT-2",
+        "operation": "record",
+        "channelRefs": [
+          1
+        ],
+        "durationSec": 1.0,
+        "recordingRef": "transfer-example",
+        "recordingSubdirectory": "examples"
+      }
+    },
+    {
+      "protocolId": "TransferDeviceFileToNode",
+      "sharedParams": {
+        "deviceId": "TT-2",
+        "deviceArtifact": "$steps.recording.acquisition.rawStream.artifact.deviceFile"
+      }
+    }
+  ]
+}

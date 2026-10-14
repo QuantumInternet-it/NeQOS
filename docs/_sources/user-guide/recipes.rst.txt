@@ -74,8 +74,10 @@ The library root is ``NodeEnginePack/OpenMetaProtocols/IEEEQCE2026Demo``:
   declared inputs, outputs and stage sequence.
 * ``MetaProtocolsRun/countsMaximization/input.json`` selects the library and
   supplies input overrides, including ``resourceMpcDeviceIds``.
-* ``MetaProtocolsRun/countsMaximization/network.json`` declares ``NODE-MPC``,
-  MPC320 ``MPC-1``, Time Tagger ``TT-1`` and the link/readout bindings.
+* ``MetaProtocolsRun/countsMaximization/lab-inventory.json`` declares
+  ``NODE-MPC``, MPC320 ``MPC-1``, Time Tagger ``TT-1`` and their endpoints.
+* ``MetaProtocolsRun/countsMaximization/network.json`` declares the experiment,
+  its device selection and link/readout bindings.
 
 Keep this layout: the run plan's ``folder: "../.."`` resolves relative to
 ``input.json``, and its library ID must match the manifest. Moving a downloaded

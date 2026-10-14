@@ -1,40 +1,7 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-initialize-polarization-analyzer-channel-inventory",
   "networkId": "example-initialize-polarization-analyzer-channel",
-  "telemetryDefaults": {
-    "periodSec": 1.0,
-    "ttlMs": 2500
-  },
-  "nodes": [
-    {
-      "nodeId": "ExampleNodeId",
-      "enabled": true,
-      "host": "127.0.0.1",
-      "devices": [
-        {
-          "deviceId": "ExamplePolarizationAnalyzerId",
-          "deviceType": "PaX000",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleQuantumLinkId",
-              "role": "polarizationAnalyzer",
-              "channel": 1,
-              "outputPort": "H",
-              "measurementTopology": "polarizer"
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.40",
-            "syncCmdPort": 19401,
-            "asyncCmdPort": 19402,
-            "telemetryPort": 19403
-          },
-          "driverConfig": {},
-          "hardwareConfig": {}
-        }
-      ]
-    }
-  ],
   "quantumLinks": [
     {
       "linkId": "ExampleQuantumLinkId",
@@ -44,6 +11,22 @@
         "ExampleNodeId",
         "ExampleRemoteNodeId"
       ]
+    }
+  ],
+  "devices": [
+    {
+      "deviceId": "ExamplePolarizationAnalyzerId",
+      "enabled": true,
+      "linkBindings": [
+        {
+          "linkId": "ExampleQuantumLinkId",
+          "role": "polarizationAnalyzer",
+          "channel": 1,
+          "outputPort": "H",
+          "measurementTopology": "polarizer"
+        }
+      ],
+      "settings": {}
     }
   ]
 }

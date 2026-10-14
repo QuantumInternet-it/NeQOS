@@ -12,8 +12,8 @@ unattended with calibration expressed as reusable protocols.
 
 This chapter explains the model behind the software: the two design
 principles, the processes that implement them, the two declarative inputs every
-run uses, how a service is composed and executed, and what a run leaves
-behind. The rest of the documentation assumes these terms.
+run uses, how a service is composed and executed, and what a run leaves behind.
+The rest of the documentation assumes these terms.
 
 .. figure:: /_static/how-neqos-works-architecture.svg
    :alt: A run plan, the network description and the protocol catalog enter
@@ -80,6 +80,11 @@ coordinated actions on several devices. NeQOS therefore assembles each service
 at run time from reusable micro-protocols, around the quantum resource being
 produced or measured.
 
+For the scientific basis of this micro-protocol/meta-protocol model, see
+`Theoretical foundations in the NeQOS repository
+<https://github.com/QuantumInternet-it/NeQOS#theoretical-foundations>`_,
+including the protocol-suite paper [1]_ and the architecture Internet-Draft [2]_.
+
 Polarization compensation shows why. In a classical link it would be a
 physical-layer function. In an entanglement-distribution network it needs
 source setup, temporal alignment of the detectors, background estimation,
@@ -109,8 +114,7 @@ The NodeEngine is the orchestration process. It:
 
 The NodeEngine can run on any host that reaches the DeviceOS processes; its
 location is independent of the hardware. ``--nodeId`` identifies the engine.
-In inventory mode its aggregated view can coordinate devices owned by several
-inventory nodes; in legacy single-file mode it selects one node's local view.
+Its aggregated view can coordinate devices owned by several inventory nodes.
 With ``--serve``, the same process also serves the authenticated browser
 interface; the browser is not a separate execution engine.
 
@@ -154,19 +158,35 @@ Real-time operations on nanosecond-to-microsecond timescales, including detector
 electronics, time-tagger internals and device firmware, remain in the devices
 and their vendor software.
 
+.. _separate-equipment-from-experiments:
+
 Two declarative inputs
 ----------------------
 
-A run declares the network it will operate and the sequence of protocols it
-will execute. NodeEngine resolves the request against these two inputs and
-the available protocol catalog.
+NodeEngine operates from two declarative inputs: the **network description**,
+which declares the equipment and how it is used, and the **run plan**, which
+specifies the protocols to execute. Together with the protocol catalog, they
+define the requested execution.
 
-The network input can be a legacy single file or a stable ``inventory-1``
-equipment inventory plus an ``experiment-1`` topology and operating settings.
-In inventory mode DeviceOS stays connected between experiments. NodeEngine
-validates and activates each experiment through the scheduler, records the
-configuration fingerprints and read-backs, and blocks scientific runs until a
-network is active and any failed-activation drift has been resolved.
+The network description is one logical input, stored in two files for
+operational convenience: the **lab inventory** and the **experiment network**.
+This file split does not introduce a third kind of declarative input; it
+separates information with different lifetimes.
+
+The network description
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Starting the laboratory equipment and configuring an experiment are separate
+operations. The earlier, single-file ``network.json`` combined device startup
+configuration with optical topology and operating settings. These declarations
+now live in the inventory and experiment files, which together provide the
+network description.
+
+This separation lets an operator send a new experiment network to an already
+running NodeEngine, validate it and activate its settings without restarting
+the DeviceOS processes. The inventory describes what equipment is available;
+the experiment network describes how to use it; the run plan describes what
+to do with it.
 
 .. figure:: /_static/inventory-experiment-lifecycle.svg
    :alt: Inventory supplies process startup; experiment networks are chosen,
@@ -174,35 +194,79 @@ network is active and any failed-activation drift has been resolved.
    :width: 100%
    :target: ../_static/inventory-experiment-lifecycle.svg
 
-   Stable startup configuration and hot experiment activation are separate.
+   Start the equipment from the inventory, then activate experiment networks
+   through NodeEngine while the DeviceOS processes remain running.
 
-The network description
-~~~~~~~~~~~~~~~~~~~~~~~
+The lab inventory: available equipment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The **network description** (``network.json``) declares the physical network:
+The **lab inventory** (typically ``lab-inventory.json``, schema
+``inventory-1``) declares the logical nodes and their devices: identities,
+driver types, DeviceEngine endpoints (host and ports), driver configuration,
+boot-only hardware settings and limits. It does not contain the experiment's
+optical bindings or operating values.
 
-* the nodes and their devices, each with a ``deviceId``, a ``deviceType`` and
-  the DeviceEngine endpoint (host and ports) through which it is reached;
-* the **quantum links** and, for each device, its **link bindings**: which
-  device channel serves which link, and in which role (``source``,
-  ``inlineAttenuator``, ``polarizationAnalyzer``, ``polarizationAligner``,
-  ``sink``, ``splitterInput`` and ``splitterOutput``);
-* physical details the protocols need, such as analyzer measurement topology
-  and output ports, time-tagger input channels, detector-health wiring and
-  hardware parameter limits.
+NodeEngine and the DeviceOS processes start from the same inventory.
+Each DeviceOS uses it to initialize and serve its device, independently of
+which experiment will later be selected. Changing endpoints, drivers or
+boot-only configuration is an inventory change, not an experiment change:
+restart the affected processes with the updated inventory.
 
-The network description is the declaration of the network's physical truth.
-Protocols refer to links and roles, and the NodeEngine resolves them to the
-actual devices and channels. Retargeting a service to another link or source
-changes the description or the inputs, not the protocol.
+The experiment network: equipment in use
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The **experiment network** (typically ``network.json``, schema
+``experiment-1``) references the inventory through ``inventoryId`` and selects
+the devices used by the experiment. It declares their operating ``settings``,
+the **quantum links** and **link bindings**: which device channel serves which
+link, and in which role (``source``, ``inlineAttenuator``,
+``polarizationAnalyzer``, ``polarizationAligner``, ``sink``, ``splitterInput``
+or ``splitterOutput``). It also describes analyzer output ports and measurement
+topology, time-tagger input channels and detector-health wiring.
+
+Device identities refer back to the inventory; endpoints and driver startup
+configuration are not duplicated. Passive splitters belong to the experiment
+topology and have no DeviceOS process. Equipment not selected for an experiment
+can remain connected without participating in that experiment.
+
+The topology must match the physical cabling. Activating a JSON document does
+not reconnect optical fibers. Protocols resolve links and roles to the declared
+devices and channels; retargeting a service changes these declarations or its
+inputs, not the protocol implementation.
+
+Activate an experiment without restarting DeviceOS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In the browser interface, load an experiment network, validate it against the
+inventory and live device capabilities, review the proposed changes, then
+activate it. To select another network, first deactivate the current one while
+the system is idle. Deactivation does not stop DeviceOS or undo device settings.
+
+NodeEngine applies the selected settings through scheduled device operations
+and checks the read-backs. Only a successful activation makes the experiment
+network active: loading or validating a draft is not enough. Scientific runs
+require an active network and no unresolved configuration drift. If activation
+fails, some settings may already have changed; there is no automatic rollback.
+
+DeviceOS continues serving the same equipment throughout these steps. A new
+experiment therefore does not require a new DeviceOS launch, as long as its
+equipment and startup configuration are already covered by the inventory.
+For a headless launch, NodeEngine can activate a network supplied through
+``--networkFile`` before executing a run plan. See :doc:`network` for the file
+contracts and :doc:`browser-interface` for the activation workflow.
 
 The run plan
 ~~~~~~~~~~~~
 
-The **run plan** (``input.json``) selects a protocol library and an ordered
-list of steps. Each step names a ``protocolId`` and the inputs to override.
+The **run plan** (typically ``input.json``) selects a protocol library and an
+ordered list of steps to execute against the active experiment network.
+Each step names a ``protocolId`` and the inputs to override.
 An Open library also declares its folder so that NodeEngine can load its
 definitions and optional handlers. See :doc:`running`.
+
+The same active network can support successive run plans. Changing a protocol
+input or the sequence of steps does not require restarting DeviceOS or
+reactivating an unchanged network.
 
 A named step can supply a declared output to a later step through a whole-value
 reference, ``$steps.<stepId>.<exportPath>``. The source must have completed
@@ -302,8 +366,8 @@ library and an ordered list of steps, each with a protocol and the inputs to
 override. For a headless inventory run, start NodeEngine with
 ``--inventoryFile``, ``--networkFile``, ``--nodeId`` and
 ``--metaProtocolRun``; add ``--waitProtocol`` to wait for completion.
-Legacy single-file runs use ``--configFile`` instead of the inventory and
-experiment files.
+DeviceOS receives only ``--inventoryFile``; the experiment is activated
+by NodeEngine.
 
 For browser operation, start NodeEngine with ``--serve`` and the inventory,
 then validate and activate the experiment and submit its run from the
@@ -472,8 +536,8 @@ Glossary
       An atomic, reusable network operation with a declared contract.
 
    Network description
-      The ``network.json`` file declaring nodes, devices, endpoints, quantum
-      links, link bindings and hardware limits.
+      The inventory/experiment pair declaring nodes, devices, endpoints,
+      quantum links, link bindings, hardware limits and operating settings.
 
    NodeEngine
       The orchestration process. It resolves services, leases devices,
@@ -519,13 +583,16 @@ Glossary
       What a device offers to the NodeEngine: its device tasks, parameters,
       signals and telemetry.
 
-Further reading
----------------
+References
+----------
 
-The dynamic composition of micro-protocols into meta-protocols follows the
-quantum-native protocol suite introduced in A. S. Cacciapuoti and M. Caleffi,
-`A Quantum Internet Protocol Suite Beyond Layering
-<https://doi.org/10.1109/TNSE.2026.3679795>`_, *IEEE Transactions on Network
-Science and Engineering* 13, 9170–9187 (2026), and in the IETF Internet-Draft (work in progress)
-`Quantum-Native Architectural Tenets and Philosophy for the Quantum Internet
-<https://datatracker.ietf.org/doc/draft-cacciapuoti-qirg-quantum-native-architecture/>`_.
+.. [1] A. S. Cacciapuoti and M. Caleffi,
+   `A Quantum Internet Protocol Suite Beyond Layering
+   <https://doi.org/10.1109/TNSE.2026.3679795>`_,
+   *IEEE Transactions on Network Science and Engineering* 13,
+   9170-9187 (2026).
+
+.. [2] A. S. Cacciapuoti et al.,
+   `Quantum-Native Architectural Tenets and Philosophy for the Quantum Internet
+   <https://datatracker.ietf.org/doc/draft-cacciapuoti-qirg-quantum-native-architecture/>`_,
+   IETF Internet-Draft, work in progress (2026).

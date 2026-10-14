@@ -45,13 +45,13 @@ matching, explicitly named ``driverConfig`` arguments are forwarded, and
      }
    }
 
-This fragment belongs in a node's device list, with its network endpoints.
+This fragment belongs in an inventory node's device list, with its endpoints.
 See :doc:`network` for the full network description. Launch the selected device:
 
 .. code-block:: bash
 
    python3 -m DeviceOSPack.DeviceOS \
-     --configFile /path/to/network.json \
+     --inventoryFile /path/to/lab-inventory.json \
      --deviceId Counter-1 \
      --openDriversFile /path/to/OpenDrivers.json \
      --licenseFile /path/to/license.json

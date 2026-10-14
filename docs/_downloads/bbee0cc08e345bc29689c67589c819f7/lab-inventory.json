@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "inventory-1",
+  "inventoryId": "example-load-polarization-analyzer-compensation-inventory",
+  "telemetryDefaults": {
+    "periodSec": 1.0,
+    "ttlMs": 2500
+  },
+  "nodes": [
+    {
+      "nodeId": "ExampleNodeId",
+      "enabled": true,
+      "host": "127.0.0.1",
+      "devices": [
+        {
+          "deviceId": "ExampleMpc320Id",
+          "deviceType": "Mpc320",
+          "enabled": true,
+          "deviceEngine": {
+            "ip": "192.0.2.30",
+            "syncCmdPort": 19301,
+            "asyncCmdPort": 19302,
+            "telemetryPort": 19303
+          },
+          "driverConfig": {},
+          "hardwareConfig": {}
+        }
+      ]
+    }
+  ]
+}

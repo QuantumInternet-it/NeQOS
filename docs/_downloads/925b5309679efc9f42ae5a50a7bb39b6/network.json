@@ -1,51 +1,35 @@
 {
+  "schemaVersion": "experiment-1",
+  "inventoryId": "example-snsdp-polarization-alignment-inventory",
   "networkId": "example-snsdp-polarization-alignment",
-  "nodes": [
+  "quantumLinks": [],
+  "devices": [
     {
-      "nodeId": "ExampleNodeId",
-      "host": "192.0.2.10",
+      "deviceId": "ExamplePolarizationControllerId",
       "enabled": true,
-      "devices": [
+      "linkBindings": [
         {
-          "deviceId": "ExamplePolarizationControllerId",
-          "deviceType": "Mpc320",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleQuantumLinkId",
-              "role": "polarizationAligner"
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.20",
-            "syncCmdPort": 5001,
-            "asyncCmdPort": 5002,
-            "telemetryPort": 5003
-          },
-          "driverConfig": {},
-          "hardwareConfig": {}
-        },
-        {
-          "deviceId": "ExampleTimeTaggerId",
-          "deviceType": "SwabianTT",
-          "enabled": true,
-          "linkBindings": [
-            {
-              "linkId": "ExampleQuantumLinkId",
-              "role": "sink",
-              "channel": 1
-            }
-          ],
-          "deviceEngine": {
-            "ip": "192.0.2.21",
-            "syncCmdPort": 5011,
-            "asyncCmdPort": 5012,
-            "telemetryPort": 5013
-          },
-          "driverConfig": {},
-          "hardwareConfig": {}
+          "linkId": "ExampleQuantumLinkId",
+          "role": "polarizationAligner"
         }
-      ]
+      ],
+      "settings": {}
+    },
+    {
+      "deviceId": "ExampleTimeTaggerId",
+      "enabled": true,
+      "linkBindings": [
+        {
+          "linkId": "ExampleQuantumLinkId",
+          "role": "sink",
+          "channel": 1
+        }
+      ],
+      "settings": {
+        "channels": {
+          "1": {}
+        }
+      }
     }
   ]
 }

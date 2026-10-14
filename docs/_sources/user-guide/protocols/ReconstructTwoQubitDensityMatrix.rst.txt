@@ -96,24 +96,28 @@ Shipped run plan: :download:`Options <../../../NodeEnginePack/ReservedMetaProtoc
 
 Shipped run plan: :download:`Fidelity sequence <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/input-fidelity-sequence.json>`.
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./input-fidelity-sequence.json" \
      --waitProtocol --verboseRunFolders
 
-Network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
+Inventory: :download:`lab-inventory.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/lab-inventory.json>`.
+Experiment network: :download:`network.json <../../../NodeEnginePack/ReservedMetaProtocols/tomography/state/ReconstructTwoQubitDensityMatrix/RunExample/network.json>`.
 
 .. code-block:: bash
 
    python NodeEnginePack/NodeEngine.py \
      --licenseFile "./config/license.json" \
-     --configFile "./network.json" \
+     --inventoryFile "./lab-inventory.json" \
+     --networkFile "./network.json" \
      --nodeId "ExampleNodeId" \
      --metaProtocolRun "./ReconstructTwoQubitDensityMatrix.minimal.json" \
      --waitProtocol --verboseRunFolders
