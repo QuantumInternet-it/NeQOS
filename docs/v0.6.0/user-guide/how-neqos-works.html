@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=69299da5" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d5de39ee" />
     
     
 
@@ -673,6 +673,12 @@ to do with it.</p>
 through NodeEngine while the DeviceOS processes remain running.</span><a class="headerlink" href="#id7" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
+<p>The three JSON listings below form a small software-only example with one
+<code class="docutils literal notranslate"><span class="pre">Fake</span></code> device. The inventory and experiment share an <code class="docutils literal notranslate"><span class="pre">inventoryId</span></code>;
+the experiment and run plan refer to the same <code class="docutils literal notranslate"><span class="pre">deviceId</span></code>. There are no
+optical links because this example exercises a simulated device, not an
+optical measurement. See <a class="reference internal" href="quickstart.html"><span class="doc">First run without hardware</span></a> for launching Fake equipment and
+<a class="reference internal" href="network.html"><span class="doc">Describe the network</span></a> for optical topology examples.</p>
 <section id="the-lab-inventory-available-equipment">
 <h4>The lab inventory: available equipment<a class="headerlink" href="#the-lab-inventory-available-equipment" title="Link to this heading">¶</a></h4>
 <p>The <strong>lab inventory</strong> (typically <code class="docutils literal notranslate"><span class="pre">lab-inventory.json</span></code>, schema
@@ -685,6 +691,39 @@ Each DeviceOS uses it to initialize and serve its device, independently of
 which experiment will later be selected. Changing endpoints, drivers or
 boot-only configuration is an inventory change, not an experiment change:
 restart the affected processes with the updated inventory.</p>
+<p>This complete inventory declares one logical node and one Fake device, with
+three local control/telemetry ports:</p>
+<div class="literal-block-wrapper docutils container" id="architecture-inventory-json">
+<div class="code-block-caption"><span class="caption-text">lab-inventory.json</span><a class="headerlink" href="#architecture-inventory-json" title="Link to this code">¶</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;schemaVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;inventory-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;inventoryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake-inventory-smoke&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FakeNodeId&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;devices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FakeDeviceId&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;deviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Fake&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;deviceEngine&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;syncCmdPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">49201</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;asyncCmdPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">49211</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;telemetryPort&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">49221</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;driverConfig&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">          </span><span class="nt">&quot;hardwareConfig&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Download <a class="reference download internal" download="" href="../_downloads/61b8c3233f6c21c24068ecd7aef96bc2/lab-inventory.json"><code class="xref download docutils literal notranslate"><span class="pre">lab-inventory.json</span></code></a>.</p>
 </section>
 <section id="the-experiment-network-equipment-in-use">
 <h4>The experiment network: equipment in use<a class="headerlink" href="#the-experiment-network-equipment-in-use" title="Link to this heading">¶</a></h4>
@@ -704,6 +743,28 @@ can remain connected without participating in that experiment.</p>
 not reconnect optical fibers. Protocols resolve links and roles to the declared
 devices and channels; retargeting a service changes these declarations or its
 inputs, not the protocol implementation.</p>
+<p>This complete experiment selects that device and requests a gain of <code class="docutils literal notranslate"><span class="pre">2.0</span></code>
+during activation. Its endpoint and driver type remain in the inventory:</p>
+<div class="literal-block-wrapper docutils container" id="architecture-network-json">
+<div class="code-block-caption"><span class="caption-text">network-gain-2.json (experiment network)</span><a class="headerlink" href="#architecture-network-json" title="Link to this code">¶</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;schemaVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;experiment-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;inventoryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake-inventory-smoke&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;networkId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake-gain-2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;quantumLinks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nt">&quot;devices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;deviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FakeDeviceId&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;gain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Download <a class="reference download internal" download="" href="../_downloads/3d93dea20a796d92eadee1a9b99f1fb8/network-gain-2.json"><code class="xref download docutils literal notranslate"><span class="pre">network-gain-2.json</span></code></a>.</p>
 </section>
 <section id="activate-an-experiment-without-restarting-deviceos">
 <h4>Activate an experiment without restarting DeviceOS<a class="headerlink" href="#activate-an-experiment-without-restarting-deviceos" title="Link to this heading">¶</a></h4>
@@ -734,6 +795,37 @@ definitions and optional handlers. See <a class="reference internal" href="runni
 <p>The same active network can support successive run plans. Changing a protocol
 input or the sequence of steps does not require restarting DeviceOS or
 reactivating an unchanged network.</p>
+<p>This complete plan calls <code class="docutils literal notranslate"><span class="pre">FAKE-SIMPLE</span></code> from the shipped Fake Open library.
+The protocol sets the gain to <code class="docutils literal notranslate"><span class="pre">2.5</span></code> and runs a one-second task on the device
+selected by the experiment. Protocol parameters describe the requested
+operation, independently of the settings applied during network activation:</p>
+<div class="literal-block-wrapper docutils container" id="architecture-run-plan-json">
+<div class="code-block-caption"><span class="caption-text">input.json (run plan)</span><a class="headerlink" href="#architecture-run-plan-json" title="Link to this code">¶</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;schemaVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.4&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;metaProtocolLibrary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;libraryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fake-device-examples&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;folder&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;../..&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;protocolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FAKE-SIMPLE&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;fakeDeviceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FakeDeviceId&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;gain&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;taskDurationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;tickSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Download <a class="reference download internal" download="" href="../_downloads/be485f3ba9ac4052947d9080f7850c3b/input.json"><code class="xref download docutils literal notranslate"><span class="pre">input.json</span></code></a>.
+The library <code class="docutils literal notranslate"><span class="pre">folder</span></code> is resolved relative to <code class="docutils literal notranslate"><span class="pre">input.json</span></code>. The shown
+<code class="docutils literal notranslate"><span class="pre">../..</span></code> path assumes the plan’s shipped location under
+<code class="docutils literal notranslate"><span class="pre">FakeDeviceExamples/MetaProtocolsRun/simple/</span></code>; update it if you move the plan.</p>
 <p>A named step can supply a declared output to a later step through a whole-value
 reference, <code class="docutils literal notranslate"><span class="pre">$steps.&lt;stepId&gt;.&lt;exportPath&gt;</span></code>. The source must have completed
 successfully, and the imported value retains its JSON type. References do not
@@ -790,6 +882,63 @@ against the network description.</p></li>
 is: <code class="docutils literal notranslate"><span class="pre">plan</span></code>, <code class="docutils literal notranslate"><span class="pre">applied</span></code>, <code class="docutils literal notranslate"><span class="pre">observation</span></code>, <code class="docutils literal notranslate"><span class="pre">estimate</span></code>, <code class="docutils literal notranslate"><span class="pre">calibration</span></code>,
 <code class="docutils literal notranslate"><span class="pre">artifact</span></code> or <code class="docutils literal notranslate"><span class="pre">status</span></code>.</p></li>
 </ul>
+<p>The following JSON shows selected fields from the real <code class="docutils literal notranslate"><span class="pre">HoldDuration</span></code>
+contract. <code class="docutils literal notranslate"><span class="pre">sharedParams</span></code> holds default values, <code class="docutils literal notranslate"><span class="pre">inputSchema</span></code> declares the
+inputs, <code class="docutils literal notranslate"><span class="pre">resourceRequests</span></code> selects devices from those inputs, <code class="docutils literal notranslate"><span class="pre">stages</span></code>
+declares execution, and <code class="docutils literal notranslate"><span class="pre">outputSchema</span></code> declares the public result.
+Descriptions, validation bounds and stage parameters are omitted to keep the
+outline short; this excerpt is not a complete executable definition.</p>
+<div class="literal-block-wrapper docutils container" id="architecture-protocol-contract-json">
+<div class="code-block-caption"><span class="caption-text">HoldDuration contract (selected fields)</span><a class="headerlink" href="#architecture-protocol-contract-json" title="Link to this code">¶</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;protocolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HoldDuration&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;sharedParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;durationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;inputSchema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;durationSec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;resourceDeviceIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;resourceRequests&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;$shared.resourceDeviceIds&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;stages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;stageId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00-HoldDuration&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HoldDurationStage&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;stageId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01-HoldDuration-PublishResult&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;handler&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PublishResultStage&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;outputSchema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;exports&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;execution.control.status.holdDuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;status&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">durationSec</span></code> must be supplied by the caller. <code class="docutils literal notranslate"><span class="pre">resourceDeviceIds</span></code> defaults
+to an empty list: the protocol then waits without leasing devices. Supplying
+device IDs reserves them for the hold interval. The final stage publishes
+<code class="docutils literal notranslate"><span class="pre">execution.control.status.holdDuration</span></code>.
+See <a class="reference internal" href="protocols/HoldDuration.html"><span class="doc">HoldDuration</span></a> or download the
+<a class="reference download internal" download="" href="../_downloads/415416ae8dcb3e4c44df40da08267d50/protocol.json"><code class="xref download docutils literal notranslate"><span class="pre">complete</span> <span class="pre">protocol.json</span></code></a>.</p>
 <section id="inside-a-protocol">
 <h3>Inside a protocol<a class="headerlink" href="#inside-a-protocol" title="Link to this heading">¶</a></h3>
 <p>A <strong>stage</strong> is the basic runtime action. A stage can</p>

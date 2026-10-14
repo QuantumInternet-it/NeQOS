@@ -185,6 +185,19 @@ table.api-table.api-runtime-settings-table {
   overflow-x: auto;
 }
 
+.highlight-json pre {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.code-block-caption {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .llm-authoring-source pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

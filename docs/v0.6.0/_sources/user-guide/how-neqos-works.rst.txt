@@ -196,6 +196,13 @@ to do with it.
    Start the equipment from the inventory, then activate experiment networks
    through NodeEngine while the DeviceOS processes remain running.
 
+The three JSON listings below form a small software-only example with one
+``Fake`` device. The inventory and experiment share an ``inventoryId``;
+the experiment and run plan refer to the same ``deviceId``. There are no
+optical links because this example exercises a simulated device, not an
+optical measurement. See :doc:`quickstart` for launching Fake equipment and
+:doc:`network` for optical topology examples.
+
 The lab inventory: available equipment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -210,6 +217,16 @@ Each DeviceOS uses it to initialize and serve its device, independently of
 which experiment will later be selected. Changing endpoints, drivers or
 boot-only configuration is an inventory change, not an experiment change:
 restart the affected processes with the updated inventory.
+
+This complete inventory declares one logical node and one Fake device, with
+three local control/telemetry ports:
+
+.. literalinclude:: ../examples/InventoryFake/lab-inventory.json
+   :language: json
+   :caption: lab-inventory.json
+   :name: architecture-inventory-json
+
+Download :download:`lab-inventory.json <../examples/InventoryFake/lab-inventory.json>`.
 
 The experiment network: equipment in use
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -232,6 +249,16 @@ The topology must match the physical cabling. Activating a JSON document does
 not reconnect optical fibers. Protocols resolve links and roles to the declared
 devices and channels; retargeting a service changes these declarations or its
 inputs, not the protocol implementation.
+
+This complete experiment selects that device and requests a gain of ``2.0``
+during activation. Its endpoint and driver type remain in the inventory:
+
+.. literalinclude:: ../examples/InventoryFake/network-gain-2.json
+   :language: json
+   :caption: network-gain-2.json (experiment network)
+   :name: architecture-network-json
+
+Download :download:`network-gain-2.json <../examples/InventoryFake/network-gain-2.json>`.
 
 Activate an experiment without restarting DeviceOS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -266,6 +293,21 @@ definitions and optional handlers. See :doc:`running`.
 The same active network can support successive run plans. Changing a protocol
 input or the sequence of steps does not require restarting DeviceOS or
 reactivating an unchanged network.
+
+This complete plan calls ``FAKE-SIMPLE`` from the shipped Fake Open library.
+The protocol sets the gain to ``2.5`` and runs a one-second task on the device
+selected by the experiment. Protocol parameters describe the requested
+operation, independently of the settings applied during network activation:
+
+.. literalinclude:: ../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/simple/input.json
+   :language: json
+   :caption: input.json (run plan)
+   :name: architecture-run-plan-json
+
+Download :download:`input.json <../../NodeEnginePack/OpenMetaProtocols/FakeDeviceExamples/MetaProtocolsRun/simple/input.json>`.
+The library ``folder`` is resolved relative to ``input.json``. The shown
+``../..`` path assumes the plan's shipped location under
+``FakeDeviceExamples/MetaProtocolsRun/simple/``; update it if you move the plan.
 
 A named step can supply a declared output to a later step through a whole-value
 reference, ``$steps.<stepId>.<exportPath>``. The source must have completed
@@ -327,6 +369,65 @@ Every protocol declares a contract:
   ``<domain>.<function>.<role>.<name>``. The role says what kind of output it
   is: ``plan``, ``applied``, ``observation``, ``estimate``, ``calibration``,
   ``artifact`` or ``status``.
+
+The following JSON shows selected fields from the real ``HoldDuration``
+contract. ``sharedParams`` holds default values, ``inputSchema`` declares the
+inputs, ``resourceRequests`` selects devices from those inputs, ``stages``
+declares execution, and ``outputSchema`` declares the public result.
+Descriptions, validation bounds and stage parameters are omitted to keep the
+outline short; this excerpt is not a complete executable definition.
+
+.. code-block:: json
+   :caption: HoldDuration contract (selected fields)
+   :name: architecture-protocol-contract-json
+
+   {
+     "protocolId": "HoldDuration",
+     "sharedParams": {
+       "durationSec": null,
+       "resourceDeviceIds": []
+     },
+     "inputSchema": {
+       "parameters": {
+         "durationSec": {
+           "type": "number",
+           "required": true
+         },
+         "resourceDeviceIds": {
+           "type": "array",
+           "required": false
+         }
+       }
+     },
+     "resourceRequests": [
+       "$shared.resourceDeviceIds"
+     ],
+     "stages": [
+       {
+         "stageId": "00-HoldDuration",
+         "handler": "HoldDurationStage"
+       },
+       {
+         "stageId": "01-HoldDuration-PublishResult",
+         "handler": "PublishResultStage"
+       }
+     ],
+     "outputSchema": {
+       "exports": {
+         "execution.control.status.holdDuration": {
+           "type": "object",
+           "role": "status"
+         }
+       }
+     }
+   }
+
+``durationSec`` must be supplied by the caller. ``resourceDeviceIds`` defaults
+to an empty list: the protocol then waits without leasing devices. Supplying
+device IDs reserves them for the hold interval. The final stage publishes
+``execution.control.status.holdDuration``.
+See :doc:`protocols/HoldDuration` or download the
+:download:`complete protocol.json <../../NodeEnginePack/ReservedMetaProtocols/execution/control/HoldDuration/protocol.json>`.
 
 Inside a protocol
 ~~~~~~~~~~~~~~~~~

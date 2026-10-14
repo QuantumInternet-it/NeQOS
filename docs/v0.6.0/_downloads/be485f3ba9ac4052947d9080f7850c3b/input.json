@@ -8,9 +8,9 @@
     {
       "protocolId": "FAKE-SIMPLE",
       "sharedParams": {
-    "fakeDeviceId": "FakeDeviceId",
-    "gain": 2.5,
-    "taskDurationSec": 1.0,
+        "fakeDeviceId": "FakeDeviceId",
+        "gain": 2.5,
+        "taskDurationSec": 1.0,
         "tickSec": 0.5
       }
     }
